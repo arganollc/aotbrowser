@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxFormExtension xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="Microsoft.Dynamics.AX.Metadata.V6">
+	<Name>FormControlPersonalization.AOTBrowser</Name>
+	<ControlModifications />
+	<Controls>
+		<AxFormExtensionControl xmlns="">
+			<Name>FormExtensionControlgzu0p1p51</Name>
+			<FormControl xmlns=""
+				i:type="AxFormButtonControl">
+				<Name>ARBOpenInAOTBrowser</Name>
+				<Type>Button</Type>
+				<FormControlExtension
+					i:nil="true" />
+				<Text>@AOTBrowser:OpenInAOTBrowser</Text>
+			</FormControl>
+			<Parent>CommitGroup</Parent>
+		</AxFormExtensionControl>
+	</Controls>
+	<DataSourceModifications />
+	<DataSourceReferences />
+	<DataSources />
+	<Parts />
+	<PropertyModifications />
+</AxFormExtension>

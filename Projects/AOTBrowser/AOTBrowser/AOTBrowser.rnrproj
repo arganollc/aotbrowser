@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <BuildTasksDirectory Condition=" '$(BuildTasksDirectory)' == ''">$(MSBuildProgramFiles32)\MSBuild\Microsoft\Dynamics\AX</BuildTasksDirectory>
+    <Model>AOTBrowser</Model>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <OutputPath>bin</OutputPath>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{c5965394-4359-4f9a-97d4-a609b58edc8d}</ProjectGuid>
+    <Name>AOTBrowser</Name>
+    <RootNamespace>AOTBrowser</RootNamespace>
+    <StartupType>Class</StartupType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <Configuration>Debug</Configuration>
+    <DBSyncInBuild>False</DBSyncInBuild>
+    <GenerateFormAdaptors>False</GenerateFormAdaptors>
+    <Company>
+    </Company>
+    <Partition>initial</Partition>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DataEntityExpandParentChildRelations>False</DataEntityExpandParentChildRelations>
+    <DataEntityUseLabelTextAsFieldName>False</DataEntityUseLabelTextAsFieldName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="Action Menu Items\" />
+    <Folder Include="Base Enums\" />
+    <Folder Include="Classes\" />
+    <Folder Include="Display Menu Items\" />
+    <Folder Include="Extended Data Types\" />
+    <Folder Include="Form Extensions\" />
+    <Folder Include="Forms\" />
+    <Folder Include="Label Files\" />
+    <Folder Include="Menu Extensions\" />
+    <Folder Include="Security Duties\" />
+    <Folder Include="Security Privileges\" />
+    <Folder Include="Security Roles\" />
+    <Folder Include="Tables\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AOTBrowser.en-US.label.txt">
+      <SubType>Content</SubType>
+      <Name>AOTBrowser.en-US.label.txt</Name>
+      <DependentUpon>AxLabelFile\AOTBrowser_en-US</DependentUpon>
+    </Content>
+    <Content Include="AxClass\ARBAOTObjectPopulateController">
+      <SubType>Content</SubType>
+      <Name>ARBAOTObjectPopulateController</Name>
+      <Link>Classes\ARBAOTObjectPopulateController</Link>
+    </Content>
+    <Content Include="AxClass\ARBAOTObjectPopulateService">
+      <SubType>Content</SubType>
+      <Name>ARBAOTObjectPopulateService</Name>
+      <Link>Classes\ARBAOTObjectPopulateService</Link>
+    </Content>
+    <Content Include="AxClass\ARBDMFEntity_EventHandler">
+      <SubType>Content</SubType>
+      <Name>ARBDMFEntity_EventHandler</Name>
+      <Link>Classes\ARBDMFEntity_EventHandler</Link>
+    </Content>
+    <Content Include="AxClass\ARBFormControlPersonalization_EventHandler">
+      <SubType>Content</SubType>
+      <Name>ARBFormControlPersonalization_EventHandler</Name>
+      <Link>Classes\ARBFormControlPersonalization_EventHandler</Link>
+    </Content>
+    <Content Include="AxEdt\ARBAOTProperties">
+      <SubType>Content</SubType>
+      <Name>ARBAOTProperties</Name>
+      <Link>Extended Data Types\ARBAOTProperties</Link>
+    </Content>
+    <Content Include="AxEdt\ARBAOTPropertyValue">
+      <SubType>Content</SubType>
+      <Name>ARBAOTPropertyValue</Name>
+      <Link>Extended Data Types\ARBAOTPropertyValue</Link>
+    </Content>
+    <Content Include="AxEnum\ARBAOTObjectType">
+      <SubType>Content</SubType>
+      <Name>ARBAOTObjectType</Name>
+      <Link>Base Enums\ARBAOTObjectType</Link>
+    </Content>
+    <Content Include="AxFormExtension\DMFEntity.AOTBrowser">
+      <SubType>Content</SubType>
+      <Name>DMFEntity.AOTBrowser</Name>
+      <Link>Form Extensions\DMFEntity.AOTBrowser</Link>
+    </Content>
+    <Content Include="AxFormExtension\FormControlPersonalization.AOTBrowser">
+      <SubType>Content</SubType>
+      <Name>FormControlPersonalization.AOTBrowser</Name>
+      <Link>Form Extensions\FormControlPersonalization.AOTBrowser</Link>
+    </Content>
+    <Content Include="AxForm\ARBAOTBrowser">
+      <SubType>Content</SubType>
+      <Name>ARBAOTBrowser</Name>
+      <Link>Forms\ARBAOTBrowser</Link>
+    </Content>
+    <Content Include="AxLabelFile\AOTBrowser_en-US">
+      <SubType>Content</SubType>
+      <Name>AOTBrowser_en-US</Name>
+      <Link>Label Files\AOTBrowser_en-US</Link>
+    </Content>
+    <Content Include="AxMenuExtension\CommonMenu.AOTBrowser">
+      <SubType>Content</SubType>
+      <Name>CommonMenu.AOTBrowser</Name>
+      <Link>Menu Extensions\CommonMenu.AOTBrowser</Link>
+    </Content>
+    <Content Include="AxMenuItemAction\ARBAOTObjectPopulate">
+      <SubType>Content</SubType>
+      <Name>ARBAOTObjectPopulate</Name>
+      <Link>Action Menu Items\ARBAOTObjectPopulate</Link>
+    </Content>
+    <Content Include="AxMenuItemDisplay\ARBAOTBrowser">
+      <SubType>Content</SubType>
+      <Name>ARBAOTBrowser</Name>
+      <Link>Display Menu Items\ARBAOTBrowser</Link>
+    </Content>
+    <Content Include="AxSecurityDuty\ARBAOTBrowserMaintain">
+      <SubType>Content</SubType>
+      <Name>ARBAOTBrowserMaintain</Name>
+      <Link>Security Duties\ARBAOTBrowserMaintain</Link>
+    </Content>
+    <Content Include="AxSecurityPrivilege\ARBAOTBrowserMaintain">
+      <SubType>Content</SubType>
+      <Name>ARBAOTBrowserMaintain</Name>
+      <Link>Security Privileges\ARBAOTBrowserMaintain</Link>
+    </Content>
+    <Content Include="AxSecurityRole\ARBAOTBrowserUser">
+      <SubType>Content</SubType>
+      <Name>ARBAOTBrowserUser</Name>
+      <Link>Security Roles\ARBAOTBrowserUser</Link>
+    </Content>
+    <Content Include="AxTable\ARBAOTObjectProperties">
+      <SubType>Content</SubType>
+      <Name>ARBAOTObjectProperties</Name>
+      <Link>Tables\ARBAOTObjectProperties</Link>
+    </Content>
+    <Content Include="AxTable\ARBAOTObjectPropertiesMatrix">
+      <SubType>Content</SubType>
+      <Name>ARBAOTObjectPropertiesMatrix</Name>
+      <Link>Tables\ARBAOTObjectPropertiesMatrix</Link>
+    </Content>
+    <Content Include="AxTable\ARBAOTObjects">
+      <SubType>Content</SubType>
+      <Name>ARBAOTObjects</Name>
+      <Link>Tables\ARBAOTObjects</Link>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Arbela.Dynamics.AX.Xpp.Support\Arbela.Dynamics.AX.Xpp.Support.csproj">
+      <Name>Arbela.Dynamics.AX.Xpp.Support</Name>
+      <Project>{2f618da7-59bc-4abe-8f24-72d2d59f9ad4}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.Common.targets" />
+  <Import Project="$(BuildTasksDirectory)\Microsoft.Dynamics.Framework.Tools.BuildTasks.targets" />
+</Project>

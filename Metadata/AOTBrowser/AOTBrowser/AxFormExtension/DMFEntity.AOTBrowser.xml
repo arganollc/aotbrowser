@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxFormExtension xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="Microsoft.Dynamics.AX.Metadata.V6">
+	<Name>DMFEntity.AOTBrowser</Name>
+	<ControlModifications />
+	<Controls>
+		<AxFormExtensionControl xmlns="">
+			<Name>FormExtensionControlbtpeddxt1</Name>
+			<FormControl xmlns=""
+				i:type="AxFormButtonControl">
+				<Name>ARBOpenInAOTBrowser</Name>
+				<Type>Button</Type>
+				<FormControlExtension
+					i:nil="true" />
+				<MultiSelect>No</MultiSelect>
+				<NeedsRecord>Yes</NeedsRecord>
+				<Text>@AOTBrowser:OpenInAOTBrowser</Text>
+			</FormControl>
+			<Parent>InputButtonGroup</Parent>
+		</AxFormExtensionControl>
+	</Controls>
+	<DataSourceModifications />
+	<DataSourceReferences />
+	<DataSources />
+	<Parts />
+	<PropertyModifications />
+</AxFormExtension>

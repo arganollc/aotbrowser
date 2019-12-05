@@ -1,0 +1,605 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxEdt xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns=""
+	i:type="AxEdtString">
+	<Name>ARBAOTProperties</Name>
+	<Label>@AOTBrowser:PropertyValue</Label>
+	<ArrayElements>
+		<AxEdtArrayElement>
+			<Name>Prop02</Name>
+			<Index>2</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop03</Name>
+			<Index>3</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop04</Name>
+			<Index>4</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop05</Name>
+			<Index>5</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop06</Name>
+			<Index>6</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop07</Name>
+			<Index>7</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop08</Name>
+			<Index>8</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop09</Name>
+			<Index>9</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop10</Name>
+			<Index>10</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop11</Name>
+			<Index>11</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop12</Name>
+			<Index>12</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop13</Name>
+			<Index>13</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop14</Name>
+			<Index>14</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop15</Name>
+			<Index>15</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop16</Name>
+			<Index>16</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop17</Name>
+			<Index>17</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop18</Name>
+			<Index>18</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop19</Name>
+			<Index>19</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop20</Name>
+			<Index>20</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop21</Name>
+			<Index>21</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop22</Name>
+			<Index>22</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop23</Name>
+			<Index>23</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop24</Name>
+			<Index>24</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop25</Name>
+			<Index>25</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop26</Name>
+			<Index>26</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop27</Name>
+			<Index>27</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop28</Name>
+			<Index>28</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop29</Name>
+			<Index>29</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop30</Name>
+			<Index>30</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop31</Name>
+			<Index>31</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop32</Name>
+			<Index>32</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop33</Name>
+			<Index>33</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop34</Name>
+			<Index>34</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop35</Name>
+			<Index>35</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop36</Name>
+			<Index>36</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop37</Name>
+			<Index>37</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop38</Name>
+			<Index>38</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop39</Name>
+			<Index>39</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop40</Name>
+			<Index>40</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop41</Name>
+			<Index>41</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop42</Name>
+			<Index>42</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop43</Name>
+			<Index>43</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop44</Name>
+			<Index>44</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop45</Name>
+			<Index>45</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop46</Name>
+			<Index>46</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop47</Name>
+			<Index>47</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop48</Name>
+			<Index>48</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop49</Name>
+			<Index>49</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop50</Name>
+			<Index>50</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop51</Name>
+			<Index>51</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop52</Name>
+			<Index>52</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop53</Name>
+			<Index>53</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop54</Name>
+			<Index>54</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop55</Name>
+			<Index>55</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop56</Name>
+			<Index>56</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop57</Name>
+			<Index>57</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop58</Name>
+			<Index>58</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop59</Name>
+			<Index>59</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop60</Name>
+			<Index>60</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop61</Name>
+			<Index>61</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop62</Name>
+			<Index>62</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop63</Name>
+			<Index>63</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop64</Name>
+			<Index>64</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop65</Name>
+			<Index>65</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop66</Name>
+			<Index>66</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop67</Name>
+			<Index>67</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop68</Name>
+			<Index>68</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop69</Name>
+			<Index>69</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop70</Name>
+			<Index>70</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop71</Name>
+			<Index>71</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop72</Name>
+			<Index>72</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop73</Name>
+			<Index>73</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop74</Name>
+			<Index>74</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop75</Name>
+			<Index>75</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop76</Name>
+			<Index>76</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop77</Name>
+			<Index>77</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop78</Name>
+			<Index>78</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop79</Name>
+			<Index>79</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop80</Name>
+			<Index>80</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop81</Name>
+			<Index>81</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop82</Name>
+			<Index>82</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop83</Name>
+			<Index>83</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop84</Name>
+			<Index>84</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop85</Name>
+			<Index>85</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop86</Name>
+			<Index>86</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop87</Name>
+			<Index>87</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop88</Name>
+			<Index>88</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop89</Name>
+			<Index>89</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop90</Name>
+			<Index>90</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop91</Name>
+			<Index>91</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop92</Name>
+			<Index>92</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop93</Name>
+			<Index>93</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop94</Name>
+			<Index>94</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop95</Name>
+			<Index>95</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop96</Name>
+			<Index>96</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop97</Name>
+			<Index>97</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop98</Name>
+			<Index>98</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop99</Name>
+			<Index>99</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Prop100</Name>
+			<Index>100</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+	</ArrayElements>
+	<Relations />
+	<TableReferences />
+	<StringSize>100</StringSize>
+</AxEdt>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="14.0">
+  <PropertyGroup>
+    <MetadataDirectory>$(registry:HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Dynamics\AX\7.0\SDK@MetadataPath)</MetadataDirectory>
+    <DynamicsSDK>$(registry:HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Dynamics\AX\7.0\SDK@DynamicsSDK)</DynamicsSDK>
+    <PackagesPath>$(AGENT_BUILDDIRECTORY)\Packages</PackagesPath>
+    <TestResultsPath>$(AGENT_BUILDDIRECTORY)\TestResults</TestResultsPath>
+    <ArtifactsPath>$(AGENT_BUILDDIRECTORY)\Artifacts</ArtifactsPath>
+  </PropertyGroup>
+
+  <!-- Instrument that build has started -->
+  <Target Name="InstrumentBuildStart" Condition="Exists('$(DynamicsSDK)\DevALMInstrumentor.ps1')">
+    <Exec Command="powershell.exe -NonInteractive -ExecutionPolicy RemoteSigned -Command &quot;&amp; {$(DynamicsSDK)\DevALMInstrumentor.ps1 -TaskBuildStart}&quot;" ContinueOnError="WarnAndContinue" />
+  </Target>
+
+  <!-- Clean output from previous build -->
+  <Target Name="Clean" AfterTargets="InstrumentBuildStart">
+    <RemoveDir Directories="$(OutputPath)" Condition="Exists('$(OutputPath)')" />
+    <RemoveDir Directories="$(LogPath)" Condition="Exists('$(LogPath)')" />
+    <RemoveDir Directories="$(PackagesPath)" Condition="Exists('$(PackagesPath)')" />
+    <RemoveDir Directories="$(TestResultsPath)" Condition="Exists('$(TestResultsPath)')" />
+    <RemoveDir Directories="$(ArtifactsPath)" Condition="Exists('$(ArtifactsPath)')" />
+  </Target>
+
+  <!-- Generate Metadata.proj -->
+  <Target Name="GenerateProjFiles" AfterTargets="InstrumentBuildStart" Condition="Exists('$(DynamicsSDK)\GenerateProjFiles.ps1')">
+    <Exec Command="powershell.exe -NonInteractive -ExecutionPolicy RemoteSigned -Command &quot;&amp; {$(DynamicsSDK)\GenerateProjFiles.ps1 -MetadataPath '$(MSBuildProjectDirectory)\Metadata' -ProjectMetadataDependencyXml '$(DependencyXml)' -ErrorLogPath '$(LogPath)\GenerateProjErrors.log' -Verbose}&quot;" ContinueOnError="ErrorAndStop" />
+    <Error Condition="Exists('$(LogPath)\GenerateProjErrors.log')" Text="Failed to generate project files. Please check GenerateProjErrors.log in the additional logs for details." />
+  </Target>
+
+  <!-- Build generated projects -->
+  <Target Name="ExecuteMetadata_Project_BuildProj" AfterTargets="GenerateProjFiles" Condition="Exists('Metadata_Project_Build.proj')">
+    <MSBuild Projects="Metadata_Project_Build.proj" ContinueOnError="ErrorAndStop" StopOnFirstFailure="true"/>
+  </Target>
+
+  <!-- Ensure that the output path exists as it is passed to the Generate Packages and Execute Tests steps -->
+  <Target Name="CreateOutputPath" AfterTargets="ExecuteMetadata_Project_BuildProj">
+    <MakeDir Directories="$(OutputPath)" Condition="!Exists('$(OutputPath)')" />
+  </Target>
+
+  <!-- Instrument that build has ended -->
+  <Target Name="InstrumentBuildEnd" AfterTargets="CreateOutputPath" Condition="Exists('$(DynamicsSDK)\DevALMInstrumentor.ps1')">
+    <Exec Command="powershell.exe -NonInteractive -ExecutionPolicy RemoteSigned -Command &quot;&amp; {$(DynamicsSDK)\DevALMInstrumentor.ps1 -TaskBuildEnd}&quot;" ContinueOnError="WarnAndContinue" />
+  </Target>
+</Project>
