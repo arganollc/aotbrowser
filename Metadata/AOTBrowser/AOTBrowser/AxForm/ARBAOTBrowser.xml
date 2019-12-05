@@ -575,14 +575,15 @@ public class ARBAOTBrowser extends FormRun
     {
         var aotObject = Xpp.MetadataSupport::GetWorkflowApproval(_aotNodeName);
         TreeItemIdx rootIdx = this.updateObjectTree(aotObject, aotObject.Name);
-        var aotObjectExtensions = ArbelaXpp.MetadataSupport::GetWorkflowApprovalExtensionsForWorkflowApproval(_aotNodeName);
-        System.Collections.IEnumerator enumerator = aotObjectExtensions.GetEnumerator();
+        // Current support for this starts in PU29
+        //var aotObjectExtensions = ArbelaXpp.MetadataSupport::GetWorkflowApprovalExtensionsForWorkflowApproval(_aotNodeName);
+        //System.Collections.IEnumerator enumerator = aotObjectExtensions.GetEnumerator();
 
-        TreeItemIdx extensionsIdx = SysFormTreeControl::addTreeItem(TableTree, 'Extensions', rootIdx, aotObjectExtensions, 0, true);
-        while (enumerator.moveNext())
-        {
-            this.addTreeNode(enumerator.Current, extensionsIdx);
-        }
+        //TreeItemIdx extensionsIdx = SysFormTreeControl::addTreeItem(TableTree, 'Extensions', rootIdx, aotObjectExtensions, 0, true);
+        //while (enumerator.moveNext())
+        //{
+        //    this.addTreeNode(enumerator.Current, extensionsIdx);
+        //}
         TableTab.caption(aotObject.Name + ' - ' + enum2Str(objectType));
         this.updatePropertiesGroup(aotObject);
     }
@@ -596,14 +597,15 @@ public class ARBAOTBrowser extends FormRun
     {
         var aotObject = Xpp.MetadataSupport::GetWorkflowTask(_aotNodeName);
         TreeItemIdx rootIdx = this.updateObjectTree(aotObject, aotObject.Name);
-        var aotObjectExtensions = ArbelaXpp.MetadataSupport::GetWorkflowTaskExtensionsForWorkflowTask(_aotNodeName);
-        System.Collections.IEnumerator enumerator = aotObjectExtensions.GetEnumerator();
+        // Current support for this starts in PU29
+        //var aotObjectExtensions = ArbelaXpp.MetadataSupport::GetWorkflowTaskExtensionsForWorkflowTask(_aotNodeName);
+        //System.Collections.IEnumerator enumerator = aotObjectExtensions.GetEnumerator();
 
-        TreeItemIdx extensionsIdx = SysFormTreeControl::addTreeItem(TableTree, 'Extensions', rootIdx, aotObjectExtensions, 0, true);
-        while (enumerator.moveNext())
-        {
-            this.addTreeNode(enumerator.Current, extensionsIdx);
-        }
+        //TreeItemIdx extensionsIdx = SysFormTreeControl::addTreeItem(TableTree, 'Extensions', rootIdx, aotObjectExtensions, 0, true);
+        //while (enumerator.moveNext())
+        //{
+        //    this.addTreeNode(enumerator.Current, extensionsIdx);
+        //}
         TableTab.caption(aotObject.Name + ' - ' + enum2Str(objectType));
         this.updatePropertiesGroup(aotObject);
     }
