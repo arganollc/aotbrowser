@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Projects xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+  <Project>
+    <Type>Project</Type>
+    <Name>AOTBrowser/Arbela.Dynamics.AX.Xpp.Support/Arbela.Dynamics.AX.Xpp.Support.csproj</Name>
+    <ReferencedByModules>
+      <Module>AOTBrowser</Module>
+    </ReferencedByModules>
+  </Project>
+  <Project>
+    <Type>Metadata</Type>
+    <Name>AOTBrowser</Name>
+  </Project>
+</Projects>
