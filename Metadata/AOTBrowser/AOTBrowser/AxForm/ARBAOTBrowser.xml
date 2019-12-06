@@ -574,7 +574,7 @@ public class ARBAOTBrowser extends FormRun
     public void updateWorkflowApprovalControls(TreeNodeName _aotNodeName)
     {
         var aotObject = Xpp.MetadataSupport::GetWorkflowApproval(_aotNodeName);
-        TreeItemIdx rootIdx = this.updateObjectTree(aotObject, aotObject.Name);
+        this.updateObjectTree(aotObject, aotObject.Name);
         // Current support for this starts in PU29
         //var aotObjectExtensions = ArbelaXpp.MetadataSupport::GetWorkflowApprovalExtensionsForWorkflowApproval(_aotNodeName);
         //System.Collections.IEnumerator enumerator = aotObjectExtensions.GetEnumerator();
@@ -596,7 +596,7 @@ public class ARBAOTBrowser extends FormRun
     public void updateWorkflowTaskControls(TreeNodeName _aotNodeName)
     {
         var aotObject = Xpp.MetadataSupport::GetWorkflowTask(_aotNodeName);
-        TreeItemIdx rootIdx = this.updateObjectTree(aotObject, aotObject.Name);
+        this.updateObjectTree(aotObject, aotObject.Name);
         // Current support for this starts in PU29
         //var aotObjectExtensions = ArbelaXpp.MetadataSupport::GetWorkflowTaskExtensionsForWorkflowTask(_aotNodeName);
         //System.Collections.IEnumerator enumerator = aotObjectExtensions.GetEnumerator();
@@ -1612,7 +1612,7 @@ public class ARBAOTBrowser extends FormRun
 		</AxFormDataSource>
 	</DataSources>
 	<Design>
-		<Caption xmlns="">@ACM:AOTBrowser</Caption>
+		<Caption xmlns="">@AOTBrowser:AOTBrowser</Caption>
 		<Pattern xmlns="">SimpleListDetails</Pattern>
 		<PatternVersion xmlns="">1.3</PatternVersion>
 		<ShowDeleteButton xmlns="">No</ShowDeleteButton>
@@ -1854,7 +1854,9 @@ public class ARBAOTBrowser extends FormRun
 														i:type="AxFormGridControl">
 														<Name>PropertiesGrid</Name>
 														<AutoDeclaration>Yes</AutoDeclaration>
+														<HeightMode>SizeToContent</HeightMode>
 														<Type>Grid</Type>
+														<WidthMode>SizeToContent</WidthMode>
 														<FormControlExtension
 															i:nil="true" />
 														<Controls>
@@ -1915,7 +1917,7 @@ public class ARBAOTBrowser extends FormRun
 								<FrameType>None</FrameType>
 							</AxFormControl>
 						</Controls>
-						<Caption>@ACM:Object</Caption>
+						<Caption>@AOTBrowser:Object</Caption>
 						<FastTabExpanded>Always</FastTabExpanded>
 					</AxFormControl>
 				</Controls>
