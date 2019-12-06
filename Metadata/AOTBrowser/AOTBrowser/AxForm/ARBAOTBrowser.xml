@@ -839,6 +839,8 @@ public class ARBAOTBrowser extends FormRun
         TableDetailsGroup.heightMode(FormHeight::ColumnHeight);
         TableDetailsPropertiesGroup.widthMode(FormWidth::ColumnWidth);
         TableDetailsPropertiesGroup.heightMode(FormHeight::ColumnHeight);
+        PropertiesGrid.widthMode(FormWidth::ColumnWidth);
+        PropertiesGrid.heightMode(FormHeight::ColumnHeight);
     }
 
 ]]></Source>
@@ -1010,7 +1012,8 @@ public class ARBAOTBrowser extends FormRun
         for (int i = 0; i < props.Length; i++)
         {
             PropertyInfo prop = props.GetValue(i);
-            if (prop.Name == 'ViewMetadata' || prop.Name == 'DataSource' || prop.Name == 'Design')
+            if (prop.PropertyType.Name != 'String'
+                && (prop.Name == 'ViewMetadata' || prop.Name == 'DataSource' || prop.Name == 'Design'))
             {
                 var propValue = prop.GetValue(_object);
                 TreeItemIdx idx = SysFormTreeControl::addTreeItem(TableTree, prop.Name, parentIdx, propValue, 0, true, 0, FormTreeAdd::Sort);
