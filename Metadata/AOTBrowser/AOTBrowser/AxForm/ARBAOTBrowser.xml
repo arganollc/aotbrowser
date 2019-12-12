@@ -988,7 +988,7 @@ public class ARBAOTBrowser extends FormRun
 			<Method>
 				<Name>addTreeNode</Name>
 				<Source><![CDATA[
-    public TreeItemIdx addTreeNode(anytype _object, TreeItemIdx _idx)
+    public TreeItemIdx addTreeNode(anytype _object, TreeItemIdx _idx, FormTreeAdd _formTreeAdd = FormTreeAdd::Sort)
     {
         System.Type t = _object.GetType();
         
@@ -1008,7 +1008,12 @@ public class ARBAOTBrowser extends FormRun
         {
             name = _object.ToString();
         }
-        TreeItemIdx parentIdx = SysFormTreeControl::addTreeItem(TableTree, name, _idx, _object, 0, false, 0, FormTreeAdd::Sort);
+
+        TreeItemIdx parentIdx = _idx;
+        if (name != 'FormDesign')
+        {
+            parentIdx = SysFormTreeControl::addTreeItem(TableTree, name, _idx, _object, 0, false, 0, _formTreeAdd);
+        }
         for (int i = 0; i < props.Length; i++)
         {
             PropertyInfo prop = props.GetValue(i);
@@ -1016,18 +1021,22 @@ public class ARBAOTBrowser extends FormRun
                 && (prop.Name == 'ViewMetadata' || prop.Name == 'DataSource' || prop.Name == 'Design'))
             {
                 var propValue = prop.GetValue(_object);
-                TreeItemIdx idx = SysFormTreeControl::addTreeItem(TableTree, prop.Name, parentIdx, propValue, 0, true, 0, FormTreeAdd::Sort);
-                this.addTreeNode(propValue, idx);
+                TreeItemIdx idx = SysFormTreeControl::addTreeItem(TableTree, prop.Name, parentIdx, propValue, 0, true, 0, _formTreeAdd);
+                this.addTreeNode(propValue, idx, prop.Name == 'Design' ? FormTreeAdd::Last : _formTreeAdd);
             }
             else if (prop.PropertyType.Name == 'KeyedObjectCollection`1')
             {
                 var col = prop.GetValue(_object) as System.Collections.IEnumerable;
-                TreeItemIdx idx = SysFormTreeControl::addTreeItem(TableTree, prop.Name, parentIdx, col, 0, true, 0, FormTreeAdd::Sort);
+                TreeItemIdx idx = parentIdx;
+                if (prop.Name != 'Controls')
+                {
+                    idx = SysFormTreeControl::addTreeItem(TableTree, prop.Name, parentIdx, col, 0, true, 0,_formTreeAdd);
+                }
                 System.Collections.IEnumerator enumerator = col.GetEnumerator();
 
                 while (enumerator.moveNext())
                 {
-                    this.addTreeNode(enumerator.Current, idx);
+                    this.addTreeNode(enumerator.Current, idx, _formTreeAdd);
                 }
             }
         }
