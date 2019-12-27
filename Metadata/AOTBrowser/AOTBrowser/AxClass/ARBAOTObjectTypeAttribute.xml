@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>ARBAOTObjectTypeAttribute</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// Attachment attribute
+/// </summary>
+public class ARBAOTObjectTypeAttribute extends SysAttribute implements SysExtensionIAttribute
+{
+    ARBAOTObjectType objectType;
+
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>new</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name = "_tableName">The table name</param>
+    public void new(ARBAOTObjectType _objectType)
+    {
+        super();
+
+        if (!_objectType)
+        {
+            throw error(Error::missingParameter(this));
+        }
+
+        objectType = _objectType;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmCacheKey</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Parm method for the cache key
+    /// </summary>
+    /// <returns>The cache key</returns>
+    public str parmCacheKey()
+    {
+        return classStr(ARBAOTObjectTypeAttribute) + ';' + enum2Symbol(enumNum(ARBAOTObjectType), objectType);
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>useSingleton</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Need to use singleton?
+    /// </summary>
+    /// <returns>True if singleton is needed</returns>
+    public boolean useSingleton()
+    {
+        return false;
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

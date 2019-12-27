@@ -59,6 +59,31 @@
       <Name>ARBAOTObjectPopulateService</Name>
       <Link>Classes\ARBAOTObjectPopulateService</Link>
     </Content>
+    <Content Include="AxClass\ARBAOTObjectTree">
+      <SubType>Content</SubType>
+      <Name>ARBAOTObjectTree</Name>
+      <Link>Classes\ARBAOTObjectTree</Link>
+    </Content>
+    <Content Include="AxClass\ARBAOTObjectTreeDataEntity">
+      <SubType>Content</SubType>
+      <Name>ARBAOTObjectTreeDataEntity</Name>
+      <Link>Classes\ARBAOTObjectTreeDataEntity</Link>
+    </Content>
+    <Content Include="AxClass\ARBAOTObjectTreeTable">
+      <SubType>Content</SubType>
+      <Name>ARBAOTObjectTreeTable</Name>
+      <Link>Classes\ARBAOTObjectTreeTable</Link>
+    </Content>
+    <Content Include="AxClass\ARBAOTObjectTreeView">
+      <SubType>Content</SubType>
+      <Name>ARBAOTObjectTreeView</Name>
+      <Link>Classes\ARBAOTObjectTreeView</Link>
+    </Content>
+    <Content Include="AxClass\ARBAOTObjectTypeAttribute">
+      <SubType>Content</SubType>
+      <Name>ARBAOTObjectTypeAttribute</Name>
+      <Link>Classes\ARBAOTObjectTypeAttribute</Link>
+    </Content>
     <Content Include="AxClass\ARBDMFEntity_EventHandler">
       <SubType>Content</SubType>
       <Name>ARBDMFEntity_EventHandler</Name>

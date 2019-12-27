@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>ARBAOTObjectTreeTable</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+using Xpp = Microsoft.Dynamics.Ax.Xpp;
+using Microsoft.Dynamics.AX.Metadata.MetaModel;
+
+/// <summary>
+/// Override the Object Tree for Tables
+/// </summary>
+[ARBAOTObjectType(ARBAOTObjectType::Table)]
+class ARBAOTObjectTreeTable extends ARBAOTObjectTree
+{
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>update</Name>
+				<Source><![CDATA[
+    public void update(TreeNodeName _aotNodeName)
+    {
+        AxTable table = Xpp.MetadataSupport::GetTable(_aotNodeName);
+        if (table != null)
+        {
+            TreeItemIdx rootIdx = this.updateObjectTree(table, table.Name);
+            var tableExtensions = Xpp.MetadataSupport::GetTableExtensionsForTable(_aotNodeName);
+            System.Collections.IEnumerator enumerator = tableExtensions.GetEnumerator();
+
+            TreeItemIdx extensionsIdx = SysFormTreeControl::addTreeItem(treeControl, 'Extensions', rootIdx, tableExtensions, 0, true);
+            while (enumerator.moveNext())
+            {
+                this.addTreeNode(enumerator.Current, extensionsIdx);
+            }
+            treeControl.select(rootIdx);
+        }
+        else
+        {
+            ARBAOTObjectTree objectTree = ARBAOTObjectTree::newFromAOTObject(treeControl, ARBAOTObjectType::View);
+            objectTree.update(_aotNodeName);
+        }
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>
