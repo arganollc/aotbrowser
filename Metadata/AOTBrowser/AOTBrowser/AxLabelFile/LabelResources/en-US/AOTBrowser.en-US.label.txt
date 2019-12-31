@@ -90,3 +90,5 @@ AOTBrowserMaintain=Maintain AOT browser
  ;ARB_AOTBrowser
 AOTBrowserUser=AOT browser user
  ;ARB_AOTBrowser
+ViewExtensionsInline=Show extensions inline
+ ;ARB_AOTBrowser

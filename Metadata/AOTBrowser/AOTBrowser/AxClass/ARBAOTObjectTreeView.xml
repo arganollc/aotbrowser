@@ -19,6 +19,10 @@ class ARBAOTObjectTreeView extends ARBAOTObjectTree
 			<Method>
 				<Name>update</Name>
 				<Source><![CDATA[
+    /// <summary>
+    /// Update the object tree
+    /// </summary>
+    /// <param name = "_aotNodeName">The name of the AOT object</param>
     public void update(TreeNodeName _aotNodeName)
     {
         AxView view = Xpp.MetadataSupport::GetView(_aotNodeName);
@@ -37,7 +41,7 @@ class ARBAOTObjectTreeView extends ARBAOTObjectTree
         }
         else
         {
-            ARBAOTObjectTree objectTree = ARBAOTObjectTree::newFromAOTObject(treeControl, ARBAOTObjectType::DataEntity);
+            ARBAOTObjectTree objectTree = ARBAOTObjectTree::newFromAOTObject(treeControl, ARBAOTObjectType::DataEntity, extensionsInline);
             objectTree.update(_aotNodeName);
         }
     }

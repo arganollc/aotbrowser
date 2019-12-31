@@ -19,8 +19,149 @@ using System.Linq.Enumerable;
 public class ARBAOTBrowser extends FormRun
 {
     FormGridControl propertiesMatrixGrid;
+    boolean extensionsInline;
+
+    #define.CurrentVersion(1)
+    #localmacro.CurrentList
+        extensionsInline
+    #endmacro
 
 }
+]]></Source>
+			</Method>
+			<Method>
+				<Name>lastValueUserId</Name>
+				<Source><![CDATA[
+    private UserId lastValueUserId()
+    {
+        return curUserId();
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>lastValueType</Name>
+				<Source><![CDATA[
+    private UtilElementType lastValueType()
+    {
+        return UtilElementType::Form;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>lastValueElementName</Name>
+				<Source><![CDATA[
+    private IdentifierName lastValueElementName()
+    {
+        return this.name();
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>lastValueDesignName</Name>
+				<Source><![CDATA[
+    private IdentifierName lastValueDesignName()
+    {
+        // Unique key: (user, company, type, elementName, designName)
+        // We don't have such a need to save different sets of the form data.
+        return '';
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>lastValueDataAreaId</Name>
+				<Source><![CDATA[
+    DataAreaId lastValueDataAreaId()
+    {
+        return curext();
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>initParmDefault</Name>
+				<Source><![CDATA[
+    void initParmDefault()
+    {
+        // Don't need to initialize any of the controls.
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>pack</Name>
+				<Source><![CDATA[
+    public container pack()
+    {
+        this.getControlValuesForSysLastValues();
+        return [#CurrentVersion, #CurrentList];
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>unpack</Name>
+				<Source><![CDATA[
+    public boolean unpack(container packedClass)
+    {
+        Integer version = conPeek(packedClass, 1);
+        switch (version)
+        {
+            case #CurrentVersion:
+                [version, #CurrentList] = packedClass;
+                break;
+            default:
+                return false;
+        }
+        return true;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>close</Name>
+				<Source><![CDATA[
+    public void close()
+    {
+        xSysLastValue::saveLast(this);
+        super();
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>run</Name>
+				<Source><![CDATA[
+    public void run()
+    {
+        super();
+        xSysLastValue::getLast(this);
+        this.setControlValuesFromSysLastValues();
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>getControlValuesForSysLastValues</Name>
+				<Source><![CDATA[
+    void getControlValuesForSysLastValues()
+    {
+        extensionsInline = ExtensionViewToggle.toggleValue();
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>setControlValuesFromSysLastValues</Name>
+				<Source><![CDATA[
+    void setControlValuesFromSysLastValues()
+    {
+        ExtensionViewToggle.toggleValue(extensionsInline);
+    }
+
 ]]></Source>
 			</Method>
 			<Method>
@@ -52,7 +193,7 @@ public class ARBAOTBrowser extends FormRun
                 tableBrowserEnabled = true;
         }
 
-        ARBAOTObjectTree::newFromAOTObject(ObjectTree, _objectType).update(_aotNodeName);
+        ARBAOTObjectTree::newFromAOTObject(ObjectTree, _objectType, ExtensionViewToggle.toggleValue()).update(_aotNodeName);
         DetailsTab.caption(_aotNodeName + ' - ' + enum2Str(_objectType));
         ARBOpenTableBrowser.enabled(tableBrowserEnabled);
     }
@@ -134,7 +275,9 @@ public class ARBAOTBrowser extends FormRun
                             (!(prop.GetValue(object) is System.Collections.IEnumerable)
                                 && prop.PropertyType.Name != 'AxPropertyCollection'
                                 && prop.PropertyType.Name != 'AxFormPropertyCollection'))
-                            && prop.Name != 'CompilerMetadata')
+                            && prop.Name != 'CompilerMetadata'
+                            && prop.Name != 'Design'
+                            && prop.Name != 'FormControl')
                         {
                             int arrayNum;
                             if (propMap.exists(prop.Name))
@@ -156,52 +299,73 @@ public class ARBAOTBrowser extends FormRun
                                 previousControl.label(prop.Name);
                             }
 
-                            if (prop.Name == 'ReturnType')
-                            {
-                                AxMethodReturnType returnType = prop.GetValue(object);
-                                ARBAOTObjectPropertiesMatrix.Property[arrayNum] = returnType.Type.ToString() + ' - ' + returnType.TypeName;
-                            }
-                            else
-                            {
-                                ARBAOTObjectPropertiesMatrix.Property[arrayNum] = prop.Name == 'Label' || prop.Name == 'Description' || prop.Name == 'HelpText' || prop.Name == 'DeveloperDocumentation' || prop.Name == 'EntityRelationshipRole' ? SysLabel::labelId2String(prop.GetValue(object).ToString()) : (prop.GetValue(object) == null ? '' : prop.GetValue(object).ToString());
-                            }
+                            ARBAOTObjectPropertiesMatrix.Property[arrayNum] = this.getPropertyValue(prop, object);
                         }
                     }
                     ARBAOTObjectPropertiesMatrix.insert();
                 }
 
                 propertiesMatrixGrid.visible(true);
-                
             }
             else
             {
                 element.clearPropertiesMatrix();
-                System.Type t = _object.GetType();
+
+                anytype object;
+                List modifications;
+                if (_object is ARBObjectModification)
+                {
+                    ARBObjectModification objectModification = _object;
+                    object = objectModification.Object;
+                    modifications = objectModification.Modifications;
+                }
+                else
+                {
+                    object = _object;
+                }
+
+                System.Type t = object.GetType();
        
                 var props = t.GetProperties();
                 for (int i = 0; i < props.Length; i++)
                 {
                     PropertyInfo prop = props.GetValue(i);
-                    if (((prop.GetValue(_object) is System.String) ||
-                        (!(prop.GetValue(_object) is System.Collections.IEnumerable)
+                    if (((prop.GetValue(object) is System.String) ||
+                        (!(prop.GetValue(object) is System.Collections.IEnumerable)
                             && prop.PropertyType.Name != 'AxPropertyCollection'
                             && prop.PropertyType.Name != 'AxFormPropertyCollection'))
-                    && prop.Name != 'CompilerMetadata')
+                        && prop.Name != 'CompilerMetadata'
+                        && prop.Name != 'Design'
+                        && prop.Name != 'FormControl')
                     {
                         ARBAOTObjectProperties.clear();
                         ARBAOTObjectProperties.Name = prop.Name;
-                        if (prop.Name == 'ReturnType')
-                        {
-                            AxMethodReturnType returnType = prop.GetValue(_object);
-                            ARBAOTObjectProperties.Value = returnType.Type.ToString() + ' - ' + returnType.TypeName;
-                        }
-                        else
-                        {
-                            ARBAOTObjectProperties.Value = prop.Name == 'Label' || prop.Name == 'Description' || prop.Name == 'HelpText' || prop.Name == 'DeveloperDocumentation' || prop.Name == 'EntityRelationshipRole' ? SysLabel::labelId2String(prop.GetValue(_object).ToString()) : (prop.GetValue(_object) == null ? '' : prop.GetValue(_object).ToString());
-                        }
+                        ARBAOTObjectProperties.Value = this.getPropertyValue(prop, object);
                         ARBAOTObjectProperties.insert();
                     }
                 }
+
+                if (modifications != null)
+                {
+                    ListEnumerator modsEnum = modifications.getEnumerator();
+                    while (modsEnum.MoveNext())
+                    {
+                        AxExtensionModification modification = modsEnum.current();
+
+                        var propModsEnum = modification.PropertyModifications.GetEnumerator();
+                        while (propModsEnum.MoveNext())
+                        {
+                            AxPropertyModification propMod = propModsEnum.Current;
+                            ttsbegin;
+                            ARBAOTObjectProperties::find(ARBAOTObjectProperties, propMod.Name, true);
+                            ARBAOTObjectProperties.Value = propMod.Value;
+                            ARBAOTObjectProperties.Modified = NoYes::Yes;
+                            ARBAOTObjectProperties.update();
+                            ttscommit;
+                        }
+                    }
+                }
+
                 PropertiesGrid.visible(true);
             }
         }
@@ -212,8 +376,29 @@ public class ARBAOTBrowser extends FormRun
         }
         ARBAOTObjectProperties_ds.executeQuery();
         ARBAOTObjectPropertiesMatrix_ds.executeQuery();
+    }
 
-        //element.reload();
+]]></Source>
+			</Method>
+			<Method>
+				<Name>getPropertyValue</Name>
+				<Source><![CDATA[
+    protected str getPropertyValue(PropertyInfo _property, anytype _object)
+    {
+        str value;
+        if (_property.Name == 'ReturnType')
+        {
+            AxMethodReturnType returnType = _property.GetValue(_object);
+            value = returnType.Type.ToString() + ' - ' + returnType.TypeName;
+        }
+        else
+        {
+            value = _property.Name == 'Label' || _property.Name == 'Description' || _property.Name == 'HelpText' || _property.Name == 'DeveloperDocumentation' || _property.Name == 'EntityRelationshipRole'
+                ? SysLabel::labelId2String(_property.GetValue(_object).ToString())
+                : (_property.GetValue(_object) == null ? '' : _property.GetValue(_object).ToString());
+        }
+
+        return value;
     }
 
 ]]></Source>
@@ -272,6 +457,33 @@ public class ARBAOTBrowser extends FormRun
 				</Methods>
 				<Fields />
 			</DataSource>
+			<DataSource>
+				<Name>ARBAOTObjectProperties</Name>
+				<Methods>
+					<Method>
+						<Name>displayOption</Name>
+						<Source><![CDATA[
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name = "_record"></param>
+        /// <param name = "_options"></param>
+        public void displayOption(Common _record, FormRowDisplayOption _options)
+        {
+            ARBAOTObjectProperties property = _record;
+            if (property.Modified)
+            {
+                _options.fontBold(true);
+            }
+
+            super(_record, _options);
+        }
+
+]]></Source>
+					</Method>
+				</Methods>
+				<Fields />
+			</DataSource>
 		</DataSources>
 		<DataControls xmlns="">
 			<Control>
@@ -293,6 +505,27 @@ public class ARBAOTBrowser extends FormRun
             sysTableBrowser = new SysTableBrowser();
             sysTableBrowser.parmTableName(ARBAOTObjects.Name);
             sysTableBrowser.run(tablename2id(ARBAOTObjects.Name));
+        }
+
+]]></Source>
+					</Method>
+				</Methods>
+			</Control>
+			<Control>
+				<Name>ExtensionViewToggle</Name>
+				<Type>Button</Type>
+				<Methods>
+					<Method>
+						<Name>clicked</Name>
+						<Source><![CDATA[
+        /// <summary>
+        ///
+        /// </summary>
+        public void clicked()
+        {
+            super();
+
+            element.updateControlsFromTable();
         }
 
 ]]></Source>
@@ -838,6 +1071,16 @@ public class ARBAOTBrowser extends FormRun
 								<FormControlExtension
 									i:nil="true" />
 								<Text>@AOTBrowser:OpenTableBrowserButton</Text>
+							</AxFormControl>
+							<AxFormControl xmlns=""
+								i:type="AxFormButtonControl">
+								<Name>ExtensionViewToggle</Name>
+								<AutoDeclaration>Yes</AutoDeclaration>
+								<Type>Button</Type>
+								<FormControlExtension
+									i:nil="true" />
+								<Text>@AOTBrowser:ViewExtensionsInline</Text>
+								<ToggleButton>Check</ToggleButton>
 							</AxFormControl>
 						</Controls>
 						<Caption>General</Caption>

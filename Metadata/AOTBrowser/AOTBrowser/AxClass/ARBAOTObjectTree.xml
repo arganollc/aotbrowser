@@ -16,6 +16,9 @@ public class ARBAOTObjectTree
 {
     protected FormTreeControl treeControl;
     protected ARBAOTObjectType aotObjectType;
+    protected boolean extensionsInline;
+    Map collectionMap = new Map(Types::String, Types::AnyType);
+    Map currentMap;
 
 }
 ]]></Declaration>
@@ -45,6 +48,18 @@ public class ARBAOTObjectTree
 ]]></Source>
 			</Method>
 			<Method>
+				<Name>parmExtensionsInline</Name>
+				<Source><![CDATA[
+    public boolean parmExtensionsInline(boolean _extensionsInline = extensionsInline)
+    {
+        extensionsInline = _extensionsInline;
+
+        return extensionsInline;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
 				<Name>newFromAOTObject</Name>
 				<Source><![CDATA[
     /// <summary>
@@ -53,7 +68,7 @@ public class ARBAOTObjectTree
     /// <param name = "_treeControl">The tree control to update</param>
     /// <param name = "_objectType">The object type</param>
     /// <returns>The new object</returns>
-    public static ARBAOTObjectTree newFromAOTObject(FormTreeControl _treeControl, ARBAOTObjectType _objectType)
+    public static ARBAOTObjectTree newFromAOTObject(FormTreeControl _treeControl, ARBAOTObjectType _objectType, boolean _extensionsInline)
     {
         var aotObjectTypeAttribute = new ARBAOTObjectTypeAttribute(_objectType);
         ARBAOTObjectTree aotObjectTree = SysExtensionAppClassFactory::getClassFromSysAttribute(classStr(ARBAOTObjectTree), aotObjectTypeAttribute);
@@ -65,6 +80,7 @@ public class ARBAOTObjectTree
 
         aotObjectTree.parmTreeControl(_treeControl);
         aotObjectTree.parmAOTObjectType(_objectType);
+        aotObjectTree.parmExtensionsInline(_extensionsInline);
 
         return aotObjectTree;
     }
@@ -324,18 +340,59 @@ public class ARBAOTObjectTree
     /// <param name = "_object">The object to add</param>
     /// <param name = "_idx">The tree index to add it under</param>
     /// <param name = "_formTreeAdd">The order it should add the node</param>
-    /// <param name = "extensionName">The name of the extension it came from, if any</param>
+    /// <param name = "_skipAddHeader">If true, skip adding the header node</param>
+    /// <param name = "_extensionName">The name of the extension it came from, if any</param>
     /// <returns>The tree index of the new node</returns>
-    public TreeItemIdx addTreeNode(anytype _object, TreeItemIdx _idx, FormTreeAdd _formTreeAdd = FormTreeAdd::Sort, str extensionName = '')
+    public TreeItemIdx addTreeNode(anytype _object, TreeItemIdx _idx, FormTreeAdd _formTreeAdd = FormTreeAdd::Sort, boolean _skipAddHeader = false, str _extensionName = '')
     {
         System.Type t = _object.GetType();
         
         var props = t.GetProperties();
-        PropertyInfo nameProp = t.GetProperty('Name');
-        str name;
-        if (nameProp != null)
+        str name = this.getObjectName(_object);
+
+        TreeItemIdx parentIdx = _idx;
+        if (!_skipAddHeader)
         {
-            name = nameProp.GetValue(_object).ToString();
+            parentIdx = SysFormTreeControl::addTreeItem(treeControl, name + (_extensionName == '' ? '' : ' (' + _extensionName + ')'), _idx, _object, 0, false, 0, _formTreeAdd);
+        }
+        for (int i = 0; i < props.Length; i++)
+        {
+            
+            PropertyInfo prop = props.GetValue(i);
+            if (prop.PropertyType.Name != 'String'
+                && (prop.Name == 'ViewMetadata' || prop.Name == 'DataSource' || prop.Name == 'Design' || prop.Name == 'FormControl'))
+            {
+                var propValue = prop.GetValue(_object);
+                TreeItemIdx idx = SysFormTreeControl::addTreeItem(treeControl, prop.Name, parentIdx, propValue, 0, true, 0, _formTreeAdd);
+                this.addTreeNode(propValue, idx, prop.Name == 'Design' ? FormTreeAdd::Last : _formTreeAdd, true);
+            }
+            else if (prop.PropertyType.Name == 'KeyedObjectCollection`1')
+            {
+                var col = prop.GetValue(_object) as System.Collections.IEnumerable;
+                this.addCollectionToTree(col, prop.Name, parentIdx, _formTreeAdd);
+            }
+        }
+
+        return parentIdx;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>getObjectName</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Get the name for an object
+    /// </summary>
+    /// <param name = "_object">The object</param>
+    /// <returns>The name of the object</returns>
+    protected str getObjectName(anytype _object)
+    {
+        Microsoft.Dynamics.AX.Metadata.Core.MetaModel.INamedObject namedObject = _object as Microsoft.Dynamics.AX.Metadata.Core.MetaModel.INamedObject;
+        str name;
+        if (namedObject != null)
+        {
+            name = namedObject.Name;
         }
         else if (_object is AxTableMappingConnection)
         {
@@ -347,41 +404,109 @@ public class ARBAOTObjectTree
             name = _object.ToString();
         }
 
-        TreeItemIdx parentIdx = _idx;
-        if (name != 'FormDesign')
+        return name;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>addCollectionToTree</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Add a collection type to the tree
+    /// </summary>
+    /// <param name = "_collection">The Collection to add</param>
+    /// <param name = "_collectionName">The name of the collection</param>
+    /// <param name = "_parentIdx">The parent index to add the collection to</param>
+    /// <param name = "_formTreeAdd">The method for adding the collection to the tree</param>
+    /// <returns>The index of the collection</returns>
+    protected TreeItemIdx addCollectionToTree(System.Collections.IEnumerable _collection, str _collectionName, TreeItemIdx _parentIdx, FormTreeAdd _formTreeAdd)
+    {
+        boolean insertIntoMap = false;
+        if (treeControl.getRoot() == _parentIdx)
         {
-            parentIdx = SysFormTreeControl::addTreeItem(treeControl, name + (extensionName == '' ? '' : ' (' + extensionName + ')'), _idx, _object, 0, false, 0, _formTreeAdd);
-        }
-        for (int i = 0; i < props.Length; i++)
-        {
-            
-            PropertyInfo prop = props.GetValue(i);
-            if (prop.PropertyType.Name != 'String'
-                && (prop.Name == 'ViewMetadata' || prop.Name == 'DataSource' || prop.Name == 'Design'))
+            insertIntoMap = true;
+            if (collectionMap.exists(_collectionName))
             {
-                var propValue = prop.GetValue(_object);
-                TreeItemIdx idx = SysFormTreeControl::addTreeItem(treeControl, prop.Name, parentIdx, propValue, 0, true, 0, _formTreeAdd);
-                this.addTreeNode(propValue, idx, prop.Name == 'Design' ? FormTreeAdd::Last : _formTreeAdd);
+                currentMap = collectionMap.lookup(_collectionName);
             }
-            else if (prop.PropertyType.Name == 'KeyedObjectCollection`1')
+            else
             {
-                var col = prop.GetValue(_object) as System.Collections.IEnumerable;
-                TreeItemIdx idx = parentIdx;
-                if (prop.Name != 'Controls')
-                {
-                    idx = SysFormTreeControl::addTreeItem(treeControl, prop.Name, parentIdx, col, 0, true, 0,_formTreeAdd);
-                }
+                currentMap = new Map(Types::String, Types::Integer);
+                collectionMap.insert(_collectionName, currentMap);
+            }
+        }
+
+        TreeItemIdx idx = _parentIdx;
+        if (_collectionName != 'Controls')
+        {
+            idx = SysFormTreeControl::addTreeItem(treeControl, _collectionName, _parentIdx, _collection, 0, true, 0, _formTreeAdd);
+        }
                 
-                System.Collections.IEnumerator enumerator = col.GetEnumerator();
+        System.Collections.IEnumerator enumerator = _collection.GetEnumerator();
 
-                while (enumerator.moveNext())
-                {
-                    this.addTreeNode(enumerator.Current, idx, _formTreeAdd);
-                }
+        while (enumerator.moveNext())
+        {
+            TreeItemIdx childIdx = this.addTreeNode(enumerator.Current, idx, _formTreeAdd);
+            if (insertIntoMap)
+            {
+                currentMap.insert(this.getObjectName(enumerator.Current), childIdx);
             }
         }
 
-        return parentIdx;
+        if (insertIntoMap)
+        {
+            currentMap.insert('RootNode', idx);
+            currentMap = null;
+        }
+
+        return idx;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>addExtension</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Add an extension to the tree
+    /// </summary>
+    /// <param name = "_extension">The extension</param>
+    /// <param name = "_parentIdx">The parent index</param>
+    /// <param name = "_extensionName">The extension name</param>
+    protected void addExtension(anytype _extension, TreeItemIdx _parentIdx, str _extensionName)
+    {
+        TreeItemIdx extIdx = this.addTreeNode(_extension, _parentIdx, FormTreeAdd::Last, false, _extensionName);
+        FormTreeItem control = treeControl.getItem(extIdx);
+        control.stateBold(true);
+        treeControl.setItem(control);
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>addExtensionModification</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Add an extension modification to the tree
+    /// </summary>
+    /// <param name = "_control">The tree item control</param>
+    /// <param name = "_mod">The modification to make</param>
+    /// <param name = "_extensionName">The extension name</param>
+    protected void addExtensionModification(FormTreeItem _control, AxExtensionModification _mod, str _extensionName)
+    {
+        ARBObjectModification modification = _control.data() as ARBObjectModification;
+        if (modification == null)
+        {
+            modification = new ARBObjectModification();
+            modification.Object = _control.data();
+            _control.data(modification);
+        }
+        List mods = modification.Modifications;
+        mods.addEnd(_mod);
+        _control.text(_control.text() + ' (' + _extensionName + ')');
+        _control.stateBold(true);
+        treeControl.setItem(_control);
     }
 
 ]]></Source>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>ARBObjectModification</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// Holds the object and its modifications
+/// </summary>
+public class ARBObjectModification
+{
+    public anytype Object;
+    public List Modifications = new List(Types::AnyType);
+}
+]]></Declaration>
+		<Methods />
+	</SourceCode>
+</AxClass>

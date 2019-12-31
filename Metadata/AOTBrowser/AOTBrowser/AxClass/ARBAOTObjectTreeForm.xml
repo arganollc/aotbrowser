@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>ARBAOTObjectTreeForm</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+using Xpp = Microsoft.Dynamics.Ax.Xpp;
+using ArbelaXpp = Arbela.Dynamics.Ax.Xpp;
+using Microsoft.Dynamics.AX.Metadata.MetaModel;
+
+/// <summary>
+/// Override the Object Tree for Forms
+/// </summary>
+[ARBAOTObjectType(ARBAOTObjectType::Form)]
+class ARBAOTObjectTreeForm extends ARBAOTObjectTree
+{
+    Map controlMap = new Map(Types::String, Types::Integer);
+
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>update</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Update the object tree
+    /// </summary>
+    /// <param name = "_aotNodeName">The name of the AOT object</param>
+    public void update(TreeNodeName _aotNodeName)
+    {
+        AxForm form = Xpp.MetadataSupport::GetForm(_aotNodeName);
+        TreeItemIdx rootIdx = this.updateObjectTree(form, form.Name);
+        var aotObjectExtensions = ArbelaXpp.MetadataSupport::GetFormExtensionsForForm(_aotNodeName);
+        System.Collections.IEnumerator enumerator = aotObjectExtensions.GetEnumerator();
+
+        TreeItemIdx extensionsIdx;
+        if (!extensionsInline)
+        {
+            extensionsIdx = SysFormTreeControl::addTreeItem(treeControl, 'Extensions', rootIdx, aotObjectExtensions, 0, true);
+        }
+        while (enumerator.moveNext())
+        {
+            AxFormExtension formExtension = enumerator.Current;
+            if (extensionsInline)
+            {
+                str extensionName = conPeek(list2Con(strSplit(formExtension.Name, '.')),2);
+                var controlsEnum = formExtension.Controls.GetEnumerator();
+                while (controlsEnum.moveNext())
+                {
+                    this.addExtension(controlsEnum.Current, controlMap.lookup(controlsEnum.Current.Parent), extensionName);
+                }
+                var controlsModEnum = formExtension.ControlModifications.GetEnumerator();
+                while (controlsModEnum.moveNext())
+                {
+                    FormTreeItem control = treeControl.getItem(controlMap.lookup(controlsModEnum.Current.Name));
+                    this.addExtensionModification(control, controlsModEnum.Current, extensionName);
+                }
+                Map dataSourceMap = collectionMap.lookup('DataSources');
+                TreeItemIdx dataSourcesIdx = dataSourceMap.lookup('RootNode');
+                var datasourcesEnum = formExtension.DataSources.GetEnumerator();
+                while (datasourcesEnum.moveNext())
+                {
+                    this.addExtension(datasourcesEnum.Current, dataSourcesIdx, extensionName);
+                }
+                var dataSourcesModEnum = formExtension.DataSourceModifications.GetEnumerator();
+                while (dataSourcesModEnum.moveNext())
+                {
+                    FormTreeItem control = treeControl.getItem(datasourceMap.lookup(dataSourcesModEnum.Current.Name));
+                    this.addExtensionModification(control, dataSourcesModEnum.Current, extensionName);
+                }
+                Map partsMap = collectionMap.lookup('Parts');
+                TreeItemIdx partsIdx = partsMap.lookup('RootNode');
+                var partsEnum = formExtension.Parts.GetEnumerator();
+                while (partsEnum.moveNext())
+                {
+                    this.addExtension(partsEnum.Current, partsIdx, extensionName);
+                }
+                if (formExtension.PropertyModifications != null)
+                {
+                    FormTreeItem rootNode = treeControl.getItem(treeControl.getRoot());
+                    AxExtensionModification extMod = new AxExtensionModification();
+                    extMod.PropertyModifications = formExtension.PropertyModifications;
+                    this.addExtensionModification(rootNode, extMod, extensionName);
+                }
+            }
+            else
+            {
+                this.addTreeNode(formExtension, extensionsIdx);
+            }
+        }
+        treeControl.select(rootIdx);
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>addTreeNode</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Adds a new node to the tree
+    /// </summary>
+    /// <param name = "_object">The object to add</param>
+    /// <param name = "_idx">The tree index to add it under</param>
+    /// <param name = "_formTreeAdd">The order it should add the node</param>
+    /// <param name = "extensionName">The name of the extension it came from, if any</param>
+    /// <returns>The tree index of the new node</returns>
+    public TreeItemIdx addTreeNode(anytype _object, TreeItemIdx _idx, FormTreeAdd _formTreeAdd = FormTreeAdd::Sort, boolean _skipAddHeader = false, str _extensionName = '')
+    {
+        str objectName = this.getObjectName(_object);
+        boolean insertIntoMap = false;
+        if (_object is AxFormDesign)
+        {
+            insertIntoMap = true;
+            currentMap = controlMap;
+        }
+
+        TreeItemIdx parentIdx = super(_object, _idx, _formTreeAdd, _skipAddHeader, _extensionName);
+
+        if (insertIntoMap)
+        {
+            currentMap = null;
+        }
+
+        if (currentMap != null
+            && (_object is AxFormControl))
+        {
+            currentMap.insert(objectName, parentIdx);
+        }
+
+        return parentIdx;
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

@@ -9,9 +9,33 @@
 public class ARBAOTObjectProperties extends common
 {
 }
-
 ]]></Declaration>
-		<Methods />
+		<Methods>
+			<Method>
+				<Name>find</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Finds the object properties record based on the name
+    /// </summary>
+    /// <param name = "_name">The name of the property</param>
+    /// <param name = "_forUpdate">True if record should be selected for update</param>
+    /// <returns>The object properties record</returns>
+    public static ARBAOTObjectProperties find(ARBAOTObjectProperties _buffer, Name _name, boolean _forUpdate = false)
+    {
+        if (_forUpdate)
+        {
+            _buffer.selectForUpdate(_forUpdate);
+        }
+
+        select firstonly _buffer
+            where _buffer.Name == _name;
+
+        return _buffer;
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
 	</SourceCode>
 	<DeveloperDocumentation>@AOTBrowser:AOTObjectPropertiesDevDoc</DeveloperDocumentation>
 	<Label>@AOTBrowser:AOTObjectProperties</Label>
@@ -35,6 +59,9 @@ public class ARBAOTObjectProperties extends common
 				</AxTableFieldGroupField>
 				<AxTableFieldGroupField>
 					<DataField>Value</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>Modified</DataField>
 				</AxTableFieldGroupField>
 			</Fields>
 		</AxTableFieldGroup>
@@ -93,6 +120,12 @@ public class ARBAOTObjectProperties extends common
 			i:type="AxTableFieldString">
 			<Name>Value</Name>
 			<ExtendedDataType>ARBAOTPropertyValue</ExtendedDataType>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldEnum">
+			<Name>Modified</Name>
+			<Label>@SYS27395</Label>
+			<EnumType>NoYes</EnumType>
 		</AxTableField>
 	</Fields>
 	<FullTextIndexes />

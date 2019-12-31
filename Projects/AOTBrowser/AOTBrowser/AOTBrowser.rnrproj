@@ -69,6 +69,11 @@
       <Name>ARBAOTObjectTreeDataEntity</Name>
       <Link>Classes\ARBAOTObjectTreeDataEntity</Link>
     </Content>
+    <Content Include="AxClass\ARBAOTObjectTreeForm">
+      <SubType>Content</SubType>
+      <Name>ARBAOTObjectTreeForm</Name>
+      <Link>Classes\ARBAOTObjectTreeForm</Link>
+    </Content>
     <Content Include="AxClass\ARBAOTObjectTreeTable">
       <SubType>Content</SubType>
       <Name>ARBAOTObjectTreeTable</Name>
@@ -93,6 +98,11 @@
       <SubType>Content</SubType>
       <Name>ARBFormControlPersonalization_EventHandler</Name>
       <Link>Classes\ARBFormControlPersonalization_EventHandler</Link>
+    </Content>
+    <Content Include="AxClass\ARBObjectModification">
+      <SubType>Content</SubType>
+      <Name>ARBObjectModification</Name>
+      <Link>Classes\ARBObjectModification</Link>
     </Content>
     <Content Include="AxEdt\ARBAOTProperties">
       <SubType>Content</SubType>

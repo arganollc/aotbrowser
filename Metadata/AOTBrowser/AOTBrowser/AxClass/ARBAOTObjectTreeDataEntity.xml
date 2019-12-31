@@ -19,6 +19,10 @@ class ARBAOTObjectTreeDataEntity extends ARBAOTObjectTree
 			<Method>
 				<Name>update</Name>
 				<Source><![CDATA[
+    /// <summary>
+    /// Update the object tree
+    /// </summary>
+    /// <param name = "_aotNodeName">The name of the AOT object</param>
     public void update(TreeNodeName _aotNodeName)
     {
         AxDataEntityView dataEntityView = Xpp.MetadataSupport::GetDataEntityView(_aotNodeName);
