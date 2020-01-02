@@ -8,34 +8,100 @@ using ArbelaXpp = Arbela.Dynamics.Ax.Xpp;
 using Microsoft.Dynamics.AX.Metadata.MetaModel;
 
 /// <summary>
-/// Override the Object Tree for Data entities
+/// Override the Object Tree for Views
 /// </summary>
 [ARBAOTObjectType(ARBAOTObjectType::DataEntity)]
 class ARBAOTObjectTreeDataEntity extends ARBAOTObjectTree
 {
+    Map dataSourceMap = new Map(Types::String, Types::Integer);
+    Map currentDsMap;
+
 }
 ]]></Declaration>
 		<Methods>
 			<Method>
-				<Name>update</Name>
+				<Name>addExtensionCollection</Name>
 				<Source><![CDATA[
     /// <summary>
-    /// Update the object tree
+    /// Adds a collection of extensions to the tree
     /// </summary>
-    /// <param name = "_aotNodeName">The name of the AOT object</param>
-    public void update(TreeNodeName _aotNodeName)
+    /// <param name = "_collection">The collection to add</param>
+    /// <param name = "_collectionName">The collection name</param>
+    /// <param name = "_extensionName">The extension name</param>
+    protected void addExtensionCollection(System.Collections.IEnumerable _collection, str _collectionName, str _extensionName)
     {
-        AxDataEntityView dataEntityView = Xpp.MetadataSupport::GetDataEntityView(_aotNodeName);
-        TreeItemIdx rootIdx = this.updateObjectTree(dataEntityView, dataEntityView.Name);
-        var aotObjectExtensions = ArbelaXpp.MetadataSupport::GetDataEntityViewExtensionsForDataEntityView(_aotNodeName);
-        System.Collections.IEnumerator enumerator = aotObjectExtensions.GetEnumerator();
-
-        TreeItemIdx extensionsIdx = SysFormTreeControl::addTreeItem(treeControl, 'Extensions', rootIdx, aotObjectExtensions, 0, true);
-        while (enumerator.moveNext())
+        System.Collections.IEnumerator modsEnum;
+        switch (_collectionName)
         {
-            this.addTreeNode(enumerator.Current, extensionsIdx);
+            case 'DataSources':
+                modsEnum = _collection.GetEnumerator();
+                while (modsEnum.MoveNext())
+                {
+                    AxQueryExtensionEmbeddedDataSource ds = modsEnum.Current;
+                    this.addExtension(ds.DataSource, this.getNamedNode(dataSourceMap.lookup(ds.Parent), 'DataSources'), _extensionName);
+                }
+                break;
+            case 'FieldGroupExtensions':
+                System.Collections.IEnumerator fieldGroupEnum = _collection.GetEnumerator();
+                if (collectionMap.exists('FieldGroups'))
+                {
+                    Map fieldGroupsMap = collectionMap.lookup('FieldGroups');
+                    while (fieldGroupEnum.MoveNext())
+                    {
+                        AxTableFieldGroupExtension fieldGroupExtension = fieldGroupEnum.Current;
+                        TreeItemIdx parentIdx = fieldGroupsMap.lookup(fieldGroupExtension.Name);
+                        parentIdx = treeControl.getChild(parentIdx); // Get the index of the Fields node
+                        var fieldsEnum = fieldGroupExtension.Fields.GetEnumerator();
+                        while (fieldsEnum.MoveNext())
+                        {
+                            this.addExtension(fieldsEnum.Current, parentIdx, _extensionName);
+                        }
+                    }
+                }
+                break;
+            default:
+                super(_collection, _collectionName, _extensionName);
+                break;
         }
-        treeControl.select(rootIdx);
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>addTreeNode</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Adds a new node to the tree
+    /// </summary>
+    /// <param name = "_object">The object to add</param>
+    /// <param name = "_idx">The tree index to add it under</param>
+    /// <param name = "_formTreeAdd">The order it should add the node</param>
+    /// <param name = "extensionName">The name of the extension it came from, if any</param>
+    /// <returns>The tree index of the new node</returns>
+    public TreeItemIdx addTreeNode(anytype _object, TreeItemIdx _idx, int _formTreeAdd = FormTreeAdd::Sort, boolean _skipAddHeader = false, str _extensionName = '')
+    {
+        str objectName = this.getObjectName(_object);
+        boolean insertIntoMap = false;
+        if (_object is AxQuerySimpleRootDataSource)
+        {
+            insertIntoMap = true;
+            currentDsMap = dataSourceMap;
+        }
+
+        TreeItemIdx parentIdx = super(_object, _idx, _formTreeAdd, _skipAddHeader, _extensionName);
+
+        if (currentDsMap != null
+            && (_object is AxQuerySimpleDataSource))
+        {
+            currentDsMap.insert(objectName, parentIdx);
+        }
+
+        if (insertIntoMap)
+        {
+            currentDsMap = null;
+        }
+
+        return parentIdx;
     }
 
 ]]></Source>

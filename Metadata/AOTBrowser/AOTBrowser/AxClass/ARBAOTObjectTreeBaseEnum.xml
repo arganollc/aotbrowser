@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>ARBAOTObjectTreeBaseEnum</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+using Xpp = Microsoft.Dynamics.Ax.Xpp;
+using Microsoft.Dynamics.AX.Metadata.MetaModel;
+
+/// <summary>
+/// Override the Object Tree for Base Enums
+/// </summary>
+[ARBAOTObjectType(ARBAOTObjectType::BaseEnum)]
+class ARBAOTObjectTreeBaseEnum extends ARBAOTObjectTree
+{
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>addExtensionCollection</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Adds a collection of extensions to the tree
+    /// </summary>
+    /// <param name = "_collection">The collection to add</param>
+    /// <param name = "_collectionName">The collection name</param>
+    /// <param name = "_extensionName">The extension name</param>
+    protected void addExtensionCollection(System.Collections.IEnumerable _collection, str _collectionName, str _extensionName)
+    {
+        switch (_collectionName)
+        {
+            case 'ValueModifications':
+                System.Collections.IEnumerator valueModsEnum = _collection.GetEnumerator();
+                if (collectionMap.exists('EnumValues'))
+                {
+                    Map valuesMap = collectionMap.lookup('EnumValues');
+                    while (valueModsEnum.MoveNext())
+                    {
+                        FormTreeItem control = treeControl.getItem(valuesMap.lookup(this.getObjectName(valueModsEnum.Current)));
+                        this.addExtensionModification(control, valueModsEnum.Current, _extensionName);
+                    }
+                }
+                break;
+            default:
+                super(_collection, _collectionName, _extensionName);
+                break;
+        }
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

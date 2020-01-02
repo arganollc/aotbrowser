@@ -43,7 +43,7 @@ public class ARBAOTObjectTypeAttribute extends SysAttribute implements SysExtens
     /// <returns>The cache key</returns>
     public str parmCacheKey()
     {
-        return classStr(ARBAOTObjectTypeAttribute) + ';' + enum2Symbol(enumNum(ARBAOTObjectType), objectType);
+        return classStr(ARBAOTObjectTypeAttribute) + ';' + int2str(enum2int(objectType));
     }
 
 ]]></Source>

@@ -64,6 +64,11 @@
       <Name>ARBAOTObjectTree</Name>
       <Link>Classes\ARBAOTObjectTree</Link>
     </Content>
+    <Content Include="AxClass\ARBAOTObjectTreeBaseEnum">
+      <SubType>Content</SubType>
+      <Name>ARBAOTObjectTreeBaseEnum</Name>
+      <Link>Classes\ARBAOTObjectTreeBaseEnum</Link>
+    </Content>
     <Content Include="AxClass\ARBAOTObjectTreeDataEntity">
       <SubType>Content</SubType>
       <Name>ARBAOTObjectTreeDataEntity</Name>
@@ -73,6 +78,16 @@
       <SubType>Content</SubType>
       <Name>ARBAOTObjectTreeForm</Name>
       <Link>Classes\ARBAOTObjectTreeForm</Link>
+    </Content>
+    <Content Include="AxClass\ARBAOTObjectTreeMenu">
+      <SubType>Content</SubType>
+      <Name>ARBAOTObjectTreeMenu</Name>
+      <Link>Classes\ARBAOTObjectTreeMenu</Link>
+    </Content>
+    <Content Include="AxClass\ARBAOTObjectTreeQuery">
+      <SubType>Content</SubType>
+      <Name>ARBAOTObjectTreeQuery</Name>
+      <Link>Classes\ARBAOTObjectTreeQuery</Link>
     </Content>
     <Content Include="AxClass\ARBAOTObjectTreeTable">
       <SubType>Content</SubType>

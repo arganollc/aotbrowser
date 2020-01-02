@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
-	<Name>ARBAOTObjectTreeView</Name>
+	<Name>ARBAOTObjectTreeQuery</Name>
 	<SourceCode>
 		<Declaration><![CDATA[
 using Xpp = Microsoft.Dynamics.Ax.Xpp;
-using ArbelaXpp = Arbela.Dynamics.Ax.Xpp;
 using Microsoft.Dynamics.AX.Metadata.MetaModel;
 
 /// <summary>
-/// Override the Object Tree for Views
+/// Override the Object Tree for Queries
 /// </summary>
-[ARBAOTObjectType(ARBAOTObjectType::View)]
-class ARBAOTObjectTreeView extends ARBAOTObjectTree
+[ARBAOTObjectType(ARBAOTObjectType::Query)]
+class ARBAOTObjectTreeQuery extends ARBAOTObjectTree
 {
     Map dataSourceMap = new Map(Types::String, Types::Integer);
     Map currentDsMap;
@@ -21,29 +20,6 @@ class ARBAOTObjectTreeView extends ARBAOTObjectTree
 }
 ]]></Declaration>
 		<Methods>
-			<Method>
-				<Name>update</Name>
-				<Source><![CDATA[
-    /// <summary>
-    /// Update the object tree
-    /// </summary>
-    /// <param name = "_aotNodeName">The name of the AOT object</param>
-    public void update(TreeNodeName _aotNodeName)
-    {
-        AxView view = Xpp.MetadataSupport::GetView(_aotNodeName);
-        if (view != null)
-        {
-            super(_aotNodeName);
-        }
-        else
-        {
-            ARBAOTObjectTree objectTree = ARBAOTObjectTree::newFromAOTObject(treeControl, ARBAOTObjectType::DataEntity, extensionsInline);
-            objectTree.update(_aotNodeName);
-        }
-    }
-
-]]></Source>
-			</Method>
 			<Method>
 				<Name>addExtensionCollection</Name>
 				<Source><![CDATA[
@@ -58,6 +34,18 @@ class ARBAOTObjectTreeView extends ARBAOTObjectTree
         System.Collections.IEnumerator modsEnum;
         switch (_collectionName)
         {
+            case 'RootDataSources':
+                modsEnum = _collection.GetEnumerator();
+                if (collectionMap.exists('DataSources'))
+                {
+                    Map fieldGroupsMap = collectionMap.lookup('DataSources');
+                    TreeItemIdx rootNodeIdx = fieldGroupsMap.lookup('RootNode');
+                    while (modsEnum.MoveNext())
+                    {
+                        this.addExtension(modsEnum.Current, rootNodeIdx, _extensionName);
+                    }
+                }
+                break;
             case 'DataSources':
                 modsEnum = _collection.GetEnumerator();
                 while (modsEnum.MoveNext())
@@ -74,22 +62,28 @@ class ARBAOTObjectTreeView extends ARBAOTObjectTree
                     this.addExtension(range.QueryDataSourceRange, this.getNamedNode(dataSourceMap.lookup(range.Parent), 'Ranges'), _extensionName);
                 }
                 break;
-            case 'FieldGroupExtensions':
-                System.Collections.IEnumerator fieldGroupEnum = _collection.GetEnumerator();
-                if (collectionMap.exists('FieldGroups'))
+            case 'Relations':
+                modsEnum = _collection.GetEnumerator();
+                while (modsEnum.MoveNext())
                 {
-                    Map fieldGroupsMap = collectionMap.lookup('FieldGroups');
-                    while (fieldGroupEnum.MoveNext())
-                    {
-                        AxTableFieldGroupExtension fieldGroupExtension = fieldGroupEnum.Current;
-                        TreeItemIdx parentIdx = fieldGroupsMap.lookup(fieldGroupExtension.Name);
-                        parentIdx = treeControl.getChild(parentIdx); // Get the index of the Fields node
-                        var fieldsEnum = fieldGroupExtension.Fields.GetEnumerator();
-                        while (fieldsEnum.MoveNext())
-                        {
-                            this.addExtension(fieldsEnum.Current, parentIdx, _extensionName);
-                        }
-                    }
+                    AxQueryExtensionQueryDataSourceRelation relation = modsEnum.Current;
+                    this.addExtension(relation.QueryDataSourceRelation, this.getNamedNode(dataSourceMap.lookup(relation.Parent), 'Relations'), _extensionName);
+                }
+                break;
+            case 'Fields':
+                modsEnum = _collection.GetEnumerator();
+                while (modsEnum.MoveNext())
+                {
+                    AxQueryExtensionQueryDataSourceField field = modsEnum.Current;
+                    this.addExtension(field.QueryDataSourceField, this.getNamedNode(dataSourceMap.lookup(field.Parent), 'Fields'), _extensionName);
+                }
+                break;
+            case 'OrderByFields':
+                modsEnum = _collection.GetEnumerator();
+                while (modsEnum.MoveNext())
+                {
+                    AxQueryExtensionQueryOrderByField field = modsEnum.Current;
+                    this.addExtension(field.QueryOrderByField, this.getNamedNode(dataSourceMap.lookup(field.Parent), 'OrderBy'), _extensionName);
                 }
                 break;
             default:

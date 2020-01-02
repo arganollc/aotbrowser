@@ -6,6 +6,7 @@
 using Xpp = Microsoft.Dynamics.Ax.Xpp;
 using ArbelaXpp = Arbela.Dynamics.Ax.Xpp;
 using Microsoft.Dynamics.AX.Metadata.MetaModel;
+using CoreMetaModel = Microsoft.Dynamics.AX.Metadata.Core.MetaModel;
 using System.Reflection;
 using System.Linq.Enumerable;
 
@@ -14,6 +15,7 @@ using System.Linq.Enumerable;
 /// </summary>
 public class ARBAOTObjectTree
 {
+    public static Microsoft.Dynamics.AX.Metadata.Providers.IMetadataProvider MetadataProvider;
     protected FormTreeControl treeControl;
     protected ARBAOTObjectType aotObjectType;
     protected boolean extensionsInline;
@@ -23,6 +25,18 @@ public class ARBAOTObjectTree
 }
 ]]></Declaration>
 		<Methods>
+			<Method>
+				<Name>typenew</Name>
+				<Source><![CDATA[
+    static void typenew()
+    {
+        Microsoft.Dynamics.ApplicationPlatform.Environment.IApplicationEnvironment applicationEnvironment = Microsoft.Dynamics.ApplicationPlatform.Environment.EnvironmentFactory::GetApplicationEnvironment();
+        Microsoft.Dynamics.AX.Metadata.Storage.MetadataProviderFactory metadataProviderFactory = new Microsoft.Dynamics.AX.Metadata.Storage.MetadataProviderFactory();
+        MetadataProvider = metadataProviderFactory.CreateRuntimeProvider(new Microsoft.Dynamics.AX.Metadata.Storage.Runtime.RuntimeProviderConfiguration(applicationEnvironment.Aos.PackageDirectory, false));
+    }
+
+]]></Source>
+			</Method>
 			<Method>
 				<Name>parmTreeControl</Name>
 				<Source><![CDATA[
@@ -101,112 +115,112 @@ public class ARBAOTObjectTree
         switch (aotObjectType)
         {
             case ARBAOTObjectType::Table:
-                aotObject = Xpp.MetadataSupport::GetTable(_aotNodeName);
+                aotObject = MetadataProvider.Tables.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::View:
-                aotObject = Xpp.MetadataSupport::GetView(_aotNodeName);
+                aotObject = MetadataProvider.Views.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::DataEntity:
-                aotObject = Xpp.MetadataSupport::GetDataEntityView(_aotNodeName);
+                aotObject = MetadataProvider.DataEntityViews.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::BaseEnum:
-                aotObject = Xpp.MetadataSupport::GetEnum(_aotNodeName);
+                aotObject = MetadataProvider.Enums.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::ExtendedDataType:
-                aotObject = Xpp.MetadataSupport::GetEdt(_aotNodeName);
+                aotObject = MetadataProvider.Edts.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::Class:
-                aotObject = Xpp.MetadataSupport::GetClass(_aotNodeName);
+                aotObject = MetadataProvider.Classes.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::Form:
-                aotObject = Xpp.MetadataSupport::GetForm(_aotNodeName);
+                aotObject = MetadataProvider.Forms.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::Query:
-                aotObject = Xpp.MetadataSupport::GetQuery(_aotNodeName);
+                aotObject = MetadataProvider.Queries.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::Map:
-                aotObject = Xpp.MetadataSupport::GetMap(_aotNodeName);
+                aotObject = MetadataProvider.Maps.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::Tile:
-                aotObject = Xpp.MetadataSupport::GetTile(_aotNodeName);
+                aotObject = MetadataProvider.Tiles.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::Menu:
-                aotObject = Xpp.MetadataSupport::GetMenu(_aotNodeName);
+                aotObject = MetadataProvider.Menus.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::TableCollection:
-                aotObject = ArbelaXpp.MetadataSupport::GetTableCollection(_aotNodeName);
+                aotObject = MetadataProvider.TableCollections.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::CompositeDataEntity:
-                aotObject = ArbelaXpp.MetadataSupport::GetCompositeDataEntity(_aotNodeName);
+                aotObject = MetadataProvider.CompositeDataEntityViews.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::MenuItemDisplay:
-                aotObject = Xpp.MetadataSupport::GetMenuItemDisplay(_aotNodeName);
+                aotObject = MetadataProvider.MenuItemDisplays.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::MenuItemAction:
-                aotObject = Xpp.MetadataSupport::GetMenuItemAction(_aotNodeName);
+                aotObject = MetadataProvider.MenuItemActions.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::MenuItemOutput:
-                aotObject = Xpp.MetadataSupport::GetMenuItemOutput(_aotNodeName);
+                aotObject = MetadataProvider.MenuItemOutputs.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::SecurityRole:
-                aotObject = Xpp.MetadataSupport::GetSecurityRole(_aotNodeName);
+                aotObject = MetadataProvider.SecurityRoles.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::SecurityDuty:
-                aotObject = ArbelaXpp.MetadataSupport::GetSecurityDuty(_aotNodeName);
+                aotObject = MetadataProvider.SecurityDuties.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::SecurityPrivilege:
-                aotObject = ArbelaXpp.MetadataSupport::GetSecurityPrivilege(_aotNodeName);
+                aotObject = MetadataProvider.SecurityPrivileges.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::AggregateDataEntity:
-                aotObject = Xpp.MetadataSupport::GetAggregateDataEntity(_aotNodeName);
+                aotObject = MetadataProvider.AggregateDataEntities.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::WorkflowCategory:
-                aotObject = Xpp.MetadataSupport::GetWorkflowCategory(_aotNodeName);
+                aotObject = MetadataProvider.WorkflowCategories.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::WorkflowApproval:
-                aotObject = Xpp.MetadataSupport::GetWorkflowApproval(_aotNodeName);
+                aotObject = MetadataProvider.WorkflowApprovals.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::WorkflowTask:
-                aotObject = Xpp.MetadataSupport::GetWorkflowTask(_aotNodeName);
+                aotObject = MetadataProvider.WorkflowTasks.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::WorkflowAutomatedTask:
-                aotObject = Xpp.MetadataSupport::GetWorkflowAutomatedTask(_aotNodeName);
+                aotObject = MetadataProvider.WorkflowAutomatedTasks.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::WorkflowType:
-                aotObject = Xpp.MetadataSupport::GetWorkflowTemplate(_aotNodeName);
+                aotObject = MetadataProvider.WorkflowTemplates.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::WorkflowHierarchyAssignmentProvider:
-                aotObject = Xpp.MetadataSupport::GetWorkflowHierarchyAssignmentProvider(_aotNodeName);
+                aotObject = MetadataProvider.WorkflowHierarchyAssignmentProviders.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::WorkflowParticipantAssignmentProvider:
-                aotObject = Xpp.MetadataSupport::GetWorkflowParticipantAssignmentProvider(_aotNodeName);
+                aotObject = MetadataProvider.WorkflowParticipantAssignmentProviders.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::WorkflowQueueAssignmentProvider:
-                aotObject = Xpp.MetadataSupport::GetWorkflowQueueAssignmentProvider(_aotNodeName);
+                aotObject = MetadataProvider.WorkflowQueueAssignmentProviders.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::WorkflowDueDateCalculationProvider:
-                aotObject = Xpp.MetadataSupport::GetWorkflowDueDateCalculationProvider(_aotNodeName);
+                aotObject = MetadataProvider.WorkflowDueDateCalculationProviders.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::Resource:
-                aotObject = Xpp.MetadataSupport::GetResource(_aotNodeName);
+                aotObject = MetadataProvider.Resources.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::LicenseCode:
-                aotObject = Xpp.MetadataSupport::GetLicenseCode(_aotNodeName);
+                aotObject = MetadataProvider.LicenseCodes.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::ConfigKey:
-                aotObject = Xpp.MetadataSupport::GetConfigurationKey(_aotNodeName);
+                aotObject = MetadataProvider.ConfigurationKeys.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::ConfigKeyGroup:
-                aotObject = Xpp.MetadataSupport::GetConfigurationKeyGroup(_aotNodeName);
+                aotObject = MetadataProvider.ConfigurationKeyGroups.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::Service:
-                aotObject = ArbelaXpp.MetadataSupport::GetService(_aotNodeName);
+                aotObject = MetadataProvider.Services.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::ServiceGroup:
-                aotObject = ArbelaXpp.MetadataSupport::GetServiceGroup(_aotNodeName);
+                aotObject = MetadataProvider.ServiceGroups.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::Report:
-                aotObject = Xpp.MetadataSupport::GetReport(_aotNodeName);
+                aotObject = MetadataProvider.Reports.Read(_aotNodeName);
                 break;
         }
 
@@ -297,14 +311,97 @@ public class ARBAOTObjectTree
 
         if (enumerator != null)
         {
-            TreeItemIdx extensionsIdx = SysFormTreeControl::addTreeItem(treeControl, 'Extensions', rootIdx, 'Extensions', 0, true);
+            TreeItemIdx extensionsIdx;
+            if (!extensionsInline)
+            {
+                extensionsIdx = SysFormTreeControl::addTreeItem(treeControl, 'Extensions', rootIdx, 'Extensions', 0, true);
+            }
             while (enumerator.moveNext())
             {
-                this.addTreeNode(enumerator.Current, extensionsIdx);
+                if (extensionsInline)
+                {
+                    str extensionName = conPeek(list2Con(strSplit(this.getObjectName(enumerator.Current), '.')),2);
+                    System.Type t = enumerator.Current.GetType();
+        
+                    var props = t.GetProperties();
+                    for (int i = 0; i < props.Length; i++)
+                    {
+                        PropertyInfo prop = props.GetValue(i);
+                        var mods = prop.GetValue(enumerator.Current) as System.Collections.IEnumerable;
+                        if (mods != null)
+                        {
+                            if (prop.Name == 'PropertyModifications')
+                            {
+                                FormTreeItem rootNode = treeControl.getItem(treeControl.getRoot());
+                                AxExtensionModification extMod = new AxExtensionModification();
+                                extMod.PropertyModifications = mods;
+                                this.addExtensionModification(rootNode, extMod, extensionName);
+                            }
+                            else
+                            {
+                                this.addExtensionCollection(mods, prop.Name, extensionName);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    this.addTreeNode(enumerator.Current, extensionsIdx);
+                }
             }
         }
 
         treeControl.select(rootIdx);
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>addExtensionCollection</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Adds a collection of extensions to the tree
+    /// </summary>
+    /// <param name = "_collection">The collection to add</param>
+    /// <param name = "_collectionName">The collection name</param>
+    /// <param name = "_extensionName">The extension name</param>
+    protected void addExtensionCollection(System.Collections.IEnumerable _collection, str _collectionName, str _extensionName)
+    {
+        System.Collections.IEnumerator modEnum = _collection.GetEnumerator();
+        if (strEndsWith(_collectionName, 'Modifications'))
+        {
+            str modName = strReplace(_collectionName, 'Modifications', 's');
+            System.Collections.IEnumerator modsEnum = _collection.GetEnumerator();
+            if (collectionMap.exists(modName))
+            {
+                Map valuesMap = collectionMap.lookup(modName);
+                while (modsEnum.MoveNext())
+                {
+                    FormTreeItem control = treeControl.getItem(valuesMap.lookup(this.getObjectName(modsEnum.Current)));
+                    this.addExtensionModification(control, modsEnum.Current, _extensionName);
+                }
+            }
+        }
+        else
+        {
+            if (collectionMap.exists(_collectionName))
+            {
+                Map modMap = collectionMap.lookup(_collectionName);
+                TreeItemIdx rootNodeIdx = modMap.lookup('RootNode');
+                while (modEnum.MoveNext())
+                {
+                    if (modEnum.Current is AxExtensionModification)
+                    {
+                        FormTreeItem control = treeControl.getItem(modMap.lookup(this.getObjectName(modEnum.Current)));
+                        this.addExtensionModification(control, modEnum.Current, _extensionName);
+                    }
+                    else
+                    {
+                        this.addExtension(modEnum.Current, rootNodeIdx, _extensionName);
+                    }
+                }
+            }
+        }
     }
 
 ]]></Source>
@@ -343,7 +440,7 @@ public class ARBAOTObjectTree
     /// <param name = "_skipAddHeader">If true, skip adding the header node</param>
     /// <param name = "_extensionName">The name of the extension it came from, if any</param>
     /// <returns>The tree index of the new node</returns>
-    public TreeItemIdx addTreeNode(anytype _object, TreeItemIdx _idx, FormTreeAdd _formTreeAdd = FormTreeAdd::Sort, boolean _skipAddHeader = false, str _extensionName = '')
+    public TreeItemIdx addTreeNode(anytype _object, TreeItemIdx _idx, int _formTreeAdd = FormTreeAdd::Sort, boolean _skipAddHeader = false, str _extensionName = '')
     {
         System.Type t = _object.GetType();
         
@@ -420,7 +517,7 @@ public class ARBAOTObjectTree
     /// <param name = "_parentIdx">The parent index to add the collection to</param>
     /// <param name = "_formTreeAdd">The method for adding the collection to the tree</param>
     /// <returns>The index of the collection</returns>
-    protected TreeItemIdx addCollectionToTree(System.Collections.IEnumerable _collection, str _collectionName, TreeItemIdx _parentIdx, FormTreeAdd _formTreeAdd)
+    protected TreeItemIdx addCollectionToTree(System.Collections.IEnumerable _collection, str _collectionName, TreeItemIdx _parentIdx, int _formTreeAdd)
     {
         boolean insertIntoMap = false;
         if (treeControl.getRoot() == _parentIdx)
@@ -438,7 +535,8 @@ public class ARBAOTObjectTree
         }
 
         TreeItemIdx idx = _parentIdx;
-        if (_collectionName != 'Controls')
+        if ((_collectionName != 'Controls' && _collectionName != 'Elements')
+            || (treeControl.getItem(_parentIdx).data() is AxFormExtension))
         {
             idx = SysFormTreeControl::addTreeItem(treeControl, _collectionName, _parentIdx, _collection, 0, true, 0, _formTreeAdd);
         }
@@ -474,9 +572,24 @@ public class ARBAOTObjectTree
     /// <param name = "_extension">The extension</param>
     /// <param name = "_parentIdx">The parent index</param>
     /// <param name = "_extensionName">The extension name</param>
-    protected void addExtension(anytype _extension, TreeItemIdx _parentIdx, str _extensionName)
+    /// <param name = "_positionType">The position the control should be added</param>
+    /// <param name = "_afterItemIdx">The index where the control should be inserted after</param>
+    protected void addExtension(anytype _extension, TreeItemIdx _parentIdx, str _extensionName, CoreMetaModel.ExtensionItemPositionType _positionType =CoreMetaModel.ExtensionItemPositionType::End, int _afterItemIdx = 0)
     {
-        TreeItemIdx extIdx = this.addTreeNode(_extension, _parentIdx, FormTreeAdd::Last, false, _extensionName);
+        int formTreeAdd;
+        switch (_positionType)
+        {
+            case CoreMetaModel.ExtensionItemPositionType::Begin:
+                formTreeAdd = FormTreeAdd::First;
+                break;
+            case CoreMetaModel.ExtensionItemPositionType::End:
+                formTreeAdd = FormTreeAdd::Last;
+                break;
+            case CoreMetaModel.ExtensionItemPositionType::AfterItem:
+                formTreeAdd = _afterItemIdx;
+                break;
+        }
+        TreeItemIdx extIdx = this.addTreeNode(_extension, _parentIdx, formTreeAdd, false, _extensionName);
         FormTreeItem control = treeControl.getItem(extIdx);
         control.stateBold(true);
         treeControl.setItem(control);
@@ -507,6 +620,32 @@ public class ARBAOTObjectTree
         _control.text(_control.text() + ' (' + _extensionName + ')');
         _control.stateBold(true);
         treeControl.setItem(_control);
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>getNamedNode</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Get the index of the node in a sibling group based on the name
+    /// </summary>
+    /// <param name = "_parentIdx">The parent index</param>
+    /// <param name = "_nodeName">The node name</param>
+    /// <returns>The index of the node</returns>
+    protected TreeItemIdx getNamedNode(TreeItemIdx _parentIdx, str _nodeName)
+    {
+        TreeItemIdx childIdx = treeControl.getChild(_parentIdx);
+        FormTreeItem ret;
+
+        do
+        {
+            ret = treeControl.getItem(childIdx);
+            childIdx = treeControl.getNextSibling(childIdx);
+        }
+        while (ret.text() != _nodeName && childIdx > 0);
+
+        return ret.idx();
     }
 
 ]]></Source>

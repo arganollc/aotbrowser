@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
-	<Name>ARBAOTObjectTreeForm</Name>
+	<Name>ARBAOTObjectTreeMenu</Name>
 	<SourceCode>
 		<Declaration><![CDATA[
 using Xpp = Microsoft.Dynamics.Ax.Xpp;
@@ -9,12 +9,13 @@ using Microsoft.Dynamics.AX.Metadata.MetaModel;
 using CoreMetaModel = Microsoft.Dynamics.AX.Metadata.Core.MetaModel;
 
 /// <summary>
-/// Override the Object Tree for Forms
+/// Override the Object Tree for Views
 /// </summary>
-[ARBAOTObjectType(ARBAOTObjectType::Form)]
-class ARBAOTObjectTreeForm extends ARBAOTObjectTree
+[ARBAOTObjectType(ARBAOTObjectType::Menu)]
+class ARBAOTObjectTreeMenu extends ARBAOTObjectTree
 {
-    Map controlMap = new Map(Types::String, Types::Integer);
+    Map elementMap = new Map(Types::String, Types::Integer);
+    Map currentElementMap;
 
 }
 ]]></Declaration>
@@ -33,18 +34,26 @@ class ARBAOTObjectTreeForm extends ARBAOTObjectTree
         System.Collections.IEnumerator modsEnum;
         switch (_collectionName)
         {
-            case 'Controls':
+            case 'Elements':
                 modsEnum = _collection.GetEnumerator();
-                while (modsEnum.moveNext())
+                while (modsEnum.MoveNext())
                 {
-                    AxFormExtensionControl controlExt = modsEnum.Current;
-                    TreeItemIdx parentIdx = controlMap.lookup(controlExt.Parent);
-                    TreeItemIdx afterIdx;
-                    if (controlExt.PositionType == CoreMetaModel.ExtensionItemPositionType::AfterItem)
+                    AxMenuExtensionElement menuExt = modsEnum.Current;
+                    TreeItemIdx parentIdx;
+                    if (menuExt.Parent == '')
                     {
-                        afterIdx = SysFormTreeControl::findInsertAfterIdx(treeControl, parentIdx, controlExt.PreviousSibling);
+                        parentIdx = treeControl.getRoot();
                     }
-                    this.addExtension(controlExt.FormControl, parentIdx, _extensionName, controlExt.PositionType, afterIdx);
+                    else
+                    {
+                        parentIdx = elementMap.lookup(menuExt.Parent);
+                    }
+                    TreeItemIdx afterIdx;
+                    if (menuExt.PositionType == CoreMetaModel.ExtensionItemPositionType::AfterItem)
+                    {
+                        afterIdx = SysFormTreeControl::findInsertAfterIdx(treeControl, parentIdx, menuExt.PreviousSibling);
+                    }
+                    this.addExtension(menuExt.MenuElement, parentIdx, _extensionName, menuExt.PositionType, afterIdx);
                 }
                 break;
             default:
@@ -70,24 +79,24 @@ class ARBAOTObjectTreeForm extends ARBAOTObjectTree
     {
         str objectName = this.getObjectName(_object);
         boolean insertIntoMap = false;
-        if (_object is AxFormDesign)
+        if (_object is AxMenu)
         {
             insertIntoMap = true;
-            currentMap = controlMap;
-            collectionMap.insert('Controls', controlMap);
+            currentElementMap = elementMap;
+            collectionMap.insert('MenuElements', elementMap);
         }
 
         TreeItemIdx parentIdx = super(_object, _idx, _formTreeAdd, _skipAddHeader, _extensionName);
 
-        if (insertIntoMap)
+        if (currentElementMap != null
+            && (_object is AxMenuElement))
         {
-            currentMap = null;
+            currentElementMap.insert(objectName, parentIdx);
         }
 
-        if (currentMap != null
-            && (_object is AxFormControl))
+        if (insertIntoMap)
         {
-            currentMap.insert(objectName, parentIdx);
+            currentElementMap = null;
         }
 
         return parentIdx;

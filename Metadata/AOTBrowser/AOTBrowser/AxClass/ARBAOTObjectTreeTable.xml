@@ -27,21 +27,69 @@ class ARBAOTObjectTreeTable extends ARBAOTObjectTree
         AxTable table = Xpp.MetadataSupport::GetTable(_aotNodeName);
         if (table != null)
         {
-            TreeItemIdx rootIdx = this.updateObjectTree(table, table.Name);
-            var tableExtensions = Xpp.MetadataSupport::GetTableExtensionsForTable(_aotNodeName);
-            System.Collections.IEnumerator enumerator = tableExtensions.GetEnumerator();
-
-            TreeItemIdx extensionsIdx = SysFormTreeControl::addTreeItem(treeControl, 'Extensions', rootIdx, tableExtensions, 0, true);
-            while (enumerator.moveNext())
-            {
-                this.addTreeNode(enumerator.Current, extensionsIdx);
-            }
-            treeControl.select(rootIdx);
+            super(_aotNodeName);
         }
         else
         {
             ARBAOTObjectTree objectTree = ARBAOTObjectTree::newFromAOTObject(treeControl, ARBAOTObjectType::View, extensionsInline);
             objectTree.update(_aotNodeName);
+        }
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>addExtensionCollection</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Adds a collection of extensions to the tree
+    /// </summary>
+    /// <param name = "_collection">The collection to add</param>
+    /// <param name = "_collectionName">The collection name</param>
+    /// <param name = "_extensionName">The extension name</param>
+    protected void addExtensionCollection(System.Collections.IEnumerable _collection, str _collectionName, str _extensionName)
+    {
+        switch (_collectionName)
+        {
+            case 'FieldGroupExtensions':
+                System.Collections.IEnumerator fieldGroupEnum = _collection.GetEnumerator();
+                if (collectionMap.exists('FieldGroups'))
+                {
+                    Map fieldGroupsMap = collectionMap.lookup('FieldGroups');
+                    while (fieldGroupEnum.MoveNext())
+                    {
+                        AxTableFieldGroupExtension fieldGroupExtension = fieldGroupEnum.Current;
+                        TreeItemIdx parentIdx = fieldGroupsMap.lookup(fieldGroupExtension.Name);
+                        parentIdx = treeControl.getChild(parentIdx); // Get the index of the Fields node
+                        var fieldsEnum = fieldGroupExtension.Fields.GetEnumerator();
+                        while (fieldsEnum.MoveNext())
+                        {
+                            this.addExtension(fieldsEnum.Current, parentIdx, _extensionName);
+                        }
+                    }
+                }
+                break;
+            case 'RelationExtensions':
+                System.Collections.IEnumerator relationEnum = _collection.GetEnumerator();
+                if (collectionMap.exists('Relations'))
+                {
+                    Map relationsMap = collectionMap.lookup('Relations');
+                    while (relationEnum.MoveNext())
+                    {
+                        AxTableRelationExtension relationExtension = relationEnum.Current;
+                        TreeItemIdx parentIdx = relationsMap.lookup(relationExtension.Name);
+                        parentIdx = treeControl.getChild(parentIdx); // Get the index of the Constraints node
+                        var constraintsEnum = relationExtension.RelationConstraints.GetEnumerator();
+                        while (constraintsEnum.MoveNext())
+                        {
+                            this.addExtension(constraintsEnum.Current, parentIdx, _extensionName);
+                        }
+                    }
+                }
+                break;
+            default:
+                super(_collection, _collectionName, _extensionName);
+                break;
         }
     }
 
