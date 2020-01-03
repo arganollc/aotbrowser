@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>ARBObjectExtension</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// Holds the object and its extensions
+/// </summary>
+public class ARBObjectExtension
+{
+    public anytype Object;
+    public List Extensions = new List(Types::AnyType);
+    public Map Modifications = new Map(Types::String, Types::AnyType);
+}
+]]></Declaration>
+		<Methods />
+	</SourceCode>
+</AxClass>

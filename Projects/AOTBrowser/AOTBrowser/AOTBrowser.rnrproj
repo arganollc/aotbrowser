@@ -33,6 +33,7 @@
     <Folder Include="Base Enums\" />
     <Folder Include="Classes\" />
     <Folder Include="Display Menu Items\" />
+    <Folder Include="EDT Enums\" />
     <Folder Include="Extended Data Types\" />
     <Folder Include="Form Extensions\" />
     <Folder Include="Forms\" />
@@ -119,6 +120,11 @@
       <Name>ARBFormControlPersonalization_EventHandler</Name>
       <Link>Classes\ARBFormControlPersonalization_EventHandler</Link>
     </Content>
+    <Content Include="AxClass\ARBObjectExtension">
+      <SubType>Content</SubType>
+      <Name>ARBObjectExtension</Name>
+      <Link>Classes\ARBObjectExtension</Link>
+    </Content>
     <Content Include="AxClass\ARBObjectModification">
       <SubType>Content</SubType>
       <Name>ARBObjectModification</Name>
@@ -128,6 +134,11 @@
       <SubType>Content</SubType>
       <Name>ARBAOTProperties</Name>
       <Link>Extended Data Types\ARBAOTProperties</Link>
+    </Content>
+    <Content Include="AxEdt\ARBAOTPropertyModified">
+      <SubType>Content</SubType>
+      <Name>ARBAOTPropertyModified</Name>
+      <Link>EDT Enums\ARBAOTPropertyModified</Link>
     </Content>
     <Content Include="AxEdt\ARBAOTPropertyValue">
       <SubType>Content</SubType>

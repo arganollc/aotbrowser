@@ -1,0 +1,551 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxEdt xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns=""
+	i:type="AxEdtEnum">
+	<Name>ARBAOTPropertyModified</Name>
+	<Label>@SYS27395</Label>
+	<ArrayElements>
+		<AxEdtArrayElement>
+			<Name>Mod02</Name>
+			<Index>2</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod03</Name>
+			<Index>3</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod04</Name>
+			<Index>4</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod05</Name>
+			<Index>5</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod06</Name>
+			<Index>6</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod07</Name>
+			<Index>7</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod08</Name>
+			<Index>8</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod09</Name>
+			<Index>9</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod10</Name>
+			<Index>10</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod11</Name>
+			<Index>11</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod12</Name>
+			<Index>12</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod13</Name>
+			<Index>13</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod14</Name>
+			<Index>14</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod15</Name>
+			<Index>15</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod16</Name>
+			<Index>16</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod17</Name>
+			<Index>17</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod18</Name>
+			<Index>18</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod19</Name>
+			<Index>19</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod20</Name>
+			<Index>20</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod21</Name>
+			<Index>21</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod22</Name>
+			<Index>22</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod23</Name>
+			<Index>23</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod24</Name>
+			<Index>24</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod25</Name>
+			<Index>25</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod26</Name>
+			<Index>26</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod27</Name>
+			<Index>27</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod28</Name>
+			<Index>28</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod29</Name>
+			<Index>29</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod30</Name>
+			<Index>30</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod40</Name>
+			<Index>31</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod41</Name>
+			<Index>32</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod42</Name>
+			<Index>33</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod43</Name>
+			<Index>34</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod44</Name>
+			<Index>35</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod45</Name>
+			<Index>36</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod46</Name>
+			<Index>37</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod47</Name>
+			<Index>38</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod48</Name>
+			<Index>39</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod49</Name>
+			<Index>40</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod50</Name>
+			<Index>41</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod51</Name>
+			<Index>42</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod52</Name>
+			<Index>43</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod53</Name>
+			<Index>44</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod54</Name>
+			<Index>45</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod55</Name>
+			<Index>46</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod56</Name>
+			<Index>47</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod57</Name>
+			<Index>48</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod58</Name>
+			<Index>49</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod59</Name>
+			<Index>50</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod60</Name>
+			<Index>51</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod61</Name>
+			<Index>52</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod62</Name>
+			<Index>53</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod63</Name>
+			<Index>54</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod64</Name>
+			<Index>55</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod65</Name>
+			<Index>56</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod66</Name>
+			<Index>57</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod67</Name>
+			<Index>58</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod68</Name>
+			<Index>59</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod69</Name>
+			<Index>60</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod70</Name>
+			<Index>61</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod71</Name>
+			<Index>62</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod72</Name>
+			<Index>63</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod73</Name>
+			<Index>64</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod74</Name>
+			<Index>65</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod75</Name>
+			<Index>66</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod76</Name>
+			<Index>67</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod77</Name>
+			<Index>68</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod78</Name>
+			<Index>69</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod79</Name>
+			<Index>70</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod80</Name>
+			<Index>71</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod81</Name>
+			<Index>72</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod82</Name>
+			<Index>73</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod83</Name>
+			<Index>74</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod84</Name>
+			<Index>75</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod85</Name>
+			<Index>76</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod86</Name>
+			<Index>77</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod87</Name>
+			<Index>78</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod88</Name>
+			<Index>79</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod89</Name>
+			<Index>80</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod90</Name>
+			<Index>81</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod91</Name>
+			<Index>82</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod92</Name>
+			<Index>83</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod93</Name>
+			<Index>84</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod94</Name>
+			<Index>85</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod95</Name>
+			<Index>86</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod96</Name>
+			<Index>87</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod97</Name>
+			<Index>88</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod98</Name>
+			<Index>89</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod99</Name>
+			<Index>90</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+		<AxEdtArrayElement>
+			<Name>Mod100</Name>
+			<Index>91</Index>
+			<Relations />
+			<TableReferences />
+		</AxEdtArrayElement>
+	</ArrayElements>
+	<Relations />
+	<TableReferences />
+	<EnumType>NoYes</EnumType>
+</AxEdt>

@@ -21,6 +21,7 @@ public class ARBAOTBrowser extends FormRun
     const str PropertiesMatrixGridName = 'PropertiesMatrixGrid';
     FormGridControl propertiesMatrixGrid;
     boolean extensionsInline;
+    Map matrixControlMap;
 
     #define.CurrentVersion(1)
     #localmacro.CurrentList
@@ -232,6 +233,7 @@ public class ARBAOTBrowser extends FormRun
         DetailsDetailsPropertiesGroup.heightMode(FormHeight::ColumnHeight);
         PropertiesGrid.widthMode(FormWidth::ColumnWidth);
         PropertiesGrid.heightMode(FormHeight::ColumnHeight);
+        matrixControlMap = new Map(Types::String, Types::Integer);
     }
 
 ]]></Source>
@@ -241,69 +243,123 @@ public class ARBAOTBrowser extends FormRun
 				<Source><![CDATA[
     public void updatePropertiesGroup(anytype _object)
     {
-        delete_from ARBAOTObjectProperties;
-        delete_from ARBAOTObjectPropertiesMatrix;
-        
-        if (!(typeOf(_object) == Types::String) && !(_object is System.String))
-        {
-            if (_object is System.Collections.IEnumerable)
-            {
-                element.clearPropertiesMatrix(true);
-                var enumerable = _object as System.Collections.IEnumerable;
-                PropertiesGrid.visible(false);
-                System.Collections.IEnumerator enumerator = enumerable.GetEnumerator();
-                Map propMap = new Map(Types::String, Types::Integer);
-                int nextArrayNum = 1;
-                FormStringControl previousControl = propertiesMatrixGrid.addDataField(ARBAOTObjectPropertiesMatrix_ds.id(), fieldNum(ARBAOTObjectPropertiesMatrix, TypeName));
-                while (enumerator.moveNext())
-                {
-                    anytype object = enumerator.Current;
-                    System.Type t = object.GetType();
-                    PropertyInfo nameProp = t.GetProperty(ARBAOTBrowserConstants::Name);
-                    str name;
-                    if (nameProp != null)
-                    {
-                        name = nameProp.GetValue(object).ToString();
-                    }
-                    ARBAOTObjectPropertiesMatrix.clear();
-                    ARBAOTObjectPropertiesMatrix.TypeName = name;
+        Map propMap = new Map(Types::String, Types::Integer);
+        int nextArrayNum = 1;
+        FormStringControl previousControl;
 
-                    var props = t.GetProperties();
-                    for (int i = 0; i < props.Length; i++)
-                    {
-                        PropertyInfo prop = props.GetValue(i);
-                        if (((prop.GetValue(object) is System.String) ||
-                            (!(prop.GetValue(object) is System.Collections.IEnumerable)
+        void addObjectToMatrix(anytype objectLocal, boolean setModified)
+        {
+            System.Type t = objectLocal.GetType();
+            PropertyInfo nameProp = t.GetProperty(ARBAOTBrowserConstants::Name);
+            str name;
+            if (nameProp != null)
+            {
+                name = nameProp.GetValue(objectLocal).ToString();
+            }
+            ARBAOTObjectPropertiesMatrix.clear();
+            ARBAOTObjectPropertiesMatrix.TypeName = name;
+
+            var props = t.GetProperties();
+            for (int i = 0; i < props.Length; i++)
+            {
+                PropertyInfo prop = props.GetValue(i);
+                if (((prop.GetValue(objectLocal) is System.String) ||
+                            (!(prop.GetValue(objectLocal) is System.Collections.IEnumerable)
                                 && prop.PropertyType.Name != ARBAOTBrowserConstants::AxPropertyCollection
                                 && prop.PropertyType.Name != ARBAOTBrowserConstants::AxFormPropertyCollection))
                             && prop.Name != ARBAOTBrowserConstants::CompilerMetadata
                             && prop.Name != ARBAOTBrowserConstants::Design
                             && prop.Name != ARBAOTBrowserConstants::FormControl)
-                        {
-                            int arrayNum;
-                            if (propMap.exists(prop.Name))
-                            {
-                                arrayNum = propMap.lookup(prop.Name);
-                            }
-                            if (arrayNum == 0)
-                            {
-                                arrayNum = nextArrayNum;
-
-                                if (arrayNum > 100)
-                                {
-                                    continue;
-                                }
-
-                                nextArrayNum++;
-                                propMap.insert(prop.Name, arrayNum);
-                                previousControl = propertiesMatrixGrid.addDataField(ARBAOTObjectPropertiesMatrix_ds.id(), fieldNum(ARBAOTObjectPropertiesMatrix, Property), previousControl, arrayNum);
-                                previousControl.label(prop.Name);
-                            }
-
-                            ARBAOTObjectPropertiesMatrix.Property[arrayNum] = this.getPropertyValue(prop, object);
-                        }
+                {
+                    int arrayNum;
+                    if (propMap.exists(prop.Name))
+                    {
+                        arrayNum = propMap.lookup(prop.Name);
                     }
-                    ARBAOTObjectPropertiesMatrix.insert();
+                    if (arrayNum == 0)
+                    {
+                        arrayNum = nextArrayNum;
+
+                        if (arrayNum > 100)
+                        {
+                            continue;
+                        }
+
+                        nextArrayNum++;
+                        propMap.insert(prop.Name, arrayNum);
+                        previousControl = propertiesMatrixGrid.addDataField(ARBAOTObjectPropertiesMatrix_ds.id(), fieldNum(ARBAOTObjectPropertiesMatrix, Property), previousControl, arrayNum);
+                        matrixControlMap.insert(strFmt('%1;%2', fieldNum(ARBAOTObjectPropertiesMatrix, Property), arrayNum), previousControl.id());
+                        previousControl.label(prop.Name);
+                    }
+
+                    ARBAOTObjectPropertiesMatrix.Property[arrayNum] = this.getPropertyValue(prop, objectLocal);
+                }
+            }
+            if (setModified)
+            {
+                ARBAOTObjectPropertiesMatrix.Modified = NoYes::Yes;
+            }
+            ARBAOTObjectPropertiesMatrix.insert();
+        }
+
+        delete_from ARBAOTObjectProperties;
+        delete_from ARBAOTObjectPropertiesMatrix;
+        
+        if (!(typeOf(_object) == Types::String) && !(_object is System.String))
+        {
+            if (_object is System.Collections.IEnumerable
+                || _object is ARBObjectExtension)
+            {
+                element.clearPropertiesMatrix(true);
+                System.Collections.IEnumerable enumerable;
+                ARBObjectExtension objectExtension = _object as ARBObjectExtension;
+                if (objectExtension == null)
+                {
+                    enumerable = _object as System.Collections.IEnumerable;
+                }
+                else
+                {
+                    enumerable = objectExtension.Object as System.Collections.IEnumerable;
+                }
+                PropertiesGrid.visible(false);
+                System.Collections.IEnumerator enumerator = enumerable.GetEnumerator();
+                
+                
+                previousControl = propertiesMatrixGrid.addDataField(ARBAOTObjectPropertiesMatrix_ds.id(), fieldNum(ARBAOTObjectPropertiesMatrix, TypeName));
+                matrixControlMap.insert(strFmt('%1;%2', fieldNum(ARBAOTObjectPropertiesMatrix, TypeName), 0), previousControl.id());
+                while (enumerator.moveNext())
+                {
+                    addObjectToMatrix(enumerator.Current, false);
+                }
+
+                if (objectExtension != null)
+                {
+                    ListEnumerator extEnum = objectExtension.Extensions.getEnumerator();
+                    while (extEnum.moveNext())
+                    {
+                        addObjectToMatrix(extEnum.current(), true);
+                    }
+
+                    MapEnumerator modsEnum = objectExtension.Modifications.getEnumerator();
+                    while (modsEnum.MoveNext())
+                    {
+                        AxExtensionModification modification = modsEnum.currentValue();
+                        ARBAOTObjectPropertiesMatrix::find(ARBAOTObjectPropertiesMatrix, modsEnum.currentKey(), true);
+
+                        var propModsEnum = modification.PropertyModifications.GetEnumerator();
+                        while (propModsEnum.MoveNext())
+                        {
+                            AxPropertyModification propMod = propModsEnum.Current;
+                            ttsbegin;
+                            int arrayNum = propMap.lookup(propMod.Name);
+                            ARBAOTObjectPropertiesMatrix.Property[arrayNum] = propMod.Value;
+                            ARBAOTObjectPropertiesMatrix.PropertyModified[arrayNum] = NoYes::Yes;
+                            
+                            ttscommit;
+                        }
+                        ARBAOTObjectPropertiesMatrix.update();
+                    }
+
                 }
 
                 propertiesMatrixGrid.visible(true);
@@ -479,6 +535,50 @@ public class ARBAOTBrowser extends FormRun
             if (property.Modified)
             {
                 _options.fontBold(true);
+            }
+
+            super(_record, _options);
+        }
+
+]]></Source>
+					</Method>
+				</Methods>
+				<Fields />
+			</DataSource>
+			<DataSource>
+				<Name>ARBAOTObjectPropertiesMatrix</Name>
+				<Methods>
+					<Method>
+						<Name>displayOption</Name>
+						<Source><![CDATA[
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name = "_record"></param>
+        /// <param name = "_options"></param>
+        public void displayOption(Common _record, FormRowDisplayOption _options)
+        {
+            ARBAOTObjectPropertiesMatrix property = _record;
+            if (property.Modified)
+            {
+                _options.fontBold(true);
+            }
+            else
+            {
+                boolean needBold = false;
+                for (int i = 1; i <= 100; i++)
+                {
+                    if (property.PropertyModified[i])
+                    {
+                        _options.affectedElementsByControl(matrixControlMap.lookup(strFmt('%1;%2', fieldNum(ARBAOTObjectPropertiesMatrix, Property), i)));
+                        needBold = true;
+                    }
+                }
+                if (needBold)
+                {
+                    _options.affectedElementsByControl(matrixControlMap.lookup(strFmt('%1;%2', fieldNum(ARBAOTObjectPropertiesMatrix, TypeName), 0)));
+                    _options.fontBold(true);
+                }
             }
 
             super(_record, _options);
