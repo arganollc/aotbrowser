@@ -417,7 +417,15 @@ public class ARBAOTBrowser extends FormRun
                             ARBAOTObjectProperties::find(ARBAOTObjectProperties, propMod.Name, true);
                             ARBAOTObjectProperties.Value = propMod.Value;
                             ARBAOTObjectProperties.Modified = NoYes::Yes;
-                            ARBAOTObjectProperties.update();
+                            if (ARBAOTObjectProperties)
+                            {
+                                ARBAOTObjectProperties.update();
+                            }
+                            else
+                            {
+                                ARBAOTObjectProperties.Name = propMod.Name;
+                                ARBAOTObjectProperties.insert();
+                            }
                             ttscommit;
                         }
                     }

@@ -44,7 +44,9 @@ class ARBAOTObjectTreeForm extends ARBAOTObjectTree
                     {
                         afterIdx = SysFormTreeControl::findInsertAfterIdx(treeControl, parentIdx, controlExt.PreviousSibling);
                     }
+                    currentMap = controlMap;
                     this.addExtension(controlExt.FormControl, parentIdx, _extensionName, controlExt.PositionType, afterIdx);
+                    currentMap = null;
                 }
                 break;
             default:

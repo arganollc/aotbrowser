@@ -651,7 +651,17 @@ public class ARBAOTObjectTree
         }
         List mods = modification.Modifications;
         mods.addEnd(_mod);
-        _control.text(_control.text() + ' (' + _extensionName + ')');
+        if (!strEndsWith(_control.text(), '...'))
+        {
+            if (strLen(_control.text()) < 60)
+            {
+                _control.text(_control.text() + ' (' + _extensionName + ')');
+            }
+            else
+            {
+                _control.text(_control.text() + '...');
+            }
+        }
         _control.stateBold(true);
         treeControl.setItem(_control);
     }
