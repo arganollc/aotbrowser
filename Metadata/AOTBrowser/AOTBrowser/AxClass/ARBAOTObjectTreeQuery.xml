@@ -34,56 +34,56 @@ class ARBAOTObjectTreeQuery extends ARBAOTObjectTree
         System.Collections.IEnumerator modsEnum;
         switch (_collectionName)
         {
-            case 'RootDataSources':
+            case ARBAOTBrowserConstants::RootDataSources:
                 modsEnum = _collection.GetEnumerator();
-                if (collectionMap.exists('DataSources'))
+                if (collectionMap.exists(ARBAOTBrowserConstants::DataSources))
                 {
-                    Map fieldGroupsMap = collectionMap.lookup('DataSources');
-                    TreeItemIdx rootNodeIdx = fieldGroupsMap.lookup('RootNode');
+                    Map fieldGroupsMap = collectionMap.lookup(ARBAOTBrowserConstants::DataSources);
+                    TreeItemIdx rootNodeIdx = fieldGroupsMap.lookup(ARBAOTBrowserConstants::RootNode);
                     while (modsEnum.MoveNext())
                     {
                         this.addExtension(modsEnum.Current, rootNodeIdx, _extensionName);
                     }
                 }
                 break;
-            case 'DataSources':
+            case ARBAOTBrowserConstants::DataSources:
                 modsEnum = _collection.GetEnumerator();
                 while (modsEnum.MoveNext())
                 {
                     AxQueryExtensionEmbeddedDataSource ds = modsEnum.Current;
-                    this.addExtension(ds.DataSource, this.getNamedNode(dataSourceMap.lookup(ds.Parent), 'DataSources'), _extensionName);
+                    this.addExtension(ds.DataSource, this.getNamedNode(dataSourceMap.lookup(ds.Parent), ARBAOTBrowserConstants::DataSources), _extensionName);
                 }
                 break;
-            case 'Ranges':
+            case ARBAOTBrowserConstants::Ranges:
                 modsEnum = _collection.GetEnumerator();
                 while (modsEnum.MoveNext())
                 {
                     AxQueryExtensionQueryDataSourceRange range = modsEnum.Current;
-                    this.addExtension(range.QueryDataSourceRange, this.getNamedNode(dataSourceMap.lookup(range.Parent), 'Ranges'), _extensionName);
+                    this.addExtension(range.QueryDataSourceRange, this.getNamedNode(dataSourceMap.lookup(range.Parent), ARBAOTBrowserConstants::Ranges), _extensionName);
                 }
                 break;
-            case 'Relations':
+            case ARBAOTBrowserConstants::Relations:
                 modsEnum = _collection.GetEnumerator();
                 while (modsEnum.MoveNext())
                 {
                     AxQueryExtensionQueryDataSourceRelation relation = modsEnum.Current;
-                    this.addExtension(relation.QueryDataSourceRelation, this.getNamedNode(dataSourceMap.lookup(relation.Parent), 'Relations'), _extensionName);
+                    this.addExtension(relation.QueryDataSourceRelation, this.getNamedNode(dataSourceMap.lookup(relation.Parent), ARBAOTBrowserConstants::Relations), _extensionName);
                 }
                 break;
-            case 'Fields':
+            case ARBAOTBrowserConstants::Fields:
                 modsEnum = _collection.GetEnumerator();
                 while (modsEnum.MoveNext())
                 {
                     AxQueryExtensionQueryDataSourceField field = modsEnum.Current;
-                    this.addExtension(field.QueryDataSourceField, this.getNamedNode(dataSourceMap.lookup(field.Parent), 'Fields'), _extensionName);
+                    this.addExtension(field.QueryDataSourceField, this.getNamedNode(dataSourceMap.lookup(field.Parent), ARBAOTBrowserConstants::Fields), _extensionName);
                 }
                 break;
-            case 'OrderByFields':
+            case ARBAOTBrowserConstants::OrderByFields:
                 modsEnum = _collection.GetEnumerator();
                 while (modsEnum.MoveNext())
                 {
                     AxQueryExtensionQueryOrderByField field = modsEnum.Current;
-                    this.addExtension(field.QueryOrderByField, this.getNamedNode(dataSourceMap.lookup(field.Parent), 'OrderBy'), _extensionName);
+                    this.addExtension(field.QueryOrderByField, this.getNamedNode(dataSourceMap.lookup(field.Parent), ARBAOTBrowserConstants::OrderBy), _extensionName);
                 }
                 break;
             default:
@@ -120,7 +120,7 @@ class ARBAOTObjectTreeQuery extends ARBAOTObjectTree
         {
             insertIntoRangeMap = true;
             currentRangesMap = rangesMap;
-            collectionMap.insert('Ranges', rangesMap);
+            collectionMap.insert(ARBAOTBrowserConstants::Ranges, rangesMap);
         }
 
         TreeItemIdx parentIdx = super(_object, _idx, _formTreeAdd, _skipAddHeader, _extensionName);

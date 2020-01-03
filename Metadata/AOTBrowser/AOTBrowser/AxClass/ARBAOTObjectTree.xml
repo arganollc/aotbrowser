@@ -314,7 +314,7 @@ public class ARBAOTObjectTree
             TreeItemIdx extensionsIdx;
             if (!extensionsInline)
             {
-                extensionsIdx = SysFormTreeControl::addTreeItem(treeControl, 'Extensions', rootIdx, 'Extensions', 0, true);
+                extensionsIdx = SysFormTreeControl::addTreeItem(treeControl, ARBAOTBrowserConstants::Extensions, rootIdx, ARBAOTBrowserConstants::Extensions, 0, true);
             }
             while (enumerator.moveNext())
             {
@@ -330,7 +330,7 @@ public class ARBAOTObjectTree
                         var mods = prop.GetValue(enumerator.Current) as System.Collections.IEnumerable;
                         if (mods != null)
                         {
-                            if (prop.Name == 'PropertyModifications')
+                            if (prop.Name == ARBAOTBrowserConstants::PropertyModifications)
                             {
                                 FormTreeItem rootNode = treeControl.getItem(treeControl.getRoot());
                                 AxExtensionModification extMod = new AxExtensionModification();
@@ -368,9 +368,9 @@ public class ARBAOTObjectTree
     protected void addExtensionCollection(System.Collections.IEnumerable _collection, str _collectionName, str _extensionName)
     {
         System.Collections.IEnumerator modEnum = _collection.GetEnumerator();
-        if (strEndsWith(_collectionName, 'Modifications'))
+        if (strEndsWith(_collectionName, ARBAOTBrowserConstants::Modifications))
         {
-            str modName = strReplace(_collectionName, 'Modifications', 's');
+            str modName = strReplace(_collectionName, ARBAOTBrowserConstants::Modifications, 's');
             System.Collections.IEnumerator modsEnum = _collection.GetEnumerator();
             if (collectionMap.exists(modName))
             {
@@ -387,7 +387,7 @@ public class ARBAOTObjectTree
             if (collectionMap.exists(_collectionName))
             {
                 Map modMap = collectionMap.lookup(_collectionName);
-                TreeItemIdx rootNodeIdx = modMap.lookup('RootNode');
+                TreeItemIdx rootNodeIdx = modMap.lookup(ARBAOTBrowserConstants::RootNode);
                 while (modEnum.MoveNext())
                 {
                     if (modEnum.Current is AxExtensionModification)
@@ -456,14 +456,14 @@ public class ARBAOTObjectTree
         {
             
             PropertyInfo prop = props.GetValue(i);
-            if (prop.PropertyType.Name != 'String'
-                && (prop.Name == 'ViewMetadata' || prop.Name == 'DataSource' || prop.Name == 'Design' || prop.Name == 'FormControl'))
+            if (prop.PropertyType.Name != ARBAOTBrowserConstants::String
+                && (prop.Name == ARBAOTBrowserConstants::ViewMetadata || prop.Name == ARBAOTBrowserConstants::DataSource || prop.Name == ARBAOTBrowserConstants::Design || prop.Name == ARBAOTBrowserConstants::FormControl))
             {
                 var propValue = prop.GetValue(_object);
                 TreeItemIdx idx = SysFormTreeControl::addTreeItem(treeControl, prop.Name, parentIdx, propValue, 0, true, 0, _formTreeAdd);
-                this.addTreeNode(propValue, idx, prop.Name == 'Design' ? FormTreeAdd::Last : _formTreeAdd, true);
+                this.addTreeNode(propValue, idx, prop.Name == ARBAOTBrowserConstants::Design ? FormTreeAdd::Last : _formTreeAdd, true);
             }
-            else if (prop.PropertyType.Name == 'KeyedObjectCollection`1')
+            else if (prop.PropertyType.Name == ARBAOTBrowserConstants::KeyedObjectCollection)
             {
                 var col = prop.GetValue(_object) as System.Collections.IEnumerable;
                 this.addCollectionToTree(col, prop.Name, parentIdx, _formTreeAdd);
@@ -535,7 +535,7 @@ public class ARBAOTObjectTree
         }
 
         TreeItemIdx idx = _parentIdx;
-        if ((_collectionName != 'Controls' && _collectionName != 'Elements')
+        if ((_collectionName != ARBAOTBrowserConstants::Controls && _collectionName != ARBAOTBrowserConstants::Elements)
             || (treeControl.getItem(_parentIdx).data() is AxFormExtension))
         {
             idx = SysFormTreeControl::addTreeItem(treeControl, _collectionName, _parentIdx, _collection, 0, true, 0, _formTreeAdd);
@@ -554,7 +554,7 @@ public class ARBAOTObjectTree
 
         if (insertIntoMap)
         {
-            currentMap.insert('RootNode', idx);
+            currentMap.insert(ARBAOTBrowserConstants::RootNode, idx);
             currentMap = null;
         }
 

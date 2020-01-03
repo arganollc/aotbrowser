@@ -49,6 +49,11 @@
       <Name>AOTBrowser.en-US.label.txt</Name>
       <DependentUpon>AxLabelFile\AOTBrowser_en-US</DependentUpon>
     </Content>
+    <Content Include="AxClass\ARBAOTBrowserConstants">
+      <SubType>Content</SubType>
+      <Name>ARBAOTBrowserConstants</Name>
+      <Link>Classes\ARBAOTBrowserConstants</Link>
+    </Content>
     <Content Include="AxClass\ARBAOTObjectPopulateController">
       <SubType>Content</SubType>
       <Name>ARBAOTObjectPopulateController</Name>

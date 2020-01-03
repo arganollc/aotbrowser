@@ -33,7 +33,7 @@ class ARBAOTObjectTreeForm extends ARBAOTObjectTree
         System.Collections.IEnumerator modsEnum;
         switch (_collectionName)
         {
-            case 'Controls':
+            case ARBAOTBrowserConstants::Controls:
                 modsEnum = _collection.GetEnumerator();
                 while (modsEnum.moveNext())
                 {
@@ -74,7 +74,7 @@ class ARBAOTObjectTreeForm extends ARBAOTObjectTree
         {
             insertIntoMap = true;
             currentMap = controlMap;
-            collectionMap.insert('Controls', controlMap);
+            collectionMap.insert(ARBAOTBrowserConstants::Controls, controlMap);
         }
 
         TreeItemIdx parentIdx = super(_object, _idx, _formTreeAdd, _skipAddHeader, _extensionName);

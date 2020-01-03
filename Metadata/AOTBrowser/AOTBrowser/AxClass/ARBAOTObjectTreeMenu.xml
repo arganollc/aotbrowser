@@ -34,7 +34,7 @@ class ARBAOTObjectTreeMenu extends ARBAOTObjectTree
         System.Collections.IEnumerator modsEnum;
         switch (_collectionName)
         {
-            case 'Elements':
+            case ARBAOTBrowserConstants::Elements:
                 modsEnum = _collection.GetEnumerator();
                 while (modsEnum.MoveNext())
                 {
@@ -83,7 +83,7 @@ class ARBAOTObjectTreeMenu extends ARBAOTObjectTree
         {
             insertIntoMap = true;
             currentElementMap = elementMap;
-            collectionMap.insert('MenuElements', elementMap);
+            collectionMap.insert(ARBAOTBrowserConstants::MenuElements, elementMap);
         }
 
         TreeItemIdx parentIdx = super(_object, _idx, _formTreeAdd, _skipAddHeader, _extensionName);

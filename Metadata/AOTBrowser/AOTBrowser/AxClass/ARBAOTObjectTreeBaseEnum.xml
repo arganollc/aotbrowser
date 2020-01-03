@@ -28,11 +28,11 @@ class ARBAOTObjectTreeBaseEnum extends ARBAOTObjectTree
     {
         switch (_collectionName)
         {
-            case 'ValueModifications':
+            case ARBAOTBrowserConstants::ValueModifications:
                 System.Collections.IEnumerator valueModsEnum = _collection.GetEnumerator();
-                if (collectionMap.exists('EnumValues'))
+                if (collectionMap.exists(ARBAOTBrowserConstants::EnumValues))
                 {
-                    Map valuesMap = collectionMap.lookup('EnumValues');
+                    Map valuesMap = collectionMap.lookup(ARBAOTBrowserConstants::EnumValues);
                     while (valueModsEnum.MoveNext())
                     {
                         FormTreeItem control = treeControl.getItem(valuesMap.lookup(this.getObjectName(valueModsEnum.Current)));

@@ -18,6 +18,7 @@ using System.Linq.Enumerable;
 [Form]
 public class ARBAOTBrowser extends FormRun
 {
+    const str PropertiesMatrixGridName = 'PropertiesMatrixGrid';
     FormGridControl propertiesMatrixGrid;
     boolean extensionsInline;
 
@@ -213,7 +214,7 @@ public class ARBAOTBrowser extends FormRun
 
         if (_recreate)
         {
-            propertiesMatrixGrid = DetailsDetailsPropertiesGroup.addControl(FormControlType::Grid, 'PropertiesMatrixGrid');
+            propertiesMatrixGrid = DetailsDetailsPropertiesGroup.addControl(FormControlType::Grid, PropertiesMatrixGridName);
             propertiesMatrixGrid.dataSource(ARBAOTObjectPropertiesMatrix_ds.id());
             propertiesMatrixGrid.widthMode(FormWidth::ColumnWidth);
             propertiesMatrixGrid.heightMode(FormHeight::ColumnHeight);
@@ -258,7 +259,7 @@ public class ARBAOTBrowser extends FormRun
                 {
                     anytype object = enumerator.Current;
                     System.Type t = object.GetType();
-                    PropertyInfo nameProp = t.GetProperty('Name');
+                    PropertyInfo nameProp = t.GetProperty(ARBAOTBrowserConstants::Name);
                     str name;
                     if (nameProp != null)
                     {
@@ -273,11 +274,11 @@ public class ARBAOTBrowser extends FormRun
                         PropertyInfo prop = props.GetValue(i);
                         if (((prop.GetValue(object) is System.String) ||
                             (!(prop.GetValue(object) is System.Collections.IEnumerable)
-                                && prop.PropertyType.Name != 'AxPropertyCollection'
-                                && prop.PropertyType.Name != 'AxFormPropertyCollection'))
-                            && prop.Name != 'CompilerMetadata'
-                            && prop.Name != 'Design'
-                            && prop.Name != 'FormControl')
+                                && prop.PropertyType.Name != ARBAOTBrowserConstants::AxPropertyCollection
+                                && prop.PropertyType.Name != ARBAOTBrowserConstants::AxFormPropertyCollection))
+                            && prop.Name != ARBAOTBrowserConstants::CompilerMetadata
+                            && prop.Name != ARBAOTBrowserConstants::Design
+                            && prop.Name != ARBAOTBrowserConstants::FormControl)
                         {
                             int arrayNum;
                             if (propMap.exists(prop.Name))
@@ -332,11 +333,11 @@ public class ARBAOTBrowser extends FormRun
                     PropertyInfo prop = props.GetValue(i);
                     if (((prop.GetValue(object) is System.String) ||
                         (!(prop.GetValue(object) is System.Collections.IEnumerable)
-                            && prop.PropertyType.Name != 'AxPropertyCollection'
-                            && prop.PropertyType.Name != 'AxFormPropertyCollection'))
-                        && prop.Name != 'CompilerMetadata'
-                        && prop.Name != 'Design'
-                        && prop.Name != 'FormControl')
+                            && prop.PropertyType.Name != ARBAOTBrowserConstants::AxPropertyCollection
+                            && prop.PropertyType.Name != ARBAOTBrowserConstants::AxFormPropertyCollection))
+                        && prop.Name != ARBAOTBrowserConstants::CompilerMetadata
+                        && prop.Name != ARBAOTBrowserConstants::Design
+                        && prop.Name != ARBAOTBrowserConstants::FormControl)
                     {
                         ARBAOTObjectProperties.clear();
                         ARBAOTObjectProperties.Name = prop.Name;
@@ -386,14 +387,18 @@ public class ARBAOTBrowser extends FormRun
     protected str getPropertyValue(PropertyInfo _property, anytype _object)
     {
         str value;
-        if (_property.Name == 'ReturnType')
+        if (_property.Name == ARBAOTBrowserConstants::ReturnType)
         {
             AxMethodReturnType returnType = _property.GetValue(_object);
             value = returnType.Type.ToString() + ' - ' + returnType.TypeName;
         }
         else
         {
-            value = _property.Name == 'Label' || _property.Name == 'Description' || _property.Name == 'HelpText' || _property.Name == 'DeveloperDocumentation' || _property.Name == 'EntityRelationshipRole'
+            value = (_property.Name == ARBAOTBrowserConstants::Label
+                || _property.Name == ARBAOTBrowserConstants::Description
+                || _property.Name == ARBAOTBrowserConstants::HelpText
+                || _property.Name == ARBAOTBrowserConstants::DeveloperDocumentation
+                || _property.Name == ARBAOTBrowserConstants::EntityRelationshipRole)
                 ? SysLabel::labelId2String(_property.GetValue(_object).ToString())
                 : (_property.GetValue(_object) == null ? '' : _property.GetValue(_object).ToString());
         }
@@ -609,62 +614,62 @@ public class ARBAOTBrowser extends FormRun
 
             switch(ARBAOTObjectProperties.Name)
             {
-                case 'Table':
-                case 'RelatedTable':
+                case ARBAOTBrowserConstants::Table:
+                case ARBAOTBrowserConstants::RelatedTable:
                     args.parmEnum(ARBAOTObjectType::Table);
                     args.parm(this.valueStr());
                     new MenuFunction(menuItemDisplayStr(ARBAOTBrowser), MenuItemType::Display).run(args);
                     break;
 
-                case 'ExtendedDataType':
+                case ARBAOTBrowserConstants::ExtendedDataType:
                     args.parmEnum(ARBAOTObjectType::ExtendedDataType);
                     args.parm(this.valueStr());
                     new MenuFunction(menuItemDisplayStr(ARBAOTBrowser), MenuItemType::Display).run(args);
                     break;
 
-                case 'EnumType':
+                case ARBAOTBrowserConstants::EnumType:
                     args.parmEnum(ARBAOTObjectType::BaseEnum);
                     args.parm(this.valueStr());
                     new MenuFunction(menuItemDisplayStr(ARBAOTBrowser), MenuItemType::Display).run(args);
                     break;
 
-                case 'Tile':
+                case ARBAOTBrowserConstants::Tile:
                     args.parmEnum(ARBAOTObjectType::Tile);
                     args.parm(this.valueStr());
                     new MenuFunction(menuItemDisplayStr(ARBAOTBrowser), MenuItemType::Display).run(args);
                     break;
 
-                case 'DataEntity':
+                case ARBAOTBrowserConstants::DataEntity:
                     args.parmEnum(ARBAOTObjectType::DataEntity);
                     args.parm(this.valueStr());
                     new MenuFunction(menuItemDisplayStr(ARBAOTBrowser), MenuItemType::Display).run(args);
                     break;
 
-                case 'Object':
-                case 'ObjectName':
+                case ARBAOTBrowserConstants::Object:
+                case ARBAOTBrowserConstants::ObjectName:
                     props.setTmpData(ARBAOTObjectProperties);
                     select firstOnly props
-                        where props.Name == 'ObjectType';
+                        where props.Name == ARBAOTBrowserConstants::ObjectType;
                     if (props)
                     {
                         switch (props.Value)
                         {
-                            case 'Form':
+                            case ARBAOTBrowserConstants::Form:
                                 args.parmEnum(ARBAOTObjectType::Form);
                                 break;
-                            case 'Class':
+                            case ARBAOTBrowserConstants::ClassStr:
                                 args.parmEnum(ARBAOTObjectType::Class);
                                 break;
-                            case 'Query':
+                            case ARBAOTBrowserConstants::Query:
                                 args.parmEnum(ARBAOTObjectType::Query);
                                 break;
-                            case 'MenuItemAction':
+                            case ARBAOTBrowserConstants::MenuItemAction:
                                 args.parmEnum(ARBAOTObjectType::MenuItemAction);
                                 break;
-                            case 'MenuItemDisplay':
+                            case ARBAOTBrowserConstants::MenuItemDisplay:
                                 args.parmEnum(ARBAOTObjectType::MenuItemDisplay);
                                 break;
-                            case 'MenuItemOutput':
+                            case ARBAOTBrowserConstants::MenuItemOutput:
                                 args.parmEnum(ARBAOTObjectType::MenuItemOutput);
                                 break;
                         }
@@ -673,9 +678,9 @@ public class ARBAOTBrowser extends FormRun
                     }
                     break;
 
-                case 'Extends':
+                case ARBAOTBrowserConstants::ExtendsStr:
                     select firstOnly props
-                        where props.Name == 'SupportInheritance';
+                        where props.Name == ARBAOTBrowserConstants::SupportInheritance;
                     if (props)
                     {
                         args.parmEnum(ARBAOTObjectType::Table);
@@ -690,21 +695,21 @@ public class ARBAOTBrowser extends FormRun
                     }
                     break;
 
-                case 'MenuItemName':
+                case ARBAOTBrowserConstants::MenuItemName:
                     props.setTmpData(ARBAOTObjectProperties);
                     select firstOnly props
-                        where props.Name == 'MenuItemType';
+                        where props.Name == ARBAOTBrowserConstants::MenuItemType;
                     if (props)
                     {
                         switch (props.Value)
                         {
-                            case 'Display':
+                            case ARBAOTBrowserConstants::DisplayStr:
                                 args.parmEnum(ARBAOTObjectType::MenuItemDisplay);
                                 break;
-                            case 'Action':
+                            case ARBAOTBrowserConstants::Action:
                                 args.parmEnum(ARBAOTObjectType::MenuItemAction);
                                 break;
-                            case 'Output':
+                            case ARBAOTBrowserConstants::Output:
                                 args.parmEnum(ARBAOTObjectType::MenuItemOutput);
                                 break;
                         }

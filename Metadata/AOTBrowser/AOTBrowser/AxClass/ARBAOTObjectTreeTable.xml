@@ -51,11 +51,11 @@ class ARBAOTObjectTreeTable extends ARBAOTObjectTree
     {
         switch (_collectionName)
         {
-            case 'FieldGroupExtensions':
+            case ARBAOTBrowserConstants::FieldGroupExtensions:
                 System.Collections.IEnumerator fieldGroupEnum = _collection.GetEnumerator();
-                if (collectionMap.exists('FieldGroups'))
+                if (collectionMap.exists(ARBAOTBrowserConstants::FieldGroups))
                 {
-                    Map fieldGroupsMap = collectionMap.lookup('FieldGroups');
+                    Map fieldGroupsMap = collectionMap.lookup(ARBAOTBrowserConstants::FieldGroups);
                     while (fieldGroupEnum.MoveNext())
                     {
                         AxTableFieldGroupExtension fieldGroupExtension = fieldGroupEnum.Current;
@@ -69,11 +69,11 @@ class ARBAOTObjectTreeTable extends ARBAOTObjectTree
                     }
                 }
                 break;
-            case 'RelationExtensions':
+            case ARBAOTBrowserConstants::RelationExtensions:
                 System.Collections.IEnumerator relationEnum = _collection.GetEnumerator();
-                if (collectionMap.exists('Relations'))
+                if (collectionMap.exists(ARBAOTBrowserConstants::Relations))
                 {
-                    Map relationsMap = collectionMap.lookup('Relations');
+                    Map relationsMap = collectionMap.lookup(ARBAOTBrowserConstants::Relations);
                     while (relationEnum.MoveNext())
                     {
                         AxTableRelationExtension relationExtension = relationEnum.Current;

@@ -33,19 +33,19 @@ class ARBAOTObjectTreeDataEntity extends ARBAOTObjectTree
         System.Collections.IEnumerator modsEnum;
         switch (_collectionName)
         {
-            case 'DataSources':
+            case ARBAOTBrowserConstants::DataSources:
                 modsEnum = _collection.GetEnumerator();
                 while (modsEnum.MoveNext())
                 {
                     AxQueryExtensionEmbeddedDataSource ds = modsEnum.Current;
-                    this.addExtension(ds.DataSource, this.getNamedNode(dataSourceMap.lookup(ds.Parent), 'DataSources'), _extensionName);
+                    this.addExtension(ds.DataSource, this.getNamedNode(dataSourceMap.lookup(ds.Parent), ARBAOTBrowserConstants::DataSources), _extensionName);
                 }
                 break;
-            case 'FieldGroupExtensions':
+            case ARBAOTBrowserConstants::FieldGroupExtensions:
                 System.Collections.IEnumerator fieldGroupEnum = _collection.GetEnumerator();
-                if (collectionMap.exists('FieldGroups'))
+                if (collectionMap.exists(ARBAOTBrowserConstants::FieldGroups))
                 {
-                    Map fieldGroupsMap = collectionMap.lookup('FieldGroups');
+                    Map fieldGroupsMap = collectionMap.lookup(ARBAOTBrowserConstants::FieldGroups);
                     while (fieldGroupEnum.MoveNext())
                     {
                         AxTableFieldGroupExtension fieldGroupExtension = fieldGroupEnum.Current;

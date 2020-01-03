@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>ARBAOTBrowserConstants</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// Constants for AOT browser
+/// </summary>
+public class ARBAOTBrowserConstants
+{
+    public static const str Extensions = 'Extensions';
+    public static const str PropertyModifications = 'PropertyModifications';
+    public static const str Modifications = 'Modifications';
+    public static const str RootNode = 'RootNode';
+    public static const str String = 'String';
+    public static const str ViewMetadata = 'ViewMetadata';
+    public static const str DataSource = 'DataSource';
+    public static const str Design = 'Design';
+    public static const str FormControl = 'FormControl';
+    public static const str KeyedObjectCollection = 'KeyedObjectCollection`1';
+    public static const str Controls = 'Controls';
+    public static const str Elements = 'Elements';
+    public static const str ValueModifications = 'ValueModifications';
+    public static const str EnumValues = 'EnumValues';
+    public static const str DataSources = 'DataSources';
+    public static const str FieldGroupExtensions = 'FieldGroupExtensions';
+    public static const str FieldGroups = 'FieldGroups';
+    public static const str MenuElements = 'MenuElements';
+    public static const str RootDataSources = 'RootDataSources';
+    public static const str Ranges = 'Ranges';
+    public static const str Relations = 'Relations';
+    public static const str Fields = 'Fields';
+    public static const str OrderByFields = 'OrderByFields';
+    public static const str OrderBy = 'OrderBy';
+    public static const str RelationExtensions = 'RelationExtensions';
+    public static const str Name = 'Name';
+    public static const str AxPropertyCollection = 'AxPropertyCollection';
+    public static const str AxFormPropertyCollection = 'AxFormPropertyCollection';
+    public static const str CompilerMetadata = 'CompilerMetadata';
+    public static const str ReturnType = 'ReturnType';
+    public static const str Label = 'Label';
+    public static const str Description = 'Description';
+    public static const str HelpText = 'HelpText';
+    public static const str DeveloperDocumentation = 'DeveloperDocumentation';
+    public static const str EntityRelationshipRole = 'EntityRelationshipRole';
+    public static const str Table = 'Table';
+    public static const str RelatedTable = 'RelatedTable';
+    public static const str ExtendedDataType = 'ExtendedDataType';
+    public static const str EnumType = 'EnumType';
+    public static const str Tile = 'Tile';
+    public static const str DataEntity = 'DataEntity';
+    public static const str Object = 'Object';
+    public static const str ObjectName = 'ObjectName';
+    public static const str ObjectType = 'ObjectType';
+    public static const str Form = 'Form';
+    public static const str ClassStr = 'Class';
+    public static const str Query = 'Query';
+    public static const str MenuItemAction = 'MenuItemAction';
+    public static const str MenuItemDisplay = 'MenuItemDisplay';
+    public static const str MenuItemOutput = 'MenuItemOutput';
+    public static const str ExtendsStr = 'Extends';
+    public static const str SupportInheritance = 'SupportInheritance';
+    public static const str MenuItemName = 'MenuItemName';
+    public static const str MenuItemType = 'MenuItemType';
+    public static const str DisplayStr = 'Display';
+    public static const str Action = 'Action';
+    public static const str Output = 'Output';
+}
+]]></Declaration>
+		<Methods />
+	</SourceCode>
+</AxClass>
