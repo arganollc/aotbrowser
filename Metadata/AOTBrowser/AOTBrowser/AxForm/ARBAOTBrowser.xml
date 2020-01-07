@@ -135,18 +135,6 @@ public class ARBAOTBrowser extends FormRun
 ]]></Source>
 			</Method>
 			<Method>
-				<Name>run</Name>
-				<Source><![CDATA[
-    public void run()
-    {
-        super();
-        xSysLastValue::getLast(this);
-        this.setControlValuesFromSysLastValues();
-    }
-
-]]></Source>
-			</Method>
-			<Method>
 				<Name>getControlValuesForSysLastValues</Name>
 				<Source><![CDATA[
     void getControlValuesForSysLastValues()
@@ -482,6 +470,9 @@ public class ARBAOTBrowser extends FormRun
     {
         super();
 
+        xSysLastValue::getLast(this);
+        this.setControlValuesFromSysLastValues();
+
         ResourceImage.imageLocation(SysImageLocation::AOTResource);
         ResourceImageGroup.colorScheme(FormColorScheme::RGB);
         ResourceImageGroup.backgroundColor(WinAPI::RGB2int(220,220,220));
@@ -638,7 +629,15 @@ public class ARBAOTBrowser extends FormRun
         {
             super();
 
-            element.updateControlsFromTable();
+            Args args = element.args();
+            if (args.parmEnumType() == enumNum(ARBAOTObjectType) && args.parm() != null)
+            {
+                element.updateControls(args.parmEnum(), args.parm());
+            }
+            else
+            {
+                element.updateControlsFromTable();
+            }
         }
 
 ]]></Source>
