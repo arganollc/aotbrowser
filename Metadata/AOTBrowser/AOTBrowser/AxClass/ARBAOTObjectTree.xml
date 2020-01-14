@@ -32,7 +32,14 @@ public class ARBAOTObjectTree
     {
         Microsoft.Dynamics.ApplicationPlatform.Environment.IApplicationEnvironment applicationEnvironment = Microsoft.Dynamics.ApplicationPlatform.Environment.EnvironmentFactory::GetApplicationEnvironment();
         Microsoft.Dynamics.AX.Metadata.Storage.MetadataProviderFactory metadataProviderFactory = new Microsoft.Dynamics.AX.Metadata.Storage.MetadataProviderFactory();
-        MetadataProvider = metadataProviderFactory.CreateRuntimeProvider(new Microsoft.Dynamics.AX.Metadata.Storage.Runtime.RuntimeProviderConfiguration(applicationEnvironment.Aos.PackageDirectory, false));
+        if (applicationEnvironment.Common.IsOneboxEnvironment)
+        {
+            MetadataProvider = metadataProviderFactory.CreateDiskProvider(applicationEnvironment.Aos.MetadataDirectory);
+        }
+        else
+        {
+            MetadataProvider = metadataProviderFactory.CreateRuntimeProvider(new Microsoft.Dynamics.AX.Metadata.Storage.Runtime.RuntimeProviderConfiguration(applicationEnvironment.Aos.PackageDirectory, false));
+        }
     }
 
 ]]></Source>
@@ -442,6 +449,11 @@ public class ARBAOTObjectTree
     /// <returns>The tree index of the new node</returns>
     public TreeItemIdx addTreeNode(anytype _object, TreeItemIdx _idx, int _formTreeAdd = FormTreeAdd::Sort, boolean _skipAddHeader = false, str _extensionName = '')
     {
+        if (_object == null)
+        {
+            return 0;
+        }
+
         System.Type t = _object.GetType();
         
         var props = t.GetProperties();

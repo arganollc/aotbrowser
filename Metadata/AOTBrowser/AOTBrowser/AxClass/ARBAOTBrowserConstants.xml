@@ -65,6 +65,9 @@ public class ARBAOTBrowserConstants
     public static const str DisplayStr = 'Display';
     public static const str Action = 'Action';
     public static const str Output = 'Output';
+    public static const str Source = 'Source';
+    public static const str ClassDeclaration = 'ClassDeclaration';
+    public static const str Declaration = 'Declaration';
 }
 ]]></Declaration>
 		<Methods />
