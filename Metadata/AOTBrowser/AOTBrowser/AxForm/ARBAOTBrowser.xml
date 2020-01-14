@@ -184,7 +184,15 @@ public class ARBAOTBrowser extends FormRun
                 tableBrowserEnabled = true;
         }
 
-        ARBAOTObjectTree::newFromAOTObject(ObjectTree, _objectType, ExtensionViewToggle.toggleValue()).update(_aotNodeName);
+        ARBAOTObjectTree aotObjectTree = ARBAOTObjectTree::newFromAOTObject(ObjectTree, _objectType, ExtensionViewToggle.toggleValue());
+        if (element.args().parmObject() != null
+            && aotObjectTree is ARBAOTObjectTreeForm)
+        {
+            ARBAOTObjectTreeForm objectTreeForm = aotObjectTree as ARBAOTObjectTreeForm;
+            FormControl selectedControl = element.args().parmObject() as FormControl;
+            objectTreeForm.parmSelectedControl(selectedControl.name());
+        }
+        aotObjectTree.update(_aotNodeName);
         DetailsTab.caption(_aotNodeName + ' - ' + enum2Str(_objectType));
         ARBOpenTableBrowser.enabled(tableBrowserEnabled);
     }

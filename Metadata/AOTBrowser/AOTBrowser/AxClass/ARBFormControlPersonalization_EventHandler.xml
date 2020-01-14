@@ -29,6 +29,7 @@ class ARBFormControlPersonalization_EventHandler
         args.parmEnumType(enumNum(ARBAOTObjectType));
         args.parmEnum(ARBAOTObjectType::Form);
         args.parm(sender.formRun().args().caller().name());
+        args.parmObject(sender.formRun().args().parmObject());
         args.caller(sender.formRun());
 
         new MenuFunction(menuItemDisplayStr(ARBAOTBrowser), MenuItemType::Display).run(args);
