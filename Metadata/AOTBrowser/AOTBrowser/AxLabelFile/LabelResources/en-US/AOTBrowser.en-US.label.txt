@@ -92,3 +92,6 @@ AOTBrowserUser=AOT browser user
  ;ARB_AOTBrowser
 ViewExtensionsInline=Show extensions inline
  ;ARB_AOTBrowser
+ViewCode=View source code
+ ;ARB_AOTBrowser
+ViewCodeHelp=Toggles the ability to view the source code. (NOTE: Viewing metadata from 3rd parties provided by deployable package is not supported with this turned on)

@@ -30,9 +30,19 @@ public class ARBAOTObjectTree
 				<Source><![CDATA[
     static void typenew()
     {
+        ARBAOTObjectTree::updateProvider(false);
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>updateProvider</Name>
+				<Source><![CDATA[
+    static void updateProvider(boolean _useDiskProvider)
+    {
         Microsoft.Dynamics.ApplicationPlatform.Environment.IApplicationEnvironment applicationEnvironment = Microsoft.Dynamics.ApplicationPlatform.Environment.EnvironmentFactory::GetApplicationEnvironment();
         Microsoft.Dynamics.AX.Metadata.Storage.MetadataProviderFactory metadataProviderFactory = new Microsoft.Dynamics.AX.Metadata.Storage.MetadataProviderFactory();
-        if (applicationEnvironment.Common.IsOneboxEnvironment)
+        if (_useDiskProvider)
         {
             MetadataProvider = metadataProviderFactory.CreateDiskProvider(applicationEnvironment.Aos.MetadataDirectory);
         }

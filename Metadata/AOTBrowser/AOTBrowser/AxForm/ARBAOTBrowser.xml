@@ -24,9 +24,10 @@ public class ARBAOTBrowser extends FormRun
     Map matrixControlMap;
     boolean showCode;
 
-    #define.CurrentVersion(1)
+    #define.CurrentVersion(2)
     #localmacro.CurrentList
-        extensionsInline
+        extensionsInline,
+        showCode
     #endmacro
 
 }
@@ -141,6 +142,7 @@ public class ARBAOTBrowser extends FormRun
     void getControlValuesForSysLastValues()
     {
         extensionsInline = ExtensionViewToggle.toggleValue();
+        showCode = ViewCodeToggle.toggleValue();
     }
 
 ]]></Source>
@@ -151,6 +153,7 @@ public class ARBAOTBrowser extends FormRun
     void setControlValuesFromSysLastValues()
     {
         ExtensionViewToggle.toggleValue(extensionsInline);
+        ViewCodeToggle.toggleValue(showCode);
     }
 
 ]]></Source>
@@ -489,15 +492,18 @@ public class ARBAOTBrowser extends FormRun
     {
         super();
 
-        Microsoft.Dynamics.ApplicationPlatform.Environment.IApplicationEnvironment applicationEnvironment = Microsoft.Dynamics.ApplicationPlatform.Environment.EnvironmentFactory::GetApplicationEnvironment();
-
-        if (applicationEnvironment.Common.IsOneboxEnvironment)
-        {
-            showCode = true;
-        }
-
         xSysLastValue::getLast(this);
         this.setControlValuesFromSysLastValues();
+
+        Microsoft.Dynamics.ApplicationPlatform.Environment.IApplicationEnvironment applicationEnvironment = Microsoft.Dynamics.ApplicationPlatform.Environment.EnvironmentFactory::GetApplicationEnvironment();
+        if (!applicationEnvironment.Common.IsOneboxEnvironment)
+        {
+            showCode = false;
+            ViewCodeToggle.toggleValue(showCode);
+            ViewCodeToggle.visible(false);
+        }
+
+        ARBAOTObjectTree::updateProvider(showCode);
 
         ResourceImage.imageLocation(SysImageLocation::AOTResource);
         ResourceImageGroup.colorScheme(FormColorScheme::RGB);
@@ -654,6 +660,38 @@ public class ARBAOTBrowser extends FormRun
         public void clicked()
         {
             super();
+
+            Args args = element.args();
+            if (args.parmEnumType() == enumNum(ARBAOTObjectType) && args.parm() != null)
+            {
+                element.updateControls(args.parmEnum(), args.parm());
+            }
+            else
+            {
+                element.updateControlsFromTable();
+            }
+        }
+
+]]></Source>
+					</Method>
+				</Methods>
+			</Control>
+			<Control>
+				<Name>ViewCodeToggle</Name>
+				<Type>Button</Type>
+				<Methods>
+					<Method>
+						<Name>clicked</Name>
+						<Source><![CDATA[
+        /// <summary>
+        ///
+        /// </summary>
+        public void clicked()
+        {
+            super();
+
+            showCode = this.toggleValue();
+            ARBAOTObjectTree::updateProvider(showCode);
 
             Args args = element.args();
             if (args.parmEnumType() == enumNum(ARBAOTObjectType) && args.parm() != null)
@@ -1219,6 +1257,17 @@ public class ARBAOTBrowser extends FormRun
 								<FormControlExtension
 									i:nil="true" />
 								<Text>@AOTBrowser:ViewExtensionsInline</Text>
+								<ToggleButton>Check</ToggleButton>
+							</AxFormControl>
+							<AxFormControl xmlns=""
+								i:type="AxFormButtonControl">
+								<Name>ViewCodeToggle</Name>
+								<AutoDeclaration>Yes</AutoDeclaration>
+								<HelpText>@AOTBrowser:ViewCodeHelp</HelpText>
+								<Type>Button</Type>
+								<FormControlExtension
+									i:nil="true" />
+								<Text>@AOTBrowser:ViewCode</Text>
 								<ToggleButton>Check</ToggleButton>
 							</AxFormControl>
 						</Controls>
