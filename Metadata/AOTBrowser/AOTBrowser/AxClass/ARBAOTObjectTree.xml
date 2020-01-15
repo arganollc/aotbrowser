@@ -16,6 +16,7 @@ using System.Linq.Enumerable;
 public class ARBAOTObjectTree
 {
     public static Microsoft.Dynamics.AX.Metadata.Providers.IMetadataProvider MetadataProvider;
+    public static Microsoft.Dynamics.AX.Metadata.Providers.IMetadataProvider BackupMetadataProvider;
     protected FormTreeControl treeControl;
     protected ARBAOTObjectType aotObjectType;
     protected boolean extensionsInline;
@@ -42,13 +43,14 @@ public class ARBAOTObjectTree
     {
         Microsoft.Dynamics.ApplicationPlatform.Environment.IApplicationEnvironment applicationEnvironment = Microsoft.Dynamics.ApplicationPlatform.Environment.EnvironmentFactory::GetApplicationEnvironment();
         Microsoft.Dynamics.AX.Metadata.Storage.MetadataProviderFactory metadataProviderFactory = new Microsoft.Dynamics.AX.Metadata.Storage.MetadataProviderFactory();
+        BackupMetadataProvider = metadataProviderFactory.CreateRuntimeProvider(new Microsoft.Dynamics.AX.Metadata.Storage.Runtime.RuntimeProviderConfiguration(applicationEnvironment.Aos.PackageDirectory, false));
         if (_useDiskProvider)
         {
             MetadataProvider = metadataProviderFactory.CreateDiskProvider(applicationEnvironment.Aos.MetadataDirectory);
         }
         else
         {
-            MetadataProvider = metadataProviderFactory.CreateRuntimeProvider(new Microsoft.Dynamics.AX.Metadata.Storage.Runtime.RuntimeProviderConfiguration(applicationEnvironment.Aos.PackageDirectory, false));
+            MetadataProvider = BackupMetadataProvider;
         }
     }
 
@@ -126,119 +128,125 @@ public class ARBAOTObjectTree
     /// </summary>
     /// <param name = "_aotNodeName">The name of the AOT Object</param>
     /// <returns>The AOT Object</returns>
-    public anytype getAOTObject(TreeNodeName _aotNodeName)
+    public anytype getAOTObject(TreeNodeName _aotNodeName, Microsoft.Dynamics.AX.Metadata.Providers.IMetadataProvider _metadataProvider = MetadataProvider)
     {
         anytype aotObject;
         switch (aotObjectType)
         {
             case ARBAOTObjectType::Table:
-                aotObject = MetadataProvider.Tables.Read(_aotNodeName);
+                aotObject = _metadataProvider.Tables.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::View:
-                aotObject = MetadataProvider.Views.Read(_aotNodeName);
+                aotObject = _metadataProvider.Views.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::DataEntity:
-                aotObject = MetadataProvider.DataEntityViews.Read(_aotNodeName);
+                aotObject = _metadataProvider.DataEntityViews.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::BaseEnum:
-                aotObject = MetadataProvider.Enums.Read(_aotNodeName);
+                aotObject = _metadataProvider.Enums.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::ExtendedDataType:
-                aotObject = MetadataProvider.Edts.Read(_aotNodeName);
+                aotObject = _metadataProvider.Edts.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::Class:
-                aotObject = MetadataProvider.Classes.Read(_aotNodeName);
+                aotObject = _metadataProvider.Classes.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::Form:
-                aotObject = MetadataProvider.Forms.Read(_aotNodeName);
+                aotObject = _metadataProvider.Forms.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::Query:
-                aotObject = MetadataProvider.Queries.Read(_aotNodeName);
+                aotObject = _metadataProvider.Queries.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::Map:
-                aotObject = MetadataProvider.Maps.Read(_aotNodeName);
+                aotObject = _metadataProvider.Maps.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::Tile:
-                aotObject = MetadataProvider.Tiles.Read(_aotNodeName);
+                aotObject = _metadataProvider.Tiles.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::Menu:
-                aotObject = MetadataProvider.Menus.Read(_aotNodeName);
+                aotObject = _metadataProvider.Menus.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::TableCollection:
-                aotObject = MetadataProvider.TableCollections.Read(_aotNodeName);
+                aotObject = _metadataProvider.TableCollections.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::CompositeDataEntity:
-                aotObject = MetadataProvider.CompositeDataEntityViews.Read(_aotNodeName);
+                aotObject = _metadataProvider.CompositeDataEntityViews.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::MenuItemDisplay:
-                aotObject = MetadataProvider.MenuItemDisplays.Read(_aotNodeName);
+                aotObject = _metadataProvider.MenuItemDisplays.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::MenuItemAction:
-                aotObject = MetadataProvider.MenuItemActions.Read(_aotNodeName);
+                aotObject = _metadataProvider.MenuItemActions.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::MenuItemOutput:
-                aotObject = MetadataProvider.MenuItemOutputs.Read(_aotNodeName);
+                aotObject = _metadataProvider.MenuItemOutputs.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::SecurityRole:
-                aotObject = MetadataProvider.SecurityRoles.Read(_aotNodeName);
+                aotObject = _metadataProvider.SecurityRoles.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::SecurityDuty:
-                aotObject = MetadataProvider.SecurityDuties.Read(_aotNodeName);
+                aotObject = _metadataProvider.SecurityDuties.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::SecurityPrivilege:
-                aotObject = MetadataProvider.SecurityPrivileges.Read(_aotNodeName);
+                aotObject = _metadataProvider.SecurityPrivileges.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::AggregateDataEntity:
-                aotObject = MetadataProvider.AggregateDataEntities.Read(_aotNodeName);
+                aotObject = _metadataProvider.AggregateDataEntities.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::WorkflowCategory:
-                aotObject = MetadataProvider.WorkflowCategories.Read(_aotNodeName);
+                aotObject = _metadataProvider.WorkflowCategories.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::WorkflowApproval:
-                aotObject = MetadataProvider.WorkflowApprovals.Read(_aotNodeName);
+                aotObject = _metadataProvider.WorkflowApprovals.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::WorkflowTask:
-                aotObject = MetadataProvider.WorkflowTasks.Read(_aotNodeName);
+                aotObject = _metadataProvider.WorkflowTasks.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::WorkflowAutomatedTask:
-                aotObject = MetadataProvider.WorkflowAutomatedTasks.Read(_aotNodeName);
+                aotObject = _metadataProvider.WorkflowAutomatedTasks.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::WorkflowType:
-                aotObject = MetadataProvider.WorkflowTemplates.Read(_aotNodeName);
+                aotObject = _metadataProvider.WorkflowTemplates.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::WorkflowHierarchyAssignmentProvider:
-                aotObject = MetadataProvider.WorkflowHierarchyAssignmentProviders.Read(_aotNodeName);
+                aotObject = _metadataProvider.WorkflowHierarchyAssignmentProviders.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::WorkflowParticipantAssignmentProvider:
-                aotObject = MetadataProvider.WorkflowParticipantAssignmentProviders.Read(_aotNodeName);
+                aotObject = _metadataProvider.WorkflowParticipantAssignmentProviders.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::WorkflowQueueAssignmentProvider:
-                aotObject = MetadataProvider.WorkflowQueueAssignmentProviders.Read(_aotNodeName);
+                aotObject = _metadataProvider.WorkflowQueueAssignmentProviders.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::WorkflowDueDateCalculationProvider:
-                aotObject = MetadataProvider.WorkflowDueDateCalculationProviders.Read(_aotNodeName);
+                aotObject = _metadataProvider.WorkflowDueDateCalculationProviders.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::Resource:
-                aotObject = MetadataProvider.Resources.Read(_aotNodeName);
+                aotObject = _metadataProvider.Resources.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::LicenseCode:
-                aotObject = MetadataProvider.LicenseCodes.Read(_aotNodeName);
+                aotObject = _metadataProvider.LicenseCodes.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::ConfigKey:
-                aotObject = MetadataProvider.ConfigurationKeys.Read(_aotNodeName);
+                aotObject = _metadataProvider.ConfigurationKeys.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::ConfigKeyGroup:
-                aotObject = MetadataProvider.ConfigurationKeyGroups.Read(_aotNodeName);
+                aotObject = _metadataProvider.ConfigurationKeyGroups.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::Service:
-                aotObject = MetadataProvider.Services.Read(_aotNodeName);
+                aotObject = _metadataProvider.Services.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::ServiceGroup:
-                aotObject = MetadataProvider.ServiceGroups.Read(_aotNodeName);
+                aotObject = _metadataProvider.ServiceGroups.Read(_aotNodeName);
                 break;
             case ARBAOTObjectType::Report:
-                aotObject = MetadataProvider.Reports.Read(_aotNodeName);
+                aotObject = _metadataProvider.Reports.Read(_aotNodeName);
                 break;
+        }
+
+        if (aotObject == null
+            && _metadataProvider != BackupMetadataProvider)
+        {
+            aotObject = this.getAOTObject(_aotNodeName, BackupMetadataProvider);
         }
 
         return aotObject;
