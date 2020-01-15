@@ -15,10 +15,42 @@ using CoreMetaModel = Microsoft.Dynamics.AX.Metadata.Core.MetaModel;
 class ARBAOTObjectTreeForm extends ARBAOTObjectTree
 {
     Map controlMap = new Map(Types::String, Types::Integer);
+    str selectedControlName;
 
 }
 ]]></Declaration>
 		<Methods>
+			<Method>
+				<Name>parmSelectedControl</Name>
+				<Source><![CDATA[
+    public str parmSelectedControl(str _selectedControlName = selectedControlName)
+    {
+        selectedControlName = _selectedControlName;
+
+        return selectedControlName;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>update</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Update the object tree
+    /// </summary>
+    /// <param name = "_aotNodeName">The name of the AOT object</param>
+    public void update(TreeNodeName _aotNodeName)
+    {
+        super(_aotNodeName);
+
+        if (selectedControlName && controlMap.exists(selectedControlName))
+        {
+            treeControl.select(controlMap.lookup(selectedControlName));
+        }
+    }
+
+]]></Source>
+			</Method>
 			<Method>
 				<Name>addExtensionCollection</Name>
 				<Source><![CDATA[
@@ -70,6 +102,11 @@ class ARBAOTObjectTreeForm extends ARBAOTObjectTree
     /// <returns>The tree index of the new node</returns>
     public TreeItemIdx addTreeNode(anytype _object, TreeItemIdx _idx, int _formTreeAdd = FormTreeAdd::Sort, boolean _skipAddHeader = false, str _extensionName = '')
     {
+        if (_object == null)
+        {
+            return 0;
+        }
+
         str objectName = this.getObjectName(_object);
         boolean insertIntoMap = false;
         if (_object is AxFormDesign)

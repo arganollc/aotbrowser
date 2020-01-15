@@ -22,10 +22,12 @@ public class ARBAOTBrowser extends FormRun
     FormGridControl propertiesMatrixGrid;
     boolean extensionsInline;
     Map matrixControlMap;
+    boolean showCode;
 
-    #define.CurrentVersion(1)
+    #define.CurrentVersion(2)
     #localmacro.CurrentList
-        extensionsInline
+        extensionsInline,
+        showCode
     #endmacro
 
 }
@@ -140,6 +142,7 @@ public class ARBAOTBrowser extends FormRun
     void getControlValuesForSysLastValues()
     {
         extensionsInline = ExtensionViewToggle.toggleValue();
+        showCode = ViewCodeToggle.toggleValue();
     }
 
 ]]></Source>
@@ -150,6 +153,7 @@ public class ARBAOTBrowser extends FormRun
     void setControlValuesFromSysLastValues()
     {
         ExtensionViewToggle.toggleValue(extensionsInline);
+        ViewCodeToggle.toggleValue(showCode);
     }
 
 ]]></Source>
@@ -183,7 +187,15 @@ public class ARBAOTBrowser extends FormRun
                 tableBrowserEnabled = true;
         }
 
-        ARBAOTObjectTree::newFromAOTObject(ObjectTree, _objectType, ExtensionViewToggle.toggleValue()).update(_aotNodeName);
+        ARBAOTObjectTree aotObjectTree = ARBAOTObjectTree::newFromAOTObject(ObjectTree, _objectType, ExtensionViewToggle.toggleValue());
+        if (element.args().parmObject() != null
+            && aotObjectTree is ARBAOTObjectTreeForm)
+        {
+            ARBAOTObjectTreeForm objectTreeForm = aotObjectTree as ARBAOTObjectTreeForm;
+            FormControl selectedControl = element.args().parmObject() as FormControl;
+            objectTreeForm.parmSelectedControl(selectedControl.name());
+        }
+        aotObjectTree.update(_aotNodeName);
         DetailsTab.caption(_aotNodeName + ' - ' + enum2Str(_objectType));
         ARBOpenTableBrowser.enabled(tableBrowserEnabled);
     }
@@ -290,6 +302,8 @@ public class ARBAOTBrowser extends FormRun
             ARBAOTObjectPropertiesMatrix.insert();
         }
 
+        CodeViewerGroup.visible(false);
+        CodeViewer.parmHtml('');
         delete_from ARBAOTObjectProperties;
         delete_from ARBAOTObjectPropertiesMatrix;
         
@@ -383,10 +397,18 @@ public class ARBAOTBrowser extends FormRun
                         && prop.Name != ARBAOTBrowserConstants::Design
                         && prop.Name != ARBAOTBrowserConstants::FormControl)
                     {
-                        ARBAOTObjectProperties.clear();
-                        ARBAOTObjectProperties.Name = prop.Name;
-                        ARBAOTObjectProperties.Value = this.getPropertyValue(prop, object);
-                        ARBAOTObjectProperties.insert();
+                        if (showCode && (prop.Name == ARBAOTBrowserConstants::Source || prop.Name == ARBAOTBrowserConstants::ClassDeclaration || prop.Name == ARBAOTBrowserConstants::Declaration))
+                        {
+                            CodeViewer.parmHtml(Arbela.Dynamics.AX.Xpp.Support.HtmlFormatHelper::Format(this.getPropertyValue(prop, object)));
+                            CodeViewerGroup.visible(true);
+                        }
+                        else
+                        {
+                            ARBAOTObjectProperties.clear();
+                            ARBAOTObjectProperties.Name = prop.Name;
+                            ARBAOTObjectProperties.Value = this.getPropertyValue(prop, object);
+                            ARBAOTObjectProperties.insert();
+                        }
                     }
                 }
 
@@ -472,6 +494,16 @@ public class ARBAOTBrowser extends FormRun
 
         xSysLastValue::getLast(this);
         this.setControlValuesFromSysLastValues();
+
+        Microsoft.Dynamics.ApplicationPlatform.Environment.IApplicationEnvironment applicationEnvironment = Microsoft.Dynamics.ApplicationPlatform.Environment.EnvironmentFactory::GetApplicationEnvironment();
+        if (!applicationEnvironment.Common.IsOneboxEnvironment)
+        {
+            showCode = false;
+            ViewCodeToggle.toggleValue(showCode);
+            ViewCodeToggle.visible(false);
+        }
+
+        ARBAOTObjectTree::updateProvider(showCode);
 
         ResourceImage.imageLocation(SysImageLocation::AOTResource);
         ResourceImageGroup.colorScheme(FormColorScheme::RGB);
@@ -628,6 +660,38 @@ public class ARBAOTBrowser extends FormRun
         public void clicked()
         {
             super();
+
+            Args args = element.args();
+            if (args.parmEnumType() == enumNum(ARBAOTObjectType) && args.parm() != null)
+            {
+                element.updateControls(args.parmEnum(), args.parm());
+            }
+            else
+            {
+                element.updateControlsFromTable();
+            }
+        }
+
+]]></Source>
+					</Method>
+				</Methods>
+			</Control>
+			<Control>
+				<Name>ViewCodeToggle</Name>
+				<Type>Button</Type>
+				<Methods>
+					<Method>
+						<Name>clicked</Name>
+						<Source><![CDATA[
+        /// <summary>
+        ///
+        /// </summary>
+        public void clicked()
+        {
+            super();
+
+            showCode = this.toggleValue();
+            ARBAOTObjectTree::updateProvider(showCode);
 
             Args args = element.args();
             if (args.parmEnumType() == enumNum(ARBAOTObjectType) && args.parm() != null)
@@ -1151,6 +1215,7 @@ public class ARBAOTBrowser extends FormRun
 		<ShowDeleteButton xmlns="">No</ShowDeleteButton>
 		<ShowNewButton xmlns="">No</ShowNewButton>
 		<Style xmlns="">SimpleListDetails</Style>
+		<ViewEditMode xmlns="">View</ViewEditMode>
 		<Controls xmlns="">
 			<AxFormControl xmlns=""
 				i:type="AxFormActionPaneControl">
@@ -1192,6 +1257,17 @@ public class ARBAOTBrowser extends FormRun
 								<FormControlExtension
 									i:nil="true" />
 								<Text>@AOTBrowser:ViewExtensionsInline</Text>
+								<ToggleButton>Check</ToggleButton>
+							</AxFormControl>
+							<AxFormControl xmlns=""
+								i:type="AxFormButtonControl">
+								<Name>ViewCodeToggle</Name>
+								<AutoDeclaration>Yes</AutoDeclaration>
+								<HelpText>@AOTBrowser:ViewCodeHelp</HelpText>
+								<Type>Button</Type>
+								<FormControlExtension
+									i:nil="true" />
+								<Text>@AOTBrowser:ViewCode</Text>
 								<ToggleButton>Check</ToggleButton>
 							</AxFormControl>
 						</Controls>
@@ -1394,35 +1470,47 @@ public class ARBAOTBrowser extends FormRun
 													i:nil="true" />
 												<Controls>
 													<AxFormControl xmlns=""
-														i:type="AxFormGridControl">
-														<Name>PropertiesGrid</Name>
-														<AutoDeclaration>Yes</AutoDeclaration>
-														<HeightMode>SizeToContent</HeightMode>
-														<Type>Grid</Type>
-														<WidthMode>SizeToContent</WidthMode>
+														i:type="AxFormGroupControl">
+														<Name>PropertiesGridGroup</Name>
+														<HeightMode>SizeToAvailable</HeightMode>
+														<Type>Group</Type>
+														<Width>500</Width>
 														<FormControlExtension
 															i:nil="true" />
 														<Controls>
 															<AxFormControl xmlns=""
-																i:type="AxFormStringControl">
-																<Name>ACMAOTObjectProperties_Name</Name>
-																<Type>String</Type>
+																i:type="AxFormGridControl">
+																<Name>PropertiesGrid</Name>
+																<AutoDeclaration>Yes</AutoDeclaration>
+																<Type>Grid</Type>
+																<Width>225</Width>
 																<FormControlExtension
 																	i:nil="true" />
-																<DataField>Name</DataField>
+																<Controls>
+																	<AxFormControl xmlns=""
+																		i:type="AxFormStringControl">
+																		<Name>ACMAOTObjectProperties_Name</Name>
+																		<Type>String</Type>
+																		<FormControlExtension
+																			i:nil="true" />
+																		<DataField>Name</DataField>
+																		<DataSource>ARBAOTObjectProperties</DataSource>
+																	</AxFormControl>
+																	<AxFormControl xmlns=""
+																		i:type="AxFormStringControl">
+																		<Name>ACMAOTObjectProperties_Value</Name>
+																		<Type>String</Type>
+																		<FormControlExtension
+																			i:nil="true" />
+																		<DataField>Value</DataField>
+																		<DataSource>ARBAOTObjectProperties</DataSource>
+																	</AxFormControl>
+																</Controls>
 																<DataSource>ARBAOTObjectProperties</DataSource>
-															</AxFormControl>
-															<AxFormControl xmlns=""
-																i:type="AxFormStringControl">
-																<Name>ACMAOTObjectProperties_Value</Name>
-																<Type>String</Type>
-																<FormControlExtension
-																	i:nil="true" />
-																<DataField>Value</DataField>
-																<DataSource>ARBAOTObjectProperties</DataSource>
+																<MultiSelect>No</MultiSelect>
+																<Style>SimpleReadOnly</Style>
 															</AxFormControl>
 														</Controls>
-														<DataSource>ARBAOTObjectProperties</DataSource>
 													</AxFormControl>
 													<AxFormControl xmlns=""
 														i:type="AxFormGroupControl">
@@ -1448,8 +1536,39 @@ public class ARBAOTBrowser extends FormRun
 														</Controls>
 														<Caption>@SYS58650</Caption>
 													</AxFormControl>
+													<AxFormControl xmlns=""
+														i:type="AxFormGroupControl">
+														<Name>CodeViewerGroup</Name>
+														<AutoDeclaration>Yes</AutoDeclaration>
+														<HeightMode>SizeToAvailable</HeightMode>
+														<Type>Group</Type>
+														<WidthMode>SizeToAvailable</WidthMode>
+														<FormControlExtension
+															i:nil="true" />
+														<Controls>
+															<AxFormControl>
+																<Name>CodeViewer</Name>
+																<AutoDeclaration>Yes</AutoDeclaration>
+																<HeightMode>SizeToAvailable</HeightMode>
+																<WidthMode>SizeToAvailable</WidthMode>
+																<FormControlExtension>
+																	<Name>HtmlViewerControl</Name>
+																	<ExtensionComponents />
+																	<ExtensionProperties>
+																		<AxFormControlExtensionProperty>
+																			<Name>htmlField</Name>
+																			<Type>String</Type>
+																		</AxFormControlExtensionProperty>
+																	</ExtensionProperties>
+																</FormControlExtension>
+															</AxFormControl>
+														</Controls>
+														<ColumnsMode>Fill</ColumnsMode>
+														<HideIfEmpty>No</HideIfEmpty>
+													</AxFormControl>
 												</Controls>
-												<ColumnsMode>Fill</ColumnsMode>
+												<ArrangeMethod>Auto</ArrangeMethod>
+												<Columns>2</Columns>
 												<FrameType>None</FrameType>
 											</AxFormControl>
 										</Controls>
