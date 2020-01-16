@@ -1,3 +1,13 @@
+<#
+.SYNOPSIS
+    Helps to mount GitHub repo to your machine
+.DESCRIPTION
+    It creates a symbolic link into Metadata folder of Dynamics 365 for Operations.
+.COMPANY
+    Arbela Technologies Corp.
+#>
+
+
 if (Test-Path -Path K:\AosService)
 {
    $LocalDeploymentFolder = "K:\AosService"
@@ -16,10 +26,13 @@ else
 }
 Write-Host "using $LocalDeploymentFolder as the deployment folder"
 
-$LocalPackagesFolder = Join-Path $LocalDeploymentFolder "PackagesLocalDirectory"
+$LocalMetadataFolder = Join-Path -Path $LocalDeploymentFolder -ChildPath "\PackagesLocalDirectory"
+
+Write-Host "using $LocalMetadataFolder as the metadata folder"
 
 # Get the list of models to junction
-$ModelsToJunction = Get-ChildItem "..\Metadata\"
+$ModelsToJunction = Get-ChildItem "..\Metadata"
+
 Write-Host "Enabling editing of the following models:" $ModelsToJunction
 
 foreach ($Model in $ModelsToJunction) 
@@ -51,3 +64,4 @@ foreach ($Model in $ModelsToJunction)
         }
     }   
 }
+pause

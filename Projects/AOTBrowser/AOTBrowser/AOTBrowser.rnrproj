@@ -43,6 +43,7 @@
     <Folder Include="Security Privileges\" />
     <Folder Include="Security Roles\" />
     <Folder Include="Tables\" />
+    <Folder Include="Tiles\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="AOTBrowser.en-US.label.txt">
@@ -175,6 +176,11 @@
       <Name>CommonMenu.AOTBrowser</Name>
       <Link>Menu Extensions\CommonMenu.AOTBrowser</Link>
     </Content>
+    <Content Include="AxMenuExtension\navpanemenu.AOTBrowser">
+      <SubType>Content</SubType>
+      <Name>navpanemenu.AOTBrowser</Name>
+      <Link>Menu Extensions\navpanemenu.AOTBrowser</Link>
+    </Content>
     <Content Include="AxMenuItemAction\ARBAOTObjectPopulate">
       <SubType>Content</SubType>
       <Name>ARBAOTObjectPopulate</Name>
@@ -214,6 +220,11 @@
       <SubType>Content</SubType>
       <Name>ARBAOTObjects</Name>
       <Link>Tables\ARBAOTObjects</Link>
+    </Content>
+    <Content Include="AxTile\ARBAOTBrowserTile">
+      <SubType>Content</SubType>
+      <Name>ARBAOTBrowserTile</Name>
+      <Link>Tiles\ARBAOTBrowserTile</Link>
     </Content>
   </ItemGroup>
   <ItemGroup>

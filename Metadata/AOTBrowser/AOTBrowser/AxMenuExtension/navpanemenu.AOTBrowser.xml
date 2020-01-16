@@ -1,22 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <AxMenuExtension xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="Microsoft.Dynamics.AX.Metadata.V1">
-	<Name>CommonMenu.AOTBrowser</Name>
+	<Name>navpanemenu.AOTBrowser</Name>
 	<Customizations />
 	<Elements>
 		<AxMenuExtensionElement xmlns="">
-			<Parent>Common</Parent>
-			<MenuElement xmlns=""
-				i:type="AxMenuElementMenuItem">
-				<Name>ARBAOTBrowser</Name>
-				<MenuItemName>ARBAOTBrowser</MenuItemName>
-			</MenuElement>
-		</AxMenuExtensionElement>
-		<AxMenuExtensionElement xmlns="">
-			<PositionType>Begin</PositionType>
 			<MenuElement xmlns=""
 				i:type="AxMenuElementSubMenu">
-				<Name>Workspaces</Name>
-				<Label>@SYS:Platform_Menu_ColHeading_Workspaces</Label>
+				<Name>NavPaneMenuAOTBrowser</Name>
 				<Elements>
 					<AxMenuElement xmlns=""
 						i:type="AxMenuElementTile">
