@@ -2,7 +2,7 @@
 <AxModelInfo xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
 	<AppliedUpdates xmlns:d2p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
 	<Customization>Allow</Customization>
-	<Description></Description>
+	<Description>A browser for the AOT rendered in the web UI.</Description>
 	<DisplayName>AOTBrowser</DisplayName>
 	<Id>925963610</Id>
 	<InternalsVisibleTo xmlns:d2p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
