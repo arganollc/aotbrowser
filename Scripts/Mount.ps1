@@ -37,7 +37,7 @@ Write-Host "Enabling editing of the following models:" $ModelsToJunction
 
 foreach ($Model in $ModelsToJunction) 
 {
-    $LocalModelPath = Join-Path $LocalPackagesFolder $Model
+    $LocalModelPath = Join-Path $LocalMetadataFolder $Model
     $RepoPath = Join-Path "..\Metadata" $Model
 	
 	if (!(Test-Path $LocalModelPath -PathType Container))
