@@ -10,7 +10,7 @@ development is now done in Visual Studio. This means that in order to browse the
 to a development environment with Visual Studio.
 
 **AOT Browser to save the day!** With the AOT Browser it is now possible to browse the objects in the AOT from the D365FO web interface.
-![AOT Browser](images/index.png =600x)
+![AOT Browser](images/index.png)
 
 ## Getting Started
 
