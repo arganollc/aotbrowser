@@ -639,8 +639,19 @@ public class ARBAOTBrowser extends FormRun
             SysTableBrowser sysTableBrowser;
             
             sysTableBrowser = new SysTableBrowser();
-            sysTableBrowser.parmTableName(ARBAOTObjects.Name);
-            sysTableBrowser.run(tablename2id(ARBAOTObjects.Name));
+            Args args = element.args();
+            TableName tableName;
+            if (args.parmEnumType() == enumNum(ARBAOTObjectType) && args.parm() != null)
+            {
+                tableName = args.parm();
+            }
+            else
+            {
+                tableName = ARBAOTObjects.Name;
+            }
+
+            sysTableBrowser.parmTableName(tableName);
+            sysTableBrowser.run(tablename2id(tableName));
         }
 
 ]]></Source>
