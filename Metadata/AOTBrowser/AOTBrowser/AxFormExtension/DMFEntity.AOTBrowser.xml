@@ -4,15 +4,14 @@
 	<ControlModifications />
 	<Controls>
 		<AxFormExtensionControl xmlns="">
-			<Name>FormExtensionControlbtpeddxt1</Name>
+			<Name>FormExtensionControl5qp3orjy1</Name>
 			<FormControl xmlns=""
-				i:type="AxFormButtonControl">
-				<Name>ARBOpenInAOTBrowser</Name>
-				<Type>Button</Type>
+				i:type="AxFormMenuFunctionButtonControl">
+				<Name>ARBAOTBrowser</Name>
+				<Type>MenuFunctionButton</Type>
 				<FormControlExtension
 					i:nil="true" />
-				<MultiSelect>No</MultiSelect>
-				<NeedsRecord>Yes</NeedsRecord>
+				<MenuItemName>ARBAOTBrowser</MenuItemName>
 				<Text>@AOTBrowser:OpenInAOTBrowser</Text>
 			</FormControl>
 			<Parent>InputButtonGroup</Parent>

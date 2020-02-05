@@ -511,6 +511,30 @@ public class ARBAOTBrowser extends FormRun
 
         Args args = element.args();
 
+        FormRun caller = element.args().caller();
+
+        if (caller != null)
+        {
+            switch (caller.name())
+            {
+                case formStr(FormControlPersonalization):
+                    args.parmEnumType(enumNum(ARBAOTObjectType));
+                    args.parmEnum(ARBAOTObjectType::Form);
+                    args.parm(caller.args().caller().name());
+                    args.parmObject(caller.args().parmObject());
+                    break;
+
+                case formStr(DMFEntity):
+                    FormDataSource datasource = caller.dataSource(formDataSourceStr(DMFEntity, DMFEntity)) as FormDataSource;
+                    DMFEntity entity = datasource.cursor();
+
+                    args.parmEnumType(enumNum(ARBAOTObjectType));
+                    args.parmEnum(ARBAOTObjectType::DataEntity);
+                    args.parm(entity.TargetEntity);
+                    break;
+            }
+        }
+
         if (args.parmEnumType() == enumNum(ARBAOTObjectType) && args.parm() != null)
         {
             NavigationGroup.visible(false);

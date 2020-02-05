@@ -4,13 +4,14 @@
 	<ControlModifications />
 	<Controls>
 		<AxFormExtensionControl xmlns="">
-			<Name>FormExtensionControlgzu0p1p51</Name>
+			<Name>FormExtensionControl4fvlwlj31</Name>
 			<FormControl xmlns=""
-				i:type="AxFormButtonControl">
-				<Name>ARBOpenInAOTBrowser</Name>
-				<Type>Button</Type>
+				i:type="AxFormMenuFunctionButtonControl">
+				<Name>ARBAOTBrowser</Name>
+				<Type>MenuFunctionButton</Type>
 				<FormControlExtension
 					i:nil="true" />
+				<MenuItemName>ARBAOTBrowser</MenuItemName>
 				<Text>@AOTBrowser:OpenInAOTBrowser</Text>
 			</FormControl>
 			<Parent>CommitGroup</Parent>
