@@ -23,6 +23,7 @@ public class ARBAOTBrowser extends FormRun
     boolean extensionsInline;
     Map matrixControlMap;
     boolean showCode;
+    ARBAOTObjectTree aotObjectTree;
 
     #define.CurrentVersion(2)
     #localmacro.CurrentList
@@ -187,7 +188,7 @@ public class ARBAOTBrowser extends FormRun
                 tableBrowserEnabled = true;
         }
 
-        ARBAOTObjectTree aotObjectTree = ARBAOTObjectTree::newFromAOTObject(ObjectTree, _objectType, ExtensionViewToggle.toggleValue());
+        aotObjectTree = ARBAOTObjectTree::newFromAOTObject(ObjectTree, _objectType, ExtensionViewToggle.toggleValue());
         if (element.args().parmObject() != null
             && aotObjectTree is ARBAOTObjectTreeForm)
         {
@@ -292,7 +293,15 @@ public class ARBAOTBrowser extends FormRun
                         previousControl.label(prop.Name);
                     }
 
-                    ARBAOTObjectPropertiesMatrix.Property[arrayNum] = this.getPropertyValue(prop, objectLocal);
+                    if (prop.Name == ARBAOTBrowserConstants::Label
+                        || prop.Name == ARBAOTBrowserConstants::HelpText)
+                    {
+                        ARBAOTObjectPropertiesMatrix.Property[arrayNum] = this.getLabelValue(prop, objectLocal);
+                    }
+                    else
+                    {
+                        ARBAOTObjectPropertiesMatrix.Property[arrayNum] = this.getPropertyValue(prop, objectLocal);
+                    }
                 }
             }
             if (setModified)
@@ -406,7 +415,15 @@ public class ARBAOTBrowser extends FormRun
                         {
                             ARBAOTObjectProperties.clear();
                             ARBAOTObjectProperties.Name = prop.Name;
-                            ARBAOTObjectProperties.Value = this.getPropertyValue(prop, object);
+                            if (prop.Name == ARBAOTBrowserConstants::Label
+                                || prop.Name == ARBAOTBrowserConstants::HelpText)
+                            {
+                                ARBAOTObjectProperties.Value = this.getLabelValue(prop, object);
+                            }
+                            else
+                            {
+                                ARBAOTObjectProperties.Value = this.getPropertyValue(prop, object);
+                            }
                             ARBAOTObjectProperties.insert();
                         }
                     }
@@ -475,6 +492,101 @@ public class ARBAOTBrowser extends FormRun
                 || _property.Name == ARBAOTBrowserConstants::EntityRelationshipRole)
                 ? SysLabel::labelId2String(_property.GetValue(_object).ToString())
                 : (_property.GetValue(_object) == null ? '' : _property.GetValue(_object).ToString());
+        }
+
+        return value;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>getLabelValue</Name>
+				<Source><![CDATA[
+    protected str getLabelValue(PropertyInfo _property, anytype _object)
+    {
+        str value = SysLabel::labelId2String(_property.GetValue(_object).ToString());
+
+        if (value == '')
+        {
+            if (_object is AxEdt && (_object as AxEdt).Extends != '')
+            {
+                AxEdt edt = _object as AxEdt;
+                AxEdt extendsEdt = Xpp.MetadataSupport::GetEdt(edt.Extends);
+                if (extendsEdt != null)
+                {
+                    value = this.getLabelValue(extendsEdt.GetType().GetProperty(_property.Name), extendsEdt);
+                }
+            }
+            else
+            {
+                System.Type t = _object.GetType();
+                PropertyInfo edtProp = t.GetProperty(ARBAOTBrowserConstants::ExtendedDataType);
+                if (edtProp != null && edtProp.GetValue(_object) != null && edtProp.GetValue(_object).ToString() != '')
+                {
+                    str edtName = edtProp.GetValue(_object).ToString();
+                    if (edtName != '')
+                    {
+                        AxEdt edt = Xpp.MetadataSupport::GetEdt(edtName);
+                        if (edt != null)
+                        {
+                            value = this.getLabelValue(edt.GetType().GetProperty(_property.Name), edt);
+                        }
+                    }
+                }
+                else
+                {
+                    PropertyInfo enumProp = t.GetProperty(ARBAOTBrowserConstants::EnumType);
+                    if (enumProp != null && enumProp.GetValue(_object) != null && enumProp.GetValue(_object).ToString() != '')
+                    {
+                        str enumName = enumProp.GetValue(_object).ToString();
+                        if (enumName != '')
+                        {
+                            AxEnum enum = Xpp.MetadataSupport::GetEnum(enumName);
+                            if (enum != null)
+                            {
+                                value = this.getLabelValue(enum.GetType().GetProperty(_property.Name), enum);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        PropertyInfo dataSourceProp = t.GetProperty(ARBAOTBrowserConstants::DataSource);
+                        if (dataSourceProp != null && dataSourceProp.GetValue(_object) != null)
+                        {
+                            str dataSourceName = dataSourceProp.GetValue(_object).ToString();
+                            PropertyInfo dataFieldProp = t.GetProperty(ARBAOTBrowserConstants::DataField);
+                            if (dataFieldProp != null && dataFieldProp.GetValue(_object) != null)
+                            {
+                                str dataFieldName = dataFieldProp.GetValue(_object).ToString();
+                                if (aotObjectTree.getCollectionMap().exists(ARBAOTBrowserConstants::DataSources))
+                                {
+                                    Map datasourcesMap = aotObjectTree.getCollectionMap().lookup(ARBAOTBrowserConstants::DataSources);
+                                    if (datasourcesMap.exists(dataSourceName))
+                                    {
+                                        anytype dataSource = ObjectTree.getItem(datasourcesMap.lookup(dataSourceName)).data();
+                                        System.Type datasourceType = dataSource.GetType();
+                                        PropertyInfo tableProp = datasourceType.GetProperty(ARBAOTBrowserConstants::Table);
+                                        str tableName = tableProp.GetValue(dataSource);
+                                        AxTableField tableField = Xpp.MetadataSupport::GetTableField(tableName, dataFieldName);
+                                        if (tableField != null)
+                                        {
+                                            value = this.getLabelValue(tableField.GetType().GetProperty(_property.Name), tableField);
+                                        }
+                                        else
+                                        {
+                                            AxViewField viewField = Xpp.MetadataSupport::GetViewField(tableName, dataFieldName);
+                                            if (viewField != null)
+                                            {
+                                                value = this.getLabelValue(viewField.GetType().GetProperty(_property.Name), viewField);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         return value;

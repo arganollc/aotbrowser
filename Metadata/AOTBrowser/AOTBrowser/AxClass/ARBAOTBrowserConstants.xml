@@ -69,6 +69,7 @@ public class ARBAOTBrowserConstants
     public static const str ClassDeclaration = 'ClassDeclaration';
     public static const str Declaration = 'Declaration';
     public static const str Constraints = 'Constraints';
+    public static const str DataField = 'DataField';
 }
 ]]></Declaration>
 		<Methods />
