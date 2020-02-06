@@ -516,7 +516,7 @@ public class ARBAOTObjectTree
     protected str getObjectName(anytype _object)
     {
         Microsoft.Dynamics.AX.Metadata.Core.MetaModel.INamedObject namedObject = _object as Microsoft.Dynamics.AX.Metadata.Core.MetaModel.INamedObject;
-        str name;
+        str name;      
         if (namedObject != null)
         {
             name = namedObject.Name;
@@ -565,7 +565,7 @@ public class ARBAOTObjectTree
         }
 
         TreeItemIdx idx = _parentIdx;
-        if ((_collectionName != ARBAOTBrowserConstants::Controls && _collectionName != ARBAOTBrowserConstants::Elements)
+        if ((_collectionName != ARBAOTBrowserConstants::Controls && _collectionName != ARBAOTBrowserConstants::Elements && _collectionName != ARBAOTBrowserConstants::Constraints)
             || (treeControl.getItem(_parentIdx).data() is AxFormExtension))
         {
             idx = SysFormTreeControl::addTreeItem(treeControl, _collectionName, _parentIdx, _collection, 0, true, 0, _formTreeAdd);
