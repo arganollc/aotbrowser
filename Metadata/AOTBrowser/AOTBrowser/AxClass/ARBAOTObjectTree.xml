@@ -57,6 +57,16 @@ public class ARBAOTObjectTree
 ]]></Source>
 			</Method>
 			<Method>
+				<Name>getCollectionMap</Name>
+				<Source><![CDATA[
+    public Map getCollectionMap()
+    {
+        return collectionMap;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
 				<Name>parmTreeControl</Name>
 				<Source><![CDATA[
     public FormTreeControl parmTreeControl(FormTreeControl _treeControl = treeControl)

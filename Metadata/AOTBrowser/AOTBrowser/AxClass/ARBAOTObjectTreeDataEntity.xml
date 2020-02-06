@@ -31,6 +31,7 @@ class ARBAOTObjectTreeDataEntity extends ARBAOTObjectTree
     public void update(TreeNodeName _aotNodeName)
     {
         dataEntityName = _aotNodeName;
+        collectionMap.insert(ARBAOTBrowserConstants::DataSources, dataSourceMap);
         super(_aotNodeName);
     }
 
