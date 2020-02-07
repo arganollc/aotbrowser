@@ -12,6 +12,8 @@ using Microsoft.Dynamics.AX.Metadata.MetaModel;
 [ARBAOTObjectType(ARBAOTObjectType::Table)]
 class ARBAOTObjectTreeTable extends ARBAOTObjectTree
 {
+    TableName tableName;
+
 }
 ]]></Declaration>
 		<Methods>
@@ -27,6 +29,7 @@ class ARBAOTObjectTreeTable extends ARBAOTObjectTree
         AxTable table = Xpp.MetadataSupport::GetTable(_aotNodeName);
         if (table != null)
         {
+            tableName = _aotNodeName;
             super(_aotNodeName);
         }
         else
@@ -34,6 +37,61 @@ class ARBAOTObjectTreeTable extends ARBAOTObjectTree
             ARBAOTObjectTree objectTree = ARBAOTObjectTree::newFromAOTObject(treeControl, ARBAOTObjectType::View, extensionsInline);
             objectTree.update(_aotNodeName);
         }
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>addTreeNode</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Adds a new node to the tree
+    /// </summary>
+    /// <param name = "_object">The object to add</param>
+    /// <param name = "_idx">The tree index to add it under</param>
+    /// <param name = "_formTreeAdd">The order it should add the node</param>
+    /// <param name = "_skipAddHeader">If true, skip adding the header node</param>
+    /// <param name = "_extensionName">The name of the extension it came from, if any</param>
+    /// <returns>The tree index of the new node</returns>
+    public TreeItemIdx addTreeNode(anytype _object, TreeItemIdx _idx, int _formTreeAdd = FormTreeAdd::Sort, boolean _skipAddHeader = false, str _extensionName = '')
+    {
+        TreeItemIdx parentIdx;
+
+        if (_object is AxTableRelation)
+        {
+            AxTableRelation relation = _object as AxTableRelation;
+            parentIdx = SysFormTreeControl::addTreeItem(treeControl, relation.Name + (_extensionName == '' ? '' : ' (' + _extensionName + ')'), _idx, _object, 0, false, 0, _formTreeAdd);
+            System.Collections.IEnumerator conEnum = relation.Constraints.GetEnumerator();
+            while (conEnum.moveNext())
+            {
+                AxTableRelationConstraint constraint = conEnum.Current as AxTableRelationConstraint;
+                str name = constraint.Name;
+
+                if (constraint is AxTableRelationConstraintField)
+                {
+                    AxTableRelationConstraintField constraintField = constraint as AxTableRelationConstraintField;
+                    name = strFmt('%1.%2 == %3.%4', tableName, constraintField.Field, relation.RelatedTable, constraintField.RelatedField);
+                }
+                else if (constraint is AxTableRelationConstraintFixed)
+                {
+                    AxTableRelationConstraintFixed constraintFixed = constraint as AxTableRelationConstraintFixed;
+                    name = strFmt('%1.%2 == %3', tableName, constraintFixed.Field, constraintFixed.ValueStr);
+                }
+                else if (constraint is AxTableRelationConstraintRelatedFixed)
+                {
+                    AxTableRelationConstraintRelatedFixed constraintRelatedFixed = constraint as AxTableRelationConstraintRelatedFixed;
+                    name = strFmt('%1 == %2.%3', constraintRelatedFixed.ValueStr, relation.RelatedTable, constraintRelatedFixed.RelatedField);
+                }
+
+                SysFormTreeControl::addTreeItem(treeControl, name + (_extensionName == '' ? '' : ' (' + _extensionName + ')'), parentIdx, constraint, 0, false, 0, FormTreeAdd::Last);
+            }
+        }
+        else
+        {
+            parentIdx = super(_object, _idx, _formTreeAdd, _skipAddHeader, _extensionName);
+        }
+
+        return parentIdx;
     }
 
 ]]></Source>

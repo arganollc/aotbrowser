@@ -17,6 +17,7 @@ class ARBAOTObjectTreeView extends ARBAOTObjectTree
     Map currentDsMap;
     Map rangesMap = new Map(Types::String, Types::Integer);
     Map currentRangesMap;
+    str currentDatasource;
 
 }
 ]]></Declaration>
@@ -33,6 +34,7 @@ class ARBAOTObjectTreeView extends ARBAOTObjectTree
         AxView view = Xpp.MetadataSupport::GetView(_aotNodeName);
         if (view != null)
         {
+            collectionMap.insert(ARBAOTBrowserConstants::DataSources, dataSourceMap);
             super(_aotNodeName);
         }
         else
@@ -132,9 +134,28 @@ class ARBAOTObjectTreeView extends ARBAOTObjectTree
             insertIntoRangeMap = true;
             currentRangesMap = rangesMap;
             collectionMap.insert(ARBAOTBrowserConstants::Ranges, rangesMap);
+            currentDatasource = objectName;
         }
 
-        TreeItemIdx parentIdx = super(_object, _idx, _formTreeAdd, _skipAddHeader, _extensionName);
+        TreeItemIdx parentIdx;
+        if (_object is AxQuerySimpleDataSourceRelation)
+        {
+            AxQuerySimpleDataSourceRelation relation = _object as AxQuerySimpleDataSourceRelation;
+            str name;
+            if (relation.JoinRelationName)
+            {
+                name = relation.JoinRelationName;
+            }
+            else
+            {
+                name = strFmt('%1.%2 == %3.%4', relation.JoinDataSource, relation.Field, currentDatasource, relation.RelatedField);
+            }
+            parentIdx = SysFormTreeControl::addTreeItem(treeControl, name + (_extensionName == '' ? '' : ' (' + _extensionName + ')'), _idx, _object, 0, false, 0, _formTreeAdd);
+        }
+        else
+        {
+            parentIdx = super(_object, _idx, _formTreeAdd, _skipAddHeader, _extensionName);
+        }
 
         if (currentDsMap != null
             && (_object is AxQuerySimpleDataSource))

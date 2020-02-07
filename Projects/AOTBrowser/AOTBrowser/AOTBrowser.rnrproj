@@ -111,16 +111,6 @@
       <Name>ARBAOTObjectTypeAttribute</Name>
       <Link>Classes\ARBAOTObjectTypeAttribute</Link>
     </Content>
-    <Content Include="AxClass\ARBDMFEntity_EventHandler">
-      <SubType>Content</SubType>
-      <Name>ARBDMFEntity_EventHandler</Name>
-      <Link>Classes\ARBDMFEntity_EventHandler</Link>
-    </Content>
-    <Content Include="AxClass\ARBFormControlPersonalization_EventHandler">
-      <SubType>Content</SubType>
-      <Name>ARBFormControlPersonalization_EventHandler</Name>
-      <Link>Classes\ARBFormControlPersonalization_EventHandler</Link>
-    </Content>
     <Content Include="AxClass\ARBObjectExtension">
       <SubType>Content</SubType>
       <Name>ARBObjectExtension</Name>
