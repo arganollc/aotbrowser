@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>ARBSysFormTreeControl</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// Custom version of SysFormTreeControl
+/// </summary>
+class ARBSysFormTreeControl
+{
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>expandTree</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Duplicate of SysFormTreeControl but without the check for expanded once
+    /// </summary>
+    /// <param name = "_formTreeControl">The form tree control</param>
+    /// <param name = "_treeItemIdx">The tree index to expand</param>
+    /// <param name = "_toLevel">The level to expand to</param>
+    /// <param name = "_level">The current level</param>
+    public static client void expandTree(FormTreeControl _formTreeControl, TreeItemIdx _treeItemIdx, int _toLevel = 0, int _level = 0)
+    {
+        FormTreeItem    formTreeItem;
+        TreeItemIdx     treeItemIdx = _treeItemIdx;
+        int             level       = _level;
+
+        while(treeItemIdx)
+        {
+            formTreeItem = _formTreeControl.getItem(treeItemIdx);
+            level++;
+
+            _formTreeControl.expand(formTreeItem.idx(), FormTreeExpand::Expand);
+
+            if (_formTreeControl.getChild(formTreeItem.idx()))
+            {
+                if (!formTreeItem.children())
+                {
+                    formTreeItem.children(true);
+                    _formTreeControl.setItem(formTreeItem);
+                    _formTreeControl.expand(formTreeItem.idx());
+                }
+
+                if (!_toLevel ||
+                    _toLevel > level)
+                {
+                    ARBSysFormTreeControl::expandTree(_formTreeControl,_formTreeControl.getChild(formTreeItem.idx()), _toLevel, level);
+                }
+            }
+            else
+            {
+                if (formTreeItem.children())
+                {
+                    formTreeItem.children(false);
+                    _formTreeControl.setItem(formTreeItem);
+                }
+            }
+
+            treeItemIdx = _formTreeControl.getNextSibling(formTreeItem.idx());
+        }
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

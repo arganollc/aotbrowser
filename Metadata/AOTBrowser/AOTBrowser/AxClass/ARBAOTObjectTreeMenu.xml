@@ -77,6 +77,7 @@ class ARBAOTObjectTreeMenu extends ARBAOTObjectTree
     /// <returns>The tree index of the new node</returns>
     public TreeItemIdx addTreeNode(anytype _object, TreeItemIdx _idx, int _formTreeAdd = FormTreeAdd::Sort, boolean _skipAddHeader = false, str _extensionName = '')
     {
+        int formTreeAdd = _formTreeAdd;
         if (_object == null)
         {
             return 0;
@@ -91,10 +92,10 @@ class ARBAOTObjectTreeMenu extends ARBAOTObjectTree
             collectionMap.insert(ARBAOTBrowserConstants::MenuElements, elementMap);
 
             // For Menu's don't sort, but display in designed order
-            _formTreeAdd = FormTreeAdd::Last;
+            formTreeAdd = FormTreeAdd::Last;
         }
 
-        TreeItemIdx parentIdx = super(_object, _idx, _formTreeAdd, _skipAddHeader, _extensionName);
+        TreeItemIdx parentIdx = super(_object, _idx, formTreeAdd, _skipAddHeader, _extensionName);
 
         if (currentElementMap != null
             && (_object is AxMenuElement))

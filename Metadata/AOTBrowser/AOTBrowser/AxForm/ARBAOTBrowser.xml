@@ -890,6 +890,49 @@ public class ARBAOTBrowser extends FormRun
 				</Methods>
 			</Control>
 			<Control>
+				<Name>ExpandTree</Name>
+				<Type>Button</Type>
+				<Methods>
+					<Method>
+						<Name>clicked</Name>
+						<Source><![CDATA[
+        /// <summary>
+        ///
+        /// </summary>
+        public void clicked()
+        {
+            super();
+            
+            ARBSysFormTreeControl::expandTree(ObjectTree, ObjectTree.getRoot());
+        }
+
+]]></Source>
+					</Method>
+				</Methods>
+			</Control>
+			<Control>
+				<Name>CollapseTree</Name>
+				<Type>Button</Type>
+				<Methods>
+					<Method>
+						<Name>clicked</Name>
+						<Source><![CDATA[
+        /// <summary>
+        ///
+        /// </summary>
+        public void clicked()
+        {
+            super();
+    
+            SysFormTreeControl::collapseTree(ObjectTree, ObjectTree.getRoot());
+            ARBSysFormTreeControl::expandTree(ObjectTree, ObjectTree.getRoot(), 1);
+        }
+
+]]></Source>
+					</Method>
+				</Methods>
+			</Control>
+			<Control>
 				<Name>ObjectTree</Name>
 				<Type>Tree</Type>
 				<Methods>
@@ -1572,6 +1615,41 @@ public class ARBAOTBrowser extends FormRun
 										<FormControlExtension
 											i:nil="true" />
 										<Controls>
+											<AxFormControl xmlns=""
+												i:type="AxFormButtonGroupControl">
+												<Name>ExpandCollapseGroup</Name>
+												<Type>ButtonGroup</Type>
+												<WidthMode>SizeToAvailable</WidthMode>
+												<FormControlExtension
+													i:nil="true" />
+												<Controls>
+													<AxFormControl xmlns=""
+														i:type="AxFormButtonControl">
+														<Name>ExpandTree</Name>
+														<HeightMode>SizeToAvailable</HeightMode>
+														<Type>Button</Type>
+														<WidthMode>SizeToAvailable</WidthMode>
+														<FormControlExtension
+															i:nil="true" />
+														<ButtonDisplay>TextWithImageLeft</ButtonDisplay>
+														<NormalImage>Add</NormalImage>
+														<Text>@SYS112350</Text>
+													</AxFormControl>
+													<AxFormControl xmlns=""
+														i:type="AxFormButtonControl">
+														<Name>CollapseTree</Name>
+														<HeightMode>SizeToAvailable</HeightMode>
+														<Type>Button</Type>
+														<WidthMode>SizeToAvailable</WidthMode>
+														<FormControlExtension
+															i:nil="true" />
+														<ButtonDisplay>TextWithImageLeft</ButtonDisplay>
+														<NormalImage>Hide</NormalImage>
+														<Text>@SYS112351</Text>
+													</AxFormControl>
+												</Controls>
+												<Columns>2</Columns>
+											</AxFormControl>
 											<AxFormControl xmlns=""
 												i:type="AxFormTreeControl">
 												<Name>ObjectTree</Name>

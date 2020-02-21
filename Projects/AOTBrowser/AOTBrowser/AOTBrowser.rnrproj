@@ -121,6 +121,11 @@
       <Name>ARBObjectModification</Name>
       <Link>Classes\ARBObjectModification</Link>
     </Content>
+    <Content Include="AxClass\ARBSysFormTreeControl">
+      <SubType>Content</SubType>
+      <Name>ARBSysFormTreeControl</Name>
+      <Link>Classes\ARBSysFormTreeControl</Link>
+    </Content>
     <Content Include="AxEdt\ARBAOTProperties">
       <SubType>Content</SubType>
       <Name>ARBAOTProperties</Name>
