@@ -25,4 +25,4 @@ In the D365FO web interface navigate to Common > Common > AOT browser
 
 ## [Arbela AOT Browser on AppSource](https://appsource.microsoft.com/en-us/product/dynamics-365-for-finance-and-operations/arbela-technologies.arbelaaotbrowser)
 
-Reach out to us at info@arbelatech.com if you have an questions or feedback!
+Reach out to us at info@arbelatech.com if you have any questions or feedback!
