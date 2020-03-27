@@ -442,7 +442,22 @@ public class ARBAOTBrowser extends FormRun
                             AxPropertyModification propMod = propModsEnum.Current;
                             ttsbegin;
                             ARBAOTObjectProperties::find(ARBAOTObjectProperties, propMod.Name, true);
-                            ARBAOTObjectProperties.Value = propMod.Value;
+                            if (_object is AxEnumValue && propMod.Name == 'Value')
+                            {
+                                anytype parent = ObjectTree.getItem(ObjectTree.getRoot()).data();
+                                ARBObjectModification objectMod = parent as ARBObjectModification;
+                                if (objectMod)
+                                {
+                                    parent = objectMod.Object;
+                                }
+                                AxEnum enum = parent as AxEnum;
+                                AxEnumValue enumValue = _object as AxEnumValue;
+                                ARBAOTObjectProperties.Value = int2Str(symbol2Enum(enumName2Id(enum.Name), enumValue.Name));
+                            }
+                            else
+                            {
+                                ARBAOTObjectProperties.Value = propMod.Value;
+                            }
                             ARBAOTObjectProperties.Modified = NoYes::Yes;
                             if (ARBAOTObjectProperties)
                             {
@@ -482,6 +497,18 @@ public class ARBAOTBrowser extends FormRun
         {
             AxMethodReturnType returnType = _property.GetValue(_object);
             value = returnType.Type.ToString() + ' - ' + returnType.TypeName;
+        }
+        else if (_object is AxEnumValue && _property.Name == 'Value')
+        {
+            anytype parent = ObjectTree.getItem(ObjectTree.getRoot()).data();
+            ARBObjectModification objectMod = parent as ARBObjectModification;
+            if (objectMod)
+            {
+                parent = objectMod.Object;
+            }
+            AxEnum enum = parent as AxEnum;
+            AxEnumValue enumValue = _object as AxEnumValue;
+            value = int2Str(symbol2Enum(enumName2Id(enum.Name), enumValue.Name));
         }
         else
         {
