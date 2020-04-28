@@ -392,6 +392,15 @@ public class ARBAOTBrowser extends FormRun
                     object = _object;
                 }
 
+                if (object is AxTable)
+                {
+                    AxTable table = object as AxTable;
+                    ARBAOTObjectProperties.clear();
+                    ARBAOTObjectProperties.Name = '_Id';
+                    ARBAOTObjectProperties.Value = int2Str(tableName2Id(table.Name));
+                    ARBAOTObjectProperties.insert();
+                }
+
                 System.Type t = object.GetType();
        
                 var props = t.GetProperties();
