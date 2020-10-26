@@ -21,7 +21,7 @@ variables:
   PlatPackage: 'Microsoft.Dynamics.AX.Platform.DevALM.BuildXpp'
   ToolsPackage: 'Microsoft.Dynamics.AX.Platform.CompilerPackage'
   MetadataPath: '$(Build.SourcesDirectory)\Metadata'
-  NugetConfigsPath: '$(Build.SourcesDirectory)\Metadata'
+  NugetConfigsPath: '$(Build.SourcesDirectory)\Projects'
   NugetsPath: '$(Pipeline.Workspace)\NuGets'
 
 steps:
@@ -29,8 +29,8 @@ steps:
 - task: NuGetInstaller@0
   displayName: 'NuGet install Packages'
   inputs:
-    solution: '$(NugetConfigsPath)\Projects\packages.config'
-    nugetConfigPath: '$(NugetConfigsPath)\Projects\nuget.config'
+    solution: '$(NugetConfigsPath)\packages.config'
+    nugetConfigPath: '$(NugetConfigsPath)\nuget.config'
     restoreMode: install
     nuGetRestoreArgs: '-ExcludeVersion -OutputDirectory "$(NugetsPath)"'
     nuGetVersion: 4.0.0.2283
