@@ -29,8 +29,8 @@ steps:
 - task: NuGetInstaller@0
   displayName: 'NuGet install Packages'
   inputs:
-    solution: '$(NugetConfigsPath)\packages.config'
-    nugetConfigPath: '$(NugetConfigsPath)\nuget.config'
+    solution: '$(NugetConfigsPath)\Projects\packages.config'
+    nugetConfigPath: '$(NugetConfigsPath)\Projects\nuget.config'
     restoreMode: install
     nuGetRestoreArgs: '-ExcludeVersion -OutputDirectory "$(NugetsPath)"'
     nuGetVersion: 4.0.0.2283
