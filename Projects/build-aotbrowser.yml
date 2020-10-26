@@ -52,7 +52,7 @@ steps:
     Contents: '**/bin/**'
     TargetFolder: '$(Build.BinariesDirectory)'
     
-steps:
+# Restore nuget packages for C# Projects
 - task: NuGetCommand@2
   displayName: 'NuGet restore'
 
