@@ -3,7 +3,7 @@
 # https://docs.microsoft.com/en-us/dynamics365/fin-ops-core/dev-itpro/dev-tools/hosted-build-automation
 
 # Change the name of the build to a 4-digit version number to be used for model versioning
-name: $(Date:yy.MM.dd)$(Rev:.r)
+name: 863.0.2$(Rev:.r)
 trigger:
 - master
 
@@ -42,6 +42,7 @@ steps:
   inputs:
     XppSourcePath: '$(MetadataPath)'
     VersionNumber: '$(Build.BuildNumber)'
+    XppLayer: 8
 
 # In case the X++ code has check-in binary dependencies, copy them to the output folder
 # This is needed for packaging but also for the X++ compiler
@@ -66,6 +67,7 @@ steps:
     solution: 'Projects/BuildSolution/BuildSolution.sln'
     vsVersion: '15.0'
     msbuildArgs: '/p:BuildTasksDirectory="$(NugetsPath)\$(ToolsPackage)\DevAlm" /p:MetadataDirectory="$(MetadataPath)" /p:FrameworkDirectory="$(NuGetsPath)\$(ToolsPackage)" /p:ReferenceFolder="$(NuGetsPath)\$(PlatPackage)\ref\net40;$(NuGetsPath)\$(AppPackage)\ref\net40;$(MetadataPath);$(Build.BinariesDirectory)" /p:ReferencePath="$(NuGetsPath)\$(ToolsPackage)" /p:OutputDirectory="$(Build.BinariesDirectory)"'
+    maximumCpuCount: true
 
 # Copy the compiler log files to the drop artifacts
 - task: CopyFiles@2
