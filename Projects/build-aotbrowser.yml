@@ -91,6 +91,7 @@ steps:
   displayName: 'Create Deployable Package'
   inputs:
     XppToolsPath: '$(NuGetsPath)\$(ToolsPackage)'
+    DeployablePackagePath: '$(Build.ArtifactStagingDirectory)\AOTBrowser_DeployablePackage_$(Build.BuildNumber).zip'
 
 # Enable this task to add a license file to the package
 - task: XppAddLicenseToPackage@0
@@ -98,7 +99,7 @@ steps:
   enabled: false
 
 - task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifact: drop'
+  displayName: 'Publish Artifact: Packages'
   inputs:
     PathtoPublish: '$(build.artifactstagingdirectory)'
   condition: succeededOrFailed()
