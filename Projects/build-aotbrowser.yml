@@ -93,6 +93,12 @@ steps:
     XppToolsPath: '$(NuGetsPath)\$(ToolsPackage)'
     DeployablePackagePath: '$(Build.ArtifactStagingDirectory)\AOTBrowser_DeployablePackage_$(Build.BuildNumber).zip'
 
+- task: NSIITSoftwareServices.d365-devops-xppcreatesourcemodelpackage.XppCreateSourceModelPackage.XppCreateSourceModelPackage@0
+  displayName: 'Create Model Source Package'
+  inputs:
+    XppToolsPath: '$(NuGetsPath)\$(ToolsPackage)'
+    SourceModelPackagePath: '$(Build.ArtifactStagingDirectory)\AOTBrowser_Model_$(Build.BuildNumber).zip'
+
 # Enable this task to add a license file to the package
 - task: XppAddLicenseToPackage@0
   displayName: 'Add Licenses to Deployable Package'
