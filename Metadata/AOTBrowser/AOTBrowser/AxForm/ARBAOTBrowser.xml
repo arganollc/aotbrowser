@@ -247,6 +247,7 @@ public class ARBAOTBrowser extends FormRun
         Map propMap = new Map(Types::String, Types::Integer);
         int nextArrayNum = 1;
         FormStringControl previousControl;
+        int currentTableId  = 0;
 
         void addObjectToMatrix(anytype objectLocal, boolean setModified)
         {
@@ -259,6 +260,38 @@ public class ARBAOTBrowser extends FormRun
             }
             ARBAOTObjectPropertiesMatrix.clear();
             ARBAOTObjectPropertiesMatrix.TypeName = name;
+
+            if (objectLocal is AxTableField)
+            {
+                if (!currentTableId)
+                {
+                    anytype parent = ObjectTree.getItem(ObjectTree.getRoot()).data();
+                    ARBObjectModification objectMod = parent as ARBObjectModification;
+                    if (objectMod)
+                    {
+                        parent = objectMod.Object;
+                    }
+                    AxTable table = parent as AxTable;
+                    currentTableId = tableName2Id(table.Name);
+                }
+                AxTableField tableField = objectLocal as AxTableField;
+                int arrayNum;
+                if (propMap.exists('_Id'))
+                {
+                    arrayNum = propMap.lookup('_Id');
+                }
+                if (arrayNum == 0)
+                {
+                    arrayNum = nextArrayNum;
+
+                    nextArrayNum++;
+                    propMap.insert('_Id', arrayNum);
+                    previousControl = propertiesMatrixGrid.addDataField(ARBAOTObjectPropertiesMatrix_ds.id(), fieldNum(ARBAOTObjectPropertiesMatrix, Property), previousControl, arrayNum);
+                    matrixControlMap.insert(strFmt('%1;%2', fieldNum(ARBAOTObjectPropertiesMatrix, Property), arrayNum), previousControl.id());
+                    previousControl.label('_Id');
+                }
+                ARBAOTObjectPropertiesMatrix.Property[arrayNum] = int2Str(fieldName2Id(currentTableId, tableField.Name));
+            }
 
             var props = t.GetProperties();
             for (int i = 0; i < props.Length; i++)
@@ -390,6 +423,31 @@ public class ARBAOTBrowser extends FormRun
                 else
                 {
                     object = _object;
+                }
+
+                if (object is AxTable)
+                {
+                    AxTable table = object as AxTable;
+                    ARBAOTObjectProperties.clear();
+                    ARBAOTObjectProperties.Name = '_Id';
+                    ARBAOTObjectProperties.Value = int2Str(tableName2Id(table.Name));
+                    ARBAOTObjectProperties.insert();
+                }
+                else if (object is AxTableField)
+                {
+                    anytype parent = ObjectTree.getItem(ObjectTree.getRoot()).data();
+                    ARBObjectModification objectMod = parent as ARBObjectModification;
+                    if (objectMod)
+                    {
+                        parent = objectMod.Object;
+                    }
+                    AxTable table = parent as AxTable;
+                    currentTableId = tableName2Id(table.Name);
+                    AxTableField tableField = object as AxTableField;
+                    ARBAOTObjectProperties.clear();
+                    ARBAOTObjectProperties.Name = '_Id';
+                    ARBAOTObjectProperties.Value = int2Str(fieldName2Id(tableName2Id(table.Name), tableField.Name));
+                    ARBAOTObjectProperties.insert();
                 }
 
                 System.Type t = object.GetType();
