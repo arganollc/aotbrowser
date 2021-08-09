@@ -3,7 +3,7 @@
 # https://docs.microsoft.com/en-us/dynamics365/fin-ops-core/dev-itpro/dev-tools/hosted-build-automation
 
 # Change the name of the build to a 4-digit version number to be used for model versioning
-name: 863.0.2$(Rev:.r)
+name: 863.0.3$(Rev:.r)
 trigger:
 - master
 
@@ -18,6 +18,7 @@ pool:
 # Make editing the path for metadata and NuGet extraction folder easier
 variables:
   AppPackage: 'Microsoft.Dynamics.AX.Application.DevALM.BuildXpp'
+  AppSuitePackage: 'Microsoft.Dynamics.AX.ApplicationSuite.DevALM.BuildXpp'
   PlatPackage: 'Microsoft.Dynamics.AX.Platform.DevALM.BuildXpp'
   ToolsPackage: 'Microsoft.Dynamics.AX.Platform.CompilerPackage'
   MetadataPath: '$(Build.SourcesDirectory)\Metadata'
@@ -66,7 +67,7 @@ steps:
   inputs:
     solution: 'Projects/BuildSolution/BuildSolution.sln'
     vsVersion: '15.0'
-    msbuildArgs: '/p:BuildTasksDirectory="$(NugetsPath)\$(ToolsPackage)\DevAlm" /p:MetadataDirectory="$(MetadataPath)" /p:FrameworkDirectory="$(NuGetsPath)\$(ToolsPackage)" /p:ReferenceFolder="$(NuGetsPath)\$(PlatPackage)\ref\net40;$(NuGetsPath)\$(AppPackage)\ref\net40;$(MetadataPath);$(Build.BinariesDirectory)" /p:ReferencePath="$(NuGetsPath)\$(ToolsPackage)" /p:OutputDirectory="$(Build.BinariesDirectory)"'
+    msbuildArgs: '/p:BuildTasksDirectory="$(NugetsPath)\$(ToolsPackage)\DevAlm" /p:MetadataDirectory="$(MetadataPath)" /p:FrameworkDirectory="$(NuGetsPath)\$(ToolsPackage)" /p:ReferenceFolder="$(NuGetsPath)\$(PlatPackage)\ref\net40;$(NuGetsPath)\$(AppPackage)\ref\net40;$(NuGetsPath)\$(AppSuitePackage)\ref\net40;$(MetadataPath);$(Build.BinariesDirectory)" /p:ReferencePath="$(NuGetsPath)\$(ToolsPackage)" /p:OutputDirectory="$(Build.BinariesDirectory)"'
     maximumCpuCount: true
 
 # Copy the compiler log files to the drop artifacts
