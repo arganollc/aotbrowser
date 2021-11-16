@@ -19,7 +19,7 @@ namespace Arbela.Dynamics.AX.Xpp.Support
             htmlOptions.NoClasses = true;
             htmlOptions.LineNumbers = PygmentSharp.Core.Formatting.LineNumberStyle.Table;
             return PygmentSharp.Core.Pygmentize.Content(_unformattedString)
-                .WithLexer(new PygmentSharp.Core.Lexing.XPlusPlusLexer())
+                .WithLexer(new XPlusPlusLexer())
                 .WithFormatter(new PygmentSharp.Core.Formatting.HtmlFormatter(htmlOptions))
                 .AsString();
 

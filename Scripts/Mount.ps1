@@ -14,18 +14,36 @@ else
 {
   throw "Cannot find the AOSService folder in any known location"
 }
-Write-Host "using $LocalDeploymentFolder as the deployment folder"
+Write-Host "Using $LocalDeploymentFolder as the deployment folder"
 
 $LocalPackagesFolder = Join-Path $LocalDeploymentFolder "PackagesLocalDirectory"
 
+if (Get-Process devenv -ErrorAction SilentlyContinue) {
+    throw "Visual studio is running! Please close VS and run the script again."
+}
+
+# Install d365fo.tools if needed
+if (Get-Module -ListAvailable -Name "d365fo.tools") {
+    Write-Host "Importing d365fo.tools"
+    Import-Module "d365fo.tools"
+} 
+else {
+    Write-Host "Installing d365fo.tools"
+    Install-PackageProvider nuget -Scope CurrentUser -Force -Confirm:$false
+    Install-Module d365fo.tools -AllowClobber -SkipPublisherCheck -Force -Confirm:$false
+}
+
+Write-Host "Stopping D365FO environment"
+Stop-D365Environment
+
 # Get the list of models to junction
-$ModelsToJunction = Get-ChildItem "..\Metadata\"
+$ModelsToJunction = Get-ChildItem "$PSScriptRoot\..\Metadata\"
 Write-Host "Enabling editing of the following models:" $ModelsToJunction
 
 foreach ($Model in $ModelsToJunction) 
 {
     $LocalModelPath = Join-Path $LocalPackagesFolder $Model
-    $RepoPath = Join-Path "..\Metadata" $Model
+    $RepoPath = Join-Path "$PSScriptRoot\..\Metadata" $Model
 	
 	if (!(Test-Path $LocalModelPath -PathType Container))
 	{
@@ -51,3 +69,6 @@ foreach ($Model in $ModelsToJunction)
         }
     }   
 }
+
+Write-Host "Starting D365FO environment"
+Start-D365Environment
