@@ -450,6 +450,12 @@ public class ARBAOTBrowser extends FormRun
                     ARBAOTObjectProperties.insert();
                 }
 
+                if (showCode && Arbela.Dynamics.Ax.Xpp.MetadataSupport::CanGetSourceText(object))
+                {
+                    CodeViewer.parmHtml(Arbela.Dynamics.AX.Xpp.Support.HtmlFormatHelper::Format(Arbela.Dynamics.Ax.Xpp.MetadataSupport::GetXppSourceText(object)));
+                    CodeViewerGroup.visible(true);
+                }
+
                 System.Type t = object.GetType();
        
                 var props = t.GetProperties();
@@ -464,7 +470,7 @@ public class ARBAOTBrowser extends FormRun
                         && prop.Name != ARBAOTBrowserConstants::Design
                         && prop.Name != ARBAOTBrowserConstants::FormControl)
                     {
-                        if (showCode && (prop.Name == ARBAOTBrowserConstants::Source || prop.Name == ARBAOTBrowserConstants::ClassDeclaration || prop.Name == ARBAOTBrowserConstants::Declaration))
+                        if (showCode && prop.Name == ARBAOTBrowserConstants::Source)
                         {
                             CodeViewer.parmHtml(Arbela.Dynamics.AX.Xpp.Support.HtmlFormatHelper::Format(this.getPropertyValue(prop, object)));
                             CodeViewerGroup.visible(true);
