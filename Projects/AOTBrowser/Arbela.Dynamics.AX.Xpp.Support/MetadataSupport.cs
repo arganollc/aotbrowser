@@ -217,9 +217,13 @@ namespace Arbela.Dynamics.Ax.Xpp
                 {
                     result = ((AxClass)axElement).GetCompleteSource(codePositionCollector);
                 }
-                else if (axElement is AxDataEntity)
+                else if (axElement is AxDataEntityView)
                 {
-                    result = ((AxDataEntity)axElement).GetCompleteSource(codePositionCollector);
+                    result = ((AxDataEntityView)axElement).GetCompleteSource(codePositionCollector);
+                }
+                else if (axElement is AxAggregateDataEntity)
+                {
+                    result = ((AxAggregateDataEntity)axElement).GetCompleteSource(codePositionCollector);
                 }
                 else if (axElement is AxForm)
                 {
