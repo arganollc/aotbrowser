@@ -291,6 +291,23 @@ public class ARBAOTBrowser extends FormRun
                     previousControl.label('_Id');
                 }
                 ARBAOTObjectPropertiesMatrix.Property[arrayNum] = int2Str(fieldName2Id(currentTableId, tableField.Name));
+
+                arrayNum = 0;
+                if (propMap.exists('_Type'))
+                {
+                    arrayNum = propMap.lookup('_Type');
+                }
+                if (arrayNum == 0)
+                {
+                    arrayNum = nextArrayNum;
+
+                    nextArrayNum++;
+                    propMap.insert('_Type', arrayNum);
+                    previousControl = propertiesMatrixGrid.addDataField(ARBAOTObjectPropertiesMatrix_ds.id(), fieldNum(ARBAOTObjectPropertiesMatrix, Property), previousControl, arrayNum);
+                    matrixControlMap.insert(strFmt('%1;%2', fieldNum(ARBAOTObjectPropertiesMatrix, Property), arrayNum), previousControl.id());
+                    previousControl.label('_Type');
+                }
+                ARBAOTObjectPropertiesMatrix.Property[arrayNum] = this.getFieldType(tableField);
             }
 
             var props = t.GetProperties();
@@ -448,6 +465,24 @@ public class ARBAOTBrowser extends FormRun
                     ARBAOTObjectProperties.Name = '_Id';
                     ARBAOTObjectProperties.Value = int2Str(fieldName2Id(tableName2Id(table.Name), tableField.Name));
                     ARBAOTObjectProperties.insert();
+                    ARBAOTObjectProperties.clear();
+                    ARBAOTObjectProperties.Name = '_Type';
+                    ARBAOTObjectProperties.Value = this.getFieldType(tableField);;
+                    ARBAOTObjectProperties.insert();
+                }
+                else if (object is AxEdt)
+                {
+                    AxEdt edt = object as AxEdt;
+                    ARBAOTObjectProperties.clear();
+                    ARBAOTObjectProperties.Name = '_Type';
+                    ARBAOTObjectProperties.Value = this.getEdtType(edt);;
+                    ARBAOTObjectProperties.insert();
+                }
+
+                if (showCode && Arbela.Dynamics.Ax.Xpp.MetadataSupport::CanGetSourceText(object))
+                {
+                    CodeViewer.parmHtml(Arbela.Dynamics.AX.Xpp.Support.HtmlFormatHelper::Format(Arbela.Dynamics.Ax.Xpp.MetadataSupport::GetXppSourceText(object)));
+                    CodeViewerGroup.visible(true);
                 }
 
                 System.Type t = object.GetType();
@@ -464,7 +499,7 @@ public class ARBAOTBrowser extends FormRun
                         && prop.Name != ARBAOTBrowserConstants::Design
                         && prop.Name != ARBAOTBrowserConstants::FormControl)
                     {
-                        if (showCode && (prop.Name == ARBAOTBrowserConstants::Source || prop.Name == ARBAOTBrowserConstants::ClassDeclaration || prop.Name == ARBAOTBrowserConstants::Declaration))
+                        if (showCode && prop.Name == ARBAOTBrowserConstants::Source)
                         {
                             CodeViewer.parmHtml(Arbela.Dynamics.AX.Xpp.Support.HtmlFormatHelper::Format(this.getPropertyValue(prop, object)));
                             CodeViewerGroup.visible(true);
@@ -541,6 +576,96 @@ public class ARBAOTBrowser extends FormRun
         }
         ARBAOTObjectProperties_ds.executeQuery();
         ARBAOTObjectPropertiesMatrix_ds.executeQuery();
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>getFieldType</Name>
+				<Source><![CDATA[
+    protected str getFieldType(AxTableField _axTableField)
+    {
+        str ret;
+        switch (true)
+        {
+            case _axTableField is AxTableFieldInt:
+                ret = 'Int';
+                break;
+            case _axTableField is AxTableFieldInt64:
+                ret = 'Int64';
+                break;
+            case _axTableField is AxTableFieldReal:
+                ret = 'Real';
+                break;
+            case _axTableField is AxTableFieldString:
+                ret = 'String';
+                break;
+            case _axTableField is AxTableFieldContainer:
+                ret = 'Container';
+                break;
+            case _axTableField is AxTableFieldDate:
+                ret = 'Date';
+                break;
+            case _axTableField is AxTableFieldEnum:
+                ret = 'Enum';
+                break;
+            case _axTableField is AxTableFieldGuid:
+                ret = 'Guid';
+                break;
+            case _axTableField is AxTableFieldTime:
+                ret = 'Time';
+                break;
+            case _axTableField is AxTableFieldUtcDateTime:
+                ret = 'UtcDateTime';
+                break;
+        }
+
+        return ret;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>getEdtType</Name>
+				<Source><![CDATA[
+    protected str getEdtType(AxEdt _axEdt)
+    {
+        str ret;
+        switch (true)
+        {
+            case _axEdt is AxEdtInt:
+                ret = 'Int';
+                break;
+            case _axEdt is AxEdtInt64:
+                ret = 'Int64';
+                break;
+            case _axEdt is AxEdtReal:
+                ret = 'Real';
+                break;
+            case _axEdt is AxEdtString:
+                ret = 'String';
+                break;
+            case _axEdt is AxEdtContainer:
+                ret = 'Container';
+                break;
+            case _axEdt is AxEdtDate:
+                ret = 'Date';
+                break;
+            case _axEdt is AxEdtEnum:
+                ret = 'Enum';
+                break;
+            case _axEdt is AxEdtGuid:
+                ret = 'Guid';
+                break;
+            case _axEdt is AxEdtTime:
+                ret = 'Time';
+                break;
+            case _axEdt is AxEdtUtcDateTime:
+                ret = 'UtcDateTime';
+                break;
+        }
+
+        return ret;
     }
 
 ]]></Source>

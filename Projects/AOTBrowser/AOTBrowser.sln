@@ -1,13 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1401
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FC65038C-1B2F-41E1-A629-BED71D161FFF}") = "AOTBrowser (ISV) [AOTBrowser]", "AOTBrowser\AOTBrowser.rnrproj", "{C5965394-4359-4F9A-97D4-A609B58EDC8D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arbela.Dynamics.AX.Xpp.Support", "Arbela.Dynamics.AX.Xpp.Support\Arbela.Dynamics.AX.Xpp.Support.csproj", "{2F618DA7-59BC-4ABE-8F24-72D2D59F9AD4}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PygmentSharp.Core", "PygmentSharp.Core\PygmentSharp.Core.csproj", "{9EB63A83-0F9D-4C49-BC2A-95E37EB1CB15}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,12 +21,11 @@ Global
 		{2F618DA7-59BC-4ABE-8F24-72D2D59F9AD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F618DA7-59BC-4ABE-8F24-72D2D59F9AD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F618DA7-59BC-4ABE-8F24-72D2D59F9AD4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9EB63A83-0F9D-4C49-BC2A-95E37EB1CB15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9EB63A83-0F9D-4C49-BC2A-95E37EB1CB15}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9EB63A83-0F9D-4C49-BC2A-95E37EB1CB15}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9EB63A83-0F9D-4C49-BC2A-95E37EB1CB15}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8E971547-F19C-4CFF-B46A-8EA8945408C0}
 	EndGlobalSection
 EndGlobal

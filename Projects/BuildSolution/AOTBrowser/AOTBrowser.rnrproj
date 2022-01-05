@@ -35,11 +35,15 @@
       <Project>{2f618da7-59bc-4abe-8f24-72d2d59f9ad4}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\AOTBrowser\PygmentSharp.Core\PygmentSharp.Core.csproj">
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="AxReference\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="PygmentSharp.Core, Version=0.3.0.0, Culture=neutral, PublicKeyToken=null">
       <Name>PygmentSharp.Core</Name>
-      <Project>{9eb63a83-0f9d-4c49-bc2a-95e37eb1cb15}</Project>
-      <Private>True</Private>
-    </ProjectReference>
+      <HintPath>..\packages\PygmentSharp.Core.0.3.0\lib\netstandard2.0\PygmentSharp.Core.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.Common.targets" />
   <Import Project="$(BuildTasksDirectory)\Microsoft.Dynamics.Framework.Tools.BuildTasks.targets" />

@@ -7,6 +7,10 @@ using Microsoft.Dynamics.AX.Metadata.Kernel;
 using Microsoft.Dynamics.AX.Metadata.MetaModel;
 using System.Collections.Specialized;
 using Microsoft.Dynamics.AX.Metadata.Storage;
+using Microsoft.Dynamics.AX.Metadata.Core.MetaModel;
+using Microsoft.Dynamics.AX.Metadata.Extensions;
+using Microsoft.Dynamics.AX.Metadata;
+using Microsoft.Dynamics.Framework.Tools.Core;
 
 namespace Arbela.Dynamics.Ax.Xpp
 {
@@ -197,6 +201,78 @@ namespace Arbela.Dynamics.Ax.Xpp
         public static IEnumerator<string> ServiceGroupNames()
         {
             return Accessor.GetServiceGroupNames().GetEnumerator();
+        }
+
+        public static string GetXppSourceText(INamedObject axElement)
+        {
+            return MetadataSupport.GetXppSourceText(axElement, null, true);
+        }
+
+        public static string GetXppSourceText(INamedObject axElement, IElementCodePositionCollector codePositionCollector, bool handleMetadataCorruptedException = true)
+        {
+            string result = string.Empty;
+            try
+            {
+                if (axElement is AxClass)
+                {
+                    result = ((AxClass)axElement).GetCompleteSource(codePositionCollector);
+                }
+                else if (axElement is AxDataEntityView)
+                {
+                    result = ((AxDataEntityView)axElement).GetCompleteSource(codePositionCollector);
+                }
+                else if (axElement is AxAggregateDataEntity)
+                {
+                    result = ((AxAggregateDataEntity)axElement).GetCompleteSource(codePositionCollector);
+                }
+                else if (axElement is AxForm)
+                {
+                    result = ((AxForm)axElement).GetCompleteSource(codePositionCollector);
+                }
+                else if (axElement is AxQuery)
+                {
+                    result = ((AxQuery)axElement).GetCompleteSource(codePositionCollector);
+                }
+                else if (axElement is AxMacroDictionary)
+                {
+                    result = ((AxMacroDictionary)axElement).GetCompleteSource(null);
+                }
+                else if (axElement is AxFormDataSourceRoot)
+                {
+                    result = ((AxFormDataSourceRoot)axElement).GetCompleteSource(true, null);
+                }
+                else if (axElement is AxFormDataSourceField)
+                {
+                    result = ((AxFormDataSourceField)axElement).GetCompleteSource(true, null);
+                }
+                else if (axElement is AxFormControl)
+                {
+                    result = ((AxFormControl)axElement).GetCompleteSource(true, null);
+                }
+            }
+            catch (MetadataCorruptedException ex) when (handleMetadataCorruptedException)
+            {
+                AxLogHandler.DisplayError(ex.Message);
+                return string.Empty;
+            }
+            return result;
+        }
+
+        public static bool CanGetSourceText(Object checkObject)
+        {
+            if (checkObject is AxClass
+                || checkObject is AxDataEntity
+                || checkObject is AxForm
+                || checkObject is AxQuery
+                || checkObject is AxMacroDictionary
+                || checkObject is AxFormDataSourceRoot
+                || checkObject is AxFormDataSourceField
+                || checkObject is AxFormControl)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

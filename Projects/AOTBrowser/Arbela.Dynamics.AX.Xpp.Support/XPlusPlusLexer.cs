@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using PygmentSharp.Core;
+using PygmentSharp.Core.Lexing;
 using PygmentSharp.Core.Tokens;
 
-namespace PygmentSharp.Core.Lexing
+namespace Arbela.Dynamics.AX.Xpp.Support
 {
     internal static class XPlusPlusLexerLevel
     {
