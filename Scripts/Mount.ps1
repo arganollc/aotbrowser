@@ -1,3 +1,13 @@
+<#
+.SYNOPSIS
+    Helps to mount GitHub repo to your machine
+.DESCRIPTION
+    It creates a symbolic link into Metadata folder of Dynamics 365 for Operations.
+.COMPANY
+    Arbela Technologies Corp.
+#>
+
+
 if (Test-Path -Path K:\AosService)
 {
    $LocalDeploymentFolder = "K:\AosService"
@@ -16,7 +26,9 @@ else
 }
 Write-Host "Using $LocalDeploymentFolder as the deployment folder"
 
-$LocalPackagesFolder = Join-Path $LocalDeploymentFolder "PackagesLocalDirectory"
+$LocalMetadataFolder = Join-Path -Path $LocalDeploymentFolder -ChildPath "\PackagesLocalDirectory"
+
+Write-Host "using $LocalMetadataFolder as the metadata folder"
 
 if (Get-Process devenv -ErrorAction SilentlyContinue) {
     throw "Visual studio is running! Please close VS and run the script again."
