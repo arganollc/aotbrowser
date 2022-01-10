@@ -217,6 +217,18 @@ namespace Arbela.Dynamics.Ax.Xpp
                 {
                     result = ((AxClass)axElement).GetCompleteSource(codePositionCollector);
                 }
+                else if (axElement is AxTable)
+                {
+                    result = ((AxTable)axElement).GetCompleteSource(codePositionCollector);
+                }
+                else if (axElement is AxView)
+                {
+                    result = ((AxView)axElement).GetCompleteSource(codePositionCollector);
+                }
+                else if (axElement is AxMap)
+                {
+                    result = ((AxMap)axElement).GetCompleteSource(codePositionCollector);
+                }
                 else if (axElement is AxDataEntityView)
                 {
                     result = ((AxDataEntityView)axElement).GetCompleteSource(codePositionCollector);
@@ -261,6 +273,9 @@ namespace Arbela.Dynamics.Ax.Xpp
         public static bool CanGetSourceText(Object checkObject)
         {
             if (checkObject is AxClass
+                || checkObject is AxTable
+                || checkObject is AxView
+                || checkObject is AxMap
                 || checkObject is AxDataEntity
                 || checkObject is AxForm
                 || checkObject is AxQuery
