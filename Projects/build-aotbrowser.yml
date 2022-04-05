@@ -8,8 +8,8 @@ trigger:
 - master
 
 pool:
-# Use the VS2017 image
-  vmImage: 'vs2017-win2016'
+# Use the windows 2022 image
+  vmImage: 'windows-2022'
   demands:
     - msbuild
     - visualstudio
@@ -52,6 +52,13 @@ steps:
   inputs:
     SourceFolder: '$(MetadataPath)'
     Contents: '**/bin/**'
+    TargetFolder: '$(Build.BinariesDirectory)'
+    
+- task: CopyFiles@2
+  displayName: 'Copy AOTBrowser Metadat to: $(Build.BinariesDirectory)'
+  inputs:
+    SourceFolder: '$(MetadataPath)'
+    Contents: '**/AOTBrowser/**'
     TargetFolder: '$(Build.BinariesDirectory)'
     
 # Restore nuget packages for C# Projects
@@ -98,6 +105,8 @@ steps:
   displayName: 'Create Model Source Package'
   inputs:
     XppToolsPath: '$(NuGetsPath)\$(ToolsPackage)'
+    XppMetadataPath: '$(Build.BinariesDirectory)'
+    XppMetadataSearch: AOTBrowser
     SourceModelPackagePath: '$(Build.ArtifactStagingDirectory)\AOTBrowser_Model_$(Build.BuildNumber).zip'
 
 # Enable this task to add a license file to the package
