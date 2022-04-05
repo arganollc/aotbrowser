@@ -58,7 +58,7 @@ steps:
   displayName: 'Copy AOTBrowser Metadat to: $(Build.BinariesDirectory)'
   inputs:
     SourceFolder: '$(MetadataPath)'
-    Contents: 'AOTBrowser'
+    Contents: '**/AOTBrowser/**'
     TargetFolder: '$(Build.BinariesDirectory)'
     
 # Restore nuget packages for C# Projects
