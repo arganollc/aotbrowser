@@ -10,7 +10,7 @@ using Microsoft.Dynamics.AX.Metadata.Storage;
 using Microsoft.Dynamics.AX.Metadata.Core.MetaModel;
 using Microsoft.Dynamics.AX.Metadata.Extensions;
 using Microsoft.Dynamics.AX.Metadata;
-using Microsoft.Dynamics.Framework.Tools.Core;
+//using Microsoft.Dynamics.Framework.Tools.Core;
 
 namespace Arbela.Dynamics.Ax.Xpp
 {
@@ -264,7 +264,7 @@ namespace Arbela.Dynamics.Ax.Xpp
             }
             catch (MetadataCorruptedException ex) when (handleMetadataCorruptedException)
             {
-                AxLogHandler.DisplayError(ex.Message);
+                //AxLogHandler.DisplayError(ex.Message);
                 return string.Empty;
             }
             return result;

@@ -63,10 +63,6 @@
       <HintPath Condition="Exists('C:\AosService\PackagesLocalDirectory\Bin\Microsoft.Dynamics.AX.Xpp.Support.dll')">C:\AosService\PackagesLocalDirectory\Bin\Microsoft.Dynamics.AX.Xpp.Support.dll</HintPath>
       <HintPath Condition="Exists('K:\AosService\PackagesLocalDirectory\Bin\Microsoft.Dynamics.AX.Xpp.Support.dll')">K:\AosService\PackagesLocalDirectory\Bin\Microsoft.Dynamics.AX.Xpp.Support.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Dynamics.Framework.Tools.Core">
-      <HintPath Condition="Exists('C:\AOSService\PackagesLocalDirectory\Bin\Microsoft.Dynamics.Framework.Tools.Core.dll')">C:\AOSService\PackagesLocalDirectory\Bin\Microsoft.Dynamics.Framework.Tools.Core.dll</HintPath>
-      <HintPath Condition="Exists('K:\AOSService\PackagesLocalDirectory\Bin\Microsoft.Dynamics.Framework.Tools.Core.dll')">K:\AOSService\PackagesLocalDirectory\Bin\Microsoft.Dynamics.Framework.Tools.Core.dll</HintPath>
-    </Reference>
     <Reference Include="PygmentSharp.Core, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\PygmentSharp.Core.0.3.0\lib\netstandard2.0\PygmentSharp.Core.dll</HintPath>
     </Reference>
