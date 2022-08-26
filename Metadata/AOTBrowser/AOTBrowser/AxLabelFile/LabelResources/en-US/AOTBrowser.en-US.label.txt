@@ -1,62 +1,91 @@
-﻿NewLabel0=Label files created on 12/04/2019 20:20:46 for label file Id AOTBrowser and language en-US
- ;Label file comment - see above label
-CompositeDataEntities=Composite data entity
- ;ARB_AOTBrowser
-Maps=Map
- ;ARB_AOTBrowser
-Macros=Macro
- ;ARB_AOTBrowser
-Tiles=Tile
- ;ARB_AOTBrowser
-Menus=Menu
+﻿AggregateDataEntity=Aggregate data entity
  ;ARB_AOTBrowser
 AOTBrowser=AOT browser
  ;ARB_AOTBrowser
-BaseEnum=Base enum
+AOTBrowserMaintain=Maintain AOT browser
  ;ARB_AOTBrowser
-MenuItemDisplay=Display menu item
- ;ARB_AOTBrowser
-MenuItemOutput=Output menu item
- ;ARB_AOTBrowser
-MenuItemAction=Action menu item
- ;ARB_AOTBrowser
-SecurityRole=Security role
- ;ARB_AOTBrowser
-SecurityDuty=Security duty
- ;ARB_AOTBrowser
-SecurityPrivilege=Security privilege
- ;ARB_AOTBrowser
-PopulateAOTObjectTable=AOTBrowser - Populate AOT object table
- ;ARB_AOTBrowser
-ObjectType=Object type
- ;ARB_AOTBrowser
-Object=Object
- ;ARB_AOTBrowser
-OpenInAOTBrowser=Open in AOT browser
- ;ARB_AOTBrowser
-AOTObjects=AOT objects
- ;ARB_AOTBrowser
-AOTObjectsDevDoc=List of objects in the application object tree
- ;ARB_AOTBrowser
-TableStatisticsDevDoc=Statistics about each table in the database
- ;ARB_AOTBrowser
-PropertyValue=Value
+AOTBrowserUser=AOT browser user
  ;ARB_AOTBrowser
 AOTObjectProperties=AOT object properties
  ;ARB_AOTBrowser
 AOTObjectPropertiesDevDoc=Holds the properties for the AOT object
  ;ARB_AOTBrowser
-AggregateDataEntity=Aggregate data entity
+AOTObjects=AOT objects
  ;ARB_AOTBrowser
-WorkflowCategory=Workflow category
+AOTObjectsDevDoc=List of objects in the application object tree
+ ;ARB_AOTBrowser
+BaseEnum=Base enum
+ ;ARB_AOTBrowser
+CompositeDataEntities=Composite data entity
+ ;ARB_AOTBrowser
+ConfigKey=Configuration key
+ ;ARB_AOTBrowser
+ConfigKeyGroup=Configuration key group
+ ;ARB_AOTBrowser
+LicenseCode=License code
+ ;ARB_AOTBrowser
+Macros=Macro
+ ;ARB_AOTBrowser
+Maps=Map
+ ;ARB_AOTBrowser
+MenuItemAction=Action menu item
+ ;ARB_AOTBrowser
+MenuItemDisplay=Display menu item
+ ;ARB_AOTBrowser
+MenuItemOutput=Output menu item
+ ;ARB_AOTBrowser
+Menus=Menu
+ ;ARB_AOTBrowser
+NewLabel0=Label files created on 12/04/2019 20:20:46 for label file Id AOTBrowser and language en-US
+ ;Label file comment - see above label
+Object=Object
+ ;ARB_AOTBrowser
+ObjectId=Object id
+ ;AOTBrowser
+ObjectType=Object type
+ ;ARB_AOTBrowser
+OpenInAOTBrowser=Open in AOT browser
+ ;ARB_AOTBrowser
+OpenTableBrowserButton=Open table browser
+ ;ARB_AOTBrowser
+PopulateAOTObjects=Populate AOT objects
+ ;ARB_AOTBrowser
+PopulateAOTObjectTable=AOTBrowser - Populate AOT object table
+ ;ARB_AOTBrowser
+PropertyValue=Value
+ ;ARB_AOTBrowser
+Reference=Reference
+ ;ARB_AOTBrowser
+Report=Report
+ ;ARB_AOTBrowser
+Resource=Resource
+ ;ARB_AOTBrowser
+SecurityDuty=Security duty
+ ;ARB_AOTBrowser
+SecurityPrivilege=Security privilege
+ ;ARB_AOTBrowser
+SecurityRole=Security role
+ ;ARB_AOTBrowser
+Service=Service
+ ;ARB_AOTBrowser
+ServiceGroup=Service group
+ ;ARB_AOTBrowser
+TableStatisticsDevDoc=Statistics about each table in the database
+ ;ARB_AOTBrowser
+Tiles=Tile
+ ;ARB_AOTBrowser
+ViewCode=View source code
+ ;ARB_AOTBrowser
+ViewCodeHelp=Toggles the ability to view the source code. (NOTE: Viewing metadata from 3rd parties provided by deployable package is not supported with this turned on)
+ViewExtensionsInline=Show extensions inline
  ;ARB_AOTBrowser
 WorkflowApproval=Workflow approval
  ;ARB_AOTBrowser
-WorkflowTask=Workflow task
- ;ARB_AOTBrowser
 WorkflowAutomatedTask=Workflow automated task
  ;ARB_AOTBrowser
-WorkflowType=Workflow type
+WorkflowCategory=Workflow category
+ ;ARB_AOTBrowser
+WorkflowDueDateCalculationProvider=Workflow due date calculation provider
  ;ARB_AOTBrowser
 WorkflowHierarchyAssignmentProvider=Workflow hierarchy assignment provider
  ;ARB_AOTBrowser
@@ -64,34 +93,7 @@ WorkflowParticipantAssignmentProvider=Workflow participant assignment provider
  ;ARB_AOTBrowser
 WorkflowQueueAssignmentProvider=Workflow queue assignment provider
  ;ARB_AOTBrowser
-WorkflowDueDateCalculationProvider=Workflow due date calculation provider
+WorkflowTask=Workflow task
  ;ARB_AOTBrowser
-Resource=Resource
+WorkflowType=Workflow type
  ;ARB_AOTBrowser
-LicenseCode=License code
- ;ARB_AOTBrowser
-ConfigKey=Configuration key
- ;ARB_AOTBrowser
-ConfigKeyGroup=Configuration key group
- ;ARB_AOTBrowser
-Reference=Reference
- ;ARB_AOTBrowser
-Service=Service
- ;ARB_AOTBrowser
-ServiceGroup=Service group
- ;ARB_AOTBrowser
-Report=Report
- ;ARB_AOTBrowser
-PopulateAOTObjects=Populate AOT objects
- ;ARB_AOTBrowser
-OpenTableBrowserButton=Open table browser
- ;ARB_AOTBrowser
-AOTBrowserMaintain=Maintain AOT browser
- ;ARB_AOTBrowser
-AOTBrowserUser=AOT browser user
- ;ARB_AOTBrowser
-ViewExtensionsInline=Show extensions inline
- ;ARB_AOTBrowser
-ViewCode=View source code
- ;ARB_AOTBrowser
-ViewCodeHelp=Toggles the ability to view the source code. (NOTE: Viewing metadata from 3rd parties provided by deployable package is not supported with this turned on)

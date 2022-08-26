@@ -38,6 +38,7 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
             aotObjects.Name = table.Name;
             aotObjects.Label = SysLabel::labelId2String2(table.Label);
             aotObjects.Type = ARBAOTObjectType::Table;
+            aotObjects.ObjectId = tableName2Id(table.Name);
             aotObjectsInsertList.add(aotObjects);
         }
 
@@ -51,6 +52,7 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
             aotObjects.Name = view.Name;
             aotObjects.Label = SysLabel::labelId2String2(view.Label);
             aotObjects.Type = ARBAOTObjectType::View;
+            aotObjects.ObjectId = tableName2Id(view.Name);
             aotObjectsInsertList.add(aotObjects);
 
         }
@@ -65,6 +67,7 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
             aotObjects.Name = enum.Name;
             aotObjects.Label = SysLabel::labelId2String2(enum.Label);
             aotObjects.Type = ARBAOTObjectType::BaseEnum;
+            aotObjects.ObjectId = enumName2Id(enum.Name);
             aotObjectsInsertList.add(aotObjects);
 
         }
@@ -79,6 +82,7 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
             aotObjects.Name = edt.Name;
             aotObjects.Label = SysLabel::labelId2String2(edt.Label);
             aotObjects.Type = ARBAOTObjectType::ExtendedDataType;
+            aotObjects.ObjectId = extendedtypeName2Id(edt.Name);
             aotObjectsInsertList.add(aotObjects);
 
         }
@@ -93,6 +97,7 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
             aotObjects.Name = dataEntityView.Name;
             aotObjects.Label = SysLabel::labelId2String2(dataEntityView.Label);
             aotObjects.Type = ARBAOTObjectType::DataEntity;
+            aotObjects.ObjectId = tableName2Id(dataEntityView.Name);
             aotObjectsInsertList.add(aotObjects);
 
         }
@@ -121,6 +126,7 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
             aotObjects.Name = aotClass.Name;
             //aotObjects.Label = SysLabel::labelId2String2(aotClass.Label);
             aotObjects.Type = ARBAOTObjectType::Class;
+            aotObjects.ObjectId = className2Id(aotClass.Name);
             aotObjectsInsertList.add(aotObjects);
         }
 
@@ -452,6 +458,7 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
             aotObjects.Name = object.Name;
             aotObjects.Label = SysLabel::labelId2String2(object.Label);
             aotObjects.Type = ARBAOTObjectType::ConfigKey;
+            aotObjects.ObjectId = configurationKeyName2Id(object.Name);
             aotObjectsInsertList.add(aotObjects);
         }
 

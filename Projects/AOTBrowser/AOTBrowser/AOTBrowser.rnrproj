@@ -34,6 +34,7 @@
     <Folder Include="Classes\" />
     <Folder Include="Display Menu Items\" />
     <Folder Include="EDT Enums\" />
+    <Folder Include="EDT Integers\" />
     <Folder Include="Extended Data Types\" />
     <Folder Include="Form Extensions\" />
     <Folder Include="Forms\" />
@@ -55,6 +56,11 @@
       <SubType>Content</SubType>
       <Name>ARBAOTBrowserConstants</Name>
       <Link>Classes\ARBAOTBrowserConstants</Link>
+    </Content>
+    <Content Include="AxClass\ARBAOTBrowserHelper">
+      <SubType>Content</SubType>
+      <Name>ARBAOTBrowserHelper</Name>
+      <Link>Classes\ARBAOTBrowserHelper</Link>
     </Content>
     <Content Include="AxClass\ARBAOTObjectPopulateController">
       <SubType>Content</SubType>
@@ -135,6 +141,11 @@
       <SubType>Content</SubType>
       <Name>ARBAOTPropertyValue</Name>
       <Link>Extended Data Types\ARBAOTPropertyValue</Link>
+    </Content>
+    <Content Include="AxEdt\ARBObjectId">
+      <SubType>Content</SubType>
+      <Name>ARBObjectId</Name>
+      <Link>EDT Integers\ARBObjectId</Link>
     </Content>
     <Content Include="AxEnum\ARBAOTObjectType">
       <SubType>Content</SubType>
