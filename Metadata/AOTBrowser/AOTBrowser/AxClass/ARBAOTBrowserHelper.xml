@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>ARBAOTBrowserHelper</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+using Microsoft.Dynamics.AX.Metadata.MetaModel;
+using Microsoft.Dynamics.AX.Metadata.Core.MetaModel;
+
+public final class ARBAOTBrowserHelper
+{
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>getObjectIdByName</Name>
+				<Source><![CDATA[
+    public static int getObjectIdByName(anytype _object)
+    {
+        INamedObject namedObject = _object as INamedObject;
+        if (namedObject == null)
+        {
+            return 0;
+        }
+        str objectName = namedObject.Name;
+        int objectId;
+
+        switch (true)
+        {
+            case _object is AxTable:
+            case _object is AxView:
+            case _object is AxDataEntityView:
+                objectId = tableName2Id(objectName);
+                break;
+
+            case _object is AxEnum:
+                objectId = enumName2Id(objectName);
+                break;
+
+            case _object is AxClass:
+                objectId = className2Id(objectName);
+                break;
+
+            case _object is AxEdt:
+                objectId = extendedTypeName2Id(objectName);
+                break;
+
+            case _object is AxConfigurationKey:
+                objectId = configurationKeyName2Id(objectName);
+                break;
+        }
+
+        return objectId;
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

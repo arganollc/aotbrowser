@@ -114,6 +114,11 @@ public class ARBAOTObjects extends common
 			<Mandatory>Yes</Mandatory>
 			<EnumType>ARBAOTObjectType</EnumType>
 		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldInt">
+			<Name>ObjectId</Name>
+			<ExtendedDataType>ARBObjectId</ExtendedDataType>
+		</AxTableField>
 	</Fields>
 	<FullTextIndexes />
 	<Indexes>
