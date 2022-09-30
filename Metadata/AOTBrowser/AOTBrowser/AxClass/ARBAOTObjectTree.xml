@@ -497,7 +497,11 @@ public class ARBAOTObjectTree
             
             PropertyInfo prop = props.GetValue(i);
             if (prop.PropertyType.Name != ARBAOTBrowserConstants::String
-                && (prop.Name == ARBAOTBrowserConstants::ViewMetadata || prop.Name == ARBAOTBrowserConstants::DataSource || prop.Name == ARBAOTBrowserConstants::Design || prop.Name == ARBAOTBrowserConstants::FormControl))
+                && (prop.Name == ARBAOTBrowserConstants::ViewMetadata
+                    || prop.Name == ARBAOTBrowserConstants::DataSource
+                    || prop.Name == ARBAOTBrowserConstants::Design
+                    || prop.Name == ARBAOTBrowserConstants::FormControl
+                    || prop.PropertyType.Name == ARBAOTBrowserConstants::AxWorkflowOutcome))
             {
                 var propValue = prop.GetValue(_object);
                 TreeItemIdx idx = SysFormTreeControl::addTreeItem(treeControl, prop.Name, parentIdx, propValue, 0, true, 0, _formTreeAdd);
