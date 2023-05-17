@@ -274,6 +274,7 @@ public class ARBAOTBrowser extends FormRun
                     }
                     AxTable table = parent as AxTable;
                     currentTableId = tableName2Id(table.Name);
+		    workingTableId = tableName2Id(table.Name);
                 }
                 AxTableField tableField = objectLocal as AxTableField;
                 int arrayNum;
