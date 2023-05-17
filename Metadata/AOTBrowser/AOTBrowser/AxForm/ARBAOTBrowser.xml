@@ -24,6 +24,7 @@ public class ARBAOTBrowser extends FormRun
     Map matrixControlMap;
     boolean showCode;
     ARBAOTObjectTree aotObjectTree;
+    int workingTableId;
 
     #define.CurrentVersion(2)
     #localmacro.CurrentList
@@ -461,6 +462,7 @@ public class ARBAOTBrowser extends FormRun
                     }
                     AxTable table = parent as AxTable;
                     currentTableId = tableName2Id(table.Name);
+		    workingTableId = tableName2Id(table.Name);
                     AxTableField tableField = object as AxTableField;
                     ARBAOTObjectProperties.clear();
                     ARBAOTObjectProperties.Name = '_Id';
@@ -693,6 +695,12 @@ public class ARBAOTBrowser extends FormRun
             AxEnum enum = parent as AxEnum;
             AxEnumValue enumValue = _object as AxEnumValue;
             value = int2Str(symbol2Enum(enumName2Id(enum.Name), enumValue.Name));
+        }
+        else if (_object is AxTableFieldString && _property.Name == "StringSize")
+        {
+            AxTableFieldString fieldString = _object;
+            DictField dictField = SysDictField::findFieldByName(tableId2Name(workingTableId), fieldString.Name);
+            return int2Str(new SysDictType(dictField.typeId()).stringLen());
         }
         else
         {
