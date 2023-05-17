@@ -20,15 +20,17 @@ elseif (Test-Path -Path E:\AosService)
 {
    $LocalDeploymentFolder = "E:\AosService"
 }
+elseif (Test-Path -Path J:\AosService)
+{
+   $LocalDeploymentFolder = "J:\AosService"
+}
 else
 {
   throw "Cannot find the AOSService folder in any known location"
 }
 Write-Host "Using $LocalDeploymentFolder as the deployment folder"
 
-$LocalMetadataFolder = Join-Path -Path $LocalDeploymentFolder -ChildPath "\PackagesLocalDirectory"
-
-Write-Host "using $LocalMetadataFolder as the metadata folder"
+$LocalPackagesFolder = Join-Path $LocalDeploymentFolder "PackagesLocalDirectory"
 
 if (Get-Process devenv -ErrorAction SilentlyContinue) {
     throw "Visual studio is running! Please close VS and run the script again."
