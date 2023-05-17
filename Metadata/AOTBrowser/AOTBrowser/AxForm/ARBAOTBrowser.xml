@@ -694,6 +694,20 @@ public class ARBAOTBrowser extends FormRun
             AxEnumValue enumValue = _object as AxEnumValue;
             value = int2Str(symbol2Enum(enumName2Id(enum.Name), enumValue.Name));
         }
+        else if (_object is AxTableFieldString && _property.Name == "StringSize")
+        {
+            AxTableFieldString fieldString = _object;
+            AxEdt extendsEdt = Xpp.MetadataSupport::GetEdt(fieldString.ExtendedDataType);
+            if (extendsEdt != null)
+            {
+                AxEdtString extendsEdtString = extendsEdt as AxEdtString;
+                value = int2Str(extendsEdtString.StringSize);
+            }
+            else
+            {
+                value = _property.GetValue(_object).ToString();
+            }
+        }
         else
         {
             value = (_property.Name == ARBAOTBrowserConstants::Label
