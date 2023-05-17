@@ -700,8 +700,16 @@ public class ARBAOTBrowser extends FormRun
         else if (_object is AxTableFieldString && _property.Name == "StringSize")
         {
             AxTableFieldString fieldString = _object;
-            DictField dictField = SysDictField::findFieldByName(tableId2Name(workingTableId), fieldString.Name);
-            return int2Str(new SysDictType(dictField.typeId()).stringLen());
+            AxEdt extendsEdt = Xpp.MetadataSupport::GetEdt(fieldString.ExtendedDataType);
+            if (extendsEdt != null)
+            {
+                AxEdtString extendsEdtString = extendsEdt as AxEdtString;
+                value = int2Str(extendsEdtString.StringSize);
+            }
+            else
+            {
+                value = _property.GetValue(_object).ToString();
+            }
         }
         else
         {
