@@ -24,7 +24,6 @@ public class ARBAOTBrowser extends FormRun
     Map matrixControlMap;
     boolean showCode;
     ARBAOTObjectTree aotObjectTree;
-    int workingTableId;
 
     #define.CurrentVersion(2)
     #localmacro.CurrentList
@@ -274,7 +273,6 @@ public class ARBAOTBrowser extends FormRun
                     }
                     AxTable table = parent as AxTable;
                     currentTableId = tableName2Id(table.Name);
-		    workingTableId = tableName2Id(table.Name);
                 }
                 AxTableField tableField = objectLocal as AxTableField;
                 int arrayNum;
@@ -463,7 +461,6 @@ public class ARBAOTBrowser extends FormRun
                     }
                     AxTable table = parent as AxTable;
                     currentTableId = tableName2Id(table.Name);
-		    workingTableId = tableName2Id(table.Name);
                     AxTableField tableField = object as AxTableField;
                     ARBAOTObjectProperties.clear();
                     ARBAOTObjectProperties.Name = '_Id';
