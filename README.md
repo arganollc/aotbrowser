@@ -21,7 +21,7 @@ to a development environment with Visual Studio.
 
 In the D365FO web interface navigate to Common > Common > AOT browser
 
-## [Documentation on GitHub Pages](https://arbelatech.github.io/aotbrowser/)
+## [Documentation on GitHub Pages](https://arganollc.github.io/aotbrowser/)
 
 ## [Arbela AOT Browser on AppSource](https://appsource.microsoft.com/en-us/product/dynamics-365-for-finance-and-operations/arbela-technologies.arbelaaotbrowser)
 
