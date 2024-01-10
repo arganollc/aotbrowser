@@ -24,6 +24,7 @@ public class ARBAOTBrowser extends FormRun
     Map matrixControlMap;
     boolean showCode;
     ARBAOTObjectTree aotObjectTree;
+    str entityFieldName;
 
     #define.CurrentVersion(2)
     #localmacro.CurrentList
@@ -195,6 +196,12 @@ public class ARBAOTBrowser extends FormRun
             ARBAOTObjectTreeForm objectTreeForm = aotObjectTree as ARBAOTObjectTreeForm;
             FormControl selectedControl = element.args().parmObject() as FormControl;
             objectTreeForm.parmSelectedControl(selectedControl.name());
+        }
+        else if (entityFieldName != ''
+            && aotObjectTree is ARBAOTObjectTreeDataEntity)
+        {
+            ARBAOTObjectTreeDataEntity objectTreeDataEntity = aotObjectTree as ARBAOTObjectTreeDataEntity;
+            objectTreeDataEntity.parmSelectedField(entityFieldName);
         }
         aotObjectTree.update(_aotNodeName);
         DetailsTab.caption(_aotNodeName + ' - ' + enum2Str(_objectType));
@@ -868,6 +875,16 @@ public class ARBAOTBrowser extends FormRun
                     args.parmEnumType(enumNum(ARBAOTObjectType));
                     args.parmEnum(ARBAOTObjectType::DataEntity);
                     args.parm(entity.TargetEntity);
+                    break;
+
+                case formStr(ARBEntityFields):
+                    FormDataSource entityFieldsDatasource = caller.dataSource(formDataSourceStr(ARBEntityFields, ARBEntityFields)) as FormDataSource;
+                    ARBEntityFields entityField = entityFieldsDatasource.cursor();
+
+                    args.parmEnumType(enumNum(ARBAOTObjectType));
+                    args.parmEnum(ARBAOTObjectType::DataEntity);
+                    args.parm(entityField.EntityName);
+                    entityFieldName = entityField.EntityFieldName;
                     break;
             }
         }

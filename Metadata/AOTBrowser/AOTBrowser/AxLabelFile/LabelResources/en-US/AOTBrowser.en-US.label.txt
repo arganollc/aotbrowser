@@ -22,6 +22,11 @@ ConfigKey=Configuration key
  ;ARB_AOTBrowser
 ConfigKeyGroup=Configuration key group
  ;ARB_AOTBrowser
+EntityFieldLabel=Entity field label
+EntityFieldList=Entity field list
+EntityFieldName=Entity field name
+EntityLabel=Entity label
+EntityName=Entity name
 LicenseCode=License code
  ;ARB_AOTBrowser
 Macros=Macro
@@ -52,6 +57,7 @@ PopulateAOTObjects=Populate AOT objects
  ;ARB_AOTBrowser
 PopulateAOTObjectTable=AOTBrowser - Populate AOT object table
  ;ARB_AOTBrowser
+PopulateEntityFieldList=Populate entity field list
 PropertyValue=Value
  ;ARB_AOTBrowser
 Reference=Reference
@@ -60,6 +66,7 @@ Report=Report
  ;ARB_AOTBrowser
 Resource=Resource
  ;ARB_AOTBrowser
+S=New Text
 SecurityDuty=Security duty
  ;ARB_AOTBrowser
 SecurityPrivilege=Security privilege
@@ -70,6 +77,8 @@ Service=Service
  ;ARB_AOTBrowser
 ServiceGroup=Service group
  ;ARB_AOTBrowser
+SourceTableField=Source table field
+SourceTableName=Source table name
 TableStatisticsDevDoc=Statistics about each table in the database
  ;ARB_AOTBrowser
 Tiles=Tile

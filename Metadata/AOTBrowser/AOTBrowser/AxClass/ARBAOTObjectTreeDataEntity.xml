@@ -17,10 +17,23 @@ class ARBAOTObjectTreeDataEntity extends ARBAOTObjectTree
     Map currentDsMap;
     str dataEntityName;
     str currentDatasource;
+    str selectedFieldName;
 
 }
 ]]></Declaration>
 		<Methods>
+			<Method>
+				<Name>parmSelectedField</Name>
+				<Source><![CDATA[
+    public str parmSelectedField(str _selectedFieldName = selectedFieldName)
+    {
+        selectedFieldName = _selectedFieldName;
+
+        return selectedFieldName;
+    }
+
+]]></Source>
+			</Method>
 			<Method>
 				<Name>update</Name>
 				<Source><![CDATA[
@@ -33,6 +46,15 @@ class ARBAOTObjectTreeDataEntity extends ARBAOTObjectTree
         dataEntityName = _aotNodeName;
         collectionMap.insert(ARBAOTBrowserConstants::DataSources, dataSourceMap);
         super(_aotNodeName);
+
+        if (selectedFieldName)
+        {
+            Map fieldsMap = collectionMap.lookup('Fields');
+            if (fieldsMap != null && fieldsMap.exists(selectedFieldName))
+            {
+                treeControl.select(fieldsMap.lookup(selectedFieldName));
+            }
+        }
     }
 
 ]]></Source>

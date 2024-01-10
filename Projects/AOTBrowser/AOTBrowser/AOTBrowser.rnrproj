@@ -117,6 +117,16 @@
       <Name>ARBAOTObjectTypeAttribute</Name>
       <Link>Classes\ARBAOTObjectTypeAttribute</Link>
     </Content>
+    <Content Include="AxClass\ARBEntityFieldPopulateController">
+      <SubType>Content</SubType>
+      <Name>ARBEntityFieldPopulateController</Name>
+      <Link>Classes\ARBEntityFieldPopulateController</Link>
+    </Content>
+    <Content Include="AxClass\ARBEntityFieldPopulateService">
+      <SubType>Content</SubType>
+      <Name>ARBEntityFieldPopulateService</Name>
+      <Link>Classes\ARBEntityFieldPopulateService</Link>
+    </Content>
     <Content Include="AxClass\ARBObjectExtension">
       <SubType>Content</SubType>
       <Name>ARBObjectExtension</Name>
@@ -167,6 +177,11 @@
       <Name>ARBAOTBrowser</Name>
       <Link>Forms\ARBAOTBrowser</Link>
     </Content>
+    <Content Include="AxForm\ARBEntityFields">
+      <SubType>Content</SubType>
+      <Name>ARBEntityFields</Name>
+      <Link>Forms\ARBEntityFields</Link>
+    </Content>
     <Content Include="AxLabelFile\AOTBrowser_en-US">
       <SubType>Content</SubType>
       <Name>AOTBrowser_en-US</Name>
@@ -187,10 +202,20 @@
       <Name>ARBAOTObjectPopulate</Name>
       <Link>Action Menu Items\ARBAOTObjectPopulate</Link>
     </Content>
+    <Content Include="AxMenuItemAction\ARBEntityFieldPopulateService">
+      <SubType>Content</SubType>
+      <Name>ARBEntityFieldPopulateService</Name>
+      <Link>Action Menu Items\ARBEntityFieldPopulateService</Link>
+    </Content>
     <Content Include="AxMenuItemDisplay\ARBAOTBrowser">
       <SubType>Content</SubType>
       <Name>ARBAOTBrowser</Name>
       <Link>Display Menu Items\ARBAOTBrowser</Link>
+    </Content>
+    <Content Include="AxMenuItemDisplay\ARBEntityFields">
+      <SubType>Content</SubType>
+      <Name>ARBEntityFields</Name>
+      <Link>Display Menu Items\ARBEntityFields</Link>
     </Content>
     <Content Include="AxSecurityDuty\ARBAOTBrowserMaintain">
       <SubType>Content</SubType>
@@ -222,6 +247,11 @@
       <Name>ARBAOTObjects</Name>
       <Link>Tables\ARBAOTObjects</Link>
     </Content>
+    <Content Include="AxTable\ARBEntityFields">
+      <SubType>Content</SubType>
+      <Name>ARBEntityFields</Name>
+      <Link>Tables\ARBEntityFields</Link>
+    </Content>
     <Content Include="AxTile\ARBAOTBrowserTile">
       <SubType>Content</SubType>
       <Name>ARBAOTBrowserTile</Name>
@@ -242,5 +272,5 @@
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.Common.targets" />
-  <Import Project="$(BuildTasksDirectory)\Microsoft.Dynamics.Framework.Tools.BuildTasks.targets" />
+  <Import Project="$(BuildTasksDirectory)\Microsoft.Dynamics.Framework.Tools.BuildTasks.17.0.targets" />
 </Project>

@@ -432,7 +432,8 @@ public class ARBAOTObjectTree
                     }
                     else
                     {
-                        this.addExtension(modEnum.Current, rootNodeIdx, _extensionName);
+                        TreeItemIdx extIdx = this.addExtension(modEnum.Current, rootNodeIdx, _extensionName);
+                        modMap.insert(this.getObjectName(modEnum.Current), extIdx);
                     }
                 }
             }
@@ -618,7 +619,7 @@ public class ARBAOTObjectTree
     /// <param name = "_extensionName">The extension name</param>
     /// <param name = "_positionType">The position the control should be added</param>
     /// <param name = "_afterItemIdx">The index where the control should be inserted after</param>
-    protected void addExtension(anytype _extension, TreeItemIdx _parentIdx, str _extensionName, CoreMetaModel.ExtensionItemPositionType _positionType =CoreMetaModel.ExtensionItemPositionType::End, int _afterItemIdx = 0)
+    protected TreeItemIdx addExtension(anytype _extension, TreeItemIdx _parentIdx, str _extensionName, CoreMetaModel.ExtensionItemPositionType _positionType =CoreMetaModel.ExtensionItemPositionType::End, int _afterItemIdx = 0)
     {
         FormTreeItem parentControl = treeControl.getItem(_parentIdx);
         if (parentControl.data() is System.Collections.IEnumerable
@@ -653,6 +654,7 @@ public class ARBAOTObjectTree
         FormTreeItem control = treeControl.getItem(extIdx);
         control.stateBold(true);
         treeControl.setItem(control);
+        return extIdx;
     }
 
 ]]></Source>
