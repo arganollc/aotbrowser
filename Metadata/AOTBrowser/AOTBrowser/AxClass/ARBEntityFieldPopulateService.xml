@@ -58,8 +58,9 @@ class ARBEntityFieldPopulateService extends SysOperationServiceBase
                 PropertyInfo labelProperty = t.GetProperty('Label');
                 entityFields.EntityFieldName = mappedField.Name;
                 entityFields.EntityFieldLabel = this.getLabelValue(labelProperty, mappedField);
-                entityFields.DatasourceFieldName = mappedField.DataField;
-                entityFields.DatasourceTableName = this.getTableNameFromDatasource(mappedField.Datasource, _datasources, _extensionDatasources);
+                [entityFields.DatasourceTableName, entityFields.DatasourceFieldName] = this.getTableNameFieldName(this.getTableNameFromDatasource(mappedField.Datasource, _dataSources), mappedField.DataField);
+                //entityFields.DatasourceFieldName = mappedField.DataField;
+                //entityFields.DatasourceTableName = this.getTableNameFromDatasource(mappedField.Datasource, _datasources, _extensionDatasources);
                 if (entityFields.EntityFieldLabel == '')
                 {
                     AxTableField tableField = Xpp.MetadataSupport::GetTableField(entityFields.DatasourceTableName, entityFields.DatasourceFieldName);
@@ -82,6 +83,54 @@ class ARBEntityFieldPopulateService extends SysOperationServiceBase
                 entityFieldsInsertList.add(entityFields);
             }
         }
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>getTableNameFieldName</Name>
+				<Source><![CDATA[
+    public container getTableNameFieldName(str _datasourceName, str _fieldName)
+    {
+        AxDataEntityView dataEntity = Xpp.MetadataSupport::GetDataEntityView(_datasourceName);
+        if (dataEntity != null)
+        {
+            var fieldEnum = dataEntity.Fields.GetEnumerator();
+            while (fieldEnum.MoveNext())
+            {
+                AxDataEntityViewField field = fieldEnum.Current;
+                if (field.Name == _fieldName)
+                {
+                    AxDataEntityViewMappedField mappedField = field as AxDataEntityViewMappedField;
+                    if (mappedField != null)
+                    {
+                        return this.getTableNameFieldName(this.getTableNameFromDatasource(mappedField.Datasource, dataEntity.ViewMetadata.DataSources), mappedField.DataField);
+                    }
+                    break;
+                }
+            }
+        }
+
+        AxView view = Xpp.MetadataSupport::GetView(_datasourceName);
+        if (view != null)
+        {
+            var viewFieldEnum = view.Fields.GetEnumerator();
+            while (viewFieldEnum.MoveNext())
+            {
+                AxViewField field = viewFieldEnum.Current;
+                if (field.Name == _fieldName)
+                {
+                    AxViewFieldBound boundField = field as AxViewFieldBound;
+                    if (boundField != null)
+                    {
+                        return this.getTableNameFieldName(this.getTableNameFromDatasource(boundField.DataSource, view.ViewMetadata.DataSources), boundField.DataField);
+                    }
+                    break;
+                }
+            }
+        }
+
+        return [_datasourceName, _fieldName];
     }
 
 ]]></Source>
