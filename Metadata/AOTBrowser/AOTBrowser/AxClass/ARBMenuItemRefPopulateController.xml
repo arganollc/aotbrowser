@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
-	<Name>ARBEntityFieldPopulateController</Name>
+	<Name>ARBMenuItemRefPopulateController</Name>
 	<SourceCode>
 		<Declaration><![CDATA[
 /// <summary>
 /// Controller for generating setup data for parameter comparison
 /// </summary>
-class ARBEntityFieldPopulateController  extends SysOperationserviceController
+class ARBMenuItemRefPopulateController  extends SysOperationserviceController
 {
 }
 ]]></Declaration>
@@ -22,7 +22,7 @@ class ARBEntityFieldPopulateController  extends SysOperationserviceController
     /// <param name = "_executionMode">The execution mode</param>
     protected void new(IdentifierName _className = '', IdentifierName _methodName = '', SysOperationExecutionMode _executionMode = SysOperationExecutionMode::Synchronous)
     {
-        super(classStr(ARBEntityFieldPopulateService), methodStr(ARBEntityFieldPopulateService, populateEntityFields), _executionMode);
+        super(classStr(ARBMenuItemRefPopulateService), methodStr(ARBMenuItemRefPopulateService, populateMenuItemRefs), _executionMode);
     }
 
 ]]></Source>
@@ -34,9 +34,9 @@ class ARBEntityFieldPopulateController  extends SysOperationserviceController
     /// Construct method for ACMAOTObjectPopulateController
     /// </summary>
     /// <returns>The new ACMAOTObjectPopulateController</returns>
-    public static ARBEntityFieldPopulateController construct()
+    public static ARBMenuItemRefPopulateController construct()
     {
-        return new ARBEntityFieldPopulateController();
+        return new ARBMenuItemRefPopulateController();
     }
 
 ]]></Source>
@@ -50,7 +50,7 @@ class ARBEntityFieldPopulateController  extends SysOperationserviceController
     /// <returns>The caption</returns>
     public ClassDescription caption()
     {
-        return "@AOTBrowser:PopulateEntityFieldList";
+        return "@AOTBrowser:PopulateMenuItemReferences";
     }
 
 ]]></Source>
@@ -67,7 +67,7 @@ class ARBEntityFieldPopulateController  extends SysOperationserviceController
     {
         LabelType ret;
 
-        ret = "@AOTBrowser:PopulateEntityFieldList";
+        ret = "@AOTBrowser:PopulateMenuItemReferences";
 
         return ret;
     }
@@ -83,7 +83,7 @@ class ARBEntityFieldPopulateController  extends SysOperationserviceController
     /// <param name = "_args">The arguments</param>
     public static void main(Args _args)
     {
-        ARBEntityFieldPopulateController controller = ARBEntityFieldPopulateController::construct();
+        ARBMenuItemRefPopulateController controller = ARBMenuItemRefPopulateController::construct();
 
         controller.startOperation();
     }

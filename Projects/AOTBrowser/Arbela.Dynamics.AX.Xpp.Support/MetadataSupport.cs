@@ -10,6 +10,7 @@ using Microsoft.Dynamics.AX.Metadata.Storage;
 using Microsoft.Dynamics.AX.Metadata.Core.MetaModel;
 using Microsoft.Dynamics.AX.Metadata.Extensions;
 using Microsoft.Dynamics.AX.Metadata;
+using System.Xml.Linq;
 //using Microsoft.Dynamics.Framework.Tools.Core;
 
 namespace Arbela.Dynamics.Ax.Xpp
@@ -150,31 +151,34 @@ namespace Arbela.Dynamics.Ax.Xpp
             return Accessor.GetAggregateDataEntityNames().GetEnumerator();
         }
 
-        // Current support for this starts in PU29
-        //public static IEnumerable<AxWorkflowApprovalExtension> GetWorkflowApprovalExtensionsForWorkflowApproval(string workflowApproval)
-        //{
-        //    IList<string> extensionNames = Accessor.GetWorkflowApprovalExtensionNames(workflowApproval);
-        //    List<AxWorkflowApprovalExtension> extensions = new List<AxWorkflowApprovalExtension>();
-        //    foreach (var extensionName in extensionNames)
-        //    {
-        //        extensions.Add(Accessor.GetWorkflowApprovalExtension(extensionName));
-        //    }
+        public static IEnumerator<string> KPINames()
+        {
+            return Accessor.GetKPINames().GetEnumerator();
+        }
 
-        //    return extensions;
-        //}
+        public static IEnumerable<AxWorkflowApprovalExtension> GetWorkflowApprovalExtensionsForWorkflowApproval(string workflowApproval)
+        {
+            IList<string> extensionNames = Accessor.GetWorkflowApprovalExtensionNames(workflowApproval);
+            List<AxWorkflowApprovalExtension> extensions = new List<AxWorkflowApprovalExtension>();
+            foreach (var extensionName in extensionNames)
+            {
+                extensions.Add(Accessor.GetWorkflowApprovalExtension(extensionName));
+            }
 
-        // Current support for this starts in PU29
-        //public static IEnumerable<AxWorkflowTaskExtension> GetWorkflowTaskExtensionsForWorkflowTask(string workflowTask)
-        //{
-        //    IList<string> extensionNames = Accessor.GetWorkflowTaskExtensionNames(workflowTask);
-        //    List<AxWorkflowTaskExtension> extensions = new List<AxWorkflowTaskExtension>();
-        //    foreach (var extensionName in extensionNames)
-        //    {
-        //        extensions.Add(Accessor.GetWorkflowTaskExtension(extensionName));
-        //    }
+            return extensions;
+        }
 
-        //    return extensions;
-        //}
+        public static IEnumerable<AxWorkflowTaskExtension> GetWorkflowTaskExtensionsForWorkflowTask(string workflowTask)
+        {
+            IList<string> extensionNames = Accessor.GetWorkflowTaskExtensionNames(workflowTask);
+            List<AxWorkflowTaskExtension> extensions = new List<AxWorkflowTaskExtension>();
+            foreach (var extensionName in extensionNames)
+            {
+                extensions.Add(Accessor.GetWorkflowTaskExtension(extensionName));
+            }
+
+            return extensions;
+        }
 
         public static IEnumerable<AxWorkflowTemplateExtension> GetWorkflowTemplateExtensionsForWorkflowTemplate(string workflowTemplate)
         {

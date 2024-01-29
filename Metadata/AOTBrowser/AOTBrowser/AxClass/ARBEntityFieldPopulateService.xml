@@ -58,9 +58,7 @@ class ARBEntityFieldPopulateService extends SysOperationServiceBase
                 PropertyInfo labelProperty = t.GetProperty('Label');
                 entityFields.EntityFieldName = mappedField.Name;
                 entityFields.EntityFieldLabel = this.getLabelValue(labelProperty, mappedField);
-                [entityFields.DatasourceTableName, entityFields.DatasourceFieldName] = this.getTableNameFieldName(this.getTableNameFromDatasource(mappedField.Datasource, _dataSources), mappedField.DataField);
-                //entityFields.DatasourceFieldName = mappedField.DataField;
-                //entityFields.DatasourceTableName = this.getTableNameFromDatasource(mappedField.Datasource, _datasources, _extensionDatasources);
+                [entityFields.DatasourceTableName, entityFields.DatasourceFieldName] = this.getTableNameFieldName(ARBAOTBrowserHelper::getTableNameFromDatasource(mappedField.Datasource, _dataSources), mappedField.DataField);
                 if (entityFields.EntityFieldLabel == '')
                 {
                     AxTableField tableField = Xpp.MetadataSupport::GetTableField(entityFields.DatasourceTableName, entityFields.DatasourceFieldName);
@@ -104,7 +102,7 @@ class ARBEntityFieldPopulateService extends SysOperationServiceBase
                     AxDataEntityViewMappedField mappedField = field as AxDataEntityViewMappedField;
                     if (mappedField != null)
                     {
-                        return this.getTableNameFieldName(this.getTableNameFromDatasource(mappedField.Datasource, dataEntity.ViewMetadata.DataSources), mappedField.DataField);
+                        return this.getTableNameFieldName(ARBAOTBrowserHelper::getTableNameFromDatasource(mappedField.Datasource, dataEntity.ViewMetadata.DataSources), mappedField.DataField);
                     }
                     break;
                 }
@@ -123,7 +121,7 @@ class ARBEntityFieldPopulateService extends SysOperationServiceBase
                     AxViewFieldBound boundField = field as AxViewFieldBound;
                     if (boundField != null)
                     {
-                        return this.getTableNameFieldName(this.getTableNameFromDatasource(boundField.DataSource, view.ViewMetadata.DataSources), boundField.DataField);
+                        return this.getTableNameFieldName(ARBAOTBrowserHelper::getTableNameFromDatasource(boundField.DataSource, view.ViewMetadata.DataSources), boundField.DataField);
                     }
                     break;
                 }
@@ -131,74 +129,6 @@ class ARBEntityFieldPopulateService extends SysOperationServiceBase
         }
 
         return [_datasourceName, _fieldName];
-    }
-
-]]></Source>
-			</Method>
-			<Method>
-				<Name>getTableNameFromDatasource</Name>
-				<Source><![CDATA[
-    public TableName getTableNameFromDatasource(str _datasourceName, System.Collections.IEnumerable _datasources, System.Collections.IEnumerable _extensionDatasources = CLRInterop::Null())
-    {
-        if (!CLRInterop::isNull(_datasources))
-        {
-            var datasourcesEnum = _datasources.GetEnumerator();
-            while (datasourcesEnum.MoveNext())
-            {
-                AxQuerySimpleDataSource datasource = datasourcesEnum.Current as AxQuerySimpleDataSource;
-                if (datasource.Name == _datasourceName)
-                {
-                    return datasource.Table;
-                }
-                else
-                {
-                    TableName tableName = this.getTableNameFromDatasource(_datasourceName, datasource.DataSources);
-                    if (tableName)
-                    {
-                        return tableName;
-                    }
-                    else
-                    {
-                        tableName = this.getTableNameFromDatasource(_datasourceName, datasource.DerivedDataSources);
-                        if (tableName)
-                        {
-                            return tableName;
-                        }
-                    }
-                }
-            }
-
-            if (!CLRInterop::isNull(_extensionDatasources))
-            {
-                datasourcesEnum = _datasources.GetEnumerator();
-                while (datasourcesEnum.MoveNext())
-                {
-                    AxQuerySimpleDataSource datasource = datasourcesEnum.Current as AxQuerySimpleDataSource;
-                    if (datasource.Name == _datasourceName)
-                    {
-                        return datasource.Table;
-                    }
-                    else
-                    {
-                        TableName tableName = this.getTableNameFromDatasource(_datasourceName, datasource.DataSources);
-                        if (tableName)
-                        {
-                            return tableName;
-                        }
-                        else
-                        {
-                            tableName = this.getTableNameFromDatasource(_datasourceName, datasource.DerivedDataSources);
-                            if (tableName)
-                            {
-                                return tableName;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        return '';
     }
 
 ]]></Source>

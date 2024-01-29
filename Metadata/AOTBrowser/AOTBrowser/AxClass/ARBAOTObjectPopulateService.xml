@@ -514,6 +514,19 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
             aotObjectsInsertList.add(aotObjects);
         }
 
+        var kpiNames = ArbelaXpp.MetadataSupport::KPINames();
+
+        while (kpiNames.MoveNext())
+        {
+            AxKPI object = Xpp.MetadataSupport::GetKPI(kpiNames.Current);
+
+            aotObjects.clear();
+            aotObjects.Name = object.Name;
+            aotObjects.Label = SysLabel::labelId2String2(object.Label);
+            aotObjects.Type = ARBAOTObjectType::KPI;
+            aotObjectsInsertList.add(aotObjects);
+        }
+
         aotObjectsInsertList.insertDatabase();
     }
 

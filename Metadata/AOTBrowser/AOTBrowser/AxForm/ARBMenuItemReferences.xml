@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <AxForm xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="Microsoft.Dynamics.AX.Metadata.V6">
-	<Name>ARBEntityFields</Name>
+	<Name>ARBMenuItemReferences</Name>
 	<SourceCode>
 		<Methods xmlns="">
 			<Method>
 				<Name>classDeclaration</Name>
 				<Source><![CDATA[
 [Form]
-public class ARBEntityFields extends FormRun
+public class ARBMenuItemReferences extends FormRun
 {
-
 }
 ]]></Source>
 			</Method>
 		</Methods>
 		<DataSources xmlns="">
 			<DataSource>
-				<Name>ARBEntityFields</Name>
+				<Name>ARBMenuItemReferences</Name>
 				<Methods>
 					<Method>
 						<Name>init</Name>
@@ -34,17 +33,13 @@ public class ARBEntityFields extends FormRun
             {
                 if (caller.name() == formStr(FormControlPersonalization))
                 {
-                    FormControl callerFormControl = caller.args().parmObject() as FormControl;
-                    if (callerFormControl)
+                    FormFunctionButtonControl menuItemButton = caller.args().parmObject() as FormFunctionButtonControl;
+                    if (menuItemButton)
                     {
-                        FieldBinding fieldBinding = callerFormControl.fieldBinding();
-                        if (fieldBinding != null)
+                        str menuItemName = menuItemButton.menuItemName();
+                        if (menuItemName)
                         {
-                            TableName tableName = fieldBinding.tableName();
-                            FieldName fieldName = fieldBinding.fieldName();
-
-                            this.queryBuildDataSource().addRange(fieldNum(ARBEntityFields, DatasourceTableName)).value(tableName);
-                            this.queryBuildDataSource().addRange(fieldNum(ARBEntityFields, DatasourceFieldName)).value(fieldName);
+                            this.queryBuildDataSource().addRange(fieldNum(ARBMenuItemReferences, MenuItemName)).value(menuItemName);
                         }
                     }
                 }
@@ -62,32 +57,29 @@ public class ARBEntityFields extends FormRun
 	</SourceCode>
 	<DataSources>
 		<AxFormDataSource xmlns="">
-			<Name>ARBEntityFields</Name>
-			<Table>ARBEntityFields</Table>
+			<Name>ARBMenuItemReferences</Name>
+			<Table>ARBMenuItemReferences</Table>
 			<Fields>
 				<AxFormDataSourceField>
-					<DataField>DatasourceFieldName</DataField>
+					<DataField>MenuItemName</DataField>
 				</AxFormDataSourceField>
 				<AxFormDataSourceField>
-					<DataField>DatasourceTableName</DataField>
-				</AxFormDataSourceField>
-				<AxFormDataSourceField>
-					<DataField>EntityFieldLabel</DataField>
-				</AxFormDataSourceField>
-				<AxFormDataSourceField>
-					<DataField>EntityFieldName</DataField>
-				</AxFormDataSourceField>
-				<AxFormDataSourceField>
-					<DataField>EntityLabel</DataField>
-				</AxFormDataSourceField>
-				<AxFormDataSourceField>
-					<DataField>EntityName</DataField>
+					<DataField>MenuItemType</DataField>
 				</AxFormDataSourceField>
 				<AxFormDataSourceField>
 					<DataField>Partition</DataField>
 				</AxFormDataSourceField>
 				<AxFormDataSourceField>
 					<DataField>RecId</DataField>
+				</AxFormDataSourceField>
+				<AxFormDataSourceField>
+					<DataField>RefObjectName</DataField>
+				</AxFormDataSourceField>
+				<AxFormDataSourceField>
+					<DataField>RefObjectType</DataField>
+				</AxFormDataSourceField>
+				<AxFormDataSourceField>
+					<DataField>RefPath</DataField>
 				</AxFormDataSourceField>
 				<AxFormDataSourceField>
 					<DataField>TableId</DataField>
@@ -104,7 +96,7 @@ public class ARBEntityFields extends FormRun
 		</AxFormDataSource>
 	</DataSources>
 	<Design>
-		<Caption xmlns="">@AOTBrowser:EntityFieldList</Caption>
+		<Caption xmlns="">@AOTBrowser:MenuItemReferences</Caption>
 		<Pattern xmlns="">SimpleList</Pattern>
 		<PatternVersion xmlns="">1.1</PatternVersion>
 		<ShowDeleteButton xmlns="">No</ShowDeleteButton>
@@ -128,11 +120,12 @@ public class ARBEntityFields extends FormRun
 						<Controls>
 							<AxFormControl xmlns=""
 								i:type="AxFormMenuFunctionButtonControl">
-								<Name>ARBEntityFieldPopulateService</Name>
+								<Name>ARBMenuItemRefPopulateService</Name>
 								<Type>MenuFunctionButton</Type>
 								<FormControlExtension
 									i:nil="true" />
-								<MenuItemName>ARBEntityFieldPopulateService</MenuItemName>
+								<AutoRefreshData>Yes</AutoRefreshData>
+								<MenuItemName>ARBMenuItemRefPopulateService</MenuItemName>
 								<MenuItemType>Action</MenuItemType>
 							</AxFormControl>
 							<AxFormControl xmlns=""
@@ -142,7 +135,6 @@ public class ARBEntityFields extends FormRun
 								<FormControlExtension
 									i:nil="true" />
 								<MenuItemName>ARBAOTBrowser</MenuItemName>
-								<Text>@AOTBrowser:OpenInAOTBrowser</Text>
 							</AxFormControl>
 						</Controls>
 					</AxFormControl>
@@ -159,7 +151,7 @@ public class ARBEntityFields extends FormRun
 					i:nil="true" />
 				<Controls>
 					<AxFormControl>
-						<Name>QuickFilter</Name>
+						<Name>CustomFilter</Name>
 						<FormControlExtension>
 							<Name>QuickFilterControl</Name>
 							<ExtensionComponents />
@@ -194,60 +186,53 @@ public class ARBEntityFields extends FormRun
 				<Controls>
 					<AxFormControl xmlns=""
 						i:type="AxFormStringControl">
-						<Name>ARBEntityFields_EntityName</Name>
+						<Name>ARBMenuItemReferences_MenuItemName</Name>
 						<Type>String</Type>
 						<FormControlExtension
 							i:nil="true" />
-						<DataField>EntityName</DataField>
-						<DataSource>ARBEntityFields</DataSource>
+						<DataField>MenuItemName</DataField>
+						<DataSource>ARBMenuItemReferences</DataSource>
+					</AxFormControl>
+					<AxFormControl xmlns=""
+						i:type="AxFormComboBoxControl">
+						<Name>ARBMenuItemReferences_MenuItemType</Name>
+						<Type>ComboBox</Type>
+						<FormControlExtension
+							i:nil="true" />
+						<DataField>MenuItemType</DataField>
+						<DataSource>ARBMenuItemReferences</DataSource>
+						<Items />
 					</AxFormControl>
 					<AxFormControl xmlns=""
 						i:type="AxFormStringControl">
-						<Name>ARBEntityFields_EntityLabel</Name>
+						<Name>ARBMenuItemReferences_RefObjectName</Name>
 						<Type>String</Type>
 						<FormControlExtension
 							i:nil="true" />
-						<DataField>EntityLabel</DataField>
-						<DataSource>ARBEntityFields</DataSource>
+						<DataField>RefObjectName</DataField>
+						<DataSource>ARBMenuItemReferences</DataSource>
+					</AxFormControl>
+					<AxFormControl xmlns=""
+						i:type="AxFormComboBoxControl">
+						<Name>ARBMenuItemReferences_RefObjectType</Name>
+						<Type>ComboBox</Type>
+						<FormControlExtension
+							i:nil="true" />
+						<DataField>RefObjectType</DataField>
+						<DataSource>ARBMenuItemReferences</DataSource>
+						<Items />
 					</AxFormControl>
 					<AxFormControl xmlns=""
 						i:type="AxFormStringControl">
-						<Name>ARBEntityFields_EntityFieldName</Name>
+						<Name>ARBMenuItemReferences_RefPath</Name>
 						<Type>String</Type>
 						<FormControlExtension
 							i:nil="true" />
-						<DataField>EntityFieldName</DataField>
-						<DataSource>ARBEntityFields</DataSource>
-					</AxFormControl>
-					<AxFormControl xmlns=""
-						i:type="AxFormStringControl">
-						<Name>ARBEntityFields_EntityFieldLabel</Name>
-						<Type>String</Type>
-						<FormControlExtension
-							i:nil="true" />
-						<DataField>EntityFieldLabel</DataField>
-						<DataSource>ARBEntityFields</DataSource>
-					</AxFormControl>
-					<AxFormControl xmlns=""
-						i:type="AxFormStringControl">
-						<Name>ARBEntityFields_DatasourceTableName</Name>
-						<Type>String</Type>
-						<FormControlExtension
-							i:nil="true" />
-						<DataField>DatasourceTableName</DataField>
-						<DataSource>ARBEntityFields</DataSource>
-					</AxFormControl>
-					<AxFormControl xmlns=""
-						i:type="AxFormStringControl">
-						<Name>ARBEntityFields_DatasourceFieldName</Name>
-						<Type>String</Type>
-						<FormControlExtension
-							i:nil="true" />
-						<DataField>DatasourceFieldName</DataField>
-						<DataSource>ARBEntityFields</DataSource>
+						<DataField>RefPath</DataField>
+						<DataSource>ARBMenuItemReferences</DataSource>
 					</AxFormControl>
 				</Controls>
-				<DataSource>ARBEntityFields</DataSource>
+				<DataSource>ARBMenuItemReferences</DataSource>
 				<Style>Tabular</Style>
 			</AxFormControl>
 		</Controls>

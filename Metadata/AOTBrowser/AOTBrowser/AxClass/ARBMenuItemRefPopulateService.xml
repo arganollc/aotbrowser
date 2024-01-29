@@ -1,0 +1,727 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>ARBMenuItemRefPopulateService</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+using Xpp = Microsoft.Dynamics.Ax.Xpp;
+using ArbelaXpp = Arbela.Dynamics.Ax.Xpp;
+using Microsoft.Dynamics.AX.Metadata.MetaModel;
+using System.Reflection;
+
+/// <summary>
+/// Service for generating parameter comparison setup data
+/// </summary>
+class ARBMenuItemRefPopulateService extends SysOperationServiceBase
+{
+    Microsoft.Dynamics.AX.Metadata.Providers.IMetadataProvider metadataProvider;
+    ARBMenuItemReferences menuItemRefs;
+    RecordInsertList menuItemRefsInsertList = new RecordInsertList(tableNum(ARBMenuItemReferences));
+    str currentObjectName;
+    ARBAOTObjectType currentObjectType;
+
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>populateMenuItemRefs</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Generate the setup data needed for parameter comparison
+    /// </summary>
+    public void populateMenuItemRefs()
+    {
+        Microsoft.Dynamics.ApplicationPlatform.Environment.IApplicationEnvironment applicationEnvironment = Microsoft.Dynamics.ApplicationPlatform.Environment.EnvironmentFactory::GetApplicationEnvironment();
+        Microsoft.Dynamics.AX.Metadata.Storage.MetadataProviderFactory metadataProviderFactory = new Microsoft.Dynamics.AX.Metadata.Storage.MetadataProviderFactory();
+        metadataProvider = metadataProviderFactory.CreateRuntimeProviderWithExtensionsUpdated(new Microsoft.Dynamics.AX.Metadata.Storage.Runtime.RuntimeProviderConfiguration(applicationEnvironment.Aos.PackageDirectory, false), null, null, new Microsoft.Dynamics.AX.Metadata.Storage.FormExtensionLoader(null), null, null, null, null, null, null, null, null, null, null, null, null, null);
+        
+        delete_from menuItemRefs;
+
+        // Forms
+        this.processForms();
+
+        // Menus
+        this.processMenus();
+
+        // Security Privileges
+        this.processSecurityPrivileges();
+
+        // Tiles
+        this.processTiles();
+
+        // Workflow Approvals
+        this.processWorkflowApprovals();
+
+        // Workflow Tasks
+        this.processWorkflowTasks();
+
+        // Workflow Types
+        this.processWorkflowTypes();
+
+        // Tables
+        this.processTables();
+
+        // Data entity views
+        this.processDataEntityViews();
+
+        // Views
+        this.processViews();
+
+        // Composite Data Entities
+        this.processCompositeDataEntities();
+
+        // Maps
+        this.processMaps();
+
+        // KPIs
+        this.processKPIs();
+
+        menuItemRefsInsertList.insertDatabase();
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>processWorkflowTypes</Name>
+				<Source><![CDATA[
+    protected void processWorkflowTypes()
+    {
+        currentObjectType = ARBAOTObjectType::WorkflowType;
+        var workflowTypesEnum = Xpp.MetadataSupport::GetWorkflowTemplateNames().GetEnumerator();
+        while (workflowTypesEnum.MoveNext())
+        {
+            AxWorkflowTemplate workflowType = Xpp.MetadataSupport::GetWorkflowTemplate(workflowTypesEnum.Current);
+            currentObjectName = workflowType.Name;
+
+            this.processWorkflowType(workflowType, '');
+        }
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>processWorkflowType</Name>
+				<Source><![CDATA[
+    protected void processWorkflowType(AxWorkflowTemplate _workflowType, str _path)
+    {
+        if (_workflowType.CancelMenuItem)
+        {
+            this.addMenuItemReference(_workflowType.CancelMenuItem, MenuItemType::Action);
+        }
+
+        if (_workflowType.DocumentMenuItem)
+        {
+            this.addMenuItemReference(_workflowType.DocumentMenuItem, MenuItemType::Action);
+        }
+
+        if (_workflowType.SubmitToWorkflowMenuItem)
+        {
+            this.addMenuItemReference(_workflowType.SubmitToWorkflowMenuItem, MenuItemType::Action);
+        }
+
+        var lineItemWorkflowsEnum = _workflowType.LineItemWorkflows.GetEnumerator();
+        while (lineItemWorkflowsEnum.MoveNext())
+        {
+            AxWorkflowLineItemWorkflow lineItemWorkflow = lineItemWorkflowsEnum.Current;
+            if (lineItemWorkflow.CancelMenuItem)
+            {
+                this.addMenuItemReference(lineItemWorkflow.CancelMenuItem, MenuItemType::Action, 'LineItemWorkflows/' + lineItemWorkflow.Name);
+            }
+
+            if (lineItemWorkflow.RecallMenuItem)
+            {
+                this.addMenuItemReference(lineItemWorkflow.RecallMenuItem, MenuItemType::Action, 'LineItemWorkflows/' + lineItemWorkflow.Name);
+            }
+        }
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>processKPIs</Name>
+				<Source><![CDATA[
+    protected void processKPIs()
+    {
+        currentObjectType = ARBAOTObjectType::KPI;
+        var kpisEnum = ArbelaXpp.MetadataSupport::KPINames();
+        while (kpisEnum.MoveNext())
+        {
+            AxKPI kpi = Xpp.MetadataSupport::GetKPI(kpisEnum.Current);
+            currentObjectName = kpi.Name;
+
+            this.processKPI(kpi, '');
+        }
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>processKPI</Name>
+				<Source><![CDATA[
+    protected void processKPI(AxKPI _kpi, str _path)
+    {
+        if (_kpi.MenuItemName)
+        {
+            this.addMenuItemReference(_kpi.MenuItemName, _kpi.MenuItemType);
+        }
+
+        var trendsEnums = _kpi.Trends.GetEnumerator();
+        while (trendsEnums.MoveNext())
+        {
+            AxKPITrend trend = trendsEnums.Current;
+            if (trend.MenuItemName)
+            {
+                this.addMenuItemReference(trend.MenuItemName, trend.MenuItemType, 'Trends/' + trend.Name);
+            }
+        }
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>processMaps</Name>
+				<Source><![CDATA[
+    protected void processMaps()
+    {
+        currentObjectType = ARBAOTObjectType::Map;
+        var mapsEnum = Xpp.MetadataSupport::GetDataModelElements(false,false,false,false,true).GetEnumerator();
+        while (mapsEnum.MoveNext())
+        {
+            AxMap map = Xpp.MetadataSupport::GetMap(mapsEnum.Current);
+            currentObjectName = map.Name;
+
+            this.processMap(map, '');
+        }
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>processMap</Name>
+				<Source><![CDATA[
+    protected void processMap(AxMap _map, str _path)
+    {
+        if (_map.FormRef)
+        {
+            this.addMenuItemReference(_map.FormRef, MenuItemType::Display);
+        }
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>processCompositeDataEntities</Name>
+				<Source><![CDATA[
+    protected void processCompositeDataEntities()
+    {
+        currentObjectType = ARBAOTObjectType::CompositeDataEntity;
+        var compositeEntitiesEnum = ArbelaXpp.MetadataSupport::CompositeDataEntityNames();
+        while (compositeEntitiesEnum.MoveNext())
+        {
+            AxCompositeDataEntityView compositeDataEntity = ArbelaXpp.MetadataSupport::GetCompositeDataEntity(compositeEntitiesEnum.Current);
+            currentObjectName = compositeDataEntity.Name;
+
+            this.processCompositeDataEntity(compositeDataEntity, '');
+        }
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>processCompositeDataEntity</Name>
+				<Source><![CDATA[
+    protected void processCompositeDataEntity(AxCompositeDataEntityView _compositeDataEntity, str _path)
+    {
+        if (_compositeDataEntity.FormRef)
+        {
+            this.addMenuItemReference(_compositeDataEntity.FormRef, MenuItemType::Display);
+        }
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>processViews</Name>
+				<Source><![CDATA[
+    protected void processViews()
+    {
+        currentObjectType = ARBAOTObjectType::View;
+        var viewsEnum = Xpp.MetadataSupport::GetDataModelElements(false,true,false,false,false).GetEnumerator();
+        while (viewsEnum.MoveNext())
+        {
+            AxView view = Xpp.MetadataSupport::GetView(viewsEnum.Current);
+            currentObjectName = view.Name;
+
+            this.processView(view, '');
+        }
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>processView</Name>
+				<Source><![CDATA[
+    protected void processView(AxView _view, str _path)
+    {
+        if (_view.FormRef)
+        {
+            this.addMenuItemReference(_view.FormRef, MenuItemType::Display);
+        }
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>processDataEntityViews</Name>
+				<Source><![CDATA[
+    protected void processDataEntityViews()
+    {
+        currentObjectType = ARBAOTObjectType::DataEntity;
+        var dataEntitiesEnum = Xpp.MetadataSupport::GetDataModelElements(false,false,true,false,false).GetEnumerator();
+        while (dataEntitiesEnum.MoveNext())
+        {
+            AxDataEntityView dataEntity = Xpp.MetadataSupport::GetDataEntityView(dataEntitiesEnum.Current);
+            currentObjectName = dataEntity.Name;
+
+            this.processDataEntityView(dataEntity, '');
+        }
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>processDataEntityView</Name>
+				<Source><![CDATA[
+    protected void processDataEntityView(AxDataEntityView _dataEntity, str _path)
+    {
+        if (_dataEntity.FormRef)
+        {
+            this.addMenuItemReference(_dataEntity.FormRef, MenuItemType::Display);
+        }
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>processTables</Name>
+				<Source><![CDATA[
+    protected void processTables()
+    {
+        currentObjectType = ARBAOTObjectType::Table;
+        var tablesEnum = Xpp.MetadataSupport::GetDataModelElements(true,false,false,false,false).GetEnumerator();
+        while (tablesEnum.MoveNext())
+        {
+            AxTable table = Xpp.MetadataSupport::GetTable(tablesEnum.Current);
+            currentObjectName = table.Name;
+
+            this.processTable(table, '');
+        }
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>processTable</Name>
+				<Source><![CDATA[
+    protected void processTable(AxTable _table, str _path)
+    {
+        if (_table.FormRef)
+        {
+            this.addMenuItemReference(_table.FormRef, MenuItemType::Display);
+        }
+
+        if (_table.ListPageRef)
+        {
+            this.addMenuItemReference(_table.ListPageRef, MenuItemType::Display);
+        }
+
+        if (_table.PreviewPartRef)
+        {
+            this.addMenuItemReference(_table.PreviewPartRef, MenuItemType::Display);
+        }
+
+        if (_table.ReportRef)
+        {
+            this.addMenuItemReference(_table.ReportRef, MenuItemType::Display);
+        }
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>processWorkflowTasks</Name>
+				<Source><![CDATA[
+    protected void processWorkflowTasks()
+    {
+        currentObjectType = ARBAOTObjectType::WorkflowTask;
+        var workflowTasksEnum = Xpp.MetadataSupport::GetWorkflowTaskNames().GetEnumerator();
+        while (workflowTasksEnum.MoveNext())
+        {
+            AxWorkflowTask workflowTask = Xpp.MetadataSupport::GetWorkflowTask(workflowTasksEnum.Current);
+            currentObjectName = workflowTask.Name;
+
+            this.processWorkflowTask(workflowTask, '');
+        }
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>processWorkflowTask</Name>
+				<Source><![CDATA[
+    protected void processWorkflowTask(AxWorkflowTask _workflowTask, str _path)
+    {
+        if (_workflowTask.DelegateMenuItem)
+        {
+            this.addMenuItemReference(_workflowTask.DelegateMenuItem, MenuItemType::Action);
+        }
+
+        if (_workflowTask.DocumentMenuItem)
+        {
+            this.addMenuItemReference(_workflowTask.DocumentMenuItem, MenuItemType::Action);
+        }
+
+        if (_workflowTask.ResubmitMenuItem)
+        {
+            this.addMenuItemReference(_workflowTask.ResubmitMenuItem, MenuItemType::Action);
+        }
+
+        var outcomesEnum = _workflowTask.WorkflowOutcomes.GetEnumerator();
+        while (outcomesEnum.MoveNext())
+        {
+            AxWorkflowOutcome outcome = outcomesEnum.Current;
+            if (outcome.ActionMenuItem)
+            {
+                this.addMenuItemReference(outcome.ActionMenuItem, MenuItemType::Action, 'WorkflowOutcomes/' + outcome.Name);
+            }
+        }
+
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>processSecurityPrivileges</Name>
+				<Source><![CDATA[
+    protected void processSecurityPrivileges()
+    {
+        currentObjectType = ARBAOTObjectType::SecurityPrivilege;
+        var securityPrivilegesEnum = ArbelaXpp.MetadataSupport::SecurityPrivilegeNames();
+        while (securityPrivilegesEnum.MoveNext())
+        {
+            AxSecurityPrivilege securityPrivilege = ArbelaXpp.MetadataSupport::GetSecurityPrivilege(securityPrivilegesEnum.Current);
+            currentObjectName = securityPrivilege.Name;
+
+            this.processSecurityPrivilege(securityPrivilege, '');
+        }
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>processSecurityPrivilege</Name>
+				<Source><![CDATA[
+    protected void processSecurityPrivilege(AxSecurityPrivilege _securityPrivilege, str _path)
+    {
+        var entryPointsEnum = _securityPrivilege.EntryPoints.GetEnumerator();
+        while (entryPointsEnum.MoveNext())
+        {
+            AxSecurityEntryPointReference entryPoint = entryPointsEnum.Current;
+            if (entryPoint.ObjectName)
+            {
+                MenuItemType menuItemType;
+                switch (entryPoint.ObjectType)
+                {
+                    case EntryPointType::MenuItemAction:
+                        menuItemType = MenuItemType::Action;
+                        break;
+
+                    case EntryPointType::MenuItemDisplay:
+                        menuItemType = MenuItemType::Display;
+                        break;
+
+                    case EntryPointType::MenuItemOutput:
+                        menuItemType = MenuItemType::Output;
+                        break;
+                }
+                this.addMenuItemReference(entryPoint.ObjectName, menuItemType, 'EntryPoints/' + entryPoint.Name);
+            }
+        }
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>processWorkflowApprovals</Name>
+				<Source><![CDATA[
+    protected void processWorkflowApprovals()
+    {
+        currentObjectType = ARBAOTObjectType::WorkflowApproval;
+        var workflowApprovalsEnum = Xpp.MetadataSupport::GetWorkflowApprovalNames().GetEnumerator();
+        while (workflowApprovalsEnum.MoveNext())
+        {
+            AxWorkflowApproval workflowApproval = Xpp.MetadataSupport::GetWorkflowApproval(workflowApprovalsEnum.Current);
+            currentObjectName = workflowApproval.Name;
+
+            this.processWorkflowApproval(workflowApproval, '');
+        }
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>processWorkflowApproval</Name>
+				<Source><![CDATA[
+    protected void processWorkflowApproval(AxWorkflowApproval _workflowApproval, str _path)
+    {
+        if (_workflowApproval.DelegateMenuItem)
+        {
+            this.addMenuItemReference(_workflowApproval.DelegateMenuItem, MenuItemType::Action);
+        }
+
+        if (_workflowApproval.DocumentMenuItem)
+        {
+            this.addMenuItemReference(_workflowApproval.DocumentMenuItem, MenuItemType::Action);
+        }
+
+        if (_workflowApproval.ResubmitMenuItem)
+        {
+            this.addMenuItemReference(_workflowApproval.ResubmitMenuItem, MenuItemType::Action);
+        }
+
+        if (_workflowApproval.Approve.ActionMenuItem)
+        {
+            this.addMenuItemReference(_workflowApproval.Approve.ActionMenuItem, MenuItemType::Action, 'Approve');
+        }
+
+        if (_workflowApproval.Deny.ActionMenuItem)
+        {
+            this.addMenuItemReference(_workflowApproval.Deny.ActionMenuItem, MenuItemType::Action, 'Deny');
+        }
+
+        if (_workflowApproval.Reject.ActionMenuItem)
+        {
+            this.addMenuItemReference(_workflowApproval.Reject.ActionMenuItem, MenuItemType::Action, 'Reject');
+        }
+
+        if (_workflowApproval.RequestChange.ActionMenuItem)
+        {
+            this.addMenuItemReference(_workflowApproval.RequestChange.ActionMenuItem, MenuItemType::Action, 'RequestChange');
+        }
+
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>addMenuItemReference</Name>
+				<Source><![CDATA[
+    protected void addMenuItemReference(MenuItemName _menuItemName, MenuItemType _menuItemType, str _path = '')
+    {
+        ARBMenuItemReferences menuItemReference;
+        menuItemReference.MenuItemName = _menuItemName;
+        menuItemReference.MenuItemType = _menuItemType;
+        menuItemReference.RefObjectName = currentObjectName;
+        menuItemReference.RefObjectType = currentObjectType;
+        menuItemReference.RefPath = _path;
+        menuItemRefsInsertList.add(menuItemReference);
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>processTiles</Name>
+				<Source><![CDATA[
+    protected void processTiles()
+    {
+        currentObjectType = ARBAOTObjectType::Tile;
+        var tileNamesEnum = ArbelaXpp.MetadataSupport::TileNames();
+        while (tileNamesEnum.MoveNext())
+        {
+            AxTile tile = Xpp.MetadataSupport::GetTile(tileNamesEnum.Current);
+            currentObjectName = tile.Name;
+
+            this.processTile(tile, '');
+        }
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>processTile</Name>
+				<Source><![CDATA[
+    protected void processTile(AxTile _tile, str _path)
+    {
+        if (_tile.MenuItemName)
+        {
+            this.addMenuItemReference(_tile.MenuItemName, _tile.MenuItemType, _path);
+        }
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>processMenus</Name>
+				<Source><![CDATA[
+    protected void processMenus()
+    {
+        currentObjectType = ARBAOTObjectType::Menu;
+        var menuNamesEnum = ArbelaXpp.MetadataSupport::MenuNames();
+        while (menuNamesEnum.MoveNext())
+        {
+            AxMenu menu = Xpp.MetadataSupport::GetMenu(menuNamesEnum.Current);
+            currentObjectName = menu.Name;
+
+            var menuElementsEnum = menu.Elements.GetEnumerator();
+            while (menuElementsEnum.MoveNext())
+            {
+                AxMenuElement menuElement = menuElementsEnum.Current;
+                
+                this.processMenuElement(menuElement, '');
+            }
+        }
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>processMenuElement</Name>
+				<Source><![CDATA[
+    protected void processMenuElement(AxMenuElement _menuElement, str _path)
+    {
+        str path = (_path ? _path + '/' : '') + _menuElement.Name;
+        System.Type menuElementType = _menuElement.GetType();
+        System.Reflection.PropertyInfo menuItemNameProp = menuElementType.GetProperty('MenuItemName');
+
+        if (menuItemNameProp != null)
+        {
+            str menuItemName = menuItemNameProp.GetValue(_menuElement);
+            if (menuItemName)
+            {
+                System.Reflection.PropertyInfo menuItemTypeProp = menuElementType.GetProperty('MenuItemType');
+                MenuItemType menuItemType;
+                if (menuItemTypeProp != null)
+                {
+                    menuItemType = menuItemTypeProp.GetValue(_menuElement);
+                }
+                this.addMenuItemReference(menuItemName, menuItemType, path);
+            }
+        }
+
+        System.Reflection.PropertyInfo elementsProp = menuElementType.GetProperty('Elements');
+        if (elementsProp != null)
+        {
+            System.Collections.IEnumerable elements = elementsProp.GetValue(_menuElement) as System.Collections.IEnumerable;
+            var elementsEnum = elements.GetEnumerator();
+            while (elementsEnum.MoveNext())
+            {
+                AxMenuElement menuElement = elementsEnum.Current;
+                
+                this.processMenuElement(menuElement, path);
+            }
+        }
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>processForms</Name>
+				<Source><![CDATA[
+    protected void processForms()
+    {
+        currentObjectType = ARBAOTObjectType::Form;
+        var formNamesEnum = Xpp.MetadataSupport::FormNames();
+        while (formNamesEnum.MoveNext())
+        {
+            //AxForm form = Xpp.MetadataSupport::GetForm(formNamesEnum.Current);
+            AxForm form = metadataProvider.Forms.Read(formNamesEnum.Current);
+            currentObjectName = form.Name;
+            
+            var formControls = form.Design.Controls;
+            var controlsEnum = formControls.GetEnumerator();
+            while (controlsEnum.MoveNext())
+            {
+                AxFormControl formControl = controlsEnum.Current;
+                
+                this.processFormControl(formControl, 'Design');
+            }
+
+            var formExtensionsEnum = ArbelaXpp.MetadataSupport::GetFormExtensionsForForm(form.Name).GetEnumerator();
+            while (formExtensionsEnum.MoveNext())
+            {
+                AxFormExtension formExtension = formExtensionsEnum.Current;
+                var controlsExtEnum = formExtension.Controls.GetEnumerator();
+                while (controlsExtEnum.MoveNext())
+                {
+                    AxFormExtensionControl formExtensionControl = controlsExtEnum.Current;
+                
+                    this.processFormControl(formExtensionControl.FormControl, 'Extensions/' + formExtension.Name + '/Controls/' + formExtensionControl.Name + '/FormControl');
+                }
+            }
+        }
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>processFormControl</Name>
+				<Source><![CDATA[
+    protected void processFormControl(AxFormControl _formControl, str _path)
+    {
+        str path = (_path ? _path + '/' : '') + _formControl.Name;
+        System.Type formControlType = _formControl.GetType();
+
+        System.Reflection.PropertyInfo menuItemNameProp = formControlType.GetProperty('MenuItemName');
+        if (menuItemNameProp != null)
+        {
+            str menuItemName = menuItemNameProp.GetValue(_formControl);
+            if (menuItemName)
+            {
+                System.Reflection.PropertyInfo menuItemTypeProp = formControlType.GetProperty('MenuItemType');
+                MenuItemType menuItemType;
+                if (menuItemTypeProp != null)
+                {
+                    menuItemType = menuItemTypeProp.GetValue(_formControl);
+                }
+                this.addMenuItemReference(menuItemName, menuItemType, path);
+            }
+        }
+
+        System.Reflection.PropertyInfo previewPartRefProp = formControlType.GetProperty('PreviewPartRef');
+        if (previewPartRefProp != null)
+        {
+            str previewPartRef = previewPartRefProp.GetValue(_formControl);
+            if (previewPartRef)
+            {
+                this.addMenuItemReference(previewPartRef, MenuItemType::Display, path);
+            }
+        }
+
+        System.Reflection.PropertyInfo hyperLinkMenuItemProp = formControlType.GetProperty('HyperLinkMenuItem');
+        if (hyperLinkMenuItemProp != null)
+        {
+            str hyperLinkMenuItem = hyperLinkMenuItemProp.GetValue(_formControl);
+            if (hyperLinkMenuItem)
+            {
+                this.addMenuItemReference(hyperLinkMenuItem, MenuItemType::Display, path);
+            }
+        }
+
+        System.Reflection.PropertyInfo controlsProp = formControlType.GetProperty('Controls');
+        if (controlsProp != null)
+        {
+            System.Collections.IEnumerable controls = controlsProp.GetValue(_formControl) as System.Collections.IEnumerable;
+            var controlsEnum = controls.GetEnumerator();
+            while (controlsEnum.MoveNext())
+            {
+                AxFormControl formControl = controlsEnum.Current;
+                
+                this.processFormControl(formControl, path);
+            }
+        }
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

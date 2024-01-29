@@ -27,6 +27,7 @@ EntityFieldList=Entity field list
 EntityFieldName=Entity field name
 EntityLabel=Entity label
 EntityName=Entity name
+KPI=KPI
 LicenseCode=License code
  ;ARB_AOTBrowser
 Macros=Macro
@@ -39,6 +40,8 @@ MenuItemDisplay=Display menu item
  ;ARB_AOTBrowser
 MenuItemOutput=Output menu item
  ;ARB_AOTBrowser
+MenuItemReferences=Menu item references
+MenuItemType=Menu item type
 Menus=Menu
  ;ARB_AOTBrowser
 NewLabel0=Label files created on 12/04/2019 20:20:46 for label file Id AOTBrowser and language en-US
@@ -58,10 +61,14 @@ PopulateAOTObjects=Populate AOT objects
 PopulateAOTObjectTable=AOTBrowser - Populate AOT object table
  ;ARB_AOTBrowser
 PopulateEntityFieldList=Populate entity field list
+PopulateMenuItemReferences=Populate menu item references
 PropertyValue=Value
  ;ARB_AOTBrowser
 Reference=Reference
  ;ARB_AOTBrowser
+ReferenceObjectName=Reference object name
+ReferenceObjectType=Reference object type
+ReferencePath=Reference path
 Report=Report
  ;ARB_AOTBrowser
 Resource=Resource

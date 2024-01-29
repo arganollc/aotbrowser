@@ -53,7 +53,9 @@ class ARBAOTObjectTreeMenu extends ARBAOTObjectTree
                     {
                         afterIdx = SysFormTreeControl::findInsertAfterIdx(treeControl, parentIdx, menuExt.PreviousSibling);
                     }
+                    currentElementMap = elementMap;
                     this.addExtension(menuExt.MenuElement, parentIdx, _extensionName, menuExt.PositionType, afterIdx);
+                    currentElementMap = null;
                 }
                 break;
             default:

@@ -43,6 +43,14 @@ class ARBAOTObjectTreeForm extends ARBAOTObjectTree
     {
         super(_aotNodeName);
 
+        if (selectedTreePath
+            && !selectedControlName
+            && treeControl.getSelection() == treeControl.getRoot())
+        {
+            int position = strScan(selectedTreePath, '/', strLen(selectedTreePath), -1 * strLen(selectedTreePath));
+            selectedControlName = subStr(selectedTreePath, position + 1, strLen(selectedTreePath) - position);
+        }
+
         if (selectedControlName && controlMap.exists(selectedControlName))
         {
             treeControl.select(controlMap.lookup(selectedControlName));
@@ -85,6 +93,29 @@ class ARBAOTObjectTreeForm extends ARBAOTObjectTree
                 super(_collection, _collectionName, _extensionName);
                 break;
         }
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>addCollectionToTree</Name>
+				<Source><![CDATA[
+    protected TreeItemIdx addCollectionToTree(System.Collections.IEnumerable _collection, str _collectionName, TreeItemIdx _parentIdx, int _formTreeAdd)
+    {
+        TreeItemIdx idx = _parentIdx;
+        if (treeControl.getItem(_parentIdx).data() is AxFormExtension
+            && _collectionName == ARBAOTBrowserConstants::Controls)
+        {
+            currentMap = controlMap;
+            idx = super(_collection, _collectionName, _parentIdx, _formTreeAdd);
+            currentMap = null;
+        }
+        else
+        {
+            idx = super(_collection, _collectionName, _parentIdx, _formTreeAdd);
+        }
+
+        return idx;
     }
 
 ]]></Source>

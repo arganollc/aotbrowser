@@ -3,7 +3,7 @@
 # https://docs.microsoft.com/en-us/dynamics365/fin-ops-core/dev-itpro/dev-tools/hosted-build-automation
 
 # Change the name of the build to a 4-digit version number to be used for model versioning
-name: 863.0.4$(Rev:.r)
+name: 863.0.5$(Rev:.r)
 trigger:
 - master
 
