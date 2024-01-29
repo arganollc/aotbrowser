@@ -187,5 +187,10 @@
 			<Label>@AOTBrowser:Report</Label>
 			<Value>38</Value>
 		</AxEnumValue>
+		<AxEnumValue>
+			<Name>KPI</Name>
+			<Label>@AOTBrowser:KPI</Label>
+			<Value>39</Value>
+		</AxEnumValue>
 	</EnumValues>
 </AxEnum>

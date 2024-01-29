@@ -35,6 +35,7 @@
     <Folder Include="Display Menu Items\" />
     <Folder Include="EDT Enums\" />
     <Folder Include="EDT Integers\" />
+    <Folder Include="EDT Strings\" />
     <Folder Include="Extended Data Types\" />
     <Folder Include="Form Extensions\" />
     <Folder Include="Forms\" />
@@ -117,6 +118,26 @@
       <Name>ARBAOTObjectTypeAttribute</Name>
       <Link>Classes\ARBAOTObjectTypeAttribute</Link>
     </Content>
+    <Content Include="AxClass\ARBEntityFieldPopulateController">
+      <SubType>Content</SubType>
+      <Name>ARBEntityFieldPopulateController</Name>
+      <Link>Classes\ARBEntityFieldPopulateController</Link>
+    </Content>
+    <Content Include="AxClass\ARBEntityFieldPopulateService">
+      <SubType>Content</SubType>
+      <Name>ARBEntityFieldPopulateService</Name>
+      <Link>Classes\ARBEntityFieldPopulateService</Link>
+    </Content>
+    <Content Include="AxClass\ARBMenuItemRefPopulateController">
+      <SubType>Content</SubType>
+      <Name>ARBMenuItemRefPopulateController</Name>
+      <Link>Classes\ARBMenuItemRefPopulateController</Link>
+    </Content>
+    <Content Include="AxClass\ARBMenuItemRefPopulateService">
+      <SubType>Content</SubType>
+      <Name>ARBMenuItemRefPopulateService</Name>
+      <Link>Classes\ARBMenuItemRefPopulateService</Link>
+    </Content>
     <Content Include="AxClass\ARBObjectExtension">
       <SubType>Content</SubType>
       <Name>ARBObjectExtension</Name>
@@ -126,6 +147,11 @@
       <SubType>Content</SubType>
       <Name>ARBObjectModification</Name>
       <Link>Classes\ARBObjectModification</Link>
+    </Content>
+    <Content Include="AxClass\FormControlPersonalizationForm_ARB_Extension">
+      <SubType>Content</SubType>
+      <Name>FormControlPersonalizationForm_ARB_Extension</Name>
+      <Link>Classes\FormControlPersonalizationForm_ARB_Extension</Link>
     </Content>
     <Content Include="AxEdt\ARBAOTProperties">
       <SubType>Content</SubType>
@@ -141,6 +167,11 @@
       <SubType>Content</SubType>
       <Name>ARBAOTPropertyValue</Name>
       <Link>Extended Data Types\ARBAOTPropertyValue</Link>
+    </Content>
+    <Content Include="AxEdt\ARBMenuItemReferencePath">
+      <SubType>Content</SubType>
+      <Name>ARBMenuItemReferencePath</Name>
+      <Link>EDT Strings\ARBMenuItemReferencePath</Link>
     </Content>
     <Content Include="AxEdt\ARBObjectId">
       <SubType>Content</SubType>
@@ -167,6 +198,16 @@
       <Name>ARBAOTBrowser</Name>
       <Link>Forms\ARBAOTBrowser</Link>
     </Content>
+    <Content Include="AxForm\ARBEntityFields">
+      <SubType>Content</SubType>
+      <Name>ARBEntityFields</Name>
+      <Link>Forms\ARBEntityFields</Link>
+    </Content>
+    <Content Include="AxForm\ARBMenuItemReferences">
+      <SubType>Content</SubType>
+      <Name>ARBMenuItemReferences</Name>
+      <Link>Forms\ARBMenuItemReferences</Link>
+    </Content>
     <Content Include="AxLabelFile\AOTBrowser_en-US">
       <SubType>Content</SubType>
       <Name>AOTBrowser_en-US</Name>
@@ -187,10 +228,30 @@
       <Name>ARBAOTObjectPopulate</Name>
       <Link>Action Menu Items\ARBAOTObjectPopulate</Link>
     </Content>
+    <Content Include="AxMenuItemAction\ARBEntityFieldPopulateService">
+      <SubType>Content</SubType>
+      <Name>ARBEntityFieldPopulateService</Name>
+      <Link>Action Menu Items\ARBEntityFieldPopulateService</Link>
+    </Content>
+    <Content Include="AxMenuItemAction\ARBMenuItemRefPopulateService">
+      <SubType>Content</SubType>
+      <Name>ARBMenuItemRefPopulateService</Name>
+      <Link>Action Menu Items\ARBMenuItemRefPopulateService</Link>
+    </Content>
     <Content Include="AxMenuItemDisplay\ARBAOTBrowser">
       <SubType>Content</SubType>
       <Name>ARBAOTBrowser</Name>
       <Link>Display Menu Items\ARBAOTBrowser</Link>
+    </Content>
+    <Content Include="AxMenuItemDisplay\ARBEntityFields">
+      <SubType>Content</SubType>
+      <Name>ARBEntityFields</Name>
+      <Link>Display Menu Items\ARBEntityFields</Link>
+    </Content>
+    <Content Include="AxMenuItemDisplay\ARBMenuItemReferences">
+      <SubType>Content</SubType>
+      <Name>ARBMenuItemReferences</Name>
+      <Link>Display Menu Items\ARBMenuItemReferences</Link>
     </Content>
     <Content Include="AxSecurityDuty\ARBAOTBrowserMaintain">
       <SubType>Content</SubType>
@@ -222,6 +283,16 @@
       <Name>ARBAOTObjects</Name>
       <Link>Tables\ARBAOTObjects</Link>
     </Content>
+    <Content Include="AxTable\ARBEntityFields">
+      <SubType>Content</SubType>
+      <Name>ARBEntityFields</Name>
+      <Link>Tables\ARBEntityFields</Link>
+    </Content>
+    <Content Include="AxTable\ARBMenuItemReferences">
+      <SubType>Content</SubType>
+      <Name>ARBMenuItemReferences</Name>
+      <Link>Tables\ARBMenuItemReferences</Link>
+    </Content>
     <Content Include="AxTile\ARBAOTBrowserTile">
       <SubType>Content</SubType>
       <Name>ARBAOTBrowserTile</Name>
@@ -242,5 +313,5 @@
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.Common.targets" />
-  <Import Project="$(BuildTasksDirectory)\Microsoft.Dynamics.Framework.Tools.BuildTasks.targets" />
+  <Import Project="$(BuildTasksDirectory)\Microsoft.Dynamics.Framework.Tools.BuildTasks.17.0.targets" />
 </Project>

@@ -4,17 +4,59 @@
 	<ControlModifications />
 	<Controls>
 		<AxFormExtensionControl xmlns="">
-			<Name>FormExtensionControl4fvlwlj31</Name>
+			<Name>FormExtensionControl3xskwkxk1</Name>
 			<FormControl xmlns=""
-				i:type="AxFormMenuFunctionButtonControl">
-				<Name>ARBAOTBrowser</Name>
-				<Type>MenuFunctionButton</Type>
+				i:type="AxFormTabPageControl">
+				<Name>ARBAOTBrowserTab</Name>
+				<Pattern>Custom</Pattern>
+				<Type>TabPage</Type>
 				<FormControlExtension
 					i:nil="true" />
-				<MenuItemName>ARBAOTBrowser</MenuItemName>
-				<Text>@AOTBrowser:OpenInAOTBrowser</Text>
+				<Controls>
+					<AxFormControl xmlns=""
+						i:type="AxFormButtonGroupControl">
+						<Name>ARBAOTBrowserButtonGroup</Name>
+						<Type>ButtonGroup</Type>
+						<WidthMode>SizeToAvailable</WidthMode>
+						<FormControlExtension
+							i:nil="true" />
+						<Controls>
+							<AxFormControl xmlns=""
+								i:type="AxFormMenuFunctionButtonControl">
+								<Name>ARBAOTBrowser</Name>
+								<Type>MenuFunctionButton</Type>
+								<FormControlExtension
+									i:nil="true" />
+								<MenuItemName>ARBAOTBrowser</MenuItemName>
+								<Text>@AOTBrowser:OpenInAOTBrowser</Text>
+							</AxFormControl>
+							<AxFormControl xmlns=""
+								i:type="AxFormMenuFunctionButtonControl">
+								<Name>ARBEntityFields</Name>
+								<AutoDeclaration>Yes</AutoDeclaration>
+								<Type>MenuFunctionButton</Type>
+								<Visible>No</Visible>
+								<FormControlExtension
+									i:nil="true" />
+								<MenuItemName>ARBEntityFields</MenuItemName>
+							</AxFormControl>
+							<AxFormControl xmlns=""
+								i:type="AxFormMenuFunctionButtonControl">
+								<Name>ARBMenuItemReferences</Name>
+								<AutoDeclaration>Yes</AutoDeclaration>
+								<Type>MenuFunctionButton</Type>
+								<Visible>No</Visible>
+								<FormControlExtension
+									i:nil="true" />
+								<MenuItemName>ARBMenuItemReferences</MenuItemName>
+							</AxFormControl>
+						</Controls>
+						<ArrangeMethod>Vertical</ArrangeMethod>
+					</AxFormControl>
+				</Controls>
+				<Caption>@AOTBrowser:AOTBrowser</Caption>
 			</FormControl>
-			<Parent>CommitGroup</Parent>
+			<Parent>TabContent</Parent>
 		</AxFormExtensionControl>
 	</Controls>
 	<DataSourceModifications />

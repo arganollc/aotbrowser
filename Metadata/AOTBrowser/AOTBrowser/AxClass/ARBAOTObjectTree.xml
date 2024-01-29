@@ -22,6 +22,7 @@ public class ARBAOTObjectTree
     protected boolean extensionsInline;
     Map collectionMap = new Map(Types::String, Types::AnyType);
     Map currentMap;
+    str selectedTreePath;
 
 }
 ]]></Declaration>
@@ -98,6 +99,18 @@ public class ARBAOTObjectTree
         extensionsInline = _extensionsInline;
 
         return extensionsInline;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmSelectedTreePath</Name>
+				<Source><![CDATA[
+    public str parmSelectedTreePath(str _selectedTreePath = selectedTreePath)
+    {
+        selectedTreePath = _selectedTreePath;
+
+        return selectedTreePath;
     }
 
 ]]></Source>
@@ -251,6 +264,9 @@ public class ARBAOTObjectTree
             case ARBAOTObjectType::Report:
                 aotObject = _metadataProvider.Reports.Read(_aotNodeName);
                 break;
+            case ARBAOTObjectType::KPI:
+                aotObject = _metadataProvider.KPIs.Read(_aotNodeName);
+                break;
         }
 
         if (aotObject == null
@@ -316,12 +332,12 @@ public class ARBAOTObjectTree
             case ARBAOTObjectType::SecurityDuty:
                 enumerator = ArbelaXpp.MetadataSupport::GetSecurityDutyExtensionsForSecurityDuty(_aotNodeName).GetEnumerator();
                 break;
-            //case ARBAOTObjectType::WorkflowApproval:
-            //    enumerator = Xpp.MetadataSupport::GetWorkflowApprovalExtensionsForWorkflowApproval(_aotNodeName).GetEnumerator();
-            //    break;
-            //case ARBAOTObjectType::WorkflowTask:
-            //    enumerator = Xpp.MetadataSupport::GetWorkflowTaskExtensionsForWorkflowTask(_aotNodeName).GetEnumerator();
-            //    break;
+            case ARBAOTObjectType::WorkflowApproval:
+                enumerator = ArbelaXpp.MetadataSupport::GetWorkflowApprovalExtensionsForWorkflowApproval(_aotNodeName).GetEnumerator();
+                break;
+            case ARBAOTObjectType::WorkflowTask:
+                enumerator = ArbelaXpp.MetadataSupport::GetWorkflowTaskExtensionsForWorkflowTask(_aotNodeName).GetEnumerator();
+                break;
             case ARBAOTObjectType::WorkflowType:
                 enumerator = ArbelaXpp.MetadataSupport::GetWorkflowTemplateExtensionsForWorkflowTemplate(_aotNodeName).GetEnumerator();
                 break;
@@ -386,7 +402,38 @@ public class ARBAOTObjectTree
             }
         }
 
-        treeControl.select(rootIdx);
+        TreeItemIdx selectedIdx = rootIdx;
+        if (selectedTreePath)
+        {
+            List pathSegments = strSplit(selectedTreePath, '/');
+            ListEnumerator pathSegmentsEnum = pathSegments.getEnumerator();
+            TreeItemIdx currentIdx = rootIdx;
+            while (pathSegmentsEnum.moveNext())
+            {
+                str segmentName = pathSegmentsEnum.current();
+                TreeItemIdx childIdx = treeControl.getChild(currentIdx);
+                boolean found = false;
+                while (childIdx != 0)
+                {
+                    FormTreeItem childNode = treeControl.getItem(childIdx);
+                    if (childNode.text() == segmentName)
+                    {
+                        found = true;
+                        currentIdx = childIdx;
+                        break;
+                    }
+                    childIdx = treeControl.getNextSibling(childIdx);
+                }
+                if (!found)
+                {
+                    break;
+                }
+            }
+
+            selectedIdx = currentIdx;
+        }
+
+        treeControl.select(selectedIdx);
     }
 
 ]]></Source>
@@ -432,7 +479,8 @@ public class ARBAOTObjectTree
                     }
                     else
                     {
-                        this.addExtension(modEnum.Current, rootNodeIdx, _extensionName);
+                        TreeItemIdx extIdx = this.addExtension(modEnum.Current, rootNodeIdx, _extensionName);
+                        modMap.insert(this.getObjectName(modEnum.Current), extIdx);
                     }
                 }
             }
@@ -618,7 +666,7 @@ public class ARBAOTObjectTree
     /// <param name = "_extensionName">The extension name</param>
     /// <param name = "_positionType">The position the control should be added</param>
     /// <param name = "_afterItemIdx">The index where the control should be inserted after</param>
-    protected void addExtension(anytype _extension, TreeItemIdx _parentIdx, str _extensionName, CoreMetaModel.ExtensionItemPositionType _positionType =CoreMetaModel.ExtensionItemPositionType::End, int _afterItemIdx = 0)
+    protected TreeItemIdx addExtension(anytype _extension, TreeItemIdx _parentIdx, str _extensionName, CoreMetaModel.ExtensionItemPositionType _positionType =CoreMetaModel.ExtensionItemPositionType::End, int _afterItemIdx = 0)
     {
         FormTreeItem parentControl = treeControl.getItem(_parentIdx);
         if (parentControl.data() is System.Collections.IEnumerable
@@ -653,6 +701,7 @@ public class ARBAOTObjectTree
         FormTreeItem control = treeControl.getItem(extIdx);
         control.stateBold(true);
         treeControl.setItem(control);
+        return extIdx;
     }
 
 ]]></Source>

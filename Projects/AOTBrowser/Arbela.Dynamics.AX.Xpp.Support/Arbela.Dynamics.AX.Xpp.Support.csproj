@@ -39,29 +39,35 @@
     <Reference Include="AOSKernel">
       <HintPath Condition="Exists('C:\AosService\PackagesLocalDirectory\Bin\AOSKernel.dll')">C:\AosService\PackagesLocalDirectory\Bin\AOSKernel.dll</HintPath>
       <HintPath Condition="Exists('K:\AosService\PackagesLocalDirectory\Bin\AOSKernel.dll')">K:\AosService\PackagesLocalDirectory\Bin\AOSKernel.dll</HintPath>
+      <HintPath Condition="Exists('J:\AosService\PackagesLocalDirectory\Bin\AOSKernel.dll')">J:\AosService\PackagesLocalDirectory\Bin\AOSKernel.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.Dynamics.AX.Metadata">
       <HintPath Condition="Exists('C:\AosService\PackagesLocalDirectory\Bin\Microsoft.Dynamics.AX.Metadata.dll')">C:\AosService\PackagesLocalDirectory\Bin\Microsoft.Dynamics.AX.Metadata.dll</HintPath>
       <HintPath Condition="Exists('K:\AosService\PackagesLocalDirectory\Bin\Microsoft.Dynamics.AX.Metadata.dll')">K:\AosService\PackagesLocalDirectory\Bin\Microsoft.Dynamics.AX.Metadata.dll</HintPath>
+      <HintPath Condition="Exists('J:\AosService\PackagesLocalDirectory\Bin\Microsoft.Dynamics.AX.Metadata.dll')">J:\AosService\PackagesLocalDirectory\Bin\Microsoft.Dynamics.AX.Metadata.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.Dynamics.AX.Metadata.Core">
       <HintPath Condition="Exists('C:\AOSService\PackagesLocalDirectory\Bin\Microsoft.Dynamics.AX.Metadata.Core.dll')">C:\AOSService\PackagesLocalDirectory\Bin\Microsoft.Dynamics.AX.Metadata.Core.dll</HintPath>
       <HintPath Condition="Exists('K:\AOSService\PackagesLocalDirectory\Bin\Microsoft.Dynamics.AX.Metadata.Core.dll')">K:\AOSService\PackagesLocalDirectory\Bin\Microsoft.Dynamics.AX.Metadata.Core.dll</HintPath>
+      <HintPath Condition="Exists('J:\AOSService\PackagesLocalDirectory\Bin\Microsoft.Dynamics.AX.Metadata.Core.dll')">J:\AOSService\PackagesLocalDirectory\Bin\Microsoft.Dynamics.AX.Metadata.Core.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Dynamics.AX.Metadata.Extensions, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath Condition="Exists('C:\AOSService\PackagesLocalDirectory\Bin\Microsoft.Dynamics.AX.Metadata.Extensions.dll')">C:\AOSService\PackagesLocalDirectory\Bin\Microsoft.Dynamics.AX.Metadata.Extensions.dll</HintPath>
       <HintPath Condition="Exists('K:\AOSService\PackagesLocalDirectory\Bin\Microsoft.Dynamics.AX.Metadata.Extensions.dll')">K:\AOSService\PackagesLocalDirectory\Bin\Microsoft.Dynamics.AX.Metadata.Extensions.dll</HintPath>
+      <HintPath Condition="Exists('J:\AOSService\PackagesLocalDirectory\Bin\Microsoft.Dynamics.AX.Metadata.Extensions.dll')">J:\AOSService\PackagesLocalDirectory\Bin\Microsoft.Dynamics.AX.Metadata.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Dynamics.AX.Metadata.Storage">
       <HintPath Condition="Exists('C:\AOSService\PackagesLocalDirectory\Bin\Microsoft.Dynamics.AX.Metadata.Storage.dll')">C:\AOSService\PackagesLocalDirectory\Bin\Microsoft.Dynamics.AX.Metadata.Storage.dll</HintPath>
       <HintPath Condition="Exists('K:\AOSService\PackagesLocalDirectory\Bin\Microsoft.Dynamics.AX.Metadata.Storage.dll')">K:\AOSService\PackagesLocalDirectory\Bin\Microsoft.Dynamics.AX.Metadata.Storage.dll</HintPath>
+      <HintPath Condition="Exists('J:\AOSService\PackagesLocalDirectory\Bin\Microsoft.Dynamics.AX.Metadata.Storage.dll')">J:\AOSService\PackagesLocalDirectory\Bin\Microsoft.Dynamics.AX.Metadata.Storage.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Dynamics.AX.Xpp.Support">
       <HintPath Condition="Exists('C:\AosService\PackagesLocalDirectory\Bin\Microsoft.Dynamics.AX.Xpp.Support.dll')">C:\AosService\PackagesLocalDirectory\Bin\Microsoft.Dynamics.AX.Xpp.Support.dll</HintPath>
       <HintPath Condition="Exists('K:\AosService\PackagesLocalDirectory\Bin\Microsoft.Dynamics.AX.Xpp.Support.dll')">K:\AosService\PackagesLocalDirectory\Bin\Microsoft.Dynamics.AX.Xpp.Support.dll</HintPath>
+      <HintPath Condition="Exists('J:\AosService\PackagesLocalDirectory\Bin\Microsoft.Dynamics.AX.Xpp.Support.dll')">J:\AosService\PackagesLocalDirectory\Bin\Microsoft.Dynamics.AX.Xpp.Support.dll</HintPath>
     </Reference>
     <Reference Include="PygmentSharp.Core, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\PygmentSharp.Core.0.3.0\lib\netstandard2.0\PygmentSharp.Core.dll</HintPath>

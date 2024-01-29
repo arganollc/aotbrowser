@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>ARBEntityFieldPopulateController</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// Controller for generating setup data for parameter comparison
+/// </summary>
+class ARBEntityFieldPopulateController  extends SysOperationserviceController
+{
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>new</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Constructor for ACMAOTObjectPopulateController class
+    /// </summary>
+    /// <param name = "_className">The name of the class</param>
+    /// <param name = "_methodName">The method name</param>
+    /// <param name = "_executionMode">The execution mode</param>
+    protected void new(IdentifierName _className = '', IdentifierName _methodName = '', SysOperationExecutionMode _executionMode = SysOperationExecutionMode::Synchronous)
+    {
+        super(classStr(ARBEntityFieldPopulateService), methodStr(ARBEntityFieldPopulateService, populateEntityFields), _executionMode);
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>construct</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Construct method for ACMAOTObjectPopulateController
+    /// </summary>
+    /// <returns>The new ACMAOTObjectPopulateController</returns>
+    public static ARBEntityFieldPopulateController construct()
+    {
+        return new ARBEntityFieldPopulateController();
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>caption</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// The caption for the controller
+    /// </summary>
+    /// <returns>The caption</returns>
+    public ClassDescription caption()
+    {
+        return "@AOTBrowser:PopulateEntityFieldList";
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmDialogCaption</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// The dialog caption
+    /// </summary>
+    /// <param name = "_dialogCaption">The new dialog caption</param>
+    /// <returns>The dialog caption</returns>
+    public LabelType parmDialogCaption(LabelType _dialogCaption = dialogCaption)
+    {
+        LabelType ret;
+
+        ret = "@AOTBrowser:PopulateEntityFieldList";
+
+        return ret;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>main</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// The main method
+    /// </summary>
+    /// <param name = "_args">The arguments</param>
+    public static void main(Args _args)
+    {
+        ARBEntityFieldPopulateController controller = ARBEntityFieldPopulateController::construct();
+
+        controller.startOperation();
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

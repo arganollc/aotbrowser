@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>ARBEntityFieldPopulateService</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+using Xpp = Microsoft.Dynamics.Ax.Xpp;
+using ArbelaXpp = Arbela.Dynamics.Ax.Xpp;
+using Microsoft.Dynamics.AX.Metadata.MetaModel;
+using System.Reflection;
+
+/// <summary>
+/// Service for generating parameter comparison setup data
+/// </summary>
+class ARBEntityFieldPopulateService extends SysOperationServiceBase
+{
+    ARBEntityFields entityFields;
+    RecordInsertList entityFieldsInsertList = new RecordInsertList(tableNum(ARBEntityFields));
+
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>populateEntityFields</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Generate the setup data needed for parameter comparison
+    /// </summary>
+    public void populateEntityFields()
+    {
+        delete_from entityFields;
+
+        var dataEntityList = Xpp.MetadataSupport::GetDataModelElements(false,false,true,false,false).GetEnumerator();
+
+        while (dataEntityList.MoveNext())
+        {
+            AxDataEntityView dataEntityView = Xpp.MetadataSupport::GetDataEntityView(dataEntityList.Current);
+            this.processFields(dataEntityView.Name, SysLabel::labelId2String2(dataEntityView.Label), dataEntityView.Fields, dataEntityView.ViewMetadata.DataSources);
+        }
+        entityFieldsInsertList.insertDatabase();
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>processFields</Name>
+				<Source><![CDATA[
+    public void processFields(str _entityName, str _entityLabel, System.Collections.IEnumerable _fields, System.Collections.IEnumerable _datasources, System.Collections.IEnumerable _extensionDatasources = CLRInterop::Null())
+    {
+        var fieldEnum = _fields.GetEnumerator();
+        while (fieldEnum.MoveNext())
+        {
+            AxDataEntityViewField field = fieldEnum.Current;
+
+            AxDataEntityViewMappedField mappedField = field as AxDataEntityViewMappedField;
+            if (mappedField != null)
+            {
+                System.Type t = mappedField.GetType();
+                PropertyInfo labelProperty = t.GetProperty('Label');
+                entityFields.EntityFieldName = mappedField.Name;
+                entityFields.EntityFieldLabel = this.getLabelValue(labelProperty, mappedField);
+                [entityFields.DatasourceTableName, entityFields.DatasourceFieldName] = this.getTableNameFieldName(ARBAOTBrowserHelper::getTableNameFromDatasource(mappedField.Datasource, _dataSources), mappedField.DataField);
+                if (entityFields.EntityFieldLabel == '')
+                {
+                    AxTableField tableField = Xpp.MetadataSupport::GetTableField(entityFields.DatasourceTableName, entityFields.DatasourceFieldName);
+                    if (tableField != null)
+                    {
+                        entityFields.EntityFieldLabel = this.getLabelValue(tableField.GetType().GetProperty('Label'), tableField);
+                    }
+                    else
+                    {
+                        AxViewField viewField = Xpp.MetadataSupport::GetViewField(entityFields.DatasourceTableName, entityFields.DatasourceFieldName);
+                        if (viewField != null)
+                        {
+                            entityFields.EntityFieldLabel = this.getLabelValue(viewField.GetType().GetProperty('Label'), viewField);
+                        }
+                    }
+                }
+                entityFields.EntityName = _entityName;
+                entityFields.EntityLabel = _entityLabel;
+
+                entityFieldsInsertList.add(entityFields);
+            }
+        }
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>getTableNameFieldName</Name>
+				<Source><![CDATA[
+    public container getTableNameFieldName(str _datasourceName, str _fieldName)
+    {
+        AxDataEntityView dataEntity = Xpp.MetadataSupport::GetDataEntityView(_datasourceName);
+        if (dataEntity != null)
+        {
+            var fieldEnum = dataEntity.Fields.GetEnumerator();
+            while (fieldEnum.MoveNext())
+            {
+                AxDataEntityViewField field = fieldEnum.Current;
+                if (field.Name == _fieldName)
+                {
+                    AxDataEntityViewMappedField mappedField = field as AxDataEntityViewMappedField;
+                    if (mappedField != null)
+                    {
+                        return this.getTableNameFieldName(ARBAOTBrowserHelper::getTableNameFromDatasource(mappedField.Datasource, dataEntity.ViewMetadata.DataSources), mappedField.DataField);
+                    }
+                    break;
+                }
+            }
+        }
+
+        AxView view = Xpp.MetadataSupport::GetView(_datasourceName);
+        if (view != null)
+        {
+            var viewFieldEnum = view.Fields.GetEnumerator();
+            while (viewFieldEnum.MoveNext())
+            {
+                AxViewField field = viewFieldEnum.Current;
+                if (field.Name == _fieldName)
+                {
+                    AxViewFieldBound boundField = field as AxViewFieldBound;
+                    if (boundField != null)
+                    {
+                        return this.getTableNameFieldName(ARBAOTBrowserHelper::getTableNameFromDatasource(boundField.DataSource, view.ViewMetadata.DataSources), boundField.DataField);
+                    }
+                    break;
+                }
+            }
+        }
+
+        return [_datasourceName, _fieldName];
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>getLabelValue</Name>
+				<Source><![CDATA[
+    protected str getLabelValue(PropertyInfo _property, anytype _object)
+    {
+        str value = SysLabel::labelId2String(_property.GetValue(_object).ToString());
+
+        if (value == '')
+        {
+            if (_object is AxEdt && (_object as AxEdt).Extends != '')
+            {
+                AxEdt edt = _object as AxEdt;
+                AxEdt extendsEdt = Xpp.MetadataSupport::GetEdt(edt.Extends);
+                if (extendsEdt != null)
+                {
+                    value = this.getLabelValue(extendsEdt.GetType().GetProperty(_property.Name), extendsEdt);
+                }
+            }
+            else
+            {
+                System.Type t = _object.GetType();
+                PropertyInfo edtProp = t.GetProperty(ARBAOTBrowserConstants::ExtendedDataType);
+                if (edtProp != null && edtProp.GetValue(_object) != null && edtProp.GetValue(_object).ToString() != '')
+                {
+                    str edtName = edtProp.GetValue(_object).ToString();
+                    if (edtName != '')
+                    {
+                        AxEdt edt = Xpp.MetadataSupport::GetEdt(edtName);
+                        if (edt != null)
+                        {
+                            value = this.getLabelValue(edt.GetType().GetProperty(_property.Name), edt);
+                        }
+                    }
+                }
+                else
+                {
+                    PropertyInfo enumProp = t.GetProperty(ARBAOTBrowserConstants::EnumType);
+                    if (enumProp != null && enumProp.GetValue(_object) != null && enumProp.GetValue(_object).ToString() != '')
+                    {
+                        str enumName = enumProp.GetValue(_object).ToString();
+                        if (enumName != '')
+                        {
+                            AxEnum enum = Xpp.MetadataSupport::GetEnum(enumName);
+                            if (enum != null)
+                            {
+                                value = this.getLabelValue(enum.GetType().GetProperty(_property.Name), enum);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        //PropertyInfo dataSourceProp = t.GetProperty(ARBAOTBrowserConstants::DataSource);
+                        //if (dataSourceProp != null && dataSourceProp.GetValue(_object) != null)
+                        //{
+                        //    str dataSourceName = dataSourceProp.GetValue(_object).ToString();
+                        //    PropertyInfo dataFieldProp = t.GetProperty(ARBAOTBrowserConstants::DataField);
+                        //    if (dataFieldProp != null && dataFieldProp.GetValue(_object) != null)
+                        //    {
+                        //        str dataFieldName = dataFieldProp.GetValue(_object).ToString();
+                        //        if (aotObjectTree.getCollectionMap().exists(ARBAOTBrowserConstants::DataSources))
+                        //        {
+                        //            Map datasourcesMap = aotObjectTree.getCollectionMap().lookup(ARBAOTBrowserConstants::DataSources);
+                        //            if (datasourcesMap.exists(dataSourceName))
+                        //            {
+                        //                anytype dataSource = ObjectTree.getItem(datasourcesMap.lookup(dataSourceName)).data();
+                        //                System.Type datasourceType = dataSource.GetType();
+                        //                PropertyInfo tableProp = datasourceType.GetProperty(ARBAOTBrowserConstants::Table);
+                        //                str tableName = tableProp.GetValue(dataSource);
+                        //                AxTableField tableField = Xpp.MetadataSupport::GetTableField(tableName, dataFieldName);
+                        //                if (tableField != null)
+                        //                {
+                        //                    value = this.getLabelValue(tableField.GetType().GetProperty(_property.Name), tableField);
+                        //                }
+                        //                else
+                        //                {
+                        //                    AxViewField viewField = Xpp.MetadataSupport::GetViewField(tableName, dataFieldName);
+                        //                    if (viewField != null)
+                        //                    {
+                        //                        value = this.getLabelValue(viewField.GetType().GetProperty(_property.Name), viewField);
+                        //                    }
+                        //                }
+                        //            }
+                        //        }
+                        //    }
+                        //}
+                    }
+                }
+            }
+        }
+
+        return value;
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>
