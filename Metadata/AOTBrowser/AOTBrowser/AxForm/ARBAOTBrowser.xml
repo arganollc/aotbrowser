@@ -1323,10 +1323,6 @@ public class ARBAOTBrowser extends FormRun
                         case ARBAOTObjectType::View:
                             tableName = ARBAOTBrowserHelper::getViewDatasourceTableName(currentObjectName, this.valueStr());
                             break;
-
-                        case ARBAOTObjectType::DataEntity:
-                            tableName = ARBAOTBrowserHelper::getDataEntityDatasourceTableName(currentObjectName, this.valueStr());
-                            break;
                     }
 
                     if (tableName)
@@ -1351,7 +1347,7 @@ public class ARBAOTBrowser extends FormRun
                             {
                                 datasourceName = dataSourceProp.GetValue(selectedObject).ToString();
                             }
-                            if (damautasourceName)
+                            if (datasourceName)
                             {
                                 dataFieldTableName = ARBAOTBrowserHelper::getFormDatasourceTableName(currentObjectName, datasourceName);
                             }
