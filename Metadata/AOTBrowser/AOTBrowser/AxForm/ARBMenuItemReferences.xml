@@ -43,6 +43,14 @@ public class ARBMenuItemReferences extends FormRun
                         }
                     }
                 }
+                else if (caller.name() == formStr(ARBAOTBrowser))
+                {
+                    str menuItemNameParm = element.args().parm();
+                    if (menuItemNameParm)
+                    {
+                        this.queryBuildDataSource().addRange(fieldNum(ARBMenuItemReferences, MenuItemName)).value(menuItemNameParm);
+                    }
+                }
             }
         }
 

@@ -185,6 +185,7 @@ public class ARBAOTBrowser extends FormRun
         ResourceImageGroup.visible(false);
 
         boolean tableBrowserEnabled = false;
+        boolean menuItemRefEnabled = false;
         switch (_objectType)
         {
             case ARBAOTObjectType::Resource:
@@ -194,6 +195,12 @@ public class ARBAOTBrowser extends FormRun
             case ARBAOTObjectType::Table:
             case ARBAOTObjectType::View:
                 tableBrowserEnabled = true;
+                break;
+            case ARBAOTObjectType::MenuItemAction:
+            case ARBAOTObjectType::MenuItemDisplay:
+            case ARBAOTObjectType::MenuItemOutput:
+                menuItemRefEnabled = true;
+                break;
         }
 
         aotObjectTree = ARBAOTObjectTree::newFromAOTObject(ObjectTree, _objectType, ExtensionViewToggle.toggleValue());
@@ -223,6 +230,7 @@ public class ARBAOTBrowser extends FormRun
         aotObjectTree.update(_aotNodeName);
         DetailsTab.caption(_aotNodeName + ' - ' + enum2Str(_objectType));
         ARBOpenTableBrowser.enabled(tableBrowserEnabled);
+        ARBMenuItemReferences.enabled(menuItemRefEnabled);
     }
 
 ]]></Source>
@@ -1065,6 +1073,26 @@ public class ARBAOTBrowser extends FormRun
 				</Methods>
 			</Control>
 			<Control>
+				<Name>ARBMenuItemReferences</Name>
+				<Type>MenuFunctionButton</Type>
+				<Methods>
+					<Method>
+						<Name>clicked</Name>
+						<Source><![CDATA[
+        /// <summary>
+        ///
+        /// </summary>
+        public void clicked()
+        {
+            this.parameters(currentObjectName);
+            super();
+        }
+
+]]></Source>
+					</Method>
+				</Methods>
+			</Control>
+			<Control>
 				<Name>ExtensionViewToggle</Name>
 				<Type>Button</Type>
 				<Methods>
@@ -1738,6 +1766,15 @@ public class ARBAOTBrowser extends FormRun
 								<FormControlExtension
 									i:nil="true" />
 								<Text>@AOTBrowser:OpenTableBrowserButton</Text>
+							</AxFormControl>
+							<AxFormControl xmlns=""
+								i:type="AxFormMenuFunctionButtonControl">
+								<Name>ARBMenuItemReferences</Name>
+								<AutoDeclaration>Yes</AutoDeclaration>
+								<Type>MenuFunctionButton</Type>
+								<FormControlExtension
+									i:nil="true" />
+								<MenuItemName>ARBMenuItemReferences</MenuItemName>
 							</AxFormControl>
 							<AxFormControl xmlns=""
 								i:type="AxFormButtonControl">
