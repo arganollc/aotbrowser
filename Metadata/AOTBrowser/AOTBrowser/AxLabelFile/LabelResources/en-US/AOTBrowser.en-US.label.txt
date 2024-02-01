@@ -38,6 +38,7 @@ MenuItemAction=Action menu item
  ;ARB_AOTBrowser
 MenuItemDisplay=Display menu item
  ;ARB_AOTBrowser
+MenuItemLabel=Menu item label
 MenuItemOutput=Output menu item
  ;ARB_AOTBrowser
 MenuItemReferences=Menu item references
@@ -69,6 +70,7 @@ Reference=Reference
 ReferenceObjectName=Reference object name
 ReferenceObjectType=Reference object type
 ReferencePath=Reference path
+RefObjectLabel=Reference object label
 Report=Report
  ;ARB_AOTBrowser
 Resource=Resource
