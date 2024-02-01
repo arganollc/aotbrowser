@@ -69,6 +69,9 @@ public class ARBMenuItemReferences extends FormRun
 			<Table>ARBMenuItemReferences</Table>
 			<Fields>
 				<AxFormDataSourceField>
+					<DataField>MenuItemLabel</DataField>
+				</AxFormDataSourceField>
+				<AxFormDataSourceField>
 					<DataField>MenuItemName</DataField>
 				</AxFormDataSourceField>
 				<AxFormDataSourceField>
@@ -79,6 +82,9 @@ public class ARBMenuItemReferences extends FormRun
 				</AxFormDataSourceField>
 				<AxFormDataSourceField>
 					<DataField>RecId</DataField>
+				</AxFormDataSourceField>
+				<AxFormDataSourceField>
+					<DataField>RefObjectLabel</DataField>
 				</AxFormDataSourceField>
 				<AxFormDataSourceField>
 					<DataField>RefObjectName</DataField>
@@ -202,6 +208,15 @@ public class ARBMenuItemReferences extends FormRun
 						<DataSource>ARBMenuItemReferences</DataSource>
 					</AxFormControl>
 					<AxFormControl xmlns=""
+						i:type="AxFormStringControl">
+						<Name>ARBMenuItemReferences_MenuItemLabel</Name>
+						<Type>String</Type>
+						<FormControlExtension
+							i:nil="true" />
+						<DataField>MenuItemLabel</DataField>
+						<DataSource>ARBMenuItemReferences</DataSource>
+					</AxFormControl>
+					<AxFormControl xmlns=""
 						i:type="AxFormComboBoxControl">
 						<Name>ARBMenuItemReferences_MenuItemType</Name>
 						<Type>ComboBox</Type>
@@ -218,6 +233,15 @@ public class ARBMenuItemReferences extends FormRun
 						<FormControlExtension
 							i:nil="true" />
 						<DataField>RefObjectName</DataField>
+						<DataSource>ARBMenuItemReferences</DataSource>
+					</AxFormControl>
+					<AxFormControl xmlns=""
+						i:type="AxFormStringControl">
+						<Name>ARBMenuItemReferences_RefObjectLabel</Name>
+						<Type>String</Type>
+						<FormControlExtension
+							i:nil="true" />
+						<DataField>RefObjectLabel</DataField>
 						<DataSource>ARBMenuItemReferences</DataSource>
 					</AxFormControl>
 					<AxFormControl xmlns=""

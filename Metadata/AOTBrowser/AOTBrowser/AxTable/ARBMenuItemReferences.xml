@@ -74,6 +74,18 @@ public class ARBMenuItemReferences extends common
 			<Name>RefPath</Name>
 			<ExtendedDataType>ARBMenuItemReferencePath</ExtendedDataType>
 		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldString">
+			<Name>RefObjectLabel</Name>
+			<ExtendedDataType>Description</ExtendedDataType>
+			<Label>@AOTBrowser:RefObjectLabel</Label>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldString">
+			<Name>MenuItemLabel</Name>
+			<ExtendedDataType>Description</ExtendedDataType>
+			<Label>@AOTBrowser:MenuItemLabel</Label>
+		</AxTableField>
 	</Fields>
 	<FullTextIndexes />
 	<Indexes>
