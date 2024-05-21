@@ -95,10 +95,14 @@ steps:
   inputs:
     versionSpec: 3.3.0
 
-- task: XppCreatePackage@0
+- task: Dyn365FinOps.dynamics365-finops-tools.finops-createpackage.XppCreatePackage@1
   displayName: 'Create Deployable Package'
   inputs:
     XppToolsPath: '$(NuGetsPath)\$(ToolsPackage)'
+    CreateCloudPackage: true
+    CloudPackagePlatVersion: 7.0.6972.45
+    CloudPackageAppVersion: 10.0.1627.38
+    CloudPackageOutputLocation: '$(Build.ArtifactStagingDirectory)\AOTBrowser_CloudDeployablePackage_$(Build.BuildNumber)'
     DeployablePackagePath: '$(Build.ArtifactStagingDirectory)\AOTBrowser_DeployablePackage_$(Build.BuildNumber).zip'
 
 - task: NSIITSoftwareServices.d365-devops-xppcreatesourcemodelpackage.XppCreateSourceModelPackage.XppCreateSourceModelPackage@0
