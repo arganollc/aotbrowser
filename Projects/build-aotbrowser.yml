@@ -100,7 +100,7 @@ steps:
     CreateCloudPackage: true
     CloudPackagePlatVersion: 7.0.6972.45
     CloudPackageAppVersion: 10.0.1627.38
-    CloudPackageOutputLocation: '$(Build.ArtifactStagingDirectory)\AOTBrowser_CloudDeployablePackage_$(Build.BuildNumber)'
+    CloudPackageOutputLocation: '$(Build.ArtifactStagingDirectory)\CloudDeployablePackage'
     DeployablePackagePath: '$(Build.ArtifactStagingDirectory)\AOTBrowser_DeployablePackage_$(Build.BuildNumber).zip'
 
 - task: NSIITSoftwareServices.d365-devops-xppcreatesourcemodelpackage.XppCreateSourceModelPackage.XppCreateSourceModelPackage@0
