@@ -26,15 +26,13 @@ variables:
   NugetsPath: '$(Pipeline.Workspace)\NuGets'
 
 steps:
+
 # Install NuGet and use -ExcludeVersion option to avoid paths containing version numbers
-- task: NuGetInstaller@0
-  displayName: 'NuGet install Packages'
+- task: NuGetCommand@2
+  displayName: 'NuGet Install Packages'
   inputs:
-    solution: '$(NugetConfigsPath)\packages.config'
-    nugetConfigPath: '$(NugetConfigsPath)\nuget.config'
-    restoreMode: install
-    nuGetRestoreArgs: '-ExcludeVersion -OutputDirectory "$(NugetsPath)"'
-    nuGetVersion: 4.0.0.2283
+    command: custom
+    arguments: 'install "$(NugetConfigsPath)\packages.config" -ExcludeVersion -OutputDirectory "$(NugetsPath)" -ConfigFile "$(NugetConfigsPath)\nuget.config"'
 
 # Use the custom build number y.m.d.rev as the model version
 # Default updates only VAR layer and above
@@ -95,10 +93,14 @@ steps:
   inputs:
     versionSpec: 3.3.0
 
-- task: XppCreatePackage@0
+- task: Dyn365FinOps.dynamics365-finops-tools.finops-createpackage.XppCreatePackage@1
   displayName: 'Create Deployable Package'
   inputs:
     XppToolsPath: '$(NuGetsPath)\$(ToolsPackage)'
+    CreateCloudPackage: true
+    CloudPackagePlatVersion: 7.0.6972.45
+    CloudPackageAppVersion: 10.0.1627.38
+    CloudPackageOutputLocation: '$(Build.ArtifactStagingDirectory)\CloudDeployablePackage'
     DeployablePackagePath: '$(Build.ArtifactStagingDirectory)\AOTBrowser_DeployablePackage_$(Build.BuildNumber).zip'
 
 - task: NSIITSoftwareServices.d365-devops-xppcreatesourcemodelpackage.XppCreateSourceModelPackage.XppCreateSourceModelPackage@0
