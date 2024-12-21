@@ -512,6 +512,14 @@ public class ARBAOTBrowser extends FormRun
                     ARBAOTObjectProperties.Value = this.getEdtType(edt);;
                     ARBAOTObjectProperties.insert();
                 }
+                else if (object is AxTable)
+                {
+                    ARBAOTObjectProperties.clear();
+                    ARBAOTObjectProperties.Name = '_SQLName';
+                    Microsoft.Dynamics.AX.Metadata.Core.MetaModel.INamedObject namedObject = object as Microsoft.Dynamics.AX.Metadata.Core.MetaModel.INamedObject;
+                    ARBAOTObjectProperties.Value = ARBAOTBrowserHelper::getTableSqlName(namedObject.Name);
+                    ARBAOTObjectProperties.insert();
+                }
 
                 if (showCode && Arbela.Dynamics.Ax.Xpp.MetadataSupport::CanGetSourceText(object))
                 {
@@ -921,6 +929,17 @@ public class ARBAOTBrowser extends FormRun
                     args.parmEnum(menuItemReference.RefObjectType);
                     args.parm(menuItemReference.RefObjectName);
                     selectedTreePath = menuItemReference.RefPath;
+                    break;
+
+                default:
+                    FormControl selectedControl = caller.selectedControl();
+                    args.parmEnumType(enumNum(ARBAOTObjectType));
+                    args.parmEnum(ARBAOTObjectType::Form);
+                    args.parm(caller.name());
+                    if (selectedControl)
+                    {
+                        args.parmObject(selectedControl);
+                    }
                     break;
             }
         }

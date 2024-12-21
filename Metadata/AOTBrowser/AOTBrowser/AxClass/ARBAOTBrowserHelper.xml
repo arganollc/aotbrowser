@@ -264,6 +264,23 @@ public final class ARBAOTBrowserHelper
 
 ]]></Source>
 			</Method>
+			<Method>
+				<Name>getTableSqlName</Name>
+				<Source><![CDATA[
+    public static str getTableSqlName(TableName _tableName)
+    {
+        Common tableBuffer = DictTable::createRecord(_tableName);
+
+        if (tableBuffer.isTempDb() || tableBuffer.isTmp())
+        {
+            return '';
+        }
+
+        return tableBuffer.getPhysicalTableName();
+    }
+
+]]></Source>
+			</Method>
 		</Methods>
 	</SourceCode>
 </AxClass>
