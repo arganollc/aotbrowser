@@ -21,6 +21,15 @@
 bld/
 [Bb]in/
 [Oo]bj/
+[Rr]esources/
+BuildModelResult.*
+CompileLabels.xml
+BuildProjectResult.*
+[Rr]eports/
+[Xx]pp[Ss]ource/
+
+[Xx]ppMetadata/
+Metadata/GeneratedXppSource/
 
 # Visual Studio 2015 cache/options directory
 .vs/

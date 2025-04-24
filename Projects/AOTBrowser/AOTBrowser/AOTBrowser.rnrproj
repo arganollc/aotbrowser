@@ -12,6 +12,10 @@
     <Name>AOTBrowser</Name>
     <RootNamespace>AOTBrowser</RootNamespace>
     <StartupType>Class</StartupType>
+    <GenerateCrossReferences>True</GenerateCrossReferences>
+    <RunAppcheckerRules>False</RunAppcheckerRules>
+    <LogAppcheckerDiagsAsErrors>False</LogAppcheckerDiagsAsErrors>
+    <DeployOnline>True</DeployOnline>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <Configuration>Debug</Configuration>

@@ -931,6 +931,10 @@ public class ARBAOTBrowser extends FormRun
                     selectedTreePath = menuItemReference.RefPath;
                     break;
 
+                case formStr(DefaultDashboard):
+                    // If coming from the default dashboard don't filter
+                    break;
+
                 default:
                     FormControl selectedControl = caller.selectedControl();
                     args.parmEnumType(enumNum(ARBAOTObjectType));
