@@ -29,6 +29,7 @@ public class ARBAOTBrowser extends FormRun
     ARBAOTObjectType currentObjectType;
     TreeNodeName currentObjectName;
     anytype selectedObject;
+    int maxPropertyIndex;
 
     #define.CurrentVersion(2)
     #localmacro.CurrentList
@@ -267,6 +268,7 @@ public class ARBAOTBrowser extends FormRun
         PropertiesGrid.widthMode(FormWidth::ColumnWidth);
         PropertiesGrid.heightMode(FormHeight::ColumnHeight);
         matrixControlMap = new Map(Types::String, Types::Integer);
+        maxPropertyIndex = 0;
     }
 
 ]]></Source>
@@ -347,8 +349,9 @@ public class ARBAOTBrowser extends FormRun
             for (int i = 0; i < props.Length; i++)
             {
                 PropertyInfo prop = props.GetValue(i);
-                if (((prop.GetValue(objectLocal) is System.String) ||
-                            (!(prop.GetValue(objectLocal) is System.Collections.IEnumerable)
+                System.Object propValue = prop.GetValue(objectLocal);
+                if (((propValue is System.String) ||
+                            (!(propValue is System.Collections.IEnumerable)
                                 && prop.PropertyType.Name != ARBAOTBrowserConstants::AxPropertyCollection
                                 && prop.PropertyType.Name != ARBAOTBrowserConstants::AxFormPropertyCollection))
                             && prop.Name != ARBAOTBrowserConstants::CompilerMetadata
@@ -438,24 +441,24 @@ public class ARBAOTBrowser extends FormRun
                     while (modsEnum.MoveNext())
                     {
                         AxExtensionModification modification = modsEnum.currentValue();
+                        ttsbegin;
                         ARBAOTObjectPropertiesMatrix::find(ARBAOTObjectPropertiesMatrix, modsEnum.currentKey(), true);
 
                         var propModsEnum = modification.PropertyModifications.GetEnumerator();
                         while (propModsEnum.MoveNext())
                         {
                             AxPropertyModification propMod = propModsEnum.Current;
-                            ttsbegin;
                             int arrayNum = propMap.lookup(propMod.Name);
                             ARBAOTObjectPropertiesMatrix.Property[arrayNum] = propMod.Value;
                             ARBAOTObjectPropertiesMatrix.PropertyModified[arrayNum] = NoYes::Yes;
-                            
-                            ttscommit;
                         }
                         ARBAOTObjectPropertiesMatrix.update();
+                        ttscommit;
                     }
 
                 }
 
+                maxPropertyIndex = nextArrayNum - 1;
                 propertiesMatrixGrid.visible(true);
             }
             else
@@ -533,8 +536,9 @@ public class ARBAOTBrowser extends FormRun
                 for (int i = 0; i < props.Length; i++)
                 {
                     PropertyInfo prop = props.GetValue(i);
-                    if (((prop.GetValue(object) is System.String) ||
-                        (!(prop.GetValue(object) is System.Collections.IEnumerable)
+                    System.Object propValue = prop.GetValue(object);
+                    if (((propValue is System.String) ||
+                        (!(propValue is System.Collections.IEnumerable)
                             && prop.PropertyType.Name != ARBAOTBrowserConstants::AxPropertyCollection
                             && prop.PropertyType.Name != ARBAOTBrowserConstants::AxFormPropertyCollection))
                         && prop.Name != ARBAOTBrowserConstants::CompilerMetadata
@@ -567,6 +571,7 @@ public class ARBAOTBrowser extends FormRun
                 if (modifications != null)
                 {
                     ListEnumerator modsEnum = modifications.getEnumerator();
+                    ttsbegin;
                     while (modsEnum.MoveNext())
                     {
                         AxExtensionModification modification = modsEnum.current();
@@ -575,7 +580,6 @@ public class ARBAOTBrowser extends FormRun
                         while (propModsEnum.MoveNext())
                         {
                             AxPropertyModification propMod = propModsEnum.Current;
-                            ttsbegin;
                             ARBAOTObjectProperties::find(ARBAOTObjectProperties, propMod.Name, true);
                             if (_object is AxEnumValue && propMod.Name == 'Value')
                             {
@@ -603,9 +607,9 @@ public class ARBAOTBrowser extends FormRun
                                 ARBAOTObjectProperties.Name = propMod.Name;
                                 ARBAOTObjectProperties.insert();
                             }
-                            ttscommit;
                         }
                     }
+                    ttscommit;
                 }
 
                 PropertiesGrid.visible(true);
@@ -1034,7 +1038,7 @@ public class ARBAOTBrowser extends FormRun
             else
             {
                 boolean needBold = false;
-                for (int i = 1; i <= 100; i++)
+                for (int i = 1; i <= maxPropertyIndex; i++)
                 {
                     if (property.PropertyModified[i])
                     {
