@@ -15,7 +15,7 @@ class ARBEntityFieldPopulateController  extends SysOperationserviceController
 				<Name>new</Name>
 				<Source><![CDATA[
     /// <summary>
-    /// Constructor for ACMAOTObjectPopulateController class
+    /// Constructor for ARBEntityFieldPopulateController class
     /// </summary>
     /// <param name = "_className">The name of the class</param>
     /// <param name = "_methodName">The method name</param>
@@ -31,9 +31,9 @@ class ARBEntityFieldPopulateController  extends SysOperationserviceController
 				<Name>construct</Name>
 				<Source><![CDATA[
     /// <summary>
-    /// Construct method for ACMAOTObjectPopulateController
+    /// Construct method for ARBEntityFieldPopulateController
     /// </summary>
-    /// <returns>The new ACMAOTObjectPopulateController</returns>
+    /// <returns>The new ARBEntityFieldPopulateController</returns>
     public static ARBEntityFieldPopulateController construct()
     {
         return new ARBEntityFieldPopulateController();

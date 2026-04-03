@@ -8,7 +8,7 @@ using ArbelaXpp = Arbela.Dynamics.Ax.Xpp;
 using Microsoft.Dynamics.AX.Metadata.MetaModel;
 
 /// <summary>
-/// Override the Object Tree for Views
+/// Override the Object Tree for Data Entities
 /// </summary>
 [ARBAOTObjectType(ARBAOTObjectType::DataEntity)]
 class ARBAOTObjectTreeDataEntity extends ARBAOTObjectTree

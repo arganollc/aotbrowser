@@ -20,6 +20,7 @@ public class ARBAOTObjects extends common
 	</SubscriberAccessLevel>
 	<TitleField1>Name</TitleField1>
 	<TitleField2>Type</TitleField2>
+	<CacheLookup>Found</CacheLookup>
 	<PrimaryIndex>TypeNameIdx</PrimaryIndex>
 	<ReplacementKey>TypeNameIdx</ReplacementKey>
 	<SaveDataPerCompany>No</SaveDataPerCompany>

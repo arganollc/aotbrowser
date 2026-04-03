@@ -2,16 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Dynamics.AX.Metadata.Kernel;
 using Microsoft.Dynamics.AX.Metadata.MetaModel;
-using System.Collections.Specialized;
 using Microsoft.Dynamics.AX.Metadata.Storage;
 using Microsoft.Dynamics.AX.Metadata.Core.MetaModel;
 using Microsoft.Dynamics.AX.Metadata.Extensions;
 using Microsoft.Dynamics.AX.Metadata;
-using System.Xml.Linq;
-//using Microsoft.Dynamics.Framework.Tools.Core;
 
 namespace Arbela.Dynamics.Ax.Xpp
 {

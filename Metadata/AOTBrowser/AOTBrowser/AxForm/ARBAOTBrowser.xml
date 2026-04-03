@@ -124,6 +124,10 @@ public class ARBAOTBrowser extends FormRun
             case #CurrentVersion:
                 [version, #CurrentList] = packedClass;
                 break;
+            case 1:
+                [version, extensionsInline] = packedClass;
+                showCode = true;
+                break;
             default:
                 return false;
         }
@@ -532,7 +536,14 @@ public class ARBAOTBrowser extends FormRun
 
                 if (showCode && Arbela.Dynamics.Ax.Xpp.MetadataSupport::CanGetSourceText(object))
                 {
-                    CodeViewer.parmHtml(Arbela.Dynamics.AX.Xpp.Support.HtmlFormatHelper::Format(Arbela.Dynamics.Ax.Xpp.MetadataSupport::GetXppSourceText(object)));
+                    try
+                    {
+                        CodeViewer.parmHtml(Arbela.Dynamics.AX.Xpp.Support.HtmlFormatHelper::Format(Arbela.Dynamics.Ax.Xpp.MetadataSupport::GetXppSourceText(object)));
+                    }
+                    catch (Exception::CLRError)
+                    {
+                        CodeViewer.parmHtml(Arbela.Dynamics.Ax.Xpp.MetadataSupport::GetXppSourceText(object));
+                    }
                     CodeViewerGroup.visible(true);
                 }
 
@@ -553,7 +564,14 @@ public class ARBAOTBrowser extends FormRun
                     {
                         if (showCode && prop.Name == ARBAOTBrowserConstants::Source)
                         {
-                            CodeViewer.parmHtml(Arbela.Dynamics.AX.Xpp.Support.HtmlFormatHelper::Format(this.getPropertyValue(prop, object)));
+                            try
+                            {
+                                CodeViewer.parmHtml(Arbela.Dynamics.AX.Xpp.Support.HtmlFormatHelper::Format(this.getPropertyValue(prop, object)));
+                            }
+                            catch (Exception::CLRError)
+                            {
+                                CodeViewer.parmHtml(this.getPropertyValue(prop, object));
+                            }
                             CodeViewerGroup.visible(true);
                         }
                         else
@@ -778,8 +796,14 @@ public class ARBAOTBrowser extends FormRun
 			<Method>
 				<Name>getLabelValue</Name>
 				<Source><![CDATA[
-    protected str getLabelValue(PropertyInfo _property, anytype _object)
+    protected str getLabelValue(PropertyInfo _property, anytype _object, int _depth = 0)
     {
+        const int maxDepth = 10;
+        if (_depth >= maxDepth)
+        {
+            return '';
+        }
+
         str value = SysLabel::labelId2String(_property.GetValue(_object).ToString());
 
         if (value == '')
@@ -790,7 +814,7 @@ public class ARBAOTBrowser extends FormRun
                 AxEdt extendsEdt = Xpp.MetadataSupport::GetEdt(edt.Extends);
                 if (extendsEdt != null)
                 {
-                    value = this.getLabelValue(extendsEdt.GetType().GetProperty(_property.Name), extendsEdt);
+                    value = this.getLabelValue(extendsEdt.GetType().GetProperty(_property.Name), extendsEdt, _depth + 1);
                 }
             }
             else
@@ -805,7 +829,7 @@ public class ARBAOTBrowser extends FormRun
                         AxEdt edt = Xpp.MetadataSupport::GetEdt(edtName);
                         if (edt != null)
                         {
-                            value = this.getLabelValue(edt.GetType().GetProperty(_property.Name), edt);
+                            value = this.getLabelValue(edt.GetType().GetProperty(_property.Name), edt, _depth + 1);
                         }
                     }
                 }
@@ -820,7 +844,7 @@ public class ARBAOTBrowser extends FormRun
                             AxEnum enum = Xpp.MetadataSupport::GetEnum(enumName);
                             if (enum != null)
                             {
-                                value = this.getLabelValue(enum.GetType().GetProperty(_property.Name), enum);
+                                value = this.getLabelValue(enum.GetType().GetProperty(_property.Name), enum, _depth + 1);
                             }
                         }
                     }
@@ -846,14 +870,14 @@ public class ARBAOTBrowser extends FormRun
                                         AxTableField tableField = Xpp.MetadataSupport::GetTableField(tableName, dataFieldName);
                                         if (tableField != null)
                                         {
-                                            value = this.getLabelValue(tableField.GetType().GetProperty(_property.Name), tableField);
+                                            value = this.getLabelValue(tableField.GetType().GetProperty(_property.Name), tableField, _depth + 1);
                                         }
                                         else
                                         {
                                             AxViewField viewField = Xpp.MetadataSupport::GetViewField(tableName, dataFieldName);
                                             if (viewField != null)
                                             {
-                                                value = this.getLabelValue(viewField.GetType().GetProperty(_property.Name), viewField);
+                                                value = this.getLabelValue(viewField.GetType().GetProperty(_property.Name), viewField, _depth + 1);
                                             }
                                         }
                                     }

@@ -161,6 +161,8 @@ public class ARBAOTObjectTree
         }
 
         anytype aotObject;
+        try
+        {
         switch (aotObjectType)
         {
             case ARBAOTObjectType::Table:
@@ -274,6 +276,11 @@ public class ARBAOTObjectTree
             case ARBAOTObjectType::KPI:
                 aotObject = _metadataProvider.KPIs.Read(_aotNodeName);
                 break;
+        }
+        }
+        catch (Exception::CLRError)
+        {
+            // Metadata read failed — leave aotObject as null to trigger fallback
         }
 
         if (aotObject == null

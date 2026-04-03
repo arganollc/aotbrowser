@@ -15,7 +15,7 @@ class ARBAOTObjectPopulateController  extends SysOperationserviceController
 				<Name>new</Name>
 				<Source><![CDATA[
     /// <summary>
-    /// Constructor for ACMAOTObjectPopulateController class
+    /// Constructor for ARBAOTObjectPopulateController class
     /// </summary>
     /// <param name = "_className">The name of the class</param>
     /// <param name = "_methodName">The method name</param>
@@ -31,9 +31,9 @@ class ARBAOTObjectPopulateController  extends SysOperationserviceController
 				<Name>construct</Name>
 				<Source><![CDATA[
     /// <summary>
-    /// Construct method for ACMAOTObjectPopulateController
+    /// Construct method for ARBAOTObjectPopulateController
     /// </summary>
-    /// <returns>The new ACMAOTObjectPopulateController</returns>
+    /// <returns>The new ARBAOTObjectPopulateController</returns>
     public static ARBAOTObjectPopulateController construct()
     {
         return new ARBAOTObjectPopulateController();

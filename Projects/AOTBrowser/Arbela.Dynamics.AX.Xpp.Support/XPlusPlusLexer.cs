@@ -24,7 +24,7 @@ namespace Arbela.Dynamics.AX.Xpp.Support
 
 
     /// <summary>
-    /// A lexer for C#
+    /// A lexer for X++
     /// </summary>
     [Lexer("X++", AlternateNames = "xplusplus,x++,x-plusplus")]
     [LexerFileExtension("*.xpp")]

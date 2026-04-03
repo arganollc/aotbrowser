@@ -202,40 +202,6 @@ class ARBEntityFieldPopulateService extends SysOperationServiceBase
                     }
                     else
                     {
-                        //PropertyInfo dataSourceProp = t.GetProperty(ARBAOTBrowserConstants::DataSource);
-                        //if (dataSourceProp != null && dataSourceProp.GetValue(_object) != null)
-                        //{
-                        //    str dataSourceName = dataSourceProp.GetValue(_object).ToString();
-                        //    PropertyInfo dataFieldProp = t.GetProperty(ARBAOTBrowserConstants::DataField);
-                        //    if (dataFieldProp != null && dataFieldProp.GetValue(_object) != null)
-                        //    {
-                        //        str dataFieldName = dataFieldProp.GetValue(_object).ToString();
-                        //        if (aotObjectTree.getCollectionMap().exists(ARBAOTBrowserConstants::DataSources))
-                        //        {
-                        //            Map datasourcesMap = aotObjectTree.getCollectionMap().lookup(ARBAOTBrowserConstants::DataSources);
-                        //            if (datasourcesMap.exists(dataSourceName))
-                        //            {
-                        //                anytype dataSource = ObjectTree.getItem(datasourcesMap.lookup(dataSourceName)).data();
-                        //                System.Type datasourceType = dataSource.GetType();
-                        //                PropertyInfo tableProp = datasourceType.GetProperty(ARBAOTBrowserConstants::Table);
-                        //                str tableName = tableProp.GetValue(dataSource);
-                        //                AxTableField tableField = Xpp.MetadataSupport::GetTableField(tableName, dataFieldName);
-                        //                if (tableField != null)
-                        //                {
-                        //                    value = this.getLabelValue(tableField.GetType().GetProperty(_property.Name), tableField);
-                        //                }
-                        //                else
-                        //                {
-                        //                    AxViewField viewField = Xpp.MetadataSupport::GetViewField(tableName, dataFieldName);
-                        //                    if (viewField != null)
-                        //                    {
-                        //                        value = this.getLabelValue(viewField.GetType().GetProperty(_property.Name), viewField);
-                        //                    }
-                        //                }
-                        //            }
-                        //        }
-                        //    }
-                        //}
                     }
                 }
             }

@@ -9,7 +9,7 @@ using Microsoft.Dynamics.AX.Metadata.MetaModel;
 using CoreMetaModel = Microsoft.Dynamics.AX.Metadata.Core.MetaModel;
 
 /// <summary>
-/// Override the Object Tree for Views
+/// Override the Object Tree for Menus
 /// </summary>
 [ARBAOTObjectType(ARBAOTObjectType::Menu)]
 class ARBAOTObjectTreeMenu extends ARBAOTObjectTree
@@ -46,7 +46,14 @@ class ARBAOTObjectTreeMenu extends ARBAOTObjectTree
                     }
                     else
                     {
-                        parentIdx = elementMap.lookup(menuExt.Parent);
+                        if (elementMap.exists(menuExt.Parent))
+                        {
+                            parentIdx = elementMap.lookup(menuExt.Parent);
+                        }
+                        else
+                        {
+                            parentIdx = treeControl.getRoot();
+                        }
                     }
                     TreeItemIdx afterIdx;
                     if (menuExt.PositionType == CoreMetaModel.ExtensionItemPositionType::AfterItem)
