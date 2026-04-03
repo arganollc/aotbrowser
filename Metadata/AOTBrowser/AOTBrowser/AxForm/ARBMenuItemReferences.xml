@@ -27,11 +27,17 @@ public class ARBMenuItemReferences extends FormRun
         {
             super();
 
+            if (element.args() == null)
+            {
+                return;
+            }
+
             FormRun caller = element.args().caller();
 
             if (caller != null)
             {
-                if (caller.name() == formStr(FormControlPersonalization))
+                if (caller.name() == formStr(FormControlPersonalization)
+                    && caller.args() != null)
                 {
                     FormFunctionButtonControl menuItemButton = caller.args().parmObject() as FormFunctionButtonControl;
                     if (menuItemButton)

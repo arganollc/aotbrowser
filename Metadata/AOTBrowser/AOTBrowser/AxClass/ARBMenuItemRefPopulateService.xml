@@ -19,6 +19,7 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
     str currentObjectName;
     str currentObjectLabel;
     ARBAOTObjectType currentObjectType;
+    int insertCount;
 
 }
 ]]></Declaration>
@@ -31,9 +32,16 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
     /// </summary>
     public void populateMenuItemRefs()
     {
-        Microsoft.Dynamics.ApplicationPlatform.Environment.IApplicationEnvironment applicationEnvironment = Microsoft.Dynamics.ApplicationPlatform.Environment.EnvironmentFactory::GetApplicationEnvironment();
-        Microsoft.Dynamics.AX.Metadata.Storage.MetadataProviderFactory metadataProviderFactory = new Microsoft.Dynamics.AX.Metadata.Storage.MetadataProviderFactory();
-        metadataProvider = metadataProviderFactory.CreateRuntimeProviderWithExtensionsUpdated(new Microsoft.Dynamics.AX.Metadata.Storage.Runtime.RuntimeProviderConfiguration(applicationEnvironment.Aos.PackageDirectory, false), null, null, new Microsoft.Dynamics.AX.Metadata.Storage.FormExtensionLoader(null), null, null, null, null, null, null, null, null, null, null, null, null, null);
+        try
+        {
+            Microsoft.Dynamics.ApplicationPlatform.Environment.IApplicationEnvironment applicationEnvironment = Microsoft.Dynamics.ApplicationPlatform.Environment.EnvironmentFactory::GetApplicationEnvironment();
+            Microsoft.Dynamics.AX.Metadata.Storage.MetadataProviderFactory metadataProviderFactory = new Microsoft.Dynamics.AX.Metadata.Storage.MetadataProviderFactory();
+            metadataProvider = metadataProviderFactory.CreateRuntimeProviderWithExtensionsUpdated(new Microsoft.Dynamics.AX.Metadata.Storage.Runtime.RuntimeProviderConfiguration(applicationEnvironment.Aos.PackageDirectory, false), null, null, new Microsoft.Dynamics.AX.Metadata.Storage.FormExtensionLoader(null), null, null, null, null, null, null, null, null, null, null, null, null, null);
+        }
+        catch (Exception::CLRError)
+        {
+            throw error("@SYS135884"); // Unable to initialize metadata provider
+        }
         
         ttsbegin;
         delete_from menuItemRefs;
@@ -573,6 +581,13 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
         menuItemReference.RefObjectType = currentObjectType;
         menuItemReference.RefPath = _path;
         menuItemRefsInsertList.add(menuItemReference);
+        insertCount++;
+        if (insertCount >= 10000)
+        {
+            menuItemRefsInsertList.insertDatabase();
+            menuItemRefsInsertList = new RecordInsertList(tableNum(ARBMenuItemReferences));
+            insertCount = 0;
+        }
     }
 
 ]]></Source>
@@ -637,8 +652,14 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
 			<Method>
 				<Name>processMenuElement</Name>
 				<Source><![CDATA[
-    protected void processMenuElement(AxMenuElement _menuElement, str _path)
+    protected void processMenuElement(AxMenuElement _menuElement, str _path, int _depth = 0)
     {
+        const int maxDepth = 50;
+        if (_depth >= maxDepth)
+        {
+            return;
+        }
+
         str path = (_path ? _path + '/' : '') + _menuElement.Name;
         System.Type menuElementType = _menuElement.GetType();
         System.Reflection.PropertyInfo menuItemNameProp = menuElementType.GetProperty('MenuItemName');
@@ -667,7 +688,7 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
             {
                 AxMenuElement menuElement = elementsEnum.Current;
                 
-                this.processMenuElement(menuElement, path);
+                this.processMenuElement(menuElement, path, _depth + 1);
             }
         }
     }
@@ -717,8 +738,14 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
 			<Method>
 				<Name>processFormControl</Name>
 				<Source><![CDATA[
-    protected void processFormControl(AxFormControl _formControl, str _path)
+    protected void processFormControl(AxFormControl _formControl, str _path, int _depth = 0)
     {
+        const int maxDepth = 50;
+        if (_depth >= maxDepth)
+        {
+            return;
+        }
+
         str path = (_path ? _path + '/' : '') + _formControl.Name;
         System.Type formControlType = _formControl.GetType();
 
@@ -767,7 +794,7 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
             {
                 AxFormControl formControl = controlsEnum.Current;
                 
-                this.processFormControl(formControl, path);
+                this.processFormControl(formControl, path, _depth + 1);
             }
         }
     }

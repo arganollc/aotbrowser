@@ -28,11 +28,17 @@ public class ARBEntityFields extends FormRun
         {
             super();
 
+            if (element.args() == null)
+            {
+                return;
+            }
+
             FormRun caller = element.args().caller();
 
             if (caller != null)
             {
-                if (caller.name() == formStr(FormControlPersonalization))
+                if (caller.name() == formStr(FormControlPersonalization)
+                    && caller.args() != null)
                 {
                     FormControl callerFormControl = caller.args().parmObject() as FormControl;
                     if (callerFormControl)

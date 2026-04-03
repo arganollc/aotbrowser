@@ -92,6 +92,22 @@ class ARBEntityFieldPopulateService extends SysOperationServiceBase
 				<Source><![CDATA[
     public container getTableNameFieldName(str _datasourceName, str _fieldName)
     {
+        return this.getTableNameFieldNameWithDepth(_datasourceName, _fieldName, 0);
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>getTableNameFieldNameWithDepth</Name>
+				<Source><![CDATA[
+    private container getTableNameFieldNameWithDepth(str _datasourceName, str _fieldName, int _depth)
+    {
+        const int maxDepth = 20;
+        if (_depth >= maxDepth)
+        {
+            return [_datasourceName, _fieldName];
+        }
+
         AxDataEntityView dataEntity = Xpp.MetadataSupport::GetDataEntityView(_datasourceName);
         if (dataEntity != null)
         {
@@ -104,7 +120,7 @@ class ARBEntityFieldPopulateService extends SysOperationServiceBase
                     AxDataEntityViewMappedField mappedField = field as AxDataEntityViewMappedField;
                     if (mappedField != null)
                     {
-                        return this.getTableNameFieldName(ARBAOTBrowserHelper::getTableNameFromDatasource(mappedField.Datasource, dataEntity.ViewMetadata.DataSources), mappedField.DataField);
+                        return this.getTableNameFieldNameWithDepth(ARBAOTBrowserHelper::getTableNameFromDatasource(mappedField.Datasource, dataEntity.ViewMetadata.DataSources), mappedField.DataField, _depth + 1);
                     }
                     break;
                 }
@@ -123,7 +139,7 @@ class ARBEntityFieldPopulateService extends SysOperationServiceBase
                     AxViewFieldBound boundField = field as AxViewFieldBound;
                     if (boundField != null)
                     {
-                        return this.getTableNameFieldName(ARBAOTBrowserHelper::getTableNameFromDatasource(boundField.DataSource, view.ViewMetadata.DataSources), boundField.DataField);
+                        return this.getTableNameFieldNameWithDepth(ARBAOTBrowserHelper::getTableNameFromDatasource(boundField.DataSource, view.ViewMetadata.DataSources), boundField.DataField, _depth + 1);
                     }
                     break;
                 }

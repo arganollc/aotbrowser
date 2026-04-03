@@ -205,18 +205,24 @@ public class ARBAOTBrowser extends FormRun
         }
 
         aotObjectTree = ARBAOTObjectTree::newFromAOTObject(ObjectTree, _objectType, ExtensionViewToggle.toggleValue());
-        if (element.args().parmObject() != null
+        if (element.args() && element.args().parmObject() != null
             && aotObjectTree is ARBAOTObjectTreeForm)
         {
             ARBAOTObjectTreeForm objectTreeForm = aotObjectTree as ARBAOTObjectTreeForm;
             FormControl selectedControl = element.args().parmObject() as FormControl;
-            objectTreeForm.parmSelectedControl(selectedControl.name());
+            if (selectedControl)
+            {
+                objectTreeForm.parmSelectedControl(selectedControl.name());
+            }
         }
-        else if (element.args().parmObject() != null
+        else if (element.args() && element.args().parmObject() != null
                 && element.args().parmObject() is FormStringControl)
         {
             FormStringControl stringControl = element.args().parmObject() as FormStringControl;
-            aotObjectTree.parmSelectedTreePath('Fields/' + stringControl.valueStr());
+            if (stringControl)
+            {
+                aotObjectTree.parmSelectedTreePath('Fields/' + stringControl.valueStr());
+            }
         }
         else if (entityFieldName != ''
             && aotObjectTree is ARBAOTObjectTreeDataEntity)

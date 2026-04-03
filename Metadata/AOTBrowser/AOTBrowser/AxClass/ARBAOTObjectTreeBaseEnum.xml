@@ -35,8 +35,12 @@ class ARBAOTObjectTreeBaseEnum extends ARBAOTObjectTree
                     Map valuesMap = collectionMap.lookup(ARBAOTBrowserConstants::EnumValues);
                     while (valueModsEnum.MoveNext())
                     {
-                        FormTreeItem control = treeControl.getItem(valuesMap.lookup(this.getObjectName(valueModsEnum.Current)));
-                        this.addExtensionModification(control, valueModsEnum.Current, _extensionName);
+                        str objectName = this.getObjectName(valueModsEnum.Current);
+                        if (valuesMap.exists(objectName))
+                        {
+                            FormTreeItem control = treeControl.getItem(valuesMap.lookup(objectName));
+                            this.addExtensionModification(control, valueModsEnum.Current, _extensionName);
+                        }
                     }
                 }
                 break;

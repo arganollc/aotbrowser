@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
 	<Name>ARBAOTObjectPopulateService</Name>
 	<SourceCode>
@@ -36,12 +36,15 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
         {
             AxTable table = Xpp.MetadataSupport::GetTable(tableList.Current);
 
-            aotObjects.clear();
-            aotObjects.Name = table.Name;
-            aotObjects.Label = SysLabel::labelId2String2(table.Label);
-            aotObjects.Type = ARBAOTObjectType::Table;
-            aotObjects.ObjectId = tableName2Id(table.Name);
-            aotObjectsInsertList.add(aotObjects);
+            if (table != null)
+            {
+                aotObjects.clear();
+                aotObjects.Name = table.Name;
+                aotObjects.Label = SysLabel::labelId2String2(table.Label);
+                aotObjects.Type = ARBAOTObjectType::Table;
+                aotObjects.ObjectId = tableName2Id(table.Name);
+                aotObjectsInsertList.add(aotObjects);
+            }
         }
 
         var viewList = Xpp.MetadataSupport::GetDataModelElements(false,true,false,false,false).GetEnumerator();
@@ -50,12 +53,15 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
         {
             AxView view = Xpp.MetadataSupport::GetView(viewList.Current);
 
-            aotObjects.clear();
-            aotObjects.Name = view.Name;
-            aotObjects.Label = SysLabel::labelId2String2(view.Label);
-            aotObjects.Type = ARBAOTObjectType::View;
-            aotObjects.ObjectId = tableName2Id(view.Name);
-            aotObjectsInsertList.add(aotObjects);
+            if (view != null)
+            {
+                aotObjects.clear();
+                aotObjects.Name = view.Name;
+                aotObjects.Label = SysLabel::labelId2String2(view.Label);
+                aotObjects.Type = ARBAOTObjectType::View;
+                aotObjects.ObjectId = tableName2Id(view.Name);
+                aotObjectsInsertList.add(aotObjects);
+            }
 
         }
 
@@ -65,12 +71,15 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
         {
             AxEnum enum = Xpp.MetadataSupport::GetEnum(enumList.Current);
 
-            aotObjects.clear();
-            aotObjects.Name = enum.Name;
-            aotObjects.Label = SysLabel::labelId2String2(enum.Label);
-            aotObjects.Type = ARBAOTObjectType::BaseEnum;
-            aotObjects.ObjectId = enumName2Id(enum.Name);
-            aotObjectsInsertList.add(aotObjects);
+            if (enum != null)
+            {
+                aotObjects.clear();
+                aotObjects.Name = enum.Name;
+                aotObjects.Label = SysLabel::labelId2String2(enum.Label);
+                aotObjects.Type = ARBAOTObjectType::BaseEnum;
+                aotObjects.ObjectId = enumName2Id(enum.Name);
+                aotObjectsInsertList.add(aotObjects);
+            }
 
         }
 
@@ -80,12 +89,15 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
         {
             AxEdt edt = Xpp.MetadataSupport::GetEdt(edtList.Current);
 
-            aotObjects.clear();
-            aotObjects.Name = edt.Name;
-            aotObjects.Label = SysLabel::labelId2String2(edt.Label);
-            aotObjects.Type = ARBAOTObjectType::ExtendedDataType;
-            aotObjects.ObjectId = extendedtypeName2Id(edt.Name);
-            aotObjectsInsertList.add(aotObjects);
+            if (edt != null)
+            {
+                aotObjects.clear();
+                aotObjects.Name = edt.Name;
+                aotObjects.Label = SysLabel::labelId2String2(edt.Label);
+                aotObjects.Type = ARBAOTObjectType::ExtendedDataType;
+                aotObjects.ObjectId = extendedtypeName2Id(edt.Name);
+                aotObjectsInsertList.add(aotObjects);
+            }
 
         }
 
@@ -95,12 +107,15 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
         {
             AxDataEntityView dataEntityView = Xpp.MetadataSupport::GetDataEntityView(dataEntityList.Current);
 
-            aotObjects.clear();
-            aotObjects.Name = dataEntityView.Name;
-            aotObjects.Label = SysLabel::labelId2String2(dataEntityView.Label);
-            aotObjects.Type = ARBAOTObjectType::DataEntity;
-            aotObjects.ObjectId = tableName2Id(dataEntityView.Name);
-            aotObjectsInsertList.add(aotObjects);
+            if (dataEntityView != null)
+            {
+                aotObjects.clear();
+                aotObjects.Name = dataEntityView.Name;
+                aotObjects.Label = SysLabel::labelId2String2(dataEntityView.Label);
+                aotObjects.Type = ARBAOTObjectType::DataEntity;
+                aotObjects.ObjectId = tableName2Id(dataEntityView.Name);
+                aotObjectsInsertList.add(aotObjects);
+            }
 
         }
 
@@ -110,11 +125,14 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
         {
             AxMap map = Xpp.MetadataSupport::GetMap(mapList.Current);
 
-            aotObjects.clear();
-            aotObjects.Name = map.Name;
-            aotObjects.Label = SysLabel::labelId2String2(map.Label);
-            aotObjects.Type = ARBAOTObjectType::Map;
-            aotObjectsInsertList.add(aotObjects);
+            if (map != null)
+            {
+                aotObjects.clear();
+                aotObjects.Name = map.Name;
+                aotObjects.Label = SysLabel::labelId2String2(map.Label);
+                aotObjects.Type = ARBAOTObjectType::Map;
+                aotObjectsInsertList.add(aotObjects);
+            }
 
         }
 
@@ -124,12 +142,15 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
         {
             AxClass aotClass = Xpp.MetadataSupport::GetClass(classList.Current);
 
-            aotObjects.clear();
-            aotObjects.Name = aotClass.Name;
-            //aotObjects.Label = SysLabel::labelId2String2(aotClass.Label);
-            aotObjects.Type = ARBAOTObjectType::Class;
-            aotObjects.ObjectId = className2Id(aotClass.Name);
-            aotObjectsInsertList.add(aotObjects);
+            if (aotClass != null)
+            {
+                aotObjects.clear();
+                aotObjects.Name = aotClass.Name;
+                //aotObjects.Label = SysLabel::labelId2String2(aotClass.Label);
+                aotObjects.Type = ARBAOTObjectType::Class;
+                aotObjects.ObjectId = className2Id(aotClass.Name);
+                aotObjectsInsertList.add(aotObjects);
+            }
         }
 
         var formsList = Xpp.MetadataSupport::FormNames();
@@ -138,11 +159,14 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
         {
             AxForm form = Xpp.MetadataSupport::GetForm(formsList.Current);
 
-            aotObjects.clear();
-            aotObjects.Name = form.Name;
-            aotObjects.Label = SysLabel::labelId2String2(form.Design.Caption);
-            aotObjects.Type = ARBAOTObjectType::Form;
-            aotObjectsInsertList.add(aotObjects);
+            if (form != null)
+            {
+                aotObjects.clear();
+                aotObjects.Name = form.Name;
+                aotObjects.Label = SysLabel::labelId2String2(form.Design.Caption);
+                aotObjects.Type = ARBAOTObjectType::Form;
+                aotObjectsInsertList.add(aotObjects);
+            }
         }
 
         var queriesList = Xpp.MetadataSupport::QueryNames();
@@ -151,15 +175,18 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
         {
             AxQuery query = Xpp.MetadataSupport::GetQuery(queriesList.Current);
 
-            aotObjects.clear();
-            aotObjects.Name = query.Name;
-            if (query is AxQuerySimple)
+            if (query != null)
             {
-                AxQuerySimple querySimple = query;
-                aotObjects.Label = SysLabel::labelId2String2(querySimple.Title);
+                aotObjects.clear();
+                aotObjects.Name = query.Name;
+                if (query is AxQuerySimple)
+                {
+                    AxQuerySimple querySimple = query;
+                    aotObjects.Label = SysLabel::labelId2String2(querySimple.Title);
+                }
+                aotObjects.Type = ARBAOTObjectType::Query;
+                aotObjectsInsertList.add(aotObjects);
             }
-            aotObjects.Type = ARBAOTObjectType::Query;
-            aotObjectsInsertList.add(aotObjects);
 
         }
 
@@ -169,11 +196,14 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
         {
             AxMenu menu = Xpp.MetadataSupport::GetMenu(menuList.Current);
 
-            aotObjects.clear();
-            aotObjects.Name = menu.Name;
-            aotObjects.Label = SysLabel::labelId2String2(menu.Label);
-            aotObjects.Type = ARBAOTObjectType::Menu;
-            aotObjectsInsertList.add(aotObjects);
+            if (menu != null)
+            {
+                aotObjects.clear();
+                aotObjects.Name = menu.Name;
+                aotObjects.Label = SysLabel::labelId2String2(menu.Label);
+                aotObjects.Type = ARBAOTObjectType::Menu;
+                aotObjectsInsertList.add(aotObjects);
+            }
 
         }
 
@@ -183,11 +213,14 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
         {
             AxTile tile = Xpp.MetadataSupport::GetTile(tileList.Current);
 
-            aotObjects.clear();
-            aotObjects.Name = tile.Name;
-            aotObjects.Label = SysLabel::labelId2String2(tile.Label);
-            aotObjects.Type = ARBAOTObjectType::Tile;
-            aotObjectsInsertList.add(aotObjects);
+            if (tile != null)
+            {
+                aotObjects.clear();
+                aotObjects.Name = tile.Name;
+                aotObjects.Label = SysLabel::labelId2String2(tile.Label);
+                aotObjects.Type = ARBAOTObjectType::Tile;
+                aotObjectsInsertList.add(aotObjects);
+            }
 
         }
 
@@ -197,10 +230,13 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
         {
             AxTableCollection tableCollection = ArbelaXpp.MetadataSupport::GetTableCollection(tableCollectionList.Current);
 
-            aotObjects.clear();
-            aotObjects.Name = tableCollection.Name;
-            aotObjects.Type = ARBAOTObjectType::TableCollection;
-            aotObjectsInsertList.add(aotObjects);
+            if (tableCollection != null)
+            {
+                aotObjects.clear();
+                aotObjects.Name = tableCollection.Name;
+                aotObjects.Type = ARBAOTObjectType::TableCollection;
+                aotObjectsInsertList.add(aotObjects);
+            }
         }
 
         var compositEntityList = ArbelaXpp.MetadataSupport::CompositeDataEntityNames();
@@ -209,11 +245,14 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
         {
             AxCompositeDataEntityView compositeEntity = ArbelaXpp.MetadataSupport::GetCompositeDataEntity(compositEntityList.Current);
 
-            aotObjects.clear();
-            aotObjects.Name = compositeEntity.Name;
-            aotObjects.Label = SysLabel::labelId2String2(compositeEntity.Label);
-            aotObjects.Type = ARBAOTObjectType::CompositeDataEntity;
-            aotObjectsInsertList.add(aotObjects);
+            if (compositeEntity != null)
+            {
+                aotObjects.clear();
+                aotObjects.Name = compositeEntity.Name;
+                aotObjects.Label = SysLabel::labelId2String2(compositeEntity.Label);
+                aotObjects.Type = ARBAOTObjectType::CompositeDataEntity;
+                aotObjectsInsertList.add(aotObjects);
+            }
         }
 
         var menuItemDisplayList = Xpp.MetadataSupport::MenuItemDisplayNames();
@@ -222,11 +261,14 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
         {
             AxMenuItemDisplay menuItemDisplay = Xpp.MetadataSupport::GetMenuItemDisplay(menuItemDisplayList.Current);
 
-            aotObjects.clear();
-            aotObjects.Name = menuItemDisplay.Name;
-            aotObjects.Label = SysLabel::labelId2String2(menuItemDisplay.Label);
-            aotObjects.Type = ARBAOTObjectType::MenuItemDisplay;
-            aotObjectsInsertList.add(aotObjects);
+            if (menuItemDisplay != null)
+            {
+                aotObjects.clear();
+                aotObjects.Name = menuItemDisplay.Name;
+                aotObjects.Label = SysLabel::labelId2String2(menuItemDisplay.Label);
+                aotObjects.Type = ARBAOTObjectType::MenuItemDisplay;
+                aotObjectsInsertList.add(aotObjects);
+            }
         }
 
         var menuItemActionList = Xpp.MetadataSupport::MenuItemActionNames();
@@ -235,11 +277,14 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
         {
             AxMenuItemAction menuItemAction = Xpp.MetadataSupport::GetMenuItemAction(menuItemActionList.Current);
 
-            aotObjects.clear();
-            aotObjects.Name = menuItemAction.Name;
-            aotObjects.Label = SysLabel::labelId2String2(menuItemAction.Label);
-            aotObjects.Type = ARBAOTObjectType::MenuItemAction;
-            aotObjectsInsertList.add(aotObjects);
+            if (menuItemAction != null)
+            {
+                aotObjects.clear();
+                aotObjects.Name = menuItemAction.Name;
+                aotObjects.Label = SysLabel::labelId2String2(menuItemAction.Label);
+                aotObjects.Type = ARBAOTObjectType::MenuItemAction;
+                aotObjectsInsertList.add(aotObjects);
+            }
         }
 
         var menuItemOutputList = Xpp.MetadataSupport::MenuItemOutputNames();
@@ -248,11 +293,14 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
         {
             AxMenuItemOutput menuItemOutput = Xpp.MetadataSupport::GetMenuItemOutput(menuItemOutputList.Current);
 
-            aotObjects.clear();
-            aotObjects.Name = menuItemOutput.Name;
-            aotObjects.Label = SysLabel::labelId2String2(menuItemOutput.Label);
-            aotObjects.Type = ARBAOTObjectType::MenuItemOutput;
-            aotObjectsInsertList.add(aotObjects);
+            if (menuItemOutput != null)
+            {
+                aotObjects.clear();
+                aotObjects.Name = menuItemOutput.Name;
+                aotObjects.Label = SysLabel::labelId2String2(menuItemOutput.Label);
+                aotObjects.Type = ARBAOTObjectType::MenuItemOutput;
+                aotObjectsInsertList.add(aotObjects);
+            }
         }
 
         var securityRoleList = Xpp.MetadataSupport::SecurityRoleNames();
@@ -261,11 +309,14 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
         {
             AxSecurityRole securityRole = Xpp.MetadataSupport::GetSecurityRole(securityRoleList.Current);
 
-            aotObjects.clear();
-            aotObjects.Name = securityRole.Name;
-            aotObjects.Label = SysLabel::labelId2String2(securityRole.Label);
-            aotObjects.Type = ARBAOTObjectType::SecurityRole;
-            aotObjectsInsertList.add(aotObjects);
+            if (securityRole != null)
+            {
+                aotObjects.clear();
+                aotObjects.Name = securityRole.Name;
+                aotObjects.Label = SysLabel::labelId2String2(securityRole.Label);
+                aotObjects.Type = ARBAOTObjectType::SecurityRole;
+                aotObjectsInsertList.add(aotObjects);
+            }
         }
 
         var securityDutyList = ArbelaXpp.MetadataSupport::SecurityDutyNames();
@@ -274,11 +325,14 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
         {
             AxSecurityDuty securityDuty = ArbelaXpp.MetadataSupport::GetSecurityDuty(securityDutyList.Current);
 
-            aotObjects.clear();
-            aotObjects.Name = securityDuty.Name;
-            aotObjects.Label = SysLabel::labelId2String2(securityDuty.Label);
-            aotObjects.Type = ARBAOTObjectType::SecurityDuty;
-            aotObjectsInsertList.add(aotObjects);
+            if (securityDuty != null)
+            {
+                aotObjects.clear();
+                aotObjects.Name = securityDuty.Name;
+                aotObjects.Label = SysLabel::labelId2String2(securityDuty.Label);
+                aotObjects.Type = ARBAOTObjectType::SecurityDuty;
+                aotObjectsInsertList.add(aotObjects);
+            }
         }
 
         var securityPrivilegeList = ArbelaXpp.MetadataSupport::SecurityPrivilegeNames();
@@ -287,11 +341,14 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
         {
             AxSecurityPrivilege securityPrivilege = ArbelaXpp.MetadataSupport::GetSecurityPrivilege(securityPrivilegeList.Current);
 
-            aotObjects.clear();
-            aotObjects.Name = securityPrivilege.Name;
-            aotObjects.Label = SysLabel::labelId2String2(securityPrivilege.Label);
-            aotObjects.Type = ARBAOTObjectType::SecurityPrivilege;
-            aotObjectsInsertList.add(aotObjects);
+            if (securityPrivilege != null)
+            {
+                aotObjects.clear();
+                aotObjects.Name = securityPrivilege.Name;
+                aotObjects.Label = SysLabel::labelId2String2(securityPrivilege.Label);
+                aotObjects.Type = ARBAOTObjectType::SecurityPrivilege;
+                aotObjectsInsertList.add(aotObjects);
+            }
         }
 
         var aggregateDataEntityList = ArbelaXpp.MetadataSupport::AggregateDataEntityNames();
@@ -300,11 +357,14 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
         {
             AxAggregateDataEntity aggregateDataEntity = Xpp.MetadataSupport::GetAggregateDataEntity(aggregateDataEntityList.Current);
 
-            aotObjects.clear();
-            aotObjects.Name = aggregateDataEntity.Name;
-            aotObjects.Label = SysLabel::labelId2String2(aggregateDataEntity.Label);
-            aotObjects.Type = ARBAOTObjectType::AggregateDataEntity;
-            aotObjectsInsertList.add(aotObjects);
+            if (aggregateDataEntity != null)
+            {
+                aotObjects.clear();
+                aotObjects.Name = aggregateDataEntity.Name;
+                aotObjects.Label = SysLabel::labelId2String2(aggregateDataEntity.Label);
+                aotObjects.Type = ARBAOTObjectType::AggregateDataEntity;
+                aotObjectsInsertList.add(aotObjects);
+            }
         }
 
         var workflowCategoryNames = Xpp.MetadataSupport::GetWorkflowCategoryNames().GetEnumerator();
@@ -313,11 +373,14 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
         {
             AxWorkflowCategory object = Xpp.MetadataSupport::GetWorkflowCategory(workflowCategoryNames.Current);
 
-            aotObjects.clear();
-            aotObjects.Name = object.Name;
-            aotObjects.Label = SysLabel::labelId2String2(object.Label);
-            aotObjects.Type = ARBAOTObjectType::WorkflowCategory;
-            aotObjectsInsertList.add(aotObjects);
+            if (object != null)
+            {
+                aotObjects.clear();
+                aotObjects.Name = object.Name;
+                aotObjects.Label = SysLabel::labelId2String2(object.Label);
+                aotObjects.Type = ARBAOTObjectType::WorkflowCategory;
+                aotObjectsInsertList.add(aotObjects);
+            }
         }
 
         var workflowApprovalNames = Xpp.MetadataSupport::GetWorkflowApprovalNames().GetEnumerator();
@@ -326,11 +389,14 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
         {
             AxWorkflowApproval object = Xpp.MetadataSupport::GetWorkflowApproval(workflowApprovalNames.Current);
 
-            aotObjects.clear();
-            aotObjects.Name = object.Name;
-            aotObjects.Label = SysLabel::labelId2String2(object.Label);
-            aotObjects.Type = ARBAOTObjectType::WorkflowApproval;
-            aotObjectsInsertList.add(aotObjects);
+            if (object != null)
+            {
+                aotObjects.clear();
+                aotObjects.Name = object.Name;
+                aotObjects.Label = SysLabel::labelId2String2(object.Label);
+                aotObjects.Type = ARBAOTObjectType::WorkflowApproval;
+                aotObjectsInsertList.add(aotObjects);
+            }
         }
 
         var workflowTaskNames = Xpp.MetadataSupport::GetWorkflowTaskNames().GetEnumerator();
@@ -339,11 +405,14 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
         {
             AxWorkflowTask object = Xpp.MetadataSupport::GetWorkflowTask(workflowTaskNames.Current);
 
-            aotObjects.clear();
-            aotObjects.Name = object.Name;
-            aotObjects.Label = SysLabel::labelId2String2(object.Label);
-            aotObjects.Type = ARBAOTObjectType::WorkflowTask;
-            aotObjectsInsertList.add(aotObjects);
+            if (object != null)
+            {
+                aotObjects.clear();
+                aotObjects.Name = object.Name;
+                aotObjects.Label = SysLabel::labelId2String2(object.Label);
+                aotObjects.Type = ARBAOTObjectType::WorkflowTask;
+                aotObjectsInsertList.add(aotObjects);
+            }
         }
 
         var workflowAutomatedTaskNames = Xpp.MetadataSupport::GetWorkflowAutomatedTaskNames().GetEnumerator();
@@ -352,11 +421,14 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
         {
             AxWorkflowAutomatedTask object = Xpp.MetadataSupport::GetWorkflowAutomatedTask(workflowAutomatedTaskNames.Current);
 
-            aotObjects.clear();
-            aotObjects.Name = object.Name;
-            aotObjects.Label = SysLabel::labelId2String2(object.Label);
-            aotObjects.Type = ARBAOTObjectType::WorkflowAutomatedTask;
-            aotObjectsInsertList.add(aotObjects);
+            if (object != null)
+            {
+                aotObjects.clear();
+                aotObjects.Name = object.Name;
+                aotObjects.Label = SysLabel::labelId2String2(object.Label);
+                aotObjects.Type = ARBAOTObjectType::WorkflowAutomatedTask;
+                aotObjectsInsertList.add(aotObjects);
+            }
         }
 
         var workflowTypeNames = Xpp.MetadataSupport::GetWorkflowTemplateNames().GetEnumerator();
@@ -365,11 +437,14 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
         {
             AxWorkflowTemplate object = Xpp.MetadataSupport::GetWorkflowTemplate(workflowTypeNames.Current);
 
-            aotObjects.clear();
-            aotObjects.Name = object.Name;
-            aotObjects.Label = SysLabel::labelId2String2(object.Label);
-            aotObjects.Type = ARBAOTObjectType::WorkflowType;
-            aotObjectsInsertList.add(aotObjects);
+            if (object != null)
+            {
+                aotObjects.clear();
+                aotObjects.Name = object.Name;
+                aotObjects.Label = SysLabel::labelId2String2(object.Label);
+                aotObjects.Type = ARBAOTObjectType::WorkflowType;
+                aotObjectsInsertList.add(aotObjects);
+            }
         }
 
         var workflowProviderNames = Xpp.MetadataSupport::GetWorkflowHierarchyAssignmentProviderNames().GetEnumerator();
@@ -378,11 +453,14 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
         {
             AxWorkflowHierarchyAssignmentProvider object = Xpp.MetadataSupport::GetWorkflowHierarchyAssignmentProvider(workflowProviderNames.Current);
 
-            aotObjects.clear();
-            aotObjects.Name = object.Name;
-            aotObjects.Label = SysLabel::labelId2String2(object.Label);
-            aotObjects.Type = ARBAOTObjectType::WorkflowHierarchyAssignmentProvider;
-            aotObjectsInsertList.add(aotObjects);
+            if (object != null)
+            {
+                aotObjects.clear();
+                aotObjects.Name = object.Name;
+                aotObjects.Label = SysLabel::labelId2String2(object.Label);
+                aotObjects.Type = ARBAOTObjectType::WorkflowHierarchyAssignmentProvider;
+                aotObjectsInsertList.add(aotObjects);
+            }
         }
 
         workflowProviderNames = Xpp.MetadataSupport::GetWorkflowParticipantAssignmentProviderNames().GetEnumerator();
@@ -391,11 +469,14 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
         {
             AxWorkflowParticipantAssignmentProvider object = Xpp.MetadataSupport::GetWorkflowParticipantAssignmentProvider(workflowProviderNames.Current);
 
-            aotObjects.clear();
-            aotObjects.Name = object.Name;
-            aotObjects.Label = SysLabel::labelId2String2(object.Label);
-            aotObjects.Type = ARBAOTObjectType::WorkflowParticipantAssignmentProvider;
-            aotObjectsInsertList.add(aotObjects);
+            if (object != null)
+            {
+                aotObjects.clear();
+                aotObjects.Name = object.Name;
+                aotObjects.Label = SysLabel::labelId2String2(object.Label);
+                aotObjects.Type = ARBAOTObjectType::WorkflowParticipantAssignmentProvider;
+                aotObjectsInsertList.add(aotObjects);
+            }
         }
 
         workflowProviderNames = Xpp.MetadataSupport::GetWorkflowQueueAssignmentProviderNames().GetEnumerator();
@@ -404,11 +485,14 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
         {
             AxWorkflowQueueAssignmentProvider object = Xpp.MetadataSupport::GetWorkflowQueueAssignmentProvider(workflowProviderNames.Current);
 
-            aotObjects.clear();
-            aotObjects.Name = object.Name;
-            aotObjects.Label = SysLabel::labelId2String2(object.Label);
-            aotObjects.Type = ARBAOTObjectType::WorkflowQueueAssignmentProvider;
-            aotObjectsInsertList.add(aotObjects);
+            if (object != null)
+            {
+                aotObjects.clear();
+                aotObjects.Name = object.Name;
+                aotObjects.Label = SysLabel::labelId2String2(object.Label);
+                aotObjects.Type = ARBAOTObjectType::WorkflowQueueAssignmentProvider;
+                aotObjectsInsertList.add(aotObjects);
+            }
         }
 
         workflowProviderNames = Xpp.MetadataSupport::GetWorkflowDueDateCalculationProviderNames().GetEnumerator();
@@ -417,11 +501,14 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
         {
             AxWorkflowDueDateCalculationProvider object = Xpp.MetadataSupport::GetWorkflowDueDateCalculationProvider(workflowProviderNames.Current);
 
-            aotObjects.clear();
-            aotObjects.Name = object.Name;
-            aotObjects.Label = SysLabel::labelId2String2(object.Label);
-            aotObjects.Type = ARBAOTObjectType::WorkflowDueDateCalculationProvider;
-            aotObjectsInsertList.add(aotObjects);
+            if (object != null)
+            {
+                aotObjects.clear();
+                aotObjects.Name = object.Name;
+                aotObjects.Label = SysLabel::labelId2String2(object.Label);
+                aotObjects.Type = ARBAOTObjectType::WorkflowDueDateCalculationProvider;
+                aotObjectsInsertList.add(aotObjects);
+            }
         }
 
         var resourceNames = Xpp.MetadataSupport::ResourceNames();
@@ -430,11 +517,14 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
         {
             AxResource object = Xpp.MetadataSupport::GetResource(resourceNames.Current);
 
-            aotObjects.clear();
-            aotObjects.Name = object.Name;
-            aotObjects.Label = SysLabel::labelId2String2(object.Label);
-            aotObjects.Type = ARBAOTObjectType::Resource;
-            aotObjectsInsertList.add(aotObjects);
+            if (object != null)
+            {
+                aotObjects.clear();
+                aotObjects.Name = object.Name;
+                aotObjects.Label = SysLabel::labelId2String2(object.Label);
+                aotObjects.Type = ARBAOTObjectType::Resource;
+                aotObjectsInsertList.add(aotObjects);
+            }
         }
 
         var licenseCodeNames = Xpp.MetadataSupport::LicenseCodeNames();
@@ -443,11 +533,14 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
         {
             AxLicenseCode object = Xpp.MetadataSupport::GetLicenseCode(licenseCodeNames.Current);
 
-            aotObjects.clear();
-            aotObjects.Name = object.Name;
-            aotObjects.Label = SysLabel::labelId2String2(object.Label);
-            aotObjects.Type = ARBAOTObjectType::LicenseCode;
-            aotObjectsInsertList.add(aotObjects);
+            if (object != null)
+            {
+                aotObjects.clear();
+                aotObjects.Name = object.Name;
+                aotObjects.Label = SysLabel::labelId2String2(object.Label);
+                aotObjects.Type = ARBAOTObjectType::LicenseCode;
+                aotObjectsInsertList.add(aotObjects);
+            }
         }
 
         var configKeyNames = Xpp.MetadataSupport::ConfigurationKeyNames();
@@ -456,12 +549,15 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
         {
             AxConfigurationKey object = Xpp.MetadataSupport::GetConfigurationKey(configKeyNames.Current);
 
-            aotObjects.clear();
-            aotObjects.Name = object.Name;
-            aotObjects.Label = SysLabel::labelId2String2(object.Label);
-            aotObjects.Type = ARBAOTObjectType::ConfigKey;
-            aotObjects.ObjectId = configurationKeyName2Id(object.Name);
-            aotObjectsInsertList.add(aotObjects);
+            if (object != null)
+            {
+                aotObjects.clear();
+                aotObjects.Name = object.Name;
+                aotObjects.Label = SysLabel::labelId2String2(object.Label);
+                aotObjects.Type = ARBAOTObjectType::ConfigKey;
+                aotObjects.ObjectId = configurationKeyName2Id(object.Name);
+                aotObjectsInsertList.add(aotObjects);
+            }
         }
 
         var configKeyGroupNames = Xpp.MetadataSupport::ConfigurationKeyGroupNames();
@@ -470,11 +566,14 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
         {
             AxConfigurationKeyGroup object = Xpp.MetadataSupport::GetConfigurationKeyGroup(configKeyGroupNames.Current);
 
-            aotObjects.clear();
-            aotObjects.Name = object.Name;
-            aotObjects.Label = SysLabel::labelId2String2(object.Label);
-            aotObjects.Type = ARBAOTObjectType::ConfigKeyGroup;
-            aotObjectsInsertList.add(aotObjects);
+            if (object != null)
+            {
+                aotObjects.clear();
+                aotObjects.Name = object.Name;
+                aotObjects.Label = SysLabel::labelId2String2(object.Label);
+                aotObjects.Type = ARBAOTObjectType::ConfigKeyGroup;
+                aotObjectsInsertList.add(aotObjects);
+            }
         }
 
         var serviceNames = Xpp.MetadataSupport::ServiceNames();
@@ -483,11 +582,14 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
         {
             AxService object = ArbelaXpp.MetadataSupport::GetService(serviceNames.Current);
 
-            aotObjects.clear();
-            aotObjects.Name = object.Name;
-            //aotObjects.Label = SysLabel::labelId2String2(object.Label);
-            aotObjects.Type = ARBAOTObjectType::Service;
-            aotObjectsInsertList.add(aotObjects);
+            if (object != null)
+            {
+                aotObjects.clear();
+                aotObjects.Name = object.Name;
+                //aotObjects.Label = SysLabel::labelId2String2(object.Label);
+                aotObjects.Type = ARBAOTObjectType::Service;
+                aotObjectsInsertList.add(aotObjects);
+            }
         }
 
         var serviceGroupNames = ArbelaXpp.MetadataSupport::ServiceGroupNames();
@@ -496,11 +598,14 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
         {
             AxServiceGroup object = ArbelaXpp.MetadataSupport::GetServiceGroup(serviceGroupNames.Current);
 
-            aotObjects.clear();
-            aotObjects.Name = object.Name;
-            //aotObjects.Label = SysLabel::labelId2String2(object.Label);
-            aotObjects.Type = ARBAOTObjectType::ServiceGroup;
-            aotObjectsInsertList.add(aotObjects);
+            if (object != null)
+            {
+                aotObjects.clear();
+                aotObjects.Name = object.Name;
+                //aotObjects.Label = SysLabel::labelId2String2(object.Label);
+                aotObjects.Type = ARBAOTObjectType::ServiceGroup;
+                aotObjectsInsertList.add(aotObjects);
+            }
         }
 
         var reportNames = Xpp.MetadataSupport::ReportNames();
@@ -509,11 +614,14 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
         {
             AxReport object = Xpp.MetadataSupport::GetReport(reportNames.Current);
 
-            aotObjects.clear();
-            aotObjects.Name = object.Name;
-            //aotObjects.Label = SysLabel::labelId2String2(object.Label);
-            aotObjects.Type = ARBAOTObjectType::Report;
-            aotObjectsInsertList.add(aotObjects);
+            if (object != null)
+            {
+                aotObjects.clear();
+                aotObjects.Name = object.Name;
+                //aotObjects.Label = SysLabel::labelId2String2(object.Label);
+                aotObjects.Type = ARBAOTObjectType::Report;
+                aotObjectsInsertList.add(aotObjects);
+            }
         }
 
         var kpiNames = ArbelaXpp.MetadataSupport::KPINames();
@@ -522,11 +630,14 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
         {
             AxKPI object = Xpp.MetadataSupport::GetKPI(kpiNames.Current);
 
-            aotObjects.clear();
-            aotObjects.Name = object.Name;
-            aotObjects.Label = SysLabel::labelId2String2(object.Label);
-            aotObjects.Type = ARBAOTObjectType::KPI;
-            aotObjectsInsertList.add(aotObjects);
+            if (object != null)
+            {
+                aotObjects.clear();
+                aotObjects.Name = object.Name;
+                aotObjects.Label = SysLabel::labelId2String2(object.Label);
+                aotObjects.Type = ARBAOTObjectType::KPI;
+                aotObjectsInsertList.add(aotObjects);
+            }
         }
 
         aotObjectsInsertList.insertDatabase();

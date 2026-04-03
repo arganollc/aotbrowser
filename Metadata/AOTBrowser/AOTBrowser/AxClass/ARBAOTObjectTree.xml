@@ -23,6 +23,8 @@ public class ARBAOTObjectTree
     Map collectionMap = new Map(Types::String, Types::AnyType);
     Map currentMap;
     str selectedTreePath;
+    anytype cachedAOTObject;
+    str cachedAOTObjectName;
 
 }
 ]]></Declaration>
@@ -153,6 +155,11 @@ public class ARBAOTObjectTree
     /// <returns>The AOT Object</returns>
     public anytype getAOTObject(TreeNodeName _aotNodeName, Microsoft.Dynamics.AX.Metadata.Providers.IMetadataProvider _metadataProvider = MetadataProvider)
     {
+        if (_aotNodeName == cachedAOTObjectName && cachedAOTObject != null && _metadataProvider == MetadataProvider)
+        {
+            return cachedAOTObject;
+        }
+
         anytype aotObject;
         switch (aotObjectType)
         {
@@ -273,6 +280,12 @@ public class ARBAOTObjectTree
             && _metadataProvider != BackupMetadataProvider)
         {
             aotObject = this.getAOTObject(_aotNodeName, BackupMetadataProvider);
+        }
+
+        if (aotObject != null && _metadataProvider == MetadataProvider)
+        {
+            cachedAOTObject = aotObject;
+            cachedAOTObjectName = _aotNodeName;
         }
 
         return aotObject;
