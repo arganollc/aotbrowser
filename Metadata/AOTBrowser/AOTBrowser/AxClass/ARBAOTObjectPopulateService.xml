@@ -28,6 +28,8 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
 
         ARBAOTObjects aotObjects;
         RecordInsertList aotObjectsInsertList = new RecordInsertList(tableNum(ARBAOTObjects));
+
+        ttsbegin;
         delete_from aotObjects;
 
         while (tableList.MoveNext())
@@ -528,6 +530,7 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
         }
 
         aotObjectsInsertList.insertDatabase();
+        ttscommit;
     }
 
 ]]></Source>

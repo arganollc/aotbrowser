@@ -27,6 +27,7 @@ class ARBEntityFieldPopulateService extends SysOperationServiceBase
     /// </summary>
     public void populateEntityFields()
     {
+        ttsbegin;
         delete_from entityFields;
 
         var dataEntityList = Xpp.MetadataSupport::GetDataModelElements(false,false,true,false,false).GetEnumerator();
@@ -37,6 +38,7 @@ class ARBEntityFieldPopulateService extends SysOperationServiceBase
             this.processFields(dataEntityView.Name, SysLabel::labelId2String2(dataEntityView.Label), dataEntityView.Fields, dataEntityView.ViewMetadata.DataSources);
         }
         entityFieldsInsertList.insertDatabase();
+        ttscommit;
     }
 
 ]]></Source>

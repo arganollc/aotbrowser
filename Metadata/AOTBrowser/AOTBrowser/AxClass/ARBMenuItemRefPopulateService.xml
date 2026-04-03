@@ -35,6 +35,7 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
         Microsoft.Dynamics.AX.Metadata.Storage.MetadataProviderFactory metadataProviderFactory = new Microsoft.Dynamics.AX.Metadata.Storage.MetadataProviderFactory();
         metadataProvider = metadataProviderFactory.CreateRuntimeProviderWithExtensionsUpdated(new Microsoft.Dynamics.AX.Metadata.Storage.Runtime.RuntimeProviderConfiguration(applicationEnvironment.Aos.PackageDirectory, false), null, null, new Microsoft.Dynamics.AX.Metadata.Storage.FormExtensionLoader(null), null, null, null, null, null, null, null, null, null, null, null, null, null);
         
+        ttsbegin;
         delete_from menuItemRefs;
 
         // Forms
@@ -77,6 +78,7 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
         this.processKPIs();
 
         menuItemRefsInsertList.insertDatabase();
+        ttscommit;
     }
 
 ]]></Source>

@@ -232,7 +232,7 @@ public final class ARBAOTBrowserHelper
 
         if (!CLRInterop::isNull(_extensionDatasources))
         {
-            datasourcesEnum = _datasources.GetEnumerator();
+            datasourcesEnum = _extensionDatasources.GetEnumerator();
             while (datasourcesEnum.MoveNext())
             {
                 AxQuerySimpleDataSource datasource = datasourcesEnum.Current as AxQuerySimpleDataSource;

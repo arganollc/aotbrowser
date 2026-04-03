@@ -280,7 +280,8 @@ namespace Arbela.Dynamics.Ax.Xpp
                 || checkObject is AxTable
                 || checkObject is AxView
                 || checkObject is AxMap
-                || checkObject is AxDataEntity
+                || checkObject is AxDataEntityView
+                || checkObject is AxAggregateDataEntity
                 || checkObject is AxForm
                 || checkObject is AxQuery
                 || checkObject is AxMacroDictionary
