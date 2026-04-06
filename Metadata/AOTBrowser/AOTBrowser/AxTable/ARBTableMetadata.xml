@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxTable xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>ARBTableMetadata</Name>
+	<SourceCode>
+		<Methods />
+	</SourceCode>
+	<Label>@AOTBrowser:TableMetadata</Label>
+	<TableGroup>Group</TableGroup>
+	<AllowRowVersionChangeTracking>Yes</AllowRowVersionChangeTracking>
+	<PrimaryIndex>TableNameIdx</PrimaryIndex>
+	<DeleteActions />
+	<FieldGroups />
+	<Fields>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldString">
+			<Name>TableName</Name>
+			<ExtendedDataType>TreeNodeName</ExtendedDataType>
+			<Label>@SYS8868</Label>
+			<Mandatory>Yes</Mandatory>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldString">
+			<Name>TableLabel</Name>
+			<ExtendedDataType>Description</ExtendedDataType>
+			<Label>@SYS36186</Label>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldString">
+			<Name>TableGroup</Name>
+			<ExtendedDataType>ARBMetadataTableGroup</ExtendedDataType>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldString">
+			<Name>Description</Name>
+			<ExtendedDataType>ARBMetadataDescription</ExtendedDataType>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldString">
+			<Name>ModelName</Name>
+			<ExtendedDataType>ARBMetadataModelName</ExtendedDataType>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldString">
+			<Name>SqlTableName</Name>
+			<ExtendedDataType>ARBMetadataSqlTableName</ExtendedDataType>
+		</AxTableField>
+	</Fields>
+	<FullTextIndexes />
+	<Indexes>
+		<AxTableIndex>
+			<Name>TableNameIdx</Name>
+			<AlternateKey>Yes</AlternateKey>
+			<Fields>
+				<AxTableIndexField>
+					<DataField>TableName</DataField>
+				</AxTableIndexField>
+			</Fields>
+		</AxTableIndex>
+	</Indexes>
+	<Mappings />
+	<Relations />
+	<StateMachines />
+</AxTable>

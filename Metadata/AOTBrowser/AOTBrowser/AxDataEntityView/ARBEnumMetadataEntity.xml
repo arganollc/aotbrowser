@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxDataEntityView xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>ARBEnumMetadataEntity</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+public class ARBEnumMetadataEntity extends common
+{
+}
+]]></Declaration>
+		<Methods />
+	</SourceCode>
+	<Label>@AOTBrowser:EnumMetadata</Label>
+	<DataManagementEnabled>Yes</DataManagementEnabled>
+	<DataManagementStagingTable>ARBEnumMetadataEntityStaging</DataManagementStagingTable>
+	<EntityCategory>Reference</EntityCategory>
+	<IsPublic>Yes</IsPublic>
+	<Modules>General</Modules>
+	<PrimaryKey>EntityKey</PrimaryKey>
+	<PublicCollectionName>ARBEnumMetadata</PublicCollectionName>
+	<PublicEntityName>ARBEnumMetadata</PublicEntityName>
+	<DeleteActions />
+	<FieldGroups>
+		<AxTableFieldGroup>
+			<Name>AutoReport</Name>
+			<Fields>
+				<AxTableFieldGroupField>
+					<DataField>EnumName</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>EnumLabel</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>ValueName</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>ValueLabel</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>IntegerValue</DataField>
+				</AxTableFieldGroupField>
+			</Fields>
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>AutoLookup</Name>
+			<Fields />
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>AutoIdentification</Name>
+			<Fields />
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>AutoSummary</Name>
+			<Fields />
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>AutoBrowse</Name>
+			<Fields />
+		</AxTableFieldGroup>
+	</FieldGroups>
+	<Fields>
+		<AxDataEntityViewField xmlns=""
+			i:type="AxDataEntityViewMappedField">
+			<Name>EnumName</Name>
+			<Mandatory>Yes</Mandatory>
+			<DataField>EnumName</DataField>
+			<DataSource>ARBEnumMetadata</DataSource>
+		</AxDataEntityViewField>
+		<AxDataEntityViewField xmlns=""
+			i:type="AxDataEntityViewMappedField">
+			<Name>EnumLabel</Name>
+			<DataField>EnumLabel</DataField>
+			<DataSource>ARBEnumMetadata</DataSource>
+		</AxDataEntityViewField>
+		<AxDataEntityViewField xmlns=""
+			i:type="AxDataEntityViewMappedField">
+			<Name>ValueName</Name>
+			<Mandatory>Yes</Mandatory>
+			<DataField>ValueName</DataField>
+			<DataSource>ARBEnumMetadata</DataSource>
+		</AxDataEntityViewField>
+		<AxDataEntityViewField xmlns=""
+			i:type="AxDataEntityViewMappedField">
+			<Name>ValueLabel</Name>
+			<DataField>ValueLabel</DataField>
+			<DataSource>ARBEnumMetadata</DataSource>
+		</AxDataEntityViewField>
+		<AxDataEntityViewField xmlns=""
+			i:type="AxDataEntityViewMappedField">
+			<Name>IntegerValue</Name>
+			<DataField>IntegerValue</DataField>
+			<DataSource>ARBEnumMetadata</DataSource>
+		</AxDataEntityViewField>
+	</Fields>
+	<Keys>
+		<AxDataEntityViewKey>
+			<Name>EntityKey</Name>
+			<Fields>
+				<AxDataEntityViewKeyField>
+					<DataField>EnumName</DataField>
+				</AxDataEntityViewKeyField>
+				<AxDataEntityViewKeyField>
+					<DataField>ValueName</DataField>
+				</AxDataEntityViewKeyField>
+			</Fields>
+		</AxDataEntityViewKey>
+	</Keys>
+	<Mappings />
+	<Ranges />
+	<Relations />
+	<StateMachines />
+	<ViewMetadata>
+		<Name>Metadata</Name>
+		<SourceCode>
+			<Methods />
+		</SourceCode>
+		<DataSources>
+			<AxQuerySimpleRootDataSource>
+				<Name>ARBEnumMetadata</Name>
+				<Table>ARBEnumMetadata</Table>
+				<DataSources />
+				<DerivedDataSources />
+				<Fields>
+					<AxQuerySimpleDataSourceField>
+						<Name>EnumName</Name>
+						<Field>EnumName</Field>
+					</AxQuerySimpleDataSourceField>
+					<AxQuerySimpleDataSourceField>
+						<Name>EnumLabel</Name>
+						<Field>EnumLabel</Field>
+					</AxQuerySimpleDataSourceField>
+					<AxQuerySimpleDataSourceField>
+						<Name>ValueName</Name>
+						<Field>ValueName</Field>
+					</AxQuerySimpleDataSourceField>
+					<AxQuerySimpleDataSourceField>
+						<Name>ValueLabel</Name>
+						<Field>ValueLabel</Field>
+					</AxQuerySimpleDataSourceField>
+					<AxQuerySimpleDataSourceField>
+						<Name>IntegerValue</Name>
+						<Field>IntegerValue</Field>
+					</AxQuerySimpleDataSourceField>
+				</Fields>
+				<Ranges />
+				<GroupBy />
+				<Having />
+				<OrderBy />
+			</AxQuerySimpleRootDataSource>
+		</DataSources>
+	<SourceCode><Methods><Method><Name>classDeclaration</Name><Source><![CDATA[[Query]
+public class ARBEnumMetadataEntityMetadata extends QueryRun
+{
+}]]></Source></Method></Methods></SourceCode></ViewMetadata>
+</AxDataEntityView>

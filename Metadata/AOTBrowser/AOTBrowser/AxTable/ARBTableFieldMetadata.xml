@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxTable xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>ARBTableFieldMetadata</Name>
+	<SourceCode>
+		<Methods />
+	</SourceCode>
+	<Label>@AOTBrowser:TableFieldMetadata</Label>
+	<TableGroup>Group</TableGroup>
+	<AllowRowVersionChangeTracking>Yes</AllowRowVersionChangeTracking>
+	<PrimaryIndex>TableFieldIdx</PrimaryIndex>
+	<DeleteActions />
+	<FieldGroups />
+	<Fields>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldString">
+			<Name>TableName</Name>
+			<ExtendedDataType>TreeNodeName</ExtendedDataType>
+			<Label>@SYS8868</Label>
+			<Mandatory>Yes</Mandatory>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldString">
+			<Name>FieldName</Name>
+			<ExtendedDataType>TreeNodeName</ExtendedDataType>
+			<Label>@AOTBrowser:FieldName</Label>
+			<Mandatory>Yes</Mandatory>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldString">
+			<Name>FieldLabel</Name>
+			<ExtendedDataType>Description</ExtendedDataType>
+			<Label>@AOTBrowser:TableFieldMetadata</Label>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldString">
+			<Name>FieldDataType</Name>
+			<ExtendedDataType>ARBMetadataFieldDataType</ExtendedDataType>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldString">
+			<Name>ExtendedDataType</Name>
+			<ExtendedDataType>TreeNodeName</ExtendedDataType>
+			<Label>@AOTBrowser:ExtendedDataType</Label>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldString">
+			<Name>EnumTypeName</Name>
+			<ExtendedDataType>TreeNodeName</ExtendedDataType>
+			<Label>@AOTBrowser:EnumTypeName</Label>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldInt">
+			<Name>StringSize</Name>
+			<Label>@AOTBrowser:StringSize</Label>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldEnum">
+			<Name>IsMandatory</Name>
+			<Label>@AOTBrowser:IsMandatory</Label>
+			<EnumType>NoYes</EnumType>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldString">
+			<Name>HelpText</Name>
+			<ExtendedDataType>ARBMetadataHelpText</ExtendedDataType>
+		</AxTableField>
+	</Fields>
+	<FullTextIndexes />
+	<Indexes>
+		<AxTableIndex>
+			<Name>TableFieldIdx</Name>
+			<AlternateKey>Yes</AlternateKey>
+			<Fields>
+				<AxTableIndexField>
+					<DataField>TableName</DataField>
+				</AxTableIndexField>
+				<AxTableIndexField>
+					<DataField>FieldName</DataField>
+				</AxTableIndexField>
+			</Fields>
+		</AxTableIndex>
+		<AxTableIndex>
+			<Name>TableNameIdx</Name>
+			<AllowDuplicates>Yes</AllowDuplicates>
+			<Fields>
+				<AxTableIndexField>
+					<DataField>TableName</DataField>
+				</AxTableIndexField>
+			</Fields>
+		</AxTableIndex>
+	</Indexes>
+	<Mappings />
+	<Relations>
+		<AxTableRelation>
+			<Name>ARBTableMetadata</Name>
+			<Cardinality>ZeroMore</Cardinality>
+			<RelatedTable>ARBTableMetadata</RelatedTable>
+			<RelatedTableCardinality>ZeroOne</RelatedTableCardinality>
+			<RelationshipType>Association</RelationshipType>
+			<Constraints>
+				<AxTableRelationConstraint xmlns=""
+					i:type="AxTableRelationConstraintField">
+					<Name>TableName</Name>
+					<Field>TableName</Field>
+					<RelatedField>TableName</RelatedField>
+				</AxTableRelationConstraint>
+			</Constraints>
+		</AxTableRelation>
+	</Relations>
+	<StateMachines />
+</AxTable>

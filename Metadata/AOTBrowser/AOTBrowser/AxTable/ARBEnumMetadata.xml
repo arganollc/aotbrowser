@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxTable xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>ARBEnumMetadata</Name>
+	<SourceCode>
+		<Methods />
+	</SourceCode>
+	<Label>@AOTBrowser:EnumMetadata</Label>
+	<TableGroup>Group</TableGroup>
+	<AllowRowVersionChangeTracking>Yes</AllowRowVersionChangeTracking>
+	<PrimaryIndex>EnumValueIdx</PrimaryIndex>
+	<DeleteActions />
+	<FieldGroups />
+	<Fields>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldString">
+			<Name>EnumName</Name>
+			<ExtendedDataType>TreeNodeName</ExtendedDataType>
+			<Label>@AOTBrowser:EnumTypeName</Label>
+			<Mandatory>Yes</Mandatory>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldString">
+			<Name>EnumLabel</Name>
+			<ExtendedDataType>Description</ExtendedDataType>
+			<Label>@AOTBrowser:EnumLabel</Label>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldString">
+			<Name>ValueName</Name>
+			<ExtendedDataType>TreeNodeName</ExtendedDataType>
+			<Label>@AOTBrowser:ValueName</Label>
+			<Mandatory>Yes</Mandatory>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldString">
+			<Name>ValueLabel</Name>
+			<ExtendedDataType>Description</ExtendedDataType>
+			<Label>@AOTBrowser:ValueLabel</Label>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldInt">
+			<Name>IntegerValue</Name>
+			<Label>@AOTBrowser:IntegerValue</Label>
+		</AxTableField>
+	</Fields>
+	<FullTextIndexes />
+	<Indexes>
+		<AxTableIndex>
+			<Name>EnumValueIdx</Name>
+			<AlternateKey>Yes</AlternateKey>
+			<Fields>
+				<AxTableIndexField>
+					<DataField>EnumName</DataField>
+				</AxTableIndexField>
+				<AxTableIndexField>
+					<DataField>ValueName</DataField>
+				</AxTableIndexField>
+			</Fields>
+		</AxTableIndex>
+		<AxTableIndex>
+			<Name>EnumNameIdx</Name>
+			<AllowDuplicates>Yes</AllowDuplicates>
+			<Fields>
+				<AxTableIndexField>
+					<DataField>EnumName</DataField>
+				</AxTableIndexField>
+			</Fields>
+		</AxTableIndex>
+	</Indexes>
+	<Mappings />
+	<Relations />
+	<StateMachines />
+</AxTable>

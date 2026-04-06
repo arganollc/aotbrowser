@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxDataEntityView xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>ARBTableMetadataEntity</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+public class ARBTableMetadataEntity extends common
+{
+}
+]]></Declaration>
+		<Methods />
+	</SourceCode>
+	<Label>@AOTBrowser:TableMetadata</Label>
+	<DataManagementEnabled>Yes</DataManagementEnabled>
+	<DataManagementStagingTable>ARBTableMetadataEntityStaging</DataManagementStagingTable>
+	<EntityCategory>Reference</EntityCategory>
+	<IsPublic>Yes</IsPublic>
+	<Modules>General</Modules>
+	<PrimaryKey>EntityKey</PrimaryKey>
+	<PublicCollectionName>ARBTableMetadata</PublicCollectionName>
+	<PublicEntityName>ARBTableMetadata</PublicEntityName>
+	<DeleteActions />
+	<FieldGroups>
+		<AxTableFieldGroup>
+			<Name>AutoReport</Name>
+			<Fields>
+				<AxTableFieldGroupField>
+					<DataField>TableName</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>TableLabel</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>TableGroup</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>Description</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>ModelName</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>SqlTableName</DataField>
+				</AxTableFieldGroupField>
+			</Fields>
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>AutoLookup</Name>
+			<Fields />
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>AutoIdentification</Name>
+			<Fields />
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>AutoSummary</Name>
+			<Fields />
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>AutoBrowse</Name>
+			<Fields />
+		</AxTableFieldGroup>
+	</FieldGroups>
+	<Fields>
+		<AxDataEntityViewField xmlns=""
+			i:type="AxDataEntityViewMappedField">
+			<Name>TableName</Name>
+			<Mandatory>Yes</Mandatory>
+			<DataField>TableName</DataField>
+			<DataSource>ARBTableMetadata</DataSource>
+		</AxDataEntityViewField>
+		<AxDataEntityViewField xmlns=""
+			i:type="AxDataEntityViewMappedField">
+			<Name>TableLabel</Name>
+			<DataField>TableLabel</DataField>
+			<DataSource>ARBTableMetadata</DataSource>
+		</AxDataEntityViewField>
+		<AxDataEntityViewField xmlns=""
+			i:type="AxDataEntityViewMappedField">
+			<Name>TableGroup</Name>
+			<DataField>TableGroup</DataField>
+			<DataSource>ARBTableMetadata</DataSource>
+		</AxDataEntityViewField>
+		<AxDataEntityViewField xmlns=""
+			i:type="AxDataEntityViewMappedField">
+			<Name>Description</Name>
+			<DataField>Description</DataField>
+			<DataSource>ARBTableMetadata</DataSource>
+		</AxDataEntityViewField>
+		<AxDataEntityViewField xmlns=""
+			i:type="AxDataEntityViewMappedField">
+			<Name>ModelName</Name>
+			<DataField>ModelName</DataField>
+			<DataSource>ARBTableMetadata</DataSource>
+		</AxDataEntityViewField>
+		<AxDataEntityViewField xmlns=""
+			i:type="AxDataEntityViewMappedField">
+			<Name>SqlTableName</Name>
+			<DataField>SqlTableName</DataField>
+			<DataSource>ARBTableMetadata</DataSource>
+		</AxDataEntityViewField>
+	</Fields>
+	<Keys>
+		<AxDataEntityViewKey>
+			<Name>EntityKey</Name>
+			<Fields>
+				<AxDataEntityViewKeyField>
+					<DataField>TableName</DataField>
+				</AxDataEntityViewKeyField>
+			</Fields>
+		</AxDataEntityViewKey>
+	</Keys>
+	<Mappings />
+	<Ranges />
+	<Relations />
+	<StateMachines />
+	<ViewMetadata>
+		<Name>Metadata</Name>
+		<SourceCode>
+			<Methods />
+		</SourceCode>
+		<DataSources>
+			<AxQuerySimpleRootDataSource>
+				<Name>ARBTableMetadata</Name>
+				<Table>ARBTableMetadata</Table>
+				<DataSources />
+				<DerivedDataSources />
+				<Fields>
+					<AxQuerySimpleDataSourceField>
+						<Name>TableName</Name>
+						<Field>TableName</Field>
+					</AxQuerySimpleDataSourceField>
+					<AxQuerySimpleDataSourceField>
+						<Name>TableLabel</Name>
+						<Field>TableLabel</Field>
+					</AxQuerySimpleDataSourceField>
+					<AxQuerySimpleDataSourceField>
+						<Name>TableGroup</Name>
+						<Field>TableGroup</Field>
+					</AxQuerySimpleDataSourceField>
+					<AxQuerySimpleDataSourceField>
+						<Name>Description</Name>
+						<Field>Description</Field>
+					</AxQuerySimpleDataSourceField>
+					<AxQuerySimpleDataSourceField>
+						<Name>ModelName</Name>
+						<Field>ModelName</Field>
+					</AxQuerySimpleDataSourceField>
+					<AxQuerySimpleDataSourceField>
+						<Name>SqlTableName</Name>
+						<Field>SqlTableName</Field>
+					</AxQuerySimpleDataSourceField>
+				</Fields>
+				<Ranges />
+				<GroupBy />
+				<Having />
+				<OrderBy />
+			</AxQuerySimpleRootDataSource>
+		</DataSources>
+	<SourceCode><Methods><Method><Name>classDeclaration</Name><Source><![CDATA[[Query]
+public class ARBTableMetadataEntityMetadata extends QueryRun
+{
+}]]></Source></Method></Methods></SourceCode></ViewMetadata>
+</AxDataEntityView>

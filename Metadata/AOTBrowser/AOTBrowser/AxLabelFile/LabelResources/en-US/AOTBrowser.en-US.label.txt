@@ -16,6 +16,7 @@ AOTObjectsDevDoc=List of objects in the application object tree
  ;ARB_AOTBrowser
 BaseEnum=Base enum
  ;ARB_AOTBrowser
+Cardinality=Cardinality
 CompositeDataEntities=Composite data entity
  ;ARB_AOTBrowser
 ConfigKey=Configuration key
@@ -27,6 +28,20 @@ EntityFieldList=Entity field list
 EntityFieldName=Entity field name
 EntityLabel=Entity label
 EntityName=Entity name
+EnumLabel=Enum label
+EnumMetadata=Enum metadata
+ ;Table label for ARBEnumMetadata
+EnumMetadataDevDoc=Stores metadata about D365FO enum values for AI agent consumption
+ ;Developer documentation for ARBEnumMetadata table
+EnumTypeName=Enum type name
+ExtendedDataType=Extended data type
+FieldDataType=Field data type
+FieldName=Field name
+ ;Label for FieldName field on metadata tables
+Fields=Fields
+IntegerValue=Integer value
+IsMandatory=Is mandatory
+ ;Label for IsMandatory field on ARBTableFieldMetadata
 KPI=KPI
 LicenseCode=License code
  ;ARB_AOTBrowser
@@ -45,6 +60,9 @@ MenuItemReferences=Menu item references
 MenuItemType=Menu item type
 Menus=Menu
  ;ARB_AOTBrowser
+MetadataDescription=Description
+MetadataHelpText=Help text
+ModelName=Model name
 NewLabel0=Label files created on 12/04/2019 20:20:46 for label file Id AOTBrowser and language en-US
  ;Label file comment - see above label
 Object=Object
@@ -63,6 +81,7 @@ PopulateAOTObjectTable=AOTBrowser - Populate AOT object table
  ;ARB_AOTBrowser
 PopulateEntityFieldList=Populate entity field list
 PopulateMenuItemReferences=Populate menu item references
+PopulateTableMetadata=Populate table metadata
 PropertyValue=Value
  ;ARB_AOTBrowser
 Reference=Reference
@@ -71,6 +90,12 @@ ReferenceObjectName=Reference object name
 ReferenceObjectType=Reference object type
 ReferencePath=Reference path
 RefObjectLabel=Reference object label
+RelatedFieldName=Related field name
+RelatedTableCardinality=Related table cardinality
+RelatedTableName=Related table name
+RelationName=Relation name
+Relations=Relations
+RelationshipType=Relationship type
 Report=Report
  ;ARB_AOTBrowser
 Resource=Resource
@@ -88,10 +113,28 @@ ServiceGroup=Service group
  ;ARB_AOTBrowser
 SourceTableField=Source table field
 SourceTableName=Source table name
+SqlTableName=SQL table name
+StringSize=String size
+ ;Label for StringSize field on ARBTableFieldMetadata
+TableFieldMetadata=Table field metadata
+ ;Table label for ARBTableFieldMetadata
+TableFieldMetadataDevDoc=Stores metadata about D365FO table fields for AI agent consumption
+ ;Developer documentation for ARBTableFieldMetadata table
+TableGroup=Table group
+TableMetadata=Table metadata
+ ;Table label for ARBTableMetadata
+TableMetadataDevDoc=Stores metadata about D365FO tables for AI agent consumption
+ ;Developer documentation for ARBTableMetadata table
+TableRelationMetadata=Table relation metadata
+ ;Table label for ARBTableRelationMetadata
+TableRelationMetadataDevDoc=Stores metadata about D365FO table relationships for AI agent consumption
+ ;Developer documentation for ARBTableRelationMetadata table
 TableStatisticsDevDoc=Statistics about each table in the database
  ;ARB_AOTBrowser
 Tiles=Tile
  ;ARB_AOTBrowser
+ValueLabel=Value label
+ValueName=Value name
 ViewCode=View source code
  ;ARB_AOTBrowser
 ViewCodeHelp=Toggles the ability to view the source code. (NOTE: Viewing metadata from 3rd parties provided by deployable package is not supported with this turned on)

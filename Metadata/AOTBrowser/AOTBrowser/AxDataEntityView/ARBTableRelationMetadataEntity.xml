@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxDataEntityView xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>ARBTableRelationMetadataEntity</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+public class ARBTableRelationMetadataEntity extends common
+{
+}
+]]></Declaration>
+		<Methods />
+	</SourceCode>
+	<Label>@AOTBrowser:TableRelationMetadata</Label>
+	<DataManagementEnabled>Yes</DataManagementEnabled>
+	<DataManagementStagingTable>ARBTableRelationMetadataEntityStaging</DataManagementStagingTable>
+	<EntityCategory>Reference</EntityCategory>
+	<IsPublic>Yes</IsPublic>
+	<Modules>General</Modules>
+	<PrimaryKey>EntityKey</PrimaryKey>
+	<PublicCollectionName>ARBTableRelationMetadata</PublicCollectionName>
+	<PublicEntityName>ARBTableRelationMetadata</PublicEntityName>
+	<DeleteActions />
+	<FieldGroups>
+		<AxTableFieldGroup>
+			<Name>AutoReport</Name>
+			<Fields>
+				<AxTableFieldGroupField>
+					<DataField>TableName</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>RelationName</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>RelatedTableName</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>RelationshipType</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>FieldName</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>RelatedFieldName</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>Cardinality</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>RelatedTableCardinality</DataField>
+				</AxTableFieldGroupField>
+			</Fields>
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>AutoLookup</Name>
+			<Fields />
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>AutoIdentification</Name>
+			<Fields />
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>AutoSummary</Name>
+			<Fields />
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>AutoBrowse</Name>
+			<Fields />
+		</AxTableFieldGroup>
+	</FieldGroups>
+	<Fields>
+		<AxDataEntityViewField xmlns=""
+			i:type="AxDataEntityViewMappedField">
+			<Name>TableName</Name>
+			<Mandatory>Yes</Mandatory>
+			<DataField>TableName</DataField>
+			<DataSource>ARBTableRelationMetadata</DataSource>
+		</AxDataEntityViewField>
+		<AxDataEntityViewField xmlns=""
+			i:type="AxDataEntityViewMappedField">
+			<Name>RelationName</Name>
+			<Mandatory>Yes</Mandatory>
+			<DataField>RelationName</DataField>
+			<DataSource>ARBTableRelationMetadata</DataSource>
+		</AxDataEntityViewField>
+		<AxDataEntityViewField xmlns=""
+			i:type="AxDataEntityViewMappedField">
+			<Name>RelatedTableName</Name>
+			<DataField>RelatedTableName</DataField>
+			<DataSource>ARBTableRelationMetadata</DataSource>
+		</AxDataEntityViewField>
+		<AxDataEntityViewField xmlns=""
+			i:type="AxDataEntityViewMappedField">
+			<Name>RelationshipType</Name>
+			<DataField>RelationshipType</DataField>
+			<DataSource>ARBTableRelationMetadata</DataSource>
+		</AxDataEntityViewField>
+		<AxDataEntityViewField xmlns=""
+			i:type="AxDataEntityViewMappedField">
+			<Name>FieldName</Name>
+			<Mandatory>Yes</Mandatory>
+			<DataField>FieldName</DataField>
+			<DataSource>ARBTableRelationMetadata</DataSource>
+		</AxDataEntityViewField>
+		<AxDataEntityViewField xmlns=""
+			i:type="AxDataEntityViewMappedField">
+			<Name>RelatedFieldName</Name>
+			<DataField>RelatedFieldName</DataField>
+			<DataSource>ARBTableRelationMetadata</DataSource>
+		</AxDataEntityViewField>
+		<AxDataEntityViewField xmlns=""
+			i:type="AxDataEntityViewMappedField">
+			<Name>Cardinality</Name>
+			<DataField>Cardinality</DataField>
+			<DataSource>ARBTableRelationMetadata</DataSource>
+		</AxDataEntityViewField>
+		<AxDataEntityViewField xmlns=""
+			i:type="AxDataEntityViewMappedField">
+			<Name>RelatedTableCardinality</Name>
+			<DataField>RelatedTableCardinality</DataField>
+			<DataSource>ARBTableRelationMetadata</DataSource>
+		</AxDataEntityViewField>
+	</Fields>
+	<Keys>
+		<AxDataEntityViewKey>
+			<Name>EntityKey</Name>
+			<Fields>
+				<AxDataEntityViewKeyField>
+					<DataField>TableName</DataField>
+				</AxDataEntityViewKeyField>
+				<AxDataEntityViewKeyField>
+					<DataField>RelationName</DataField>
+				</AxDataEntityViewKeyField>
+				<AxDataEntityViewKeyField>
+					<DataField>FieldName</DataField>
+				</AxDataEntityViewKeyField>
+			</Fields>
+		</AxDataEntityViewKey>
+	</Keys>
+	<Mappings />
+	<Ranges />
+	<Relations />
+	<StateMachines />
+	<ViewMetadata>
+		<Name>Metadata</Name>
+		<SourceCode>
+			<Methods />
+		</SourceCode>
+		<DataSources>
+			<AxQuerySimpleRootDataSource>
+				<Name>ARBTableRelationMetadata</Name>
+				<Table>ARBTableRelationMetadata</Table>
+				<DataSources />
+				<DerivedDataSources />
+				<Fields>
+					<AxQuerySimpleDataSourceField>
+						<Name>TableName</Name>
+						<Field>TableName</Field>
+					</AxQuerySimpleDataSourceField>
+					<AxQuerySimpleDataSourceField>
+						<Name>RelationName</Name>
+						<Field>RelationName</Field>
+					</AxQuerySimpleDataSourceField>
+					<AxQuerySimpleDataSourceField>
+						<Name>RelatedTableName</Name>
+						<Field>RelatedTableName</Field>
+					</AxQuerySimpleDataSourceField>
+					<AxQuerySimpleDataSourceField>
+						<Name>RelationshipType</Name>
+						<Field>RelationshipType</Field>
+					</AxQuerySimpleDataSourceField>
+					<AxQuerySimpleDataSourceField>
+						<Name>FieldName</Name>
+						<Field>FieldName</Field>
+					</AxQuerySimpleDataSourceField>
+					<AxQuerySimpleDataSourceField>
+						<Name>RelatedFieldName</Name>
+						<Field>RelatedFieldName</Field>
+					</AxQuerySimpleDataSourceField>
+					<AxQuerySimpleDataSourceField>
+						<Name>Cardinality</Name>
+						<Field>Cardinality</Field>
+					</AxQuerySimpleDataSourceField>
+					<AxQuerySimpleDataSourceField>
+						<Name>RelatedTableCardinality</Name>
+						<Field>RelatedTableCardinality</Field>
+					</AxQuerySimpleDataSourceField>
+				</Fields>
+				<Ranges />
+				<GroupBy />
+				<Having />
+				<OrderBy />
+			</AxQuerySimpleRootDataSource>
+		</DataSources>
+	<SourceCode><Methods><Method><Name>classDeclaration</Name><Source><![CDATA[[Query]
+public class ARBTableRelationMetadataEntityMetadata extends QueryRun
+{
+}]]></Source></Method></Methods></SourceCode></ViewMetadata>
+</AxDataEntityView>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>ARBTableMetadataPopulateController</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// Controller for populating table metadata for AI agent consumption
+/// </summary>
+class ARBTableMetadataPopulateController extends SysOperationServiceController
+{
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>new</Name>
+				<Source><![CDATA[
+    /// <summary>
+        /// Constructor for ARBTableMetadataPopulateController
+        /// </summary>
+        /// <param name = "_className">The name of the class</param>
+        /// <param name = "_methodName">The method name</param>
+        /// <param name = "_executionMode">The execution mode</param>
+        protected void new(IdentifierName _className = '', IdentifierName _methodName = '', SysOperationExecutionMode _executionMode = SysOperationExecutionMode::Synchronous)
+        {
+            super(classStr(ARBTableMetadataPopulateService), methodStr(ARBTableMetadataPopulateService, populateTableMetadata), _executionMode);
+        }
+]]></Source>
+			</Method>
+			<Method>
+				<Name>construct</Name>
+				<Source><![CDATA[
+    /// <summary>
+        /// Construct method for ARBTableMetadataPopulateController
+        /// </summary>
+        /// <returns>The new ARBTableMetadataPopulateController</returns>
+        public static ARBTableMetadataPopulateController construct()
+        {
+            return new ARBTableMetadataPopulateController();
+        }
+]]></Source>
+			</Method>
+			<Method>
+				<Name>main</Name>
+				<Source><![CDATA[
+    /// <summary>
+        /// The main method
+        /// </summary>
+        /// <param name = "_args">The arguments</param>
+        public static void main(Args _args)
+        {
+            ARBTableMetadataPopulateController controller = ARBTableMetadataPopulateController::construct();
+
+            controller.startOperation();
+        }
+]]></Source>
+			</Method>
+			<Method>
+				<Name>caption</Name>
+				<Source><![CDATA[
+    /// <summary>
+        /// The caption for the controller
+        /// </summary>
+        /// <returns>The caption</returns>
+        public ClassDescription caption()
+        {
+            return "@AOTBrowser:PopulateTableMetadata";
+        }
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmDialogCaption</Name>
+				<Source><![CDATA[
+    /// <summary>
+        /// The dialog caption
+        /// </summary>
+        /// <param name = "_dialogCaption">The new dialog caption</param>
+        /// <returns>The dialog caption</returns>
+        public LabelType parmDialogCaption(LabelType _dialogCaption = dialogCaption)
+        {
+            LabelType ret;
+
+            ret = "@AOTBrowser:PopulateTableMetadata";
+
+            return ret;
+        }
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>
