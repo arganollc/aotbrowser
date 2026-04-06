@@ -82,7 +82,8 @@ class ARBAOTObjectTreeMenu extends ARBAOTObjectTree
     /// <param name = "_object">The object to add</param>
     /// <param name = "_idx">The tree index to add it under</param>
     /// <param name = "_formTreeAdd">The order it should add the node</param>
-    /// <param name = "extensionName">The name of the extension it came from, if any</param>
+    /// <param name = "_skipAddHeader">If true, skip adding the header node</param>
+    /// <param name = "_extensionName">The name of the extension it came from, if any</param>
     /// <returns>The tree index of the new node</returns>
     public TreeItemIdx addTreeNode(anytype _object, TreeItemIdx _idx, int _formTreeAdd = FormTreeAdd::Sort, boolean _skipAddHeader = false, str _extensionName = '')
     {

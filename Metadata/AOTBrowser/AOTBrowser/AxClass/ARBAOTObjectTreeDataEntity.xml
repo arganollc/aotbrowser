@@ -25,6 +25,11 @@ class ARBAOTObjectTreeDataEntity extends ARBAOTObjectTree
 			<Method>
 				<Name>parmSelectedField</Name>
 				<Source><![CDATA[
+    /// <summary>
+    /// Gets or sets the name of the selected field to restore tree selection after an update.
+    /// </summary>
+    /// <param name = "_selectedFieldName">The field name to set; optional.</param>
+    /// <returns>The current selected field name.</returns>
     public str parmSelectedField(str _selectedFieldName = selectedFieldName)
     {
         selectedFieldName = _selectedFieldName;
@@ -116,7 +121,8 @@ class ARBAOTObjectTreeDataEntity extends ARBAOTObjectTree
     /// <param name = "_object">The object to add</param>
     /// <param name = "_idx">The tree index to add it under</param>
     /// <param name = "_formTreeAdd">The order it should add the node</param>
-    /// <param name = "extensionName">The name of the extension it came from, if any</param>
+    /// <param name = "_skipAddHeader">If true, skip adding the header node</param>
+    /// <param name = "_extensionName">The name of the extension it came from, if any</param>
     /// <returns>The tree index of the new node</returns>
     public TreeItemIdx addTreeNode(anytype _object, TreeItemIdx _idx, int _formTreeAdd = FormTreeAdd::Sort, boolean _skipAddHeader = false, str _extensionName = '')
     {

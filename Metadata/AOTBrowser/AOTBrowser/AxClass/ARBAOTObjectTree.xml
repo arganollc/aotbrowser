@@ -32,6 +32,9 @@ public class ARBAOTObjectTree
 			<Method>
 				<Name>typenew</Name>
 				<Source><![CDATA[
+    /// <summary>
+    /// Type-based static constructor that initializes the metadata provider using the runtime provider.
+    /// </summary>
     static void typenew()
     {
         ARBAOTObjectTree::updateProvider(false);
@@ -42,6 +45,10 @@ public class ARBAOTObjectTree
 			<Method>
 				<Name>updateProvider</Name>
 				<Source><![CDATA[
+    /// <summary>
+    /// Initializes the metadata provider from the application environment, optionally using the disk-based provider.
+    /// </summary>
+    /// <param name = "_useDiskProvider">true to use the disk metadata provider; false to use the runtime provider.</param>
     static void updateProvider(boolean _useDiskProvider)
     {
         Microsoft.Dynamics.ApplicationPlatform.Environment.IApplicationEnvironment applicationEnvironment = Microsoft.Dynamics.ApplicationPlatform.Environment.EnvironmentFactory::GetApplicationEnvironment();
@@ -62,6 +69,10 @@ public class ARBAOTObjectTree
 			<Method>
 				<Name>getCollectionMap</Name>
 				<Source><![CDATA[
+    /// <summary>
+    /// Gets the map of collection property names to their tree item index maps, used to build the object tree.
+    /// </summary>
+    /// <returns>A <c>Map</c> of collection names to their corresponding tree item maps.</returns>
     public Map getCollectionMap()
     {
         return collectionMap;
@@ -72,6 +83,11 @@ public class ARBAOTObjectTree
 			<Method>
 				<Name>parmTreeControl</Name>
 				<Source><![CDATA[
+    /// <summary>
+    /// Gets or sets the <c>FormTreeControl</c> used to display the AOT object tree.
+    /// </summary>
+    /// <param name = "_treeControl">The <c>FormTreeControl</c> to set; optional.</param>
+    /// <returns>The current <c>FormTreeControl</c> instance.</returns>
     public FormTreeControl parmTreeControl(FormTreeControl _treeControl = treeControl)
     {
         treeControl = _treeControl;
@@ -84,6 +100,11 @@ public class ARBAOTObjectTree
 			<Method>
 				<Name>parmAOTObjectType</Name>
 				<Source><![CDATA[
+    /// <summary>
+    /// Gets or sets the <c>ARBAOTObjectType</c> enum value identifying the type of AOT object being displayed.
+    /// </summary>
+    /// <param name = "_aotObjectType">The <c>ARBAOTObjectType</c> value to set; optional.</param>
+    /// <returns>The current <c>ARBAOTObjectType</c> value.</returns>
     public ARBAOTObjectType parmAOTObjectType(ARBAOTObjectType _aotObjectType = aotObjectType)
     {
         aotObjectType = _aotObjectType;
@@ -96,6 +117,11 @@ public class ARBAOTObjectTree
 			<Method>
 				<Name>parmExtensionsInline</Name>
 				<Source><![CDATA[
+    /// <summary>
+    /// Gets or sets the flag that controls whether extensions are displayed inline within the object tree.
+    /// </summary>
+    /// <param name = "_extensionsInline">true to show extensions inline; false to show them separately; optional.</param>
+    /// <returns>The current value of the extensions inline flag.</returns>
     public boolean parmExtensionsInline(boolean _extensionsInline = extensionsInline)
     {
         extensionsInline = _extensionsInline;
@@ -108,6 +134,11 @@ public class ARBAOTObjectTree
 			<Method>
 				<Name>parmSelectedTreePath</Name>
 				<Source><![CDATA[
+    /// <summary>
+    /// Gets or sets the selected tree path string used to restore tree selection after an update.
+    /// </summary>
+    /// <param name = "_selectedTreePath">The tree path to set; optional.</param>
+    /// <returns>The current selected tree path.</returns>
     public str parmSelectedTreePath(str _selectedTreePath = selectedTreePath)
     {
         selectedTreePath = _selectedTreePath;
@@ -125,6 +156,7 @@ public class ARBAOTObjectTree
     /// </summary>
     /// <param name = "_treeControl">The tree control to update</param>
     /// <param name = "_objectType">The object type</param>
+    /// <param name = "_extensionsInline">true to show extensions inline; false to show them separately</param>
     /// <returns>The new object</returns>
     public static ARBAOTObjectTree newFromAOTObject(FormTreeControl _treeControl, ARBAOTObjectType _objectType, boolean _extensionsInline)
     {
@@ -152,6 +184,7 @@ public class ARBAOTObjectTree
     /// Get the AOT Object
     /// </summary>
     /// <param name = "_aotNodeName">The name of the AOT Object</param>
+    /// <param name = "_metadataProvider">The metadata provider to use; defaults to the runtime provider</param>
     /// <returns>The AOT Object</returns>
     public anytype getAOTObject(TreeNodeName _aotNodeName, Microsoft.Dynamics.AX.Metadata.Providers.IMetadataProvider _metadataProvider = MetadataProvider)
     {
@@ -686,6 +719,7 @@ public class ARBAOTObjectTree
     /// <param name = "_extensionName">The extension name</param>
     /// <param name = "_positionType">The position the control should be added</param>
     /// <param name = "_afterItemIdx">The index where the control should be inserted after</param>
+    /// <returns>The tree index of the new extension node</returns>
     protected TreeItemIdx addExtension(anytype _extension, TreeItemIdx _parentIdx, str _extensionName, CoreMetaModel.ExtensionItemPositionType _positionType =CoreMetaModel.ExtensionItemPositionType::End, int _afterItemIdx = 0)
     {
         FormTreeItem parentControl = treeControl.getItem(_parentIdx);
