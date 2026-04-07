@@ -36,9 +36,6 @@ public class ARBTableMetadataEntity extends common
 					<DataField>Description</DataField>
 				</AxTableFieldGroupField>
 				<AxTableFieldGroupField>
-					<DataField>ModelName</DataField>
-				</AxTableFieldGroupField>
-				<AxTableFieldGroupField>
 					<DataField>SqlTableName</DataField>
 				</AxTableFieldGroupField>
 			</Fields>
@@ -84,12 +81,6 @@ public class ARBTableMetadataEntity extends common
 			i:type="AxDataEntityViewMappedField">
 			<Name>Description</Name>
 			<DataField>Description</DataField>
-			<DataSource>ARBTableMetadata</DataSource>
-		</AxDataEntityViewField>
-		<AxDataEntityViewField xmlns=""
-			i:type="AxDataEntityViewMappedField">
-			<Name>ModelName</Name>
-			<DataField>ModelName</DataField>
 			<DataSource>ARBTableMetadata</DataSource>
 		</AxDataEntityViewField>
 		<AxDataEntityViewField xmlns=""
@@ -140,10 +131,6 @@ public class ARBTableMetadataEntity extends common
 					<AxQuerySimpleDataSourceField>
 						<Name>Description</Name>
 						<Field>Description</Field>
-					</AxQuerySimpleDataSourceField>
-					<AxQuerySimpleDataSourceField>
-						<Name>ModelName</Name>
-						<Field>ModelName</Field>
 					</AxQuerySimpleDataSourceField>
 					<AxQuerySimpleDataSourceField>
 						<Name>SqlTableName</Name>

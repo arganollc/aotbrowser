@@ -29,9 +29,6 @@
 					<DataField>Description</DataField>
 				</AxTableFieldGroupField>
 				<AxTableFieldGroupField>
-					<DataField>ModelName</DataField>
-				</AxTableFieldGroupField>
-				<AxTableFieldGroupField>
 					<DataField>SqlTableName</DataField>
 				</AxTableFieldGroupField>
 			</Fields>
@@ -118,11 +115,6 @@
 			i:type="AxTableFieldString">
 			<Name>Description</Name>
 			<ExtendedDataType>ARBMetadataDescription</ExtendedDataType>
-		</AxTableField>
-		<AxTableField xmlns=""
-			i:type="AxTableFieldString">
-			<Name>ModelName</Name>
-			<ExtendedDataType>ARBMetadataModelName</ExtendedDataType>
 		</AxTableField>
 		<AxTableField xmlns=""
 			i:type="AxTableFieldString">

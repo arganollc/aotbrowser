@@ -38,9 +38,6 @@
 					<DataField>Description</DataField>
 				</AxFormDataSourceField>
 				<AxFormDataSourceField>
-					<DataField>ModelName</DataField>
-				</AxFormDataSourceField>
-				<AxFormDataSourceField>
 					<DataField>SqlTableName</DataField>
 				</AxFormDataSourceField>
 			</Fields>
@@ -192,15 +189,6 @@
 										<FormControlExtension
 											i:nil="true" />
 										<DataField>Description</DataField>
-										<DataSource>ARBTableMetadata</DataSource>
-									</AxFormControl>
-									<AxFormControl xmlns=""
-										i:type="AxFormStringControl">
-										<Name>ARBTableMetadata_ModelName</Name>
-										<Type>String</Type>
-										<FormControlExtension
-											i:nil="true" />
-										<DataField>ModelName</DataField>
 										<DataSource>ARBTableMetadata</DataSource>
 									</AxFormControl>
 									<AxFormControl xmlns=""

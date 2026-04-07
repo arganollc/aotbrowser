@@ -99,7 +99,6 @@ class ARBTableMetadataPopulateService extends SysOperationServiceBase
         tableMetadata.TableName  = _tableName;
         tableMetadata.TableLabel = SysLabel::labelId2String2(_table.Label);
         tableMetadata.TableGroup = enum2Str(_table.TableGroup);
-        tableMetadata.ModelName  = this.getTableModelName(_tableName);
         tableMetadata.SqlTableName = ARBAOTBrowserHelper::getTableSqlName(_tableName);
 
         str devDoc = SysLabel::labelId2String2(_table.DeveloperDocumentation);
@@ -136,7 +135,7 @@ class ARBTableMetadataPopulateService extends SysOperationServiceBase
             fieldMetadata.FieldLabel      = this.resolveFieldLabel(field);
             fieldMetadata.FieldDataType   = this.getFieldTypeName(field);
             fieldMetadata.IsMandatory     = field.Mandatory == Microsoft.Dynamics.AX.Metadata.Core.MetaModel.NoYes::Yes ? NoYes::Yes : NoYes::No;
-            fieldMetadata.HelpText        = SysLabel::labelId2String2(field.HelpText);
+            fieldMetadata.HelpText        = this.resolveFieldHelpText(field);
 
             // EDT and enum info
             if (field is AxTableFieldString)
@@ -442,28 +441,49 @@ class ARBTableMetadataPopulateService extends SysOperationServiceBase
 ]]></Source>
 			</Method>
 			<Method>
-				<Name>getTableModelName</Name>
+				<Name>resolveFieldHelpText</Name>
 				<Source><![CDATA[
     /// <summary>
-    /// Gets the model name for a table using SysModelElement
+    /// Resolves a field's help text, falling back through the EDT inheritance chain
+    /// if no help text is set directly on the field.
     /// </summary>
-    /// <param name = "_tableName">The table name</param>
-    /// <returns>The model name</returns>
-    protected str getTableModelName(str _tableName)
+    /// <param name = "_field">The table field</param>
+    /// <returns>The resolved help text</returns>
+    protected str resolveFieldHelpText(AxTableField _field)
     {
-        SysModelManifest manifest;
-        SysModelElementData elementData;
-        SysModelElement element;
+        str helpText = SysLabel::labelId2String2(_field.HelpText);
 
-        select firstonly Name from manifest
-            exists join elementData
-                where elementData.ModelId == manifest.RecId
-            exists join element
-                where element.RecId == elementData.ModelElement
-                    && element.Name == _tableName
-                    && element.ElementType == UtilElementType::Table;
+        if (helpText == '')
+        {
+            // Try to get help text from EDT
+            System.Type fieldType = _field.GetType();
+            System.Reflection.PropertyInfo edtProp = fieldType.GetProperty('ExtendedDataType');
 
-        return manifest.Name;
+            if (edtProp != null)
+            {
+                str edtName = edtProp.GetValue(_field) != null ? edtProp.GetValue(_field).ToString() : '';
+                if (edtName != '')
+                {
+                    AxEdt edt = Xpp.MetadataSupport::GetEdt(edtName);
+                    if (edt != null)
+                    {
+                        helpText = SysLabel::labelId2String2(edt.HelpText);
+
+                        // Walk up EDT inheritance
+                        while (helpText == '' && edt.Extends != '')
+                        {
+                            edt = Xpp.MetadataSupport::GetEdt(edt.Extends);
+                            if (edt != null)
+                            {
+                                helpText = SysLabel::labelId2String2(edt.HelpText);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return helpText;
     }
 
 ]]></Source>
