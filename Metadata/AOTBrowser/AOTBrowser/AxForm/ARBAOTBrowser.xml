@@ -583,7 +583,7 @@ public class ARBAOTBrowser extends FormRun
                     AxEdt edt = object as AxEdt;
                     ARBAOTObjectProperties.clear();
                     ARBAOTObjectProperties.Name = '_Type';
-                    ARBAOTObjectProperties.Value = this.getEdtType(edt);;
+                    ARBAOTObjectProperties.Value = this.getEdtType(edt);
                     ARBAOTObjectProperties.insert();
                 }
                 else if (object is AxTable)
