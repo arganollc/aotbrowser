@@ -30,6 +30,9 @@ public class ARBTableFieldMetadataEntity extends common
 					<DataField>FieldName</DataField>
 				</AxTableFieldGroupField>
 				<AxTableFieldGroupField>
+					<DataField>FieldId</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
 					<DataField>FieldLabel</DataField>
 				</AxTableFieldGroupField>
 				<AxTableFieldGroupField>
@@ -82,6 +85,12 @@ public class ARBTableFieldMetadataEntity extends common
 			<Name>FieldName</Name>
 			<Mandatory>Yes</Mandatory>
 			<DataField>FieldName</DataField>
+			<DataSource>ARBTableFieldMetadata</DataSource>
+		</AxDataEntityViewField>
+		<AxDataEntityViewField xmlns=""
+			i:type="AxDataEntityViewMappedField">
+			<Name>FieldId</Name>
+			<DataField>FieldId</DataField>
 			<DataSource>ARBTableFieldMetadata</DataSource>
 		</AxDataEntityViewField>
 		<AxDataEntityViewField xmlns=""
@@ -163,6 +172,10 @@ public class ARBTableFieldMetadataEntity extends common
 					<AxQuerySimpleDataSourceField>
 						<Name>FieldName</Name>
 						<Field>FieldName</Field>
+					</AxQuerySimpleDataSourceField>
+					<AxQuerySimpleDataSourceField>
+						<Name>FieldId</Name>
+						<Field>FieldId</Field>
 					</AxQuerySimpleDataSourceField>
 					<AxQuerySimpleDataSourceField>
 						<Name>FieldLabel</Name>

@@ -27,6 +27,9 @@
 					<DataField>FieldName</DataField>
 				</AxTableFieldGroupField>
 				<AxTableFieldGroupField>
+					<DataField>FieldId</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
 					<DataField>FieldLabel</DataField>
 				</AxTableFieldGroupField>
 				<AxTableFieldGroupField>
@@ -66,6 +69,12 @@
 			<ExtendedDataType>TreeNodeName</ExtendedDataType>
 			<Label>@AOTBrowser:FieldName</Label>
 			<Mandatory>Yes</Mandatory>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldInt">
+			<Name>FieldId</Name>
+			<ExtendedDataType>ARBObjectId</ExtendedDataType>
+			<Label>@AOTBrowser:FieldId</Label>
 		</AxTableField>
 		<AxTableField xmlns=""
 			i:type="AxTableFieldString">

@@ -97,6 +97,7 @@ class ARBTableMetadataPopulateService extends SysOperationServiceBase
         // Table-level metadata
         tableMetadata.clear();
         tableMetadata.TableName  = _tableName;
+        tableMetadata.TableNum   = tableName2Id(_tableName);
         tableMetadata.TableLabel = SysLabel::labelId2String2(_table.Label);
         tableMetadata.TableGroup = enum2Str(_table.TableGroup);
         tableMetadata.SqlTableName = ARBAOTBrowserHelper::getTableSqlName(_tableName);
@@ -109,7 +110,7 @@ class ARBTableMetadataPopulateService extends SysOperationServiceBase
         tableInsertList.add(tableMetadata);
 
         // GetTable() returns merged metadata (base + extensions), so process once
-        this.processFields(_tableName, _table.Fields);
+        this.processFields(_tableName, tableName2Id(_tableName), _table.Fields);
         this.processRelations(_tableName, _table.Relations);
     }
 
@@ -122,8 +123,9 @@ class ARBTableMetadataPopulateService extends SysOperationServiceBase
     /// Processes fields for a table
     /// </summary>
     /// <param name = "_tableName">The owning table name</param>
+    /// <param name = "_tableId">The owning table id</param>
     /// <param name = "_fields">The field collection</param>
-    protected void processFields(str _tableName, System.Collections.IEnumerable _fields)
+    protected void processFields(str _tableName, int _tableId, System.Collections.IEnumerable _fields)
     {
         var fieldEnum = _fields.GetEnumerator();
 
@@ -134,6 +136,7 @@ class ARBTableMetadataPopulateService extends SysOperationServiceBase
             fieldMetadata.clear();
             fieldMetadata.TableName       = _tableName;
             fieldMetadata.FieldName       = field.Name;
+            fieldMetadata.FieldId         = fieldName2Id(_tableId, field.Name);
             fieldMetadata.FieldLabel      = this.resolveFieldLabel(field);
             fieldMetadata.FieldDataType   = this.getFieldTypeName(field);
             fieldMetadata.IsMandatory     = field.Mandatory == Microsoft.Dynamics.AX.Metadata.Core.MetaModel.NoYes::Yes ? NoYes::Yes : NoYes::No;

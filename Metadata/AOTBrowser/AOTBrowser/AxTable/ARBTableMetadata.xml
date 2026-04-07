@@ -24,6 +24,9 @@
 					<DataField>TableName</DataField>
 				</AxTableFieldGroupField>
 				<AxTableFieldGroupField>
+					<DataField>TableNum</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
 					<DataField>TableLabel</DataField>
 				</AxTableFieldGroupField>
 				<AxTableFieldGroupField>
@@ -52,6 +55,12 @@
 			<ExtendedDataType>TreeNodeName</ExtendedDataType>
 			<Label>@SYS8868</Label>
 			<Mandatory>Yes</Mandatory>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldInt">
+			<Name>TableNum</Name>
+			<ExtendedDataType>ARBObjectId</ExtendedDataType>
+			<Label>@AOTBrowser:TableId</Label>
 		</AxTableField>
 		<AxTableField xmlns=""
 			i:type="AxTableFieldString">

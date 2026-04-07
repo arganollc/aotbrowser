@@ -38,6 +38,7 @@ EntityFieldsDevDoc=Stores data entity field mappings including source table and 
  ;Developer documentation for ARBEntityFields table
 ExtendedDataType=Extended data type
 FieldDataType=Field data type
+FieldId=Field id
 FieldName=Field name
  ;Label for FieldName field on metadata tables
 Fields=Fields
@@ -126,6 +127,7 @@ TableFieldMetadata=Table field metadata
 TableFieldMetadataDevDoc=Stores metadata about D365FO table fields for AI agent consumption via Synapse Link.
  ;Developer documentation for ARBTableFieldMetadata table
 TableGroup=Table group
+TableId=Table id
 TableMetadata=Table metadata
 TableType=Table type
 SaveDataPerCompany=Save data per company

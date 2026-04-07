@@ -29,6 +29,9 @@
 					<DataField>TableName</DataField>
 				</AxFormDataSourceField>
 				<AxFormDataSourceField>
+					<DataField>TableNum</DataField>
+				</AxFormDataSourceField>
+				<AxFormDataSourceField>
 					<DataField>TableLabel</DataField>
 				</AxFormDataSourceField>
 				<AxFormDataSourceField>
@@ -171,6 +174,15 @@
 										<DataSource>ARBTableMetadata</DataSource>
 									</AxFormControl>
 									<AxFormControl xmlns=""
+										i:type="AxFormIntegerControl">
+										<Name>ARBTableMetadata_TableNum</Name>
+										<Type>Integer</Type>
+										<FormControlExtension
+											i:nil="true" />
+										<DataField>TableNum</DataField>
+										<DataSource>ARBTableMetadata</DataSource>
+									</AxFormControl>
+									<AxFormControl xmlns=""
 										i:type="AxFormStringControl">
 										<Name>ARBTableMetadata_TableLabel</Name>
 										<Type>String</Type>
@@ -274,6 +286,15 @@
 										<FormControlExtension
 											i:nil="true" />
 										<DataField>FieldName</DataField>
+										<DataSource>ARBTableFieldMetadata</DataSource>
+									</AxFormControl>
+									<AxFormControl xmlns=""
+										i:type="AxFormIntegerControl">
+										<Name>ARBTableFieldMetadata_FieldId</Name>
+										<Type>Integer</Type>
+										<FormControlExtension
+											i:nil="true" />
+										<DataField>FieldId</DataField>
 										<DataSource>ARBTableFieldMetadata</DataSource>
 									</AxFormControl>
 									<AxFormControl xmlns=""
