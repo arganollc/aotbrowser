@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxSecurityPrivilege xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>ARBTableMetadataEntityMaintain</Name>
+	<Label>@AOTBrowser:MaintainTableMetadataEntities</Label>
+	<DataEntityPermissions>
+		<AxSecurityDataEntityPermission>
+			<Grant>
+				<Correct>Allow</Correct>
+				<Create>Allow</Create>
+				<Delete>Allow</Delete>
+				<Read>Allow</Read>
+				<Update>Allow</Update>
+			</Grant>
+			<Name>ARBTableMetadataEntity</Name>
+			<Fields />
+			<Methods />
+		</AxSecurityDataEntityPermission>
+		<AxSecurityDataEntityPermission>
+			<Grant>
+				<Correct>Allow</Correct>
+				<Create>Allow</Create>
+				<Delete>Allow</Delete>
+				<Read>Allow</Read>
+				<Update>Allow</Update>
+			</Grant>
+			<Name>ARBTableFieldMetadataEntity</Name>
+			<Fields />
+			<Methods />
+		</AxSecurityDataEntityPermission>
+		<AxSecurityDataEntityPermission>
+			<Grant>
+				<Correct>Allow</Correct>
+				<Create>Allow</Create>
+				<Delete>Allow</Delete>
+				<Read>Allow</Read>
+				<Update>Allow</Update>
+			</Grant>
+			<Name>ARBTableRelationMetadataEntity</Name>
+			<Fields />
+			<Methods />
+		</AxSecurityDataEntityPermission>
+		<AxSecurityDataEntityPermission>
+			<Grant>
+				<Correct>Allow</Correct>
+				<Create>Allow</Create>
+				<Delete>Allow</Delete>
+				<Read>Allow</Read>
+				<Update>Allow</Update>
+			</Grant>
+			<Name>ARBEnumMetadataEntity</Name>
+			<Fields />
+			<Methods />
+		</AxSecurityDataEntityPermission>
+	</DataEntityPermissions>
+	<DirectAccessPermissions />
+	<EntryPoints />
+	<FormControlOverrides />
+</AxSecurityPrivilege>

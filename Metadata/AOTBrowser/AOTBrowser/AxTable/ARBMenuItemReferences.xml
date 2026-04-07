@@ -9,6 +9,7 @@ public class ARBMenuItemReferences extends common
 ]]></Declaration>
 		<Methods />
 	</SourceCode>
+	<DeveloperDocumentation>@AOTBrowser:MenuItemReferencesDevDoc</DeveloperDocumentation>
 	<FormRef>ARBMenuItemReferences</FormRef>
 	<Label>@AOTBrowser:MenuItemReferences</Label>
 	<ListPageRef>ARBMenuItemReferences</ListPageRef>
@@ -18,21 +19,55 @@ public class ARBMenuItemReferences extends common
 	<TitleField1>MenuItemName</TitleField1>
 	<TitleField2>RefObjectName</TitleField2>
 	<AllowRowVersionChangeTracking>Yes</AllowRowVersionChangeTracking>
+	<ClusteredIndex>MenuItemRefIdx</ClusteredIndex>
 	<SaveDataPerCompany>No</SaveDataPerCompany>
 	<DeleteActions />
 	<FieldGroups>
 		<AxTableFieldGroup>
 			<Name>AutoReport</Name>
-			<Fields />
+			<Fields>
+				<AxTableFieldGroupField>
+					<DataField>MenuItemName</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>MenuItemType</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>RefObjectName</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>RefObjectType</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>RefObjectLabel</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>RefPath</DataField>
+				</AxTableFieldGroupField>
+			</Fields>
 		</AxTableFieldGroup>
 		<AxTableFieldGroup>
 			<Name>AutoLookup</Name>
-			<Fields />
+			<Fields>
+				<AxTableFieldGroupField>
+					<DataField>MenuItemName</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>MenuItemType</DataField>
+				</AxTableFieldGroupField>
+			</Fields>
 		</AxTableFieldGroup>
 		<AxTableFieldGroup>
 			<Name>AutoIdentification</Name>
 			<AutoPopulate>Yes</AutoPopulate>
-			<Fields />
+			<Fields>
+				<AxTableFieldGroupField>
+					<DataField>MenuItemName</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>MenuItemType</DataField>
+				</AxTableFieldGroupField>
+			</Fields>
 		</AxTableFieldGroup>
 		<AxTableFieldGroup>
 			<Name>AutoSummary</Name>
@@ -40,7 +75,23 @@ public class ARBMenuItemReferences extends common
 		</AxTableFieldGroup>
 		<AxTableFieldGroup>
 			<Name>AutoBrowse</Name>
-			<Fields />
+			<Fields>
+				<AxTableFieldGroupField>
+					<DataField>MenuItemName</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>MenuItemType</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>MenuItemLabel</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>RefObjectName</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>RefObjectType</DataField>
+				</AxTableFieldGroupField>
+			</Fields>
 		</AxTableFieldGroup>
 	</FieldGroups>
 	<Fields>
@@ -90,11 +141,20 @@ public class ARBMenuItemReferences extends common
 	<FullTextIndexes />
 	<Indexes>
 		<AxTableIndex>
-			<Name>MenuItemNameIdx</Name>
+			<Name>MenuItemRefIdx</Name>
 			<AllowDuplicates>Yes</AllowDuplicates>
 			<Fields>
 				<AxTableIndexField>
 					<DataField>MenuItemName</DataField>
+				</AxTableIndexField>
+				<AxTableIndexField>
+					<DataField>MenuItemType</DataField>
+				</AxTableIndexField>
+				<AxTableIndexField>
+					<DataField>RefObjectName</DataField>
+				</AxTableIndexField>
+				<AxTableIndexField>
+					<DataField>RefPath</DataField>
 				</AxTableIndexField>
 			</Fields>
 		</AxTableIndex>

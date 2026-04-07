@@ -23,6 +23,11 @@ class ARBAOTObjectTreeForm extends ARBAOTObjectTree
 			<Method>
 				<Name>parmSelectedControl</Name>
 				<Source><![CDATA[
+    /// <summary>
+    /// Gets or sets the name of the selected form control to restore tree selection after an update.
+    /// </summary>
+    /// <param name = "_selectedControlName">The control name to set; optional.</param>
+    /// <returns>The current selected control name.</returns>
     public str parmSelectedControl(str _selectedControlName = selectedControlName)
     {
         selectedControlName = _selectedControlName;
@@ -62,6 +67,7 @@ class ARBAOTObjectTreeForm extends ARBAOTObjectTree
 			<Method>
 				<Name>addExtensionCollection</Name>
 				<Source><![CDATA[
+
     /// <summary>
     /// Adds a collection of extensions to the tree
     /// </summary>
@@ -78,15 +84,18 @@ class ARBAOTObjectTreeForm extends ARBAOTObjectTree
                 while (modsEnum.moveNext())
                 {
                     AxFormExtensionControl controlExt = modsEnum.Current;
-                    TreeItemIdx parentIdx = controlMap.lookup(controlExt.Parent);
-                    TreeItemIdx afterIdx;
-                    if (controlExt.PositionType == CoreMetaModel.ExtensionItemPositionType::AfterItem)
+                    if (controlMap.exists(controlExt.Parent))
                     {
-                        afterIdx = SysFormTreeControl::findInsertAfterIdx(treeControl, parentIdx, controlExt.PreviousSibling);
+                        TreeItemIdx parentIdx = controlMap.lookup(controlExt.Parent);
+                        TreeItemIdx afterIdx;
+                        if (controlExt.PositionType == CoreMetaModel.ExtensionItemPositionType::AfterItem)
+                        {
+                            afterIdx = SysFormTreeControl::findInsertAfterIdx(treeControl, parentIdx, controlExt.PreviousSibling);
+                        }
+                        currentMap = controlMap;
+                        this.addExtension(controlExt.FormControl, parentIdx, _extensionName, controlExt.PositionType, afterIdx);
+                        currentMap = null;
                     }
-                    currentMap = controlMap;
-                    this.addExtension(controlExt.FormControl, parentIdx, _extensionName, controlExt.PositionType, afterIdx);
-                    currentMap = null;
                 }
                 break;
             default:
@@ -95,11 +104,20 @@ class ARBAOTObjectTreeForm extends ARBAOTObjectTree
         }
     }
 
+
 ]]></Source>
 			</Method>
 			<Method>
 				<Name>addCollectionToTree</Name>
 				<Source><![CDATA[
+    /// <summary>
+    /// Adds a collection of items to the tree, with special handling for form controls to track them in the control map.
+    /// </summary>
+    /// <param name = "_collection">The collection of items to add.</param>
+    /// <param name = "_collectionName">The name of the collection property.</param>
+    /// <param name = "_parentIdx">The parent tree item index to add items under.</param>
+    /// <param name = "_formTreeAdd">The <c>FormTreeAdd</c> value controlling insertion order.</param>
+    /// <returns>The tree item index of the last added node.</returns>
     protected TreeItemIdx addCollectionToTree(System.Collections.IEnumerable _collection, str _collectionName, TreeItemIdx _parentIdx, int _formTreeAdd)
     {
         TreeItemIdx idx = _parentIdx;
@@ -129,7 +147,8 @@ class ARBAOTObjectTreeForm extends ARBAOTObjectTree
     /// <param name = "_object">The object to add</param>
     /// <param name = "_idx">The tree index to add it under</param>
     /// <param name = "_formTreeAdd">The order it should add the node</param>
-    /// <param name = "extensionName">The name of the extension it came from, if any</param>
+    /// <param name = "_skipAddHeader">If true, skip adding the header node</param>
+    /// <param name = "_extensionName">The name of the extension it came from, if any</param>
     /// <returns>The tree index of the new node</returns>
     public TreeItemIdx addTreeNode(anytype _object, TreeItemIdx _idx, int _formTreeAdd = FormTreeAdd::Sort, boolean _skipAddHeader = false, str _extensionName = '')
     {

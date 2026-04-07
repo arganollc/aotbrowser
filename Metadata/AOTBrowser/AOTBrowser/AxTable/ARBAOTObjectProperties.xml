@@ -17,6 +17,7 @@ public class ARBAOTObjectProperties extends common
     /// <summary>
     /// Finds the object properties record based on the name
     /// </summary>
+    /// <param name = "_buffer">The table buffer to select into</param>
     /// <param name = "_name">The name of the property</param>
     /// <param name = "_forUpdate">True if record should be selected for update</param>
     /// <returns>The object properties record</returns>

@@ -9,6 +9,7 @@ public class ARBEntityFields extends common
 ]]></Declaration>
 		<Methods />
 	</SourceCode>
+	<DeveloperDocumentation>@AOTBrowser:EntityFieldsDevDoc</DeveloperDocumentation>
 	<Label>@AOTBrowser:EntityFieldList</Label>
 	<SubscriberAccessLevel>
 		<Read>Allow</Read>
@@ -16,21 +17,54 @@ public class ARBEntityFields extends common
 	<TitleField1>EntityName</TitleField1>
 	<TitleField2>EntityFieldName</TitleField2>
 	<AllowRowVersionChangeTracking>Yes</AllowRowVersionChangeTracking>
+	<ClusteredIndex>EntityFieldIdx</ClusteredIndex>
+	<PrimaryIndex>EntityFieldIdx</PrimaryIndex>
+	<ReplacementKey>EntityFieldIdx</ReplacementKey>
 	<SaveDataPerCompany>No</SaveDataPerCompany>
 	<DeleteActions />
 	<FieldGroups>
 		<AxTableFieldGroup>
 			<Name>AutoReport</Name>
-			<Fields />
+			<Fields>
+				<AxTableFieldGroupField>
+					<DataField>EntityName</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>EntityFieldName</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>DatasourceTableName</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>DatasourceFieldName</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>EntityLabel</DataField>
+				</AxTableFieldGroupField>
+			</Fields>
 		</AxTableFieldGroup>
 		<AxTableFieldGroup>
 			<Name>AutoLookup</Name>
-			<Fields />
+			<Fields>
+				<AxTableFieldGroupField>
+					<DataField>EntityName</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>EntityFieldName</DataField>
+				</AxTableFieldGroupField>
+			</Fields>
 		</AxTableFieldGroup>
 		<AxTableFieldGroup>
 			<Name>AutoIdentification</Name>
 			<AutoPopulate>Yes</AutoPopulate>
-			<Fields />
+			<Fields>
+				<AxTableFieldGroupField>
+					<DataField>EntityName</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>EntityFieldName</DataField>
+				</AxTableFieldGroupField>
+			</Fields>
 		</AxTableFieldGroup>
 		<AxTableFieldGroup>
 			<Name>AutoSummary</Name>
@@ -38,7 +72,23 @@ public class ARBEntityFields extends common
 		</AxTableFieldGroup>
 		<AxTableFieldGroup>
 			<Name>AutoBrowse</Name>
-			<Fields />
+			<Fields>
+				<AxTableFieldGroupField>
+					<DataField>EntityName</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>EntityFieldName</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>EntityFieldLabel</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>DatasourceTableName</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>DatasourceFieldName</DataField>
+				</AxTableFieldGroupField>
+			</Fields>
 		</AxTableFieldGroup>
 	</FieldGroups>
 	<Fields>
@@ -89,6 +139,18 @@ public class ARBEntityFields extends common
 	</Fields>
 	<FullTextIndexes />
 	<Indexes>
+		<AxTableIndex>
+			<Name>EntityFieldIdx</Name>
+			<AlternateKey>Yes</AlternateKey>
+			<Fields>
+				<AxTableIndexField>
+					<DataField>EntityName</DataField>
+				</AxTableIndexField>
+				<AxTableIndexField>
+					<DataField>EntityFieldName</DataField>
+				</AxTableIndexField>
+			</Fields>
+		</AxTableIndex>
 		<AxTableIndex>
 			<Name>SourceTableNameField</Name>
 			<AllowDuplicates>Yes</AllowDuplicates>

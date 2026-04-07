@@ -15,7 +15,7 @@ class ARBAOTObjectPopulateController  extends SysOperationserviceController
 				<Name>new</Name>
 				<Source><![CDATA[
     /// <summary>
-    /// Constructor for ACMAOTObjectPopulateController class
+    /// Constructor for ARBAOTObjectPopulateController class
     /// </summary>
     /// <param name = "_className">The name of the class</param>
     /// <param name = "_methodName">The method name</param>
@@ -31,9 +31,9 @@ class ARBAOTObjectPopulateController  extends SysOperationserviceController
 				<Name>construct</Name>
 				<Source><![CDATA[
     /// <summary>
-    /// Construct method for ACMAOTObjectPopulateController
+    /// Construct method for ARBAOTObjectPopulateController
     /// </summary>
-    /// <returns>The new ACMAOTObjectPopulateController</returns>
+    /// <returns>The new ARBAOTObjectPopulateController</returns>
     public static ARBAOTObjectPopulateController construct()
     {
         return new ARBAOTObjectPopulateController();
@@ -59,14 +59,16 @@ class ARBAOTObjectPopulateController  extends SysOperationserviceController
 				<Name>parmDialogCaption</Name>
 				<Source><![CDATA[
     /// <summary>
-    /// The dialog caption
+    /// The dialog caption. The caption is always overridden with a fixed label
+    /// regardless of the input parameter, which is accepted only for interface compatibility.
     /// </summary>
-    /// <param name = "_dialogCaption">The new dialog caption</param>
+    /// <param name = "_dialogCaption">The new dialog caption (unused — caption is always overridden)</param>
     /// <returns>The dialog caption</returns>
     public LabelType parmDialogCaption(LabelType _dialogCaption = dialogCaption)
     {
         LabelType ret;
 
+        // Caption is always overridden to ensure a consistent batch job description
         ret = "@AOTBrowser:PopulateAOTObjectTable";
 
         return ret;

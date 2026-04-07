@@ -23,12 +23,15 @@ Both a deployable package and a model file are available in
 
 In the D365FO web interface navigate to Common > Common > AOT browser
 
-### Populate list of AOT objects
+### Populate data
 
-It is necessary to populate the list of AOT objects after installing AOT Browser. This is acheived
-by clicking the Populate AOT objects button. It is recommended to run this as a batch job as it can take
-several minutes to complete. It is also recommended to schedule the batch job with recurrance so that the
-list is up-to-date with all of the objects in the AOT.
+After installing AOT Browser it is necessary to populate data by running two batch jobs:
+
+1. **Populate AOT objects** — From the AOT Browser form, click the **Populate AOT objects** button. This populates the searchable list of AOT objects. It is recommended to run this as a batch job as it can take several minutes to complete.
+
+2. **Populate table metadata** — From the Table metadata form (**Common > Common > Table metadata**), click the **Populate table metadata** button. This populates the [table and enum metadata](tablemetadata.md) used by AI agents and OData consumers.
+
+It is recommended to schedule both batch jobs with recurrence so that the data stays up-to-date with changes to the AOT.
 
 ## Features
 
@@ -41,4 +44,5 @@ list is up-to-date with all of the objects in the AOT.
 - [View extensions inline](extensionsinline.md)
 - [View source code](viewcode.md)
 - [Jump to references](jumpreferences.md)
+- [Table and enum metadata](tablemetadata.md)
 - View label value instead of label id

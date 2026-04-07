@@ -1,0 +1,498 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>ARBTableMetadataPopulateService</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+using Xpp = Microsoft.Dynamics.Ax.Xpp;
+using ArbelaXpp = Arbela.Dynamics.Ax.Xpp;
+using Microsoft.Dynamics.AX.Metadata.MetaModel;
+
+/// <summary>
+/// Service for populating table metadata for AI agent consumption
+/// </summary>
+class ARBTableMetadataPopulateService extends SysOperationServiceBase
+{
+    ARBTableMetadata         tableMetadata;
+    ARBTableFieldMetadata    fieldMetadata;
+    ARBTableRelationMetadata relationMetadata;
+    ARBEnumMetadata          enumMetadata;
+
+    RecordInsertList tableInsertList;
+    RecordInsertList fieldInsertList;
+    RecordInsertList relationInsertList;
+    RecordInsertList enumInsertList;
+
+    Set processedEnums;
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>populateTableMetadata</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Populates all table metadata tables
+    /// </summary>
+    public void populateTableMetadata()
+    {
+        tableInsertList    = new RecordInsertList(tableNum(ARBTableMetadata));
+        fieldInsertList    = new RecordInsertList(tableNum(ARBTableFieldMetadata));
+        relationInsertList = new RecordInsertList(tableNum(ARBTableRelationMetadata));
+        enumInsertList     = new RecordInsertList(tableNum(ARBEnumMetadata));
+        processedEnums     = new Set(Types::String);
+
+        ttsbegin;
+
+        delete_from tableMetadata;
+        delete_from fieldMetadata;
+        delete_from relationMetadata;
+        delete_from enumMetadata;
+
+        this.processTables();
+        this.processRemainingEnums();
+
+        tableInsertList.insertDatabase();
+        fieldInsertList.insertDatabase();
+        relationInsertList.insertDatabase();
+        enumInsertList.insertDatabase();
+
+        ttscommit;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>processTables</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Iterates all tables in the system and populates metadata
+    /// </summary>
+    protected void processTables()
+    {
+        var tableList = Xpp.MetadataSupport::GetDataModelElements(true, false, false, false, false).GetEnumerator();
+
+        while (tableList.MoveNext())
+        {
+            str tableName = tableList.Current;
+            AxTable table = Xpp.MetadataSupport::GetTable(tableName);
+
+            if (table != null)
+            {
+                this.processTable(tableName, table);
+            }
+        }
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>processTable</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Processes a single table's metadata including fields and relations
+    /// </summary>
+    /// <param name = "_tableName">The table name</param>
+    /// <param name = "_table">The AxTable metadata object</param>
+    protected void processTable(str _tableName, AxTable _table)
+    {
+        // Table-level metadata
+        tableMetadata.clear();
+        tableMetadata.TableName  = _tableName;
+        tableMetadata.TableNum   = tableName2Id(_tableName);
+        tableMetadata.TableLabel = SysLabel::labelId2String2(_table.Label);
+        tableMetadata.TableGroup = enum2Str(_table.TableGroup);
+        tableMetadata.SqlTableName = ARBAOTBrowserHelper::getTableSqlName(_tableName);
+        tableMetadata.SaveDataPerCompany = _table.SaveDataPerCompany ? NoYes::Yes : NoYes::No;
+        tableMetadata.TableType  = enum2Str(_table.TableType);
+
+        str devDoc = SysLabel::labelId2String2(_table.DeveloperDocumentation);
+        tableMetadata.Description = devDoc != '' ? devDoc : tableMetadata.TableLabel;
+
+        tableInsertList.add(tableMetadata);
+
+        // GetTable() returns merged metadata (base + extensions), so process once
+        this.processFields(_tableName, tableName2Id(_tableName), _table.Fields);
+        this.processRelations(_tableName, _table.Relations);
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>processFields</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Processes fields for a table
+    /// </summary>
+    /// <param name = "_tableName">The owning table name</param>
+    /// <param name = "_tableId">The owning table id</param>
+    /// <param name = "_fields">The field collection</param>
+    protected void processFields(str _tableName, int _tableId, System.Collections.IEnumerable _fields)
+    {
+        var fieldEnum = _fields.GetEnumerator();
+
+        while (fieldEnum.MoveNext())
+        {
+            AxTableField field = fieldEnum.Current;
+
+            fieldMetadata.clear();
+            fieldMetadata.TableName       = _tableName;
+            fieldMetadata.FieldName       = field.Name;
+            fieldMetadata.FieldId         = fieldName2Id(_tableId, field.Name);
+            fieldMetadata.FieldLabel      = this.resolveFieldLabel(field);
+            fieldMetadata.FieldDataType   = this.getFieldTypeName(field);
+            fieldMetadata.IsMandatory     = field.Mandatory == Microsoft.Dynamics.AX.Metadata.Core.MetaModel.NoYes::Yes ? NoYes::Yes : NoYes::No;
+            fieldMetadata.HelpText        = this.resolveFieldHelpText(field);
+
+            // EDT and enum info
+            if (field is AxTableFieldString)
+            {
+                AxTableFieldString strField = field as AxTableFieldString;
+                fieldMetadata.ExtendedDataType = strField.ExtendedDataType;
+                fieldMetadata.StringSize       = strField.StringSize;
+            }
+            else if (field is AxTableFieldReal)
+            {
+                fieldMetadata.ExtendedDataType = (field as AxTableFieldReal).ExtendedDataType;
+            }
+            else if (field is AxTableFieldInt)
+            {
+                fieldMetadata.ExtendedDataType = (field as AxTableFieldInt).ExtendedDataType;
+            }
+            else if (field is AxTableFieldInt64)
+            {
+                fieldMetadata.ExtendedDataType = (field as AxTableFieldInt64).ExtendedDataType;
+            }
+            else if (field is AxTableFieldDate)
+            {
+                fieldMetadata.ExtendedDataType = (field as AxTableFieldDate).ExtendedDataType;
+            }
+            else if (field is AxTableFieldUtcDateTime)
+            {
+                fieldMetadata.ExtendedDataType = (field as AxTableFieldUtcDateTime).ExtendedDataType;
+            }
+            else if (field is AxTableFieldGuid)
+            {
+                fieldMetadata.ExtendedDataType = (field as AxTableFieldGuid).ExtendedDataType;
+            }
+            else if (field is AxTableFieldContainer)
+            {
+                fieldMetadata.ExtendedDataType = (field as AxTableFieldContainer).ExtendedDataType;
+            }
+            else if (field is AxTableFieldEnum)
+            {
+                AxTableFieldEnum enumField = field as AxTableFieldEnum;
+                fieldMetadata.ExtendedDataType = enumField.ExtendedDataType;
+                fieldMetadata.EnumTypeName     = enumField.EnumType;
+
+                // Track enum for later processing
+                if (enumField.EnumType != '')
+                {
+                    this.ensureEnumProcessed(enumField.EnumType);
+                }
+            }
+
+            fieldInsertList.add(fieldMetadata);
+        }
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>processRelations</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Processes relations for a table
+    /// </summary>
+    /// <param name = "_tableName">The owning table name</param>
+    /// <param name = "_relations">The relation collection</param>
+    protected void processRelations(str _tableName, System.Collections.IEnumerable _relations)
+    {
+        var relationEnum = _relations.GetEnumerator();
+        Set processedRelationKeys = new Set(Types::String);
+
+        while (relationEnum.MoveNext())
+        {
+            AxTableRelation relation = relationEnum.Current;
+
+            var constraintEnum = relation.Constraints.GetEnumerator();
+            while (constraintEnum.MoveNext())
+            {
+                AxTableRelationConstraint constraint = constraintEnum.Current;
+
+                if (constraint is AxTableRelationConstraintField)
+                {
+                    AxTableRelationConstraintField fieldConstraint = constraint as AxTableRelationConstraintField;
+
+                    // Skip duplicates - unique key is (TableName, RelationName, FieldName)
+                    str relationKey = strFmt('%1|%2|%3', _tableName, relation.Name, fieldConstraint.Field);
+                    if (processedRelationKeys.in(relationKey))
+                    {
+                        continue;
+                    }
+                    processedRelationKeys.add(relationKey);
+
+                    relationMetadata.clear();
+                    relationMetadata.TableName               = _tableName;
+                    relationMetadata.RelationName             = relation.Name;
+                    relationMetadata.RelatedTableName         = relation.RelatedTable;
+                    relationMetadata.RelationshipType         = enum2Str(relation.RelationshipType);
+                    relationMetadata.FieldName                = fieldConstraint.Field;
+                    relationMetadata.RelatedFieldName         = fieldConstraint.RelatedField;
+                    relationMetadata.Cardinality              = enum2Str(relation.Cardinality);
+                    relationMetadata.RelatedTableCardinality  = enum2Str(relation.RelatedTableCardinality);
+
+                    relationInsertList.add(relationMetadata);
+                }
+            }
+        }
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>ensureEnumProcessed</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Processes an enum type if not already processed
+    /// </summary>
+    /// <param name = "_enumName">The enum type name</param>
+    protected void ensureEnumProcessed(str _enumName)
+    {
+        if (!processedEnums.in(_enumName))
+        {
+            processedEnums.add(_enumName);
+            this.processEnum(_enumName);
+        }
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>processEnum</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Processes a single enum type's values
+    /// </summary>
+    /// <param name = "_enumName">The enum type name</param>
+    protected void processEnum(str _enumName)
+    {
+        AxEnum axEnum = Xpp.MetadataSupport::GetEnum(_enumName);
+
+        if (axEnum != null)
+        {
+            str enumLabel = SysLabel::labelId2String2(axEnum.Label);
+            boolean isExtensible = axEnum.IsExtensible;
+            var valueEnum = axEnum.EnumValues.GetEnumerator();
+
+            while (valueEnum.MoveNext())
+            {
+                AxEnumValue enumValue = valueEnum.Current;
+
+                enumMetadata.clear();
+                enumMetadata.EnumName     = _enumName;
+                enumMetadata.EnumLabel    = enumLabel;
+                enumMetadata.ValueName    = enumValue.Name;
+                enumMetadata.ValueLabel   = SysLabel::labelId2String2(enumValue.Label);
+
+                if (isExtensible)
+                {
+                    enumMetadata.IntegerValue = symbol2Enum(enumName2Id(_enumName), enumValue.Name);
+                }
+                else
+                {
+                    enumMetadata.IntegerValue = enumValue.Value;
+                }
+
+                enumInsertList.add(enumMetadata);
+            }
+        }
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>processRemainingEnums</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Processes any enum types not already captured through table fields.
+    /// Iterates all enums in the system to ensure complete coverage.
+    /// </summary>
+    protected void processRemainingEnums()
+    {
+        System.Collections.Specialized.StringEnumerator enumList = Xpp.MetadataSupport::EnumNames();
+
+        while (enumList.MoveNext())
+        {
+            str enumName = enumList.get_Current();
+            this.ensureEnumProcessed(enumName);
+        }
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>resolveFieldLabel</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Resolves a field's label, falling back to EDT or enum label
+    /// </summary>
+    /// <param name = "_field">The table field</param>
+    /// <returns>The resolved label text</returns>
+    protected str resolveFieldLabel(AxTableField _field)
+    {
+        str label = SysLabel::labelId2String2(_field.Label);
+
+        if (label == '')
+        {
+            // Try to get label from EDT
+            System.Type fieldType = _field.GetType();
+            System.Reflection.PropertyInfo edtProp = fieldType.GetProperty('ExtendedDataType');
+
+            if (edtProp != null)
+            {
+                str edtName = edtProp.GetValue(_field) != null ? edtProp.GetValue(_field).ToString() : '';
+                if (edtName != '')
+                {
+                    AxEdt edt = Xpp.MetadataSupport::GetEdt(edtName);
+                    if (edt != null)
+                    {
+                        label = SysLabel::labelId2String2(edt.Label);
+
+                        // Walk up EDT inheritance
+                        while (label == '' && edt.Extends != '')
+                        {
+                            edt = Xpp.MetadataSupport::GetEdt(edt.Extends);
+                            if (edt != null)
+                            {
+                                label = SysLabel::labelId2String2(edt.Label);
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Try enum label
+            if (label == '' && _field is AxTableFieldEnum)
+            {
+                AxTableFieldEnum enumField = _field as AxTableFieldEnum;
+                if (enumField.EnumType != '')
+                {
+                    AxEnum axEnum = Xpp.MetadataSupport::GetEnum(enumField.EnumType);
+                    if (axEnum != null)
+                    {
+                        label = SysLabel::labelId2String2(axEnum.Label);
+                    }
+                }
+            }
+        }
+
+        return label;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>getFieldTypeName</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Returns the data type name for a table field
+    /// </summary>
+    /// <param name = "_field">The table field</param>
+    /// <returns>The type name string</returns>
+    protected str getFieldTypeName(AxTableField _field)
+    {
+        if (_field is AxTableFieldString)
+        {
+            return 'String';
+        }
+        if (_field is AxTableFieldReal)
+        {
+            return 'Real';
+        }
+        if (_field is AxTableFieldInt)
+        {
+            return 'Int32';
+        }
+        if (_field is AxTableFieldInt64)
+        {
+            return 'Int64';
+        }
+        if (_field is AxTableFieldDate)
+        {
+            return 'Date';
+        }
+        if (_field is AxTableFieldUtcDateTime)
+        {
+            return 'DateTime';
+        }
+        if (_field is AxTableFieldEnum)
+        {
+            return 'Enum';
+        }
+        if (_field is AxTableFieldGuid)
+        {
+            return 'Guid';
+        }
+        if (_field is AxTableFieldContainer)
+        {
+            return 'Container';
+        }
+        if (_field is AxTableFieldTime)
+        {
+            return 'Time';
+        }
+        return 'Unknown';
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>resolveFieldHelpText</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Resolves a field's help text, falling back through the EDT inheritance chain
+    /// if no help text is set directly on the field.
+    /// </summary>
+    /// <param name = "_field">The table field</param>
+    /// <returns>The resolved help text</returns>
+    protected str resolveFieldHelpText(AxTableField _field)
+    {
+        str helpText = SysLabel::labelId2String2(_field.HelpText);
+
+        if (helpText == '')
+        {
+            // Try to get help text from EDT
+            System.Type fieldType = _field.GetType();
+            System.Reflection.PropertyInfo edtProp = fieldType.GetProperty('ExtendedDataType');
+
+            if (edtProp != null)
+            {
+                str edtName = edtProp.GetValue(_field) != null ? edtProp.GetValue(_field).ToString() : '';
+                if (edtName != '')
+                {
+                    AxEdt edt = Xpp.MetadataSupport::GetEdt(edtName);
+                    if (edt != null)
+                    {
+                        helpText = SysLabel::labelId2String2(edt.HelpText);
+
+                        // Walk up EDT inheritance
+                        while (helpText == '' && edt.Extends != '')
+                        {
+                            edt = Xpp.MetadataSupport::GetEdt(edt.Extends);
+                            if (edt != null)
+                            {
+                                helpText = SysLabel::labelId2String2(edt.HelpText);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return helpText;
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

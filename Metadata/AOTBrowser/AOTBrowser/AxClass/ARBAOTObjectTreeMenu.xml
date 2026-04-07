@@ -9,7 +9,7 @@ using Microsoft.Dynamics.AX.Metadata.MetaModel;
 using CoreMetaModel = Microsoft.Dynamics.AX.Metadata.Core.MetaModel;
 
 /// <summary>
-/// Override the Object Tree for Views
+/// Override the Object Tree for Menus
 /// </summary>
 [ARBAOTObjectType(ARBAOTObjectType::Menu)]
 class ARBAOTObjectTreeMenu extends ARBAOTObjectTree
@@ -23,6 +23,7 @@ class ARBAOTObjectTreeMenu extends ARBAOTObjectTree
 			<Method>
 				<Name>addExtensionCollection</Name>
 				<Source><![CDATA[
+
     /// <summary>
     /// Adds a collection of extensions to the tree
     /// </summary>
@@ -46,7 +47,14 @@ class ARBAOTObjectTreeMenu extends ARBAOTObjectTree
                     }
                     else
                     {
-                        parentIdx = elementMap.lookup(menuExt.Parent);
+                        if (elementMap.exists(menuExt.Parent))
+                        {
+                            parentIdx = elementMap.lookup(menuExt.Parent);
+                        }
+                        else
+                        {
+                            parentIdx = treeControl.getRoot();
+                        }
                     }
                     TreeItemIdx afterIdx;
                     if (menuExt.PositionType == CoreMetaModel.ExtensionItemPositionType::AfterItem)
@@ -64,6 +72,7 @@ class ARBAOTObjectTreeMenu extends ARBAOTObjectTree
         }
     }
 
+
 ]]></Source>
 			</Method>
 			<Method>
@@ -75,7 +84,8 @@ class ARBAOTObjectTreeMenu extends ARBAOTObjectTree
     /// <param name = "_object">The object to add</param>
     /// <param name = "_idx">The tree index to add it under</param>
     /// <param name = "_formTreeAdd">The order it should add the node</param>
-    /// <param name = "extensionName">The name of the extension it came from, if any</param>
+    /// <param name = "_skipAddHeader">If true, skip adding the header node</param>
+    /// <param name = "_extensionName">The name of the extension it came from, if any</param>
     /// <returns>The tree index of the new node</returns>
     public TreeItemIdx addTreeNode(anytype _object, TreeItemIdx _idx, int _formTreeAdd = FormTreeAdd::Sort, boolean _skipAddHeader = false, str _extensionName = '')
     {
@@ -86,6 +96,8 @@ class ARBAOTObjectTreeMenu extends ARBAOTObjectTree
 
         str objectName = this.getObjectName(_object);
         boolean insertIntoMap = false;
+        FormTreeAdd formTreeAddLocal = _formTreeAdd;
+
         if (_object is AxMenu)
         {
             insertIntoMap = true;
@@ -93,10 +105,10 @@ class ARBAOTObjectTreeMenu extends ARBAOTObjectTree
             collectionMap.insert(ARBAOTBrowserConstants::MenuElements, elementMap);
 
             // For Menu's don't sort, but display in designed order
-            _formTreeAdd = FormTreeAdd::Last;
+            formTreeAddLocal = FormTreeAdd::Last;
         }
 
-        TreeItemIdx parentIdx = super(_object, _idx, _formTreeAdd, _skipAddHeader, _extensionName);
+        TreeItemIdx parentIdx = super(_object, _idx, formTreeAddLocal, _skipAddHeader, _extensionName);
 
         if (currentElementMap != null
             && (_object is AxMenuElement))

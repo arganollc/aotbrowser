@@ -1,22 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Dynamics.AX.Metadata.Kernel;
-using Microsoft.Dynamics.AX.Metadata.MetaModel;
-using System.Collections.Specialized;
-using Microsoft.Dynamics.AX.Metadata.Storage;
-using Microsoft.Dynamics.AX.Metadata.Core.MetaModel;
-using Microsoft.Dynamics.AX.Metadata.Extensions;
-using Microsoft.Dynamics.AX.Metadata;
-using System.Xml.Linq;
-//using Microsoft.Dynamics.Framework.Tools.Core;
-
-namespace Arbela.Dynamics.Ax.Xpp
+﻿namespace Arbela.Dynamics.Ax.Xpp
 {
+    using System;
+    using System.Collections.Generic;
+    using Microsoft.Dynamics.AX.Metadata.Kernel;
+    using Microsoft.Dynamics.AX.Metadata.MetaModel;
+    using Microsoft.Dynamics.AX.Metadata.Storage;
+    using Microsoft.Dynamics.AX.Metadata.Core.MetaModel;
+    using Microsoft.Dynamics.AX.Metadata.Extensions;
+    using Microsoft.Dynamics.AX.Metadata;
+
     public static class MetadataSupport
     {
+        private static EdtExtensionLoader edtExtensionLoader;
+        private static QuerySimpleExtensionLoader queryExtensionLoader;
+        private static MenuItemDisplayExtensionLoader menuItemDisplayExtensionLoader;
+        private static MenuItemActionExtensionLoader menuItemActionExtensionLoader;
+        private static MenuItemOutputExtensionLoader menuItemOutputExtensionLoader;
+
         public static IEnumerable<AxViewExtension> GetViewExtensionsForView(string viewName)
         {
             return Accessor.GetViewExtensionsForView(viewName);
@@ -34,32 +34,47 @@ namespace Arbela.Dynamics.Ax.Xpp
 
         public static IEnumerable<AxEdtExtension> GetEdtExtensionsForEdt(string edt)
         {
-            var extensionLoader = new EdtExtensionLoader(Accessor.MetadataProvider);
-            return extensionLoader.GetExtensionsForBaseObject(edt);
+            if (edtExtensionLoader == null)
+            {
+                edtExtensionLoader = new EdtExtensionLoader(Accessor.MetadataProvider);
+            }
+            return edtExtensionLoader.GetExtensionsForBaseObject(edt);
         }
 
         public static IEnumerable<AxQuerySimpleExtension> GetQueryExtensionsForQuery(string query)
         {
-            var extensionLoader = new QuerySimpleExtensionLoader(Accessor.MetadataProvider);
-            return extensionLoader.GetExtensionsForBaseObject(query);
+            if (queryExtensionLoader == null)
+            {
+                queryExtensionLoader = new QuerySimpleExtensionLoader(Accessor.MetadataProvider);
+            }
+            return queryExtensionLoader.GetExtensionsForBaseObject(query);
         }
 
         public static IEnumerable<AxMenuItemDisplayExtension> GetMenuItemDisplayExtensionsForMenuItemDisplay(string menuItemDisplay)
         {
-            var extensionLoader = new MenuItemDisplayExtensionLoader(Accessor.MetadataProvider);
-            return extensionLoader.GetExtensionsForBaseObject(menuItemDisplay);
+            if (menuItemDisplayExtensionLoader == null)
+            {
+                menuItemDisplayExtensionLoader = new MenuItemDisplayExtensionLoader(Accessor.MetadataProvider);
+            }
+            return menuItemDisplayExtensionLoader.GetExtensionsForBaseObject(menuItemDisplay);
         }
 
         public static IEnumerable<AxMenuItemActionExtension> GetMenuItemActionExtensionsForMenuItemAction(string menuItemAction)
         {
-            var extensionLoader = new MenuItemActionExtensionLoader(Accessor.MetadataProvider);
-            return extensionLoader.GetExtensionsForBaseObject(menuItemAction);
+            if (menuItemActionExtensionLoader == null)
+            {
+                menuItemActionExtensionLoader = new MenuItemActionExtensionLoader(Accessor.MetadataProvider);
+            }
+            return menuItemActionExtensionLoader.GetExtensionsForBaseObject(menuItemAction);
         }
 
         public static IEnumerable<AxMenuItemOutputExtension> GetMenuItemOutputExtensionsForMenuItemOutput(string menuItemOutput)
         {
-            var extensionLoader = new MenuItemOutputExtensionLoader(Accessor.MetadataProvider);
-            return extensionLoader.GetExtensionsForBaseObject(menuItemOutput);
+            if (menuItemOutputExtensionLoader == null)
+            {
+                menuItemOutputExtensionLoader = new MenuItemOutputExtensionLoader(Accessor.MetadataProvider);
+            }
+            return menuItemOutputExtensionLoader.GetExtensionsForBaseObject(menuItemOutput);
         }
 
         public static IEnumerable<AxFormExtension> GetFormExtensionsForForm(string form)
@@ -68,7 +83,11 @@ namespace Arbela.Dynamics.Ax.Xpp
             List<AxFormExtension> formExtensions = new List<AxFormExtension>();
             foreach(var formExtensionName in formExtensionNames)
             {
-                formExtensions.Add(Accessor.GetFormExtension(formExtensionName));
+                var ext = Accessor.GetFormExtension(formExtensionName);
+                if (ext != null)
+                {
+                    formExtensions.Add(ext);
+                }
             }
 
             return formExtensions;
@@ -85,7 +104,11 @@ namespace Arbela.Dynamics.Ax.Xpp
             List<AxMenuExtension> menuExtensions = new List<AxMenuExtension>();
             foreach (var menuExtensionName in menuExtensionNames)
             {
-                menuExtensions.Add(Accessor.GetMenuExtension(menuExtensionName));
+                var ext = Accessor.GetMenuExtension(menuExtensionName);
+                if (ext != null)
+                {
+                    menuExtensions.Add(ext);
+                }
             }
 
             return menuExtensions;
@@ -162,7 +185,11 @@ namespace Arbela.Dynamics.Ax.Xpp
             List<AxWorkflowApprovalExtension> extensions = new List<AxWorkflowApprovalExtension>();
             foreach (var extensionName in extensionNames)
             {
-                extensions.Add(Accessor.GetWorkflowApprovalExtension(extensionName));
+                var ext = Accessor.GetWorkflowApprovalExtension(extensionName);
+                if (ext != null)
+                {
+                    extensions.Add(ext);
+                }
             }
 
             return extensions;
@@ -174,7 +201,11 @@ namespace Arbela.Dynamics.Ax.Xpp
             List<AxWorkflowTaskExtension> extensions = new List<AxWorkflowTaskExtension>();
             foreach (var extensionName in extensionNames)
             {
-                extensions.Add(Accessor.GetWorkflowTaskExtension(extensionName));
+                var ext = Accessor.GetWorkflowTaskExtension(extensionName);
+                if (ext != null)
+                {
+                    extensions.Add(ext);
+                }
             }
 
             return extensions;
@@ -186,7 +217,11 @@ namespace Arbela.Dynamics.Ax.Xpp
             List<AxWorkflowTemplateExtension> extensions = new List<AxWorkflowTemplateExtension>();
             foreach (var extensionName in extensionNames)
             {
-                extensions.Add(Accessor.GetWorkflowTemplateExtension(extensionName));
+                var ext = Accessor.GetWorkflowTemplateExtension(extensionName);
+                if (ext != null)
+                {
+                    extensions.Add(ext);
+                }
             }
 
             return extensions;
@@ -266,7 +301,7 @@ namespace Arbela.Dynamics.Ax.Xpp
                     result = ((AxFormControl)axElement).GetCompleteSource(true, null);
                 }
             }
-            catch (MetadataCorruptedException ex) when (handleMetadataCorruptedException)
+            catch (MetadataCorruptedException) when (handleMetadataCorruptedException)
             {
                 //AxLogHandler.DisplayError(ex.Message);
                 return string.Empty;
@@ -280,7 +315,8 @@ namespace Arbela.Dynamics.Ax.Xpp
                 || checkObject is AxTable
                 || checkObject is AxView
                 || checkObject is AxMap
-                || checkObject is AxDataEntity
+                || checkObject is AxDataEntityView
+                || checkObject is AxAggregateDataEntity
                 || checkObject is AxForm
                 || checkObject is AxQuery
                 || checkObject is AxMacroDictionary

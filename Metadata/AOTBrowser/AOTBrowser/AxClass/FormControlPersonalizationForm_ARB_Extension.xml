@@ -3,6 +3,9 @@
 	<Name>FormControlPersonalizationForm_ARB_Extension</Name>
 	<SourceCode>
 		<Declaration><![CDATA[
+/// <summary>
+/// Extension of the FormControlPersonalization form to enable AOT Browser entity fields and menu item reference panels.
+/// </summary>
 [ExtensionOf(formStr(FormControlPersonalization))]
 final class FormControlPersonalizationForm_ARB_Extension
 {
@@ -12,6 +15,9 @@ final class FormControlPersonalizationForm_ARB_Extension
 			<Method>
 				<Name>init</Name>
 				<Source><![CDATA[
+    /// <summary>
+    /// Initializes the form and shows entity field or menu item reference panels based on the calling control.
+    /// </summary>
     public void init()
     {
         next init();

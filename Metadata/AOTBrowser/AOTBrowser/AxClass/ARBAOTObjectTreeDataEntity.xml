@@ -8,7 +8,7 @@ using ArbelaXpp = Arbela.Dynamics.Ax.Xpp;
 using Microsoft.Dynamics.AX.Metadata.MetaModel;
 
 /// <summary>
-/// Override the Object Tree for Views
+/// Override the Object Tree for Data Entities
 /// </summary>
 [ARBAOTObjectType(ARBAOTObjectType::DataEntity)]
 class ARBAOTObjectTreeDataEntity extends ARBAOTObjectTree
@@ -25,6 +25,11 @@ class ARBAOTObjectTreeDataEntity extends ARBAOTObjectTree
 			<Method>
 				<Name>parmSelectedField</Name>
 				<Source><![CDATA[
+    /// <summary>
+    /// Gets or sets the name of the selected field to restore tree selection after an update.
+    /// </summary>
+    /// <param name = "_selectedFieldName">The field name to set; optional.</param>
+    /// <returns>The current selected field name.</returns>
     public str parmSelectedField(str _selectedFieldName = selectedFieldName)
     {
         selectedFieldName = _selectedFieldName;
@@ -62,6 +67,7 @@ class ARBAOTObjectTreeDataEntity extends ARBAOTObjectTree
 			<Method>
 				<Name>addExtensionCollection</Name>
 				<Source><![CDATA[
+
     /// <summary>
     /// Adds a collection of extensions to the tree
     /// </summary>
@@ -78,7 +84,10 @@ class ARBAOTObjectTreeDataEntity extends ARBAOTObjectTree
                 while (modsEnum.MoveNext())
                 {
                     AxQueryExtensionEmbeddedDataSource ds = modsEnum.Current;
-                    this.addExtension(ds.DataSource, this.getNamedNode(dataSourceMap.lookup(ds.Parent), ARBAOTBrowserConstants::DataSources), _extensionName);
+                    if (dataSourceMap.exists(ds.Parent))
+                    {
+                        this.addExtension(ds.DataSource, this.getNamedNode(dataSourceMap.lookup(ds.Parent), ARBAOTBrowserConstants::DataSources), _extensionName);
+                    }
                 }
                 break;
             case ARBAOTBrowserConstants::FieldGroupExtensions:
@@ -89,12 +98,15 @@ class ARBAOTObjectTreeDataEntity extends ARBAOTObjectTree
                     while (fieldGroupEnum.MoveNext())
                     {
                         AxTableFieldGroupExtension fieldGroupExtension = fieldGroupEnum.Current;
-                        TreeItemIdx parentIdx = fieldGroupsMap.lookup(fieldGroupExtension.Name);
-                        parentIdx = treeControl.getChild(parentIdx); // Get the index of the Fields node
-                        var fieldsEnum = fieldGroupExtension.Fields.GetEnumerator();
-                        while (fieldsEnum.MoveNext())
+                        if (fieldGroupsMap.exists(fieldGroupExtension.Name))
                         {
-                            this.addExtension(fieldsEnum.Current, parentIdx, _extensionName);
+                            TreeItemIdx parentIdx = fieldGroupsMap.lookup(fieldGroupExtension.Name);
+                            parentIdx = treeControl.getChild(parentIdx); // Get the index of the Fields node
+                            var fieldsEnum = fieldGroupExtension.Fields.GetEnumerator();
+                            while (fieldsEnum.MoveNext())
+                            {
+                                this.addExtension(fieldsEnum.Current, parentIdx, _extensionName);
+                            }
                         }
                     }
                 }
@@ -104,6 +116,7 @@ class ARBAOTObjectTreeDataEntity extends ARBAOTObjectTree
                 break;
         }
     }
+
 
 ]]></Source>
 			</Method>
@@ -116,7 +129,8 @@ class ARBAOTObjectTreeDataEntity extends ARBAOTObjectTree
     /// <param name = "_object">The object to add</param>
     /// <param name = "_idx">The tree index to add it under</param>
     /// <param name = "_formTreeAdd">The order it should add the node</param>
-    /// <param name = "extensionName">The name of the extension it came from, if any</param>
+    /// <param name = "_skipAddHeader">If true, skip adding the header node</param>
+    /// <param name = "_extensionName">The name of the extension it came from, if any</param>
     /// <returns>The tree index of the new node</returns>
     public TreeItemIdx addTreeNode(anytype _object, TreeItemIdx _idx, int _formTreeAdd = FormTreeAdd::Sort, boolean _skipAddHeader = false, str _extensionName = '')
     {

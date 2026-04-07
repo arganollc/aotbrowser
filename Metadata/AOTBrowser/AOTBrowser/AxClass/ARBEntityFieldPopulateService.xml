@@ -27,6 +27,7 @@ class ARBEntityFieldPopulateService extends SysOperationServiceBase
     /// </summary>
     public void populateEntityFields()
     {
+        ttsbegin;
         delete_from entityFields;
 
         var dataEntityList = Xpp.MetadataSupport::GetDataModelElements(false,false,true,false,false).GetEnumerator();
@@ -37,6 +38,7 @@ class ARBEntityFieldPopulateService extends SysOperationServiceBase
             this.processFields(dataEntityView.Name, SysLabel::labelId2String2(dataEntityView.Label), dataEntityView.Fields, dataEntityView.ViewMetadata.DataSources);
         }
         entityFieldsInsertList.insertDatabase();
+        ttscommit;
     }
 
 ]]></Source>
@@ -44,7 +46,15 @@ class ARBEntityFieldPopulateService extends SysOperationServiceBase
 			<Method>
 				<Name>processFields</Name>
 				<Source><![CDATA[
-    public void processFields(str _entityName, str _entityLabel, System.Collections.IEnumerable _fields, System.Collections.IEnumerable _datasources, System.Collections.IEnumerable _extensionDatasources = CLRInterop::Null())
+    /// <summary>
+    /// Processes the mapped fields of a data entity or view, resolving each field to its underlying table and field name and inserting the results.
+    /// </summary>
+    /// <param name = "_entityName">The name of the data entity.</param>
+    /// <param name = "_entityLabel">The display label of the data entity.</param>
+    /// <param name = "_fields">The collection of entity view fields to process.</param>
+    /// <param name = "_datasources">The collection of data sources defined on the entity or view.</param>
+    /// <param name = "_extensionDatasources">Optional collection of extension data sources; defaults to null.</param>
+    public void processFields(str _entityName, str _entityLabel, System.Collections.IEnumerable _fields, System.Collections.IEnumerable _datasources, System.Collections.IEnumerable _extensionDatasources = null)
     {
         var fieldEnum = _fields.GetEnumerator();
         while (fieldEnum.MoveNext())
@@ -88,8 +98,37 @@ class ARBEntityFieldPopulateService extends SysOperationServiceBase
 			<Method>
 				<Name>getTableNameFieldName</Name>
 				<Source><![CDATA[
+    /// <summary>
+    /// Resolves a data source name and field name to the underlying table and field by delegating to the recursive depth-limited method.
+    /// </summary>
+    /// <param name = "_datasourceName">The data source or table name to resolve.</param>
+    /// <param name = "_fieldName">The field name to resolve.</param>
+    /// <returns>A container with the resolved table name and field name.</returns>
     public container getTableNameFieldName(str _datasourceName, str _fieldName)
     {
+        return this.getTableNameFieldNameWithDepth(_datasourceName, _fieldName, 0);
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>getTableNameFieldNameWithDepth</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Recursively resolves a data source and field name through nested data entities and views until the physical table and field are found, up to a maximum depth.
+    /// </summary>
+    /// <param name = "_datasourceName">The current data source or table name to resolve.</param>
+    /// <param name = "_fieldName">The field name to resolve.</param>
+    /// <param name = "_depth">The current recursion depth to guard against infinite loops.</param>
+    /// <returns>A container with the resolved table name and field name.</returns>
+    private container getTableNameFieldNameWithDepth(str _datasourceName, str _fieldName, int _depth)
+    {
+        const int maxDepth = 20;
+        if (_depth >= maxDepth)
+        {
+            return [_datasourceName, _fieldName];
+        }
+
         AxDataEntityView dataEntity = Xpp.MetadataSupport::GetDataEntityView(_datasourceName);
         if (dataEntity != null)
         {
@@ -102,7 +141,7 @@ class ARBEntityFieldPopulateService extends SysOperationServiceBase
                     AxDataEntityViewMappedField mappedField = field as AxDataEntityViewMappedField;
                     if (mappedField != null)
                     {
-                        return this.getTableNameFieldName(ARBAOTBrowserHelper::getTableNameFromDatasource(mappedField.Datasource, dataEntity.ViewMetadata.DataSources), mappedField.DataField);
+                        return this.getTableNameFieldNameWithDepth(ARBAOTBrowserHelper::getTableNameFromDatasource(mappedField.Datasource, dataEntity.ViewMetadata.DataSources), mappedField.DataField, _depth + 1);
                     }
                     break;
                 }
@@ -121,7 +160,7 @@ class ARBEntityFieldPopulateService extends SysOperationServiceBase
                     AxViewFieldBound boundField = field as AxViewFieldBound;
                     if (boundField != null)
                     {
-                        return this.getTableNameFieldName(ARBAOTBrowserHelper::getTableNameFromDatasource(boundField.DataSource, view.ViewMetadata.DataSources), boundField.DataField);
+                        return this.getTableNameFieldNameWithDepth(ARBAOTBrowserHelper::getTableNameFromDatasource(boundField.DataSource, view.ViewMetadata.DataSources), boundField.DataField, _depth + 1);
                     }
                     break;
                 }
@@ -136,6 +175,12 @@ class ARBEntityFieldPopulateService extends SysOperationServiceBase
 			<Method>
 				<Name>getLabelValue</Name>
 				<Source><![CDATA[
+    /// <summary>
+    /// Resolves the display text for a label property, falling back through extended data types and enum types when the direct label is empty.
+    /// </summary>
+    /// <param name = "_property">The reflection <c>PropertyInfo</c> for the label property to read.</param>
+    /// <param name = "_object">The metadata object to read the label from.</param>
+    /// <returns>The resolved label text, or an empty string if no label is found.</returns>
     protected str getLabelValue(PropertyInfo _property, anytype _object)
     {
         str value = SysLabel::labelId2String(_property.GetValue(_object).ToString());
@@ -181,43 +226,6 @@ class ARBEntityFieldPopulateService extends SysOperationServiceBase
                                 value = this.getLabelValue(enum.GetType().GetProperty(_property.Name), enum);
                             }
                         }
-                    }
-                    else
-                    {
-                        //PropertyInfo dataSourceProp = t.GetProperty(ARBAOTBrowserConstants::DataSource);
-                        //if (dataSourceProp != null && dataSourceProp.GetValue(_object) != null)
-                        //{
-                        //    str dataSourceName = dataSourceProp.GetValue(_object).ToString();
-                        //    PropertyInfo dataFieldProp = t.GetProperty(ARBAOTBrowserConstants::DataField);
-                        //    if (dataFieldProp != null && dataFieldProp.GetValue(_object) != null)
-                        //    {
-                        //        str dataFieldName = dataFieldProp.GetValue(_object).ToString();
-                        //        if (aotObjectTree.getCollectionMap().exists(ARBAOTBrowserConstants::DataSources))
-                        //        {
-                        //            Map datasourcesMap = aotObjectTree.getCollectionMap().lookup(ARBAOTBrowserConstants::DataSources);
-                        //            if (datasourcesMap.exists(dataSourceName))
-                        //            {
-                        //                anytype dataSource = ObjectTree.getItem(datasourcesMap.lookup(dataSourceName)).data();
-                        //                System.Type datasourceType = dataSource.GetType();
-                        //                PropertyInfo tableProp = datasourceType.GetProperty(ARBAOTBrowserConstants::Table);
-                        //                str tableName = tableProp.GetValue(dataSource);
-                        //                AxTableField tableField = Xpp.MetadataSupport::GetTableField(tableName, dataFieldName);
-                        //                if (tableField != null)
-                        //                {
-                        //                    value = this.getLabelValue(tableField.GetType().GetProperty(_property.Name), tableField);
-                        //                }
-                        //                else
-                        //                {
-                        //                    AxViewField viewField = Xpp.MetadataSupport::GetViewField(tableName, dataFieldName);
-                        //                    if (viewField != null)
-                        //                    {
-                        //                        value = this.getLabelValue(viewField.GetType().GetProperty(_property.Name), viewField);
-                        //                    }
-                        //                }
-                        //            }
-                        //        }
-                        //    }
-                        //}
                     }
                 }
             }

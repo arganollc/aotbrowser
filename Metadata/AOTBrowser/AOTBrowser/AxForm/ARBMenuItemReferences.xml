@@ -7,6 +7,9 @@
 				<Name>classDeclaration</Name>
 				<Source><![CDATA[
 [Form]
+/// <summary>
+/// Form for displaying menu item references found across D365FO metadata objects.
+/// </summary>
 public class ARBMenuItemReferences extends FormRun
 {
 }
@@ -21,17 +24,23 @@ public class ARBMenuItemReferences extends FormRun
 						<Name>init</Name>
 						<Source><![CDATA[
         /// <summary>
-        ///
+        /// Initializes the ARBMenuItemReferences data source and calls the base init method.
         /// </summary>
         public void init()
         {
             super();
 
+            if (element.args() == null)
+            {
+                return;
+            }
+
             FormRun caller = element.args().caller();
 
             if (caller != null)
             {
-                if (caller.name() == formStr(FormControlPersonalization))
+                if (caller.name() == formStr(FormControlPersonalization)
+                    && caller.args() != null)
                 {
                     FormFunctionButtonControl menuItemButton = caller.args().parmObject() as FormFunctionButtonControl;
                     if (menuItemButton)

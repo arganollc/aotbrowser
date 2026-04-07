@@ -19,6 +19,8 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
     str currentObjectName;
     str currentObjectLabel;
     ARBAOTObjectType currentObjectType;
+    int insertCount;
+    Map menuItemLabelCache = new Map(Types::String, Types::String);
 
 }
 ]]></Declaration>
@@ -31,10 +33,18 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
     /// </summary>
     public void populateMenuItemRefs()
     {
-        Microsoft.Dynamics.ApplicationPlatform.Environment.IApplicationEnvironment applicationEnvironment = Microsoft.Dynamics.ApplicationPlatform.Environment.EnvironmentFactory::GetApplicationEnvironment();
-        Microsoft.Dynamics.AX.Metadata.Storage.MetadataProviderFactory metadataProviderFactory = new Microsoft.Dynamics.AX.Metadata.Storage.MetadataProviderFactory();
-        metadataProvider = metadataProviderFactory.CreateRuntimeProviderWithExtensionsUpdated(new Microsoft.Dynamics.AX.Metadata.Storage.Runtime.RuntimeProviderConfiguration(applicationEnvironment.Aos.PackageDirectory, false), null, null, new Microsoft.Dynamics.AX.Metadata.Storage.FormExtensionLoader(null), null, null, null, null, null, null, null, null, null, null, null, null, null);
+        try
+        {
+            Microsoft.Dynamics.ApplicationPlatform.Environment.IApplicationEnvironment applicationEnvironment = Microsoft.Dynamics.ApplicationPlatform.Environment.EnvironmentFactory::GetApplicationEnvironment();
+            Microsoft.Dynamics.AX.Metadata.Storage.MetadataProviderFactory metadataProviderFactory = new Microsoft.Dynamics.AX.Metadata.Storage.MetadataProviderFactory();
+            metadataProvider = metadataProviderFactory.CreateRuntimeProviderWithExtensionsUpdated(new Microsoft.Dynamics.AX.Metadata.Storage.Runtime.RuntimeProviderConfiguration(applicationEnvironment.Aos.PackageDirectory, false), null, null, new Microsoft.Dynamics.AX.Metadata.Storage.FormExtensionLoader(null), null, null, null, null, null, null, null, null, null, null, null, null, null);
+        }
+        catch (Exception::CLRError)
+        {
+            throw error("@SYS135884"); // Unable to initialize metadata provider
+        }
         
+        ttsbegin;
         delete_from menuItemRefs;
 
         // Forms
@@ -77,6 +87,7 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
         this.processKPIs();
 
         menuItemRefsInsertList.insertDatabase();
+        ttscommit;
     }
 
 ]]></Source>
@@ -84,6 +95,11 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
 			<Method>
 				<Name>getLabelForObject</Name>
 				<Source><![CDATA[
+    /// <summary>
+    /// Resolves the label text for a metadata object by reading its Label property via reflection.
+    /// </summary>
+    /// <param name="_object">The metadata object to retrieve the label from.</param>
+    /// <returns>The resolved label string, or an empty string if no Label property exists.</returns>
     protected str getLabelForObject(anytype _object)
     {
         System.Type objectType = _object.GetType();
@@ -102,6 +118,10 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
 			<Method>
 				<Name>processWorkflowTypes</Name>
 				<Source><![CDATA[
+
+    /// <summary>
+    /// Iterates over all workflow types and extracts their menu item references.
+    /// </summary>
     protected void processWorkflowTypes()
     {
         currentObjectType = ARBAOTObjectType::WorkflowType;
@@ -109,6 +129,10 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
         while (workflowTypesEnum.MoveNext())
         {
             AxWorkflowTemplate workflowType = Xpp.MetadataSupport::GetWorkflowTemplate(workflowTypesEnum.Current);
+            if (workflowType == null)
+            {
+                continue;
+            }
             currentObjectName = workflowType.Name;
             currentObjectLabel = this.getLabelForObject(workflowType);
 
@@ -116,11 +140,18 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
         }
     }
 
+
 ]]></Source>
 			</Method>
 			<Method>
 				<Name>processWorkflowType</Name>
 				<Source><![CDATA[
+    /// <summary>
+    /// Extracts menu item references from a single workflow type, including submit, cancel,
+    /// document, and line item workflow menu items.
+    /// </summary>
+    /// <param name="_workflowType">The workflow type metadata object to process.</param>
+    /// <param name="_path">The parent path for building the reference location.</param>
     protected void processWorkflowType(AxWorkflowTemplate _workflowType, str _path)
     {
         if (_workflowType.CancelMenuItem)
@@ -159,6 +190,10 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
 			<Method>
 				<Name>processKPIs</Name>
 				<Source><![CDATA[
+
+    /// <summary>
+    /// Iterates over all KPI definitions and extracts their menu item references.
+    /// </summary>
     protected void processKPIs()
     {
         currentObjectType = ARBAOTObjectType::KPI;
@@ -166,6 +201,10 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
         while (kpisEnum.MoveNext())
         {
             AxKPI kpi = Xpp.MetadataSupport::GetKPI(kpisEnum.Current);
+            if (kpi == null)
+            {
+                continue;
+            }
             currentObjectName = kpi.Name;
             currentObjectLabel = this.getLabelForObject(kpi);
 
@@ -173,16 +212,23 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
         }
     }
 
+
 ]]></Source>
 			</Method>
 			<Method>
 				<Name>processKPI</Name>
 				<Source><![CDATA[
+    /// <summary>
+    /// Extracts menu item references from a single KPI, including its drill-through
+    /// menu item and trend menu items.
+    /// </summary>
+    /// <param name="_kpi">The KPI metadata object to process.</param>
+    /// <param name="_path">The parent path for building the reference location.</param>
     protected void processKPI(AxKPI _kpi, str _path)
     {
         if (_kpi.MenuItemName)
         {
-            this.addMenuItemReference(_kpi.MenuItemName, _kpi.MenuItemType);
+            this.addMenuItemReference(_kpi.MenuItemName, _kpi.MenuItemType, 'MenuItemName');
         }
 
         var trendsEnums = _kpi.Trends.GetEnumerator();
@@ -201,6 +247,10 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
 			<Method>
 				<Name>processMaps</Name>
 				<Source><![CDATA[
+
+    /// <summary>
+    /// Iterates over all map objects and extracts their menu item references.
+    /// </summary>
     protected void processMaps()
     {
         currentObjectType = ARBAOTObjectType::Map;
@@ -208,6 +258,10 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
         while (mapsEnum.MoveNext())
         {
             AxMap map = Xpp.MetadataSupport::GetMap(mapsEnum.Current);
+            if (map == null)
+            {
+                continue;
+            }
             currentObjectName = map.Name;
             currentObjectLabel = this.getLabelForObject(map);
 
@@ -215,16 +269,22 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
         }
     }
 
+
 ]]></Source>
 			</Method>
 			<Method>
 				<Name>processMap</Name>
 				<Source><![CDATA[
+    /// <summary>
+    /// Extracts the FormRef menu item reference from a single map object.
+    /// </summary>
+    /// <param name="_map">The map metadata object to process.</param>
+    /// <param name="_path">The parent path for building the reference location.</param>
     protected void processMap(AxMap _map, str _path)
     {
         if (_map.FormRef)
         {
-            this.addMenuItemReference(_map.FormRef, MenuItemType::Display);
+            this.addMenuItemReference(_map.FormRef, MenuItemType::Display, 'FormRef');
         }
     }
 
@@ -233,6 +293,10 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
 			<Method>
 				<Name>processCompositeDataEntities</Name>
 				<Source><![CDATA[
+
+    /// <summary>
+    /// Iterates over all composite data entities and extracts their menu item references.
+    /// </summary>
     protected void processCompositeDataEntities()
     {
         currentObjectType = ARBAOTObjectType::CompositeDataEntity;
@@ -240,6 +304,10 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
         while (compositeEntitiesEnum.MoveNext())
         {
             AxCompositeDataEntityView compositeDataEntity = ArbelaXpp.MetadataSupport::GetCompositeDataEntity(compositeEntitiesEnum.Current);
+            if (compositeDataEntity == null)
+            {
+                continue;
+            }
             currentObjectName = compositeDataEntity.Name;
             currentObjectLabel = this.getLabelForObject(compositeDataEntity);
 
@@ -247,16 +315,22 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
         }
     }
 
+
 ]]></Source>
 			</Method>
 			<Method>
 				<Name>processCompositeDataEntity</Name>
 				<Source><![CDATA[
+    /// <summary>
+    /// Extracts the FormRef menu item reference from a single composite data entity.
+    /// </summary>
+    /// <param name="_compositeDataEntity">The composite data entity metadata object to process.</param>
+    /// <param name="_path">The parent path for building the reference location.</param>
     protected void processCompositeDataEntity(AxCompositeDataEntityView _compositeDataEntity, str _path)
     {
         if (_compositeDataEntity.FormRef)
         {
-            this.addMenuItemReference(_compositeDataEntity.FormRef, MenuItemType::Display);
+            this.addMenuItemReference(_compositeDataEntity.FormRef, MenuItemType::Display, 'FormRef');
         }
     }
 
@@ -265,6 +339,10 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
 			<Method>
 				<Name>processViews</Name>
 				<Source><![CDATA[
+
+    /// <summary>
+    /// Iterates over all views and extracts their menu item references.
+    /// </summary>
     protected void processViews()
     {
         currentObjectType = ARBAOTObjectType::View;
@@ -272,6 +350,10 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
         while (viewsEnum.MoveNext())
         {
             AxView view = Xpp.MetadataSupport::GetView(viewsEnum.Current);
+            if (view == null)
+            {
+                continue;
+            }
             currentObjectName = view.Name;
             currentObjectLabel = this.getLabelForObject(view);
 
@@ -279,16 +361,22 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
         }
     }
 
+
 ]]></Source>
 			</Method>
 			<Method>
 				<Name>processView</Name>
 				<Source><![CDATA[
+    /// <summary>
+    /// Extracts the FormRef menu item reference from a single view.
+    /// </summary>
+    /// <param name="_view">The view metadata object to process.</param>
+    /// <param name="_path">The parent path for building the reference location.</param>
     protected void processView(AxView _view, str _path)
     {
         if (_view.FormRef)
         {
-            this.addMenuItemReference(_view.FormRef, MenuItemType::Display);
+            this.addMenuItemReference(_view.FormRef, MenuItemType::Display, 'FormRef');
         }
     }
 
@@ -297,6 +385,10 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
 			<Method>
 				<Name>processDataEntityViews</Name>
 				<Source><![CDATA[
+
+    /// <summary>
+    /// Iterates over all data entity views and extracts their menu item references.
+    /// </summary>
     protected void processDataEntityViews()
     {
         currentObjectType = ARBAOTObjectType::DataEntity;
@@ -304,6 +396,10 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
         while (dataEntitiesEnum.MoveNext())
         {
             AxDataEntityView dataEntity = Xpp.MetadataSupport::GetDataEntityView(dataEntitiesEnum.Current);
+            if (dataEntity == null)
+            {
+                continue;
+            }
             currentObjectName = dataEntity.Name;
             currentObjectLabel = this.getLabelForObject(dataEntity);
 
@@ -311,16 +407,22 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
         }
     }
 
+
 ]]></Source>
 			</Method>
 			<Method>
 				<Name>processDataEntityView</Name>
 				<Source><![CDATA[
+    /// <summary>
+    /// Extracts the FormRef menu item reference from a single data entity view.
+    /// </summary>
+    /// <param name="_dataEntity">The data entity view metadata object to process.</param>
+    /// <param name="_path">The parent path for building the reference location.</param>
     protected void processDataEntityView(AxDataEntityView _dataEntity, str _path)
     {
         if (_dataEntity.FormRef)
         {
-            this.addMenuItemReference(_dataEntity.FormRef, MenuItemType::Display);
+            this.addMenuItemReference(_dataEntity.FormRef, MenuItemType::Display, 'FormRef');
         }
     }
 
@@ -329,6 +431,10 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
 			<Method>
 				<Name>processTables</Name>
 				<Source><![CDATA[
+
+    /// <summary>
+    /// Iterates over all tables and extracts their menu item references.
+    /// </summary>
     protected void processTables()
     {
         currentObjectType = ARBAOTObjectType::Table;
@@ -336,6 +442,10 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
         while (tablesEnum.MoveNext())
         {
             AxTable table = Xpp.MetadataSupport::GetTable(tablesEnum.Current);
+            if (table == null)
+            {
+                continue;
+            }
             currentObjectName = table.Name;
             currentObjectLabel = this.getLabelForObject(table);
 
@@ -343,31 +453,38 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
         }
     }
 
+
 ]]></Source>
 			</Method>
 			<Method>
 				<Name>processTable</Name>
 				<Source><![CDATA[
+    /// <summary>
+    /// Extracts menu item references from a single table, including FormRef, ListPageRef,
+    /// PreviewPartRef, and ReportRef properties.
+    /// </summary>
+    /// <param name="_table">The table metadata object to process.</param>
+    /// <param name="_path">The parent path for building the reference location.</param>
     protected void processTable(AxTable _table, str _path)
     {
         if (_table.FormRef)
         {
-            this.addMenuItemReference(_table.FormRef, MenuItemType::Display);
+            this.addMenuItemReference(_table.FormRef, MenuItemType::Display, 'FormRef');
         }
 
         if (_table.ListPageRef)
         {
-            this.addMenuItemReference(_table.ListPageRef, MenuItemType::Display);
+            this.addMenuItemReference(_table.ListPageRef, MenuItemType::Display, 'ListPageRef');
         }
 
         if (_table.PreviewPartRef)
         {
-            this.addMenuItemReference(_table.PreviewPartRef, MenuItemType::Display);
+            this.addMenuItemReference(_table.PreviewPartRef, MenuItemType::Display, 'PreviewPartRef');
         }
 
         if (_table.ReportRef)
         {
-            this.addMenuItemReference(_table.ReportRef, MenuItemType::Display);
+            this.addMenuItemReference(_table.ReportRef, MenuItemType::Display, 'ReportRef');
         }
     }
 
@@ -376,6 +493,10 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
 			<Method>
 				<Name>processWorkflowTasks</Name>
 				<Source><![CDATA[
+
+    /// <summary>
+    /// Iterates over all workflow tasks and extracts their menu item references.
+    /// </summary>
     protected void processWorkflowTasks()
     {
         currentObjectType = ARBAOTObjectType::WorkflowTask;
@@ -383,6 +504,10 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
         while (workflowTasksEnum.MoveNext())
         {
             AxWorkflowTask workflowTask = Xpp.MetadataSupport::GetWorkflowTask(workflowTasksEnum.Current);
+            if (workflowTask == null)
+            {
+                continue;
+            }
             currentObjectName = workflowTask.Name;
             currentObjectLabel = this.getLabelForObject(workflowTask);
 
@@ -390,11 +515,18 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
         }
     }
 
+
 ]]></Source>
 			</Method>
 			<Method>
 				<Name>processWorkflowTask</Name>
 				<Source><![CDATA[
+    /// <summary>
+    /// Extracts menu item references from a single workflow task, including delegate,
+    /// document, resubmit, and outcome action menu items.
+    /// </summary>
+    /// <param name="_workflowTask">The workflow task metadata object to process.</param>
+    /// <param name="_path">The parent path for building the reference location.</param>
     protected void processWorkflowTask(AxWorkflowTask _workflowTask, str _path)
     {
         if (_workflowTask.DelegateMenuItem)
@@ -429,6 +561,10 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
 			<Method>
 				<Name>processSecurityPrivileges</Name>
 				<Source><![CDATA[
+
+    /// <summary>
+    /// Iterates over all security privileges and extracts their menu item references.
+    /// </summary>
     protected void processSecurityPrivileges()
     {
         currentObjectType = ARBAOTObjectType::SecurityPrivilege;
@@ -436,6 +572,10 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
         while (securityPrivilegesEnum.MoveNext())
         {
             AxSecurityPrivilege securityPrivilege = ArbelaXpp.MetadataSupport::GetSecurityPrivilege(securityPrivilegesEnum.Current);
+            if (securityPrivilege == null)
+            {
+                continue;
+            }
             currentObjectName = securityPrivilege.Name;
             currentObjectLabel = this.getLabelForObject(securityPrivilege);
 
@@ -443,11 +583,18 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
         }
     }
 
+
 ]]></Source>
 			</Method>
 			<Method>
 				<Name>processSecurityPrivilege</Name>
 				<Source><![CDATA[
+    /// <summary>
+    /// Extracts menu item references from a single security privilege by iterating
+    /// its entry points and mapping each to the corresponding menu item type.
+    /// </summary>
+    /// <param name="_securityPrivilege">The security privilege metadata object to process.</param>
+    /// <param name="_path">The parent path for building the reference location.</param>
     protected void processSecurityPrivilege(AxSecurityPrivilege _securityPrivilege, str _path)
     {
         var entryPointsEnum = _securityPrivilege.EntryPoints.GetEnumerator();
@@ -481,6 +628,10 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
 			<Method>
 				<Name>processWorkflowApprovals</Name>
 				<Source><![CDATA[
+
+    /// <summary>
+    /// Iterates over all workflow approvals and extracts their menu item references.
+    /// </summary>
     protected void processWorkflowApprovals()
     {
         currentObjectType = ARBAOTObjectType::WorkflowApproval;
@@ -488,6 +639,10 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
         while (workflowApprovalsEnum.MoveNext())
         {
             AxWorkflowApproval workflowApproval = Xpp.MetadataSupport::GetWorkflowApproval(workflowApprovalsEnum.Current);
+            if (workflowApproval == null)
+            {
+                continue;
+            }
             currentObjectName = workflowApproval.Name;
             currentObjectLabel = this.getLabelForObject(workflowApproval);
 
@@ -495,11 +650,18 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
         }
     }
 
+
 ]]></Source>
 			</Method>
 			<Method>
 				<Name>processWorkflowApproval</Name>
 				<Source><![CDATA[
+    /// <summary>
+    /// Extracts menu item references from a single workflow approval, including delegate,
+    /// document, resubmit, approve, deny, reject, and request-change action menu items.
+    /// </summary>
+    /// <param name="_workflowApproval">The workflow approval metadata object to process.</param>
+    /// <param name="_path">The parent path for building the reference location.</param>
     protected void processWorkflowApproval(AxWorkflowApproval _workflowApproval, str _path)
     {
         if (_workflowApproval.DelegateMenuItem)
@@ -544,40 +706,74 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
 			<Method>
 				<Name>addMenuItemReference</Name>
 				<Source><![CDATA[
+
+    /// <summary>
+    /// Creates an <c>ARBMenuItemReferences</c> record for the specified menu item and adds it
+    /// to the insert list. Flushes the list to the database every 10,000 records.
+    /// Uses a cache to avoid repeated metadata lookups for the same menu item label.
+    /// </summary>
+    /// <param name="_menuItemName">The name of the referenced menu item.</param>
+    /// <param name="_menuItemType">The type of the referenced menu item (Display, Action, or Output).</param>
+    /// <param name="_path">The optional path within the parent object where the reference was found.</param>
     protected void addMenuItemReference(MenuItemName _menuItemName, MenuItemType _menuItemType, str _path = '')
     {
         ARBMenuItemReferences menuItemReference;
         menuItemReference.MenuItemName = _menuItemName;
         menuItemReference.MenuItemType = _menuItemType;
-        AxMenuItem menuItem;
-        switch (_menuItemType)
+
+        str cacheKey = int2Str(enum2int(_menuItemType)) + ':' + _menuItemName;
+        if (menuItemLabelCache.exists(cacheKey))
         {
-            case MenuItemType::Action:
-                menuItem = Xpp.MetadataSupport::GetMenuItemAction(_menuItemName);
-                break;
-            case MenuItemType::Display:
-                menuItem = Xpp.MetadataSupport::GetMenuItemDisplay(_menuItemName);
-                break;
-            case MenuItemType::Output:
-                menuItem = Xpp.MetadataSupport::GetMenuItemOutput(_menuItemName);
-                break;
+            menuItemReference.MenuItemLabel = menuItemLabelCache.lookup(cacheKey);
         }
-        if (!CLRInterop::isNull(menuItem))
+        else
         {
-            menuItemReference.MenuItemLabel = SysLabel::labelId2String(menuItem.Label);
+            AxMenuItem menuItem;
+            switch (_menuItemType)
+            {
+                case MenuItemType::Action:
+                    menuItem = Xpp.MetadataSupport::GetMenuItemAction(_menuItemName);
+                    break;
+                case MenuItemType::Display:
+                    menuItem = Xpp.MetadataSupport::GetMenuItemDisplay(_menuItemName);
+                    break;
+                case MenuItemType::Output:
+                    menuItem = Xpp.MetadataSupport::GetMenuItemOutput(_menuItemName);
+                    break;
+            }
+            str labelText = '';
+            if (!CLRInterop::isNull(menuItem))
+            {
+                labelText = SysLabel::labelId2String(menuItem.Label);
+            }
+            menuItemLabelCache.insert(cacheKey, labelText);
+            menuItemReference.MenuItemLabel = labelText;
         }
+
         menuItemReference.RefObjectName = currentObjectName;
         menuItemReference.RefObjectLabel = currentObjectLabel;
         menuItemReference.RefObjectType = currentObjectType;
         menuItemReference.RefPath = _path;
         menuItemRefsInsertList.add(menuItemReference);
+        insertCount++;
+        if (insertCount >= 10000)
+        {
+            menuItemRefsInsertList.insertDatabase();
+            menuItemRefsInsertList = new RecordInsertList(tableNum(ARBMenuItemReferences));
+            insertCount = 0;
+        }
     }
+
 
 ]]></Source>
 			</Method>
 			<Method>
 				<Name>processTiles</Name>
 				<Source><![CDATA[
+
+    /// <summary>
+    /// Iterates over all tile definitions and extracts their menu item references.
+    /// </summary>
     protected void processTiles()
     {
         currentObjectType = ARBAOTObjectType::Tile;
@@ -585,6 +781,10 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
         while (tileNamesEnum.MoveNext())
         {
             AxTile tile = Xpp.MetadataSupport::GetTile(tileNamesEnum.Current);
+            if (tile == null)
+            {
+                continue;
+            }
             currentObjectName = tile.Name;
             currentObjectLabel = this.getLabelForObject(tile);
 
@@ -592,11 +792,17 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
         }
     }
 
+
 ]]></Source>
 			</Method>
 			<Method>
 				<Name>processTile</Name>
 				<Source><![CDATA[
+    /// <summary>
+    /// Extracts the menu item reference from a single tile.
+    /// </summary>
+    /// <param name="_tile">The tile metadata object to process.</param>
+    /// <param name="_path">The parent path for building the reference location.</param>
     protected void processTile(AxTile _tile, str _path)
     {
         if (_tile.MenuItemName)
@@ -610,6 +816,10 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
 			<Method>
 				<Name>processMenus</Name>
 				<Source><![CDATA[
+
+    /// <summary>
+    /// Iterates over all menus and extracts menu item references from their elements.
+    /// </summary>
     protected void processMenus()
     {
         currentObjectType = ARBAOTObjectType::Menu;
@@ -617,6 +827,10 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
         while (menuNamesEnum.MoveNext())
         {
             AxMenu menu = Xpp.MetadataSupport::GetMenu(menuNamesEnum.Current);
+            if (menu == null)
+            {
+                continue;
+            }
             currentObjectName = menu.Name;
             currentObjectLabel = this.getLabelForObject(menu);
 
@@ -630,13 +844,28 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
         }
     }
 
+
 ]]></Source>
 			</Method>
 			<Method>
 				<Name>processMenuElement</Name>
 				<Source><![CDATA[
-    protected void processMenuElement(AxMenuElement _menuElement, str _path)
+    /// <summary>
+    /// Recursively processes a single menu element, extracting its menu item reference
+    /// and descending into any child elements. Stops at a maximum depth of 50 to prevent
+    /// infinite recursion.
+    /// </summary>
+    /// <param name="_menuElement">The menu element metadata object to process.</param>
+    /// <param name="_path">The parent path for building the reference location.</param>
+    /// <param name="_depth">The current recursion depth (default 0).</param>
+    protected void processMenuElement(AxMenuElement _menuElement, str _path, int _depth = 0)
     {
+        const int maxDepth = 50;
+        if (_depth >= maxDepth)
+        {
+            return;
+        }
+
         str path = (_path ? _path + '/' : '') + _menuElement.Name;
         System.Type menuElementType = _menuElement.GetType();
         System.Reflection.PropertyInfo menuItemNameProp = menuElementType.GetProperty('MenuItemName');
@@ -665,7 +894,7 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
             {
                 AxMenuElement menuElement = elementsEnum.Current;
                 
-                this.processMenuElement(menuElement, path);
+                this.processMenuElement(menuElement, path, _depth + 1);
             }
         }
     }
@@ -675,6 +904,11 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
 			<Method>
 				<Name>processForms</Name>
 				<Source><![CDATA[
+
+    /// <summary>
+    /// Iterates over all forms, including their extensions, and extracts menu item
+    /// references from their control trees.
+    /// </summary>
     protected void processForms()
     {
         currentObjectType = ARBAOTObjectType::Form;
@@ -683,6 +917,10 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
         {
             //AxForm form = Xpp.MetadataSupport::GetForm(formNamesEnum.Current);
             AxForm form = metadataProvider.Forms.Read(formNamesEnum.Current);
+            if (form == null || form.Design == null)
+            {
+                continue;
+            }
             currentObjectName = form.Name;
             currentObjectLabel = this.getLabelForObject(form);
             
@@ -710,13 +948,28 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
         }
     }
 
+
 ]]></Source>
 			</Method>
 			<Method>
 				<Name>processFormControl</Name>
 				<Source><![CDATA[
-    protected void processFormControl(AxFormControl _formControl, str _path)
+    /// <summary>
+    /// Recursively processes a single form control, extracting menu item references from
+    /// its MenuItemName, PreviewPartRef, and HyperLinkMenuItem properties, then descending
+    /// into child controls. Stops at a maximum depth of 50 to prevent infinite recursion.
+    /// </summary>
+    /// <param name="_formControl">The form control metadata object to process.</param>
+    /// <param name="_path">The parent path for building the reference location.</param>
+    /// <param name="_depth">The current recursion depth (default 0).</param>
+    protected void processFormControl(AxFormControl _formControl, str _path, int _depth = 0)
     {
+        const int maxDepth = 50;
+        if (_depth >= maxDepth)
+        {
+            return;
+        }
+
         str path = (_path ? _path + '/' : '') + _formControl.Name;
         System.Type formControlType = _formControl.GetType();
 
@@ -765,7 +1018,7 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
             {
                 AxFormControl formControl = controlsEnum.Current;
                 
-                this.processFormControl(formControl, path);
+                this.processFormControl(formControl, path, _depth + 1);
             }
         }
     }
