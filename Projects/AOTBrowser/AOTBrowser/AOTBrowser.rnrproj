@@ -458,6 +458,31 @@
       <Name>ARBTableMetadataPopulate</Name>
       <Link>Action Menu Items\ARBTableMetadataPopulate</Link>
     </Content>
+    <Content Include="AxEdt\ARBMetadataKeyType">
+      <SubType>Content</SubType>
+      <Name>ARBMetadataKeyType</Name>
+      <Link>EDT Strings\ARBMetadataKeyType</Link>
+    </Content>
+    <Content Include="AxEdt\ARBMetadataFieldPosition">
+      <SubType>Content</SubType>
+      <Name>ARBMetadataFieldPosition</Name>
+      <Link>EDT Integers\ARBMetadataFieldPosition</Link>
+    </Content>
+    <Content Include="AxTable\ARBTableKeyFieldMetadata">
+      <SubType>Content</SubType>
+      <Name>ARBTableKeyFieldMetadata</Name>
+      <Link>Tables\ARBTableKeyFieldMetadata</Link>
+    </Content>
+    <Content Include="AxTable\ARBTableKeyFieldMetadataEntityStaging">
+      <SubType>Content</SubType>
+      <Name>ARBTableKeyFieldMetadataEntityStaging</Name>
+      <Link>Tables\ARBTableKeyFieldMetadataEntityStaging</Link>
+    </Content>
+    <Content Include="AxDataEntityView\ARBTableKeyFieldMetadataEntity">
+      <SubType>Content</SubType>
+      <Name>ARBTableKeyFieldMetadataEntity</Name>
+      <Link>Data Entities\ARBTableKeyFieldMetadataEntity</Link>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Arbela.Dynamics.AX.Xpp.Support\Arbela.Dynamics.AX.Xpp.Support.csproj">

@@ -40,11 +40,15 @@ ExtendedDataType=Extended data type
 FieldDataType=Field data type
 FieldId=Field id
 FieldName=Field name
+FieldPosition=Field position
  ;Label for FieldName field on metadata tables
 Fields=Fields
 IntegerValue=Integer value
 IsMandatory=Is mandatory
  ;Label for IsMandatory field on ARBTableFieldMetadata
+IndexName=Index name
+KeyType=Key type
+Keys=Keys
 KPI=KPI
 LicenseCode=License code
  ;ARB_AOTBrowser
@@ -128,6 +132,10 @@ TableFieldMetadataDevDoc=Stores metadata about D365FO table fields for AI agent 
  ;Developer documentation for ARBTableFieldMetadata table
 TableGroup=Table group
 TableId=Table id
+TableKeyFieldMetadata=Table key field metadata
+ ;Table label for ARBTableKeyFieldMetadata
+TableKeyFieldMetadataDevDoc=Stores primary index and replacement key field metadata for D365FO tables for AI agent consumption via Synapse Link.
+ ;Developer documentation for ARBTableKeyFieldMetadata table
 TableMetadata=Table metadata
 TableType=Table type
 SaveDataPerCompany=Save data per company

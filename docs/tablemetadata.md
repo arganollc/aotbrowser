@@ -63,6 +63,18 @@ Stores one record per value on each base enumeration.
 | ValueLabel | String | Resolved value label |
 | IntegerValue | Int | Numeric integer value |
 
+### ARBTableKeyFieldMetadata
+
+Stores one record per field in each primary index and replacement key.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| TableName | String | Parent table name |
+| IndexName | String | Index name (e.g., the primary index or replacement key index) |
+| FieldName | String | Field name in the key |
+| KeyType | String | Key type: `PrimaryIndex` or `ReplacementKey` |
+| FieldPosition | Int | Ordinal position of the field within the key (1-based) |
+
 ## Populating the Metadata
 
 The metadata tables must be populated after installation and whenever the AOT changes. Navigate to **Common > Common > Table metadata** and click the **Populate table metadata** button.
@@ -79,6 +91,7 @@ All four metadata tables are exposed as public OData data entities for external 
 | ARBTableFieldMetadataEntity | ARBTableFieldMetadata |
 | ARBTableRelationMetadataEntity | ARBTableRelationMetadata |
 | ARBEnumMetadataEntity | ARBEnumMetadata |
+| ARBTableKeyFieldMetadataEntity | ARBTableKeyFieldMetadata |
 
 These entities can be accessed at `https://<environment>/data/ARBTableMetadata` (and similar for the other collections).
 
