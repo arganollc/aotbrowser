@@ -13,7 +13,7 @@
 	<AllowRowVersionChangeTracking>Yes</AllowRowVersionChangeTracking>
 	<CacheLookup>Found</CacheLookup>
 	<ReplacementKey>EnumValueIdx</ReplacementKey>
-	<PrimaryIndex>EnumValueIdx</PrimaryIndex>
+	<SaveDataPerCompany>No</SaveDataPerCompany>
 	<DeleteActions />
 	<FieldGroups>
 		<AxTableFieldGroup>
