@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<IgnoreDiagnostics xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>AOTBrowser_CompileError</Name>
+	<Items>
+		<Diagnostic>
+			<DiagnosticType>Metadata</DiagnosticType>
+			<Severity>Warning</Severity>
+			<Path>AxTable/ARBMenuItemReferences/Indexes/MenuItemRefIdx/Name</Path>
+			<Moniker>ClusteredIndexMaxSize</Moniker>
+			<Message>Clustered Index Key 'MenuItemRefIdx' should not exceed the maximum size of 900 bytes.</Message>
+			<Justification>Conscious design decision</Justification>
+		</Diagnostic>
+		<Diagnostic>
+			<DiagnosticType>ExternalReference</DiagnosticType>
+			<Severity>Warning</Severity>
+			<Path>dynamics://Reference/Microsoft.Dynamics___vices.PricingEngine</Path>
+			<Moniker>AssemblyFileNotFound</Moniker>
+			<Message>Assembly 'Microsoft.Dynamics.Commerce.Runtime.Entities.AttributeBasedPricing, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35' failed to load because it was not found.</Message>
+			<Justification>Standard error</Justification>
+		</Diagnostic>
+	</Items>
+</IgnoreDiagnostics>

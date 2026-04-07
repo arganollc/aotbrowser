@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<IgnoreDiagnostics xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>AOTBrowser_BPSuppressions</Name>
+	<Items>
+		<Diagnostic>
+			<DiagnosticType>BestPractices</DiagnosticType>
+			<Severity>Warning</Severity>
+			<Path>dynamics://Form/ARBAOTBrowser/FormDesign/FormDesign/FormTabControl/DetailsTabs/FormTabPageControl/DetailsTab/FormGroupControl/DetailsBodyGroup/FormGroupControl/DetailsDetailsGroup/FormGroupControl/DetailsDetailsPropertiesGroup/FormGroupControl/CodeViewerGroup/FormControl/CodeViewer</Path>
+			<Moniker>BPErrorSizeToAvailableControlsInsideColumn</Moniker>
+			<Message>Control CodeViewer has a flexible width or height due to its property settings of WidthMode/HeightMode=SizeToAvailable (or WidthMode/HeightMode=Auto for a Tab or Grid) and is inside of a container with ColumnsMode=Fill, which is not a supported layout configuration.</Message>
+			<Justification>Conscious design decision</Justification>
+		</Diagnostic>
+		<Diagnostic>
+			<DiagnosticType>BestPractices</DiagnosticType>
+			<Severity>Warning</Severity>
+			<Path>dynamics://Form/ARBAOTBrowser/FormDesign/FormDesign/FormTabControl/DetailsTabs/FormTabPageControl/DetailsTab/FormGroupControl/DetailsBodyGroup/FormGroupControl/DetailsDetailsGroup/FormGroupControl/DetailsDetailsPropertiesGroup</Path>
+			<Moniker>BPWarningFormDesignOrControlsWithCustomPattern</Moniker>
+			<Message>BPWarningFormDesignOrControlsWithCustomPattern: 'DetailsDetailsPropertiesGroup' is using the 'Custom' pattern. Please apply one of the other available patterns.</Message>
+			<Justification>Conscious design decision</Justification>
+		</Diagnostic>
+		<Diagnostic>
+			<DiagnosticType>BestPractices</DiagnosticType>
+			<Severity>Warning</Severity>
+			<Path>dynamics://Class/ARBAOTObjectTree/Method/addExtensionModification</Path>
+			<Moniker>TwCDisplayDataRecordLevelSecurity</Moniker>
+			<Message>Method '' is considered a security risk. Verify that the data displayed in the form is fetched with proper record level security in place.</Message>
+			<Justification>Conscious design decision</Justification>
+		</Diagnostic>
+	</Items>
+</IgnoreDiagnostics>
