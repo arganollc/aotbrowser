@@ -9,6 +9,7 @@ public class ARBMenuItemReferences extends common
 ]]></Declaration>
 		<Methods />
 	</SourceCode>
+	<DeveloperDocumentation>@AOTBrowser:MenuItemReferencesDevDoc</DeveloperDocumentation>
 	<FormRef>ARBMenuItemReferences</FormRef>
 	<Label>@AOTBrowser:MenuItemReferences</Label>
 	<ListPageRef>ARBMenuItemReferences</ListPageRef>
@@ -36,6 +37,12 @@ public class ARBMenuItemReferences extends common
 				</AxTableFieldGroupField>
 				<AxTableFieldGroupField>
 					<DataField>RefObjectType</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>RefObjectLabel</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>RefPath</DataField>
 				</AxTableFieldGroupField>
 			</Fields>
 		</AxTableFieldGroup>
@@ -148,15 +155,6 @@ public class ARBMenuItemReferences extends common
 				</AxTableIndexField>
 				<AxTableIndexField>
 					<DataField>RefPath</DataField>
-				</AxTableIndexField>
-			</Fields>
-		</AxTableIndex>
-		<AxTableIndex>
-			<Name>MenuItemNameIdx</Name>
-			<AllowDuplicates>Yes</AllowDuplicates>
-			<Fields>
-				<AxTableIndexField>
-					<DataField>MenuItemName</DataField>
 				</AxTableIndexField>
 			</Fields>
 		</AxTableIndex>

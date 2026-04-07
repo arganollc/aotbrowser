@@ -353,6 +353,16 @@
       <Name>ARBMetadataHelpText</Name>
       <Link>EDT Strings\ARBMetadataHelpText</Link>
     </Content>
+    <Content Include="AxEdt\ARBMetadataIntegerValue">
+      <SubType>Content</SubType>
+      <Name>ARBMetadataIntegerValue</Name>
+      <Link>EDT Integers\ARBMetadataIntegerValue</Link>
+    </Content>
+    <Content Include="AxEdt\ARBMetadataStringSize">
+      <SubType>Content</SubType>
+      <Name>ARBMetadataStringSize</Name>
+      <Link>EDT Integers\ARBMetadataStringSize</Link>
+    </Content>
     <Content Include="AxTable\ARBTableMetadata">
       <SubType>Content</SubType>
       <Name>ARBTableMetadata</Name>

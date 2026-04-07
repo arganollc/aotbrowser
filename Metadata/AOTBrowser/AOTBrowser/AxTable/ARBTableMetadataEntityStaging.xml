@@ -7,6 +7,7 @@
 	<DeveloperDocumentation>@DMF:StagingDeveloperDocumentation</DeveloperDocumentation>
 	<Label>@AOTBrowser:TableMetadata</Label>
 	<TableGroup>Staging</TableGroup>
+	<TitleField1>TableName</TitleField1>
 	<PrimaryIndex>StagingIdx</PrimaryIndex>
 	<ReplacementKey>StagingIdx</ReplacementKey>
 	<SaveDataPerCompany>No</SaveDataPerCompany>
@@ -99,7 +100,9 @@
 		<AxTableField xmlns=""
 			i:type="AxTableFieldString">
 			<Name>TableName</Name>
+			<AllowEdit>No</AllowEdit>
 			<ExtendedDataType>TreeNodeName</ExtendedDataType>
+			<Mandatory>Yes</Mandatory>
 		</AxTableField>
 		<AxTableField xmlns=""
 			i:type="AxTableFieldString">

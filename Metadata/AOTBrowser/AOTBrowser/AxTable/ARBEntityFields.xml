@@ -9,6 +9,7 @@ public class ARBEntityFields extends common
 ]]></Declaration>
 		<Methods />
 	</SourceCode>
+	<DeveloperDocumentation>@AOTBrowser:EntityFieldsDevDoc</DeveloperDocumentation>
 	<Label>@AOTBrowser:EntityFieldList</Label>
 	<SubscriberAccessLevel>
 		<Read>Allow</Read>
@@ -36,6 +37,9 @@ public class ARBEntityFields extends common
 				</AxTableFieldGroupField>
 				<AxTableFieldGroupField>
 					<DataField>DatasourceFieldName</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>EntityLabel</DataField>
 				</AxTableFieldGroupField>
 			</Fields>
 		</AxTableFieldGroup>

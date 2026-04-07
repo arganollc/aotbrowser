@@ -8,6 +8,10 @@ using Microsoft.Dynamics.AX.Metadata.Core.MetaModel;
 using Xpp = Microsoft.Dynamics.Ax.Xpp;
 using ArbelaXpp = Arbela.Dynamics.Ax.Xpp;
 
+/// <summary>
+/// Static utility class providing helper methods for the AOT Browser, including resolving
+/// object IDs, form and view data source table names, and SQL table names.
+/// </summary>
 public final class ARBAOTBrowserHelper
 {
 }
@@ -16,6 +20,12 @@ public final class ARBAOTBrowserHelper
 			<Method>
 				<Name>getObjectIdByName</Name>
 				<Source><![CDATA[
+    /// <summary>
+    /// Gets the numeric object ID for a metadata object by looking up its name.
+    /// Handles tables, views, data entities, enums, classes, EDTs, and configuration keys.
+    /// </summary>
+    /// <param name="_object">The metadata object (e.g. AxTable, AxEnum).</param>
+    /// <returns>The integer object ID, or 0 if not found.</returns>
     public static int getObjectIdByName(anytype _object)
     {
         INamedObject namedObject = _object as INamedObject;
@@ -59,6 +69,13 @@ public final class ARBAOTBrowserHelper
 			<Method>
 				<Name>getFormDatasourceTableName</Name>
 				<Source><![CDATA[
+    /// <summary>
+    /// Resolves the underlying table name for a named data source on a form.
+    /// Checks the base form and then any form extensions.
+    /// </summary>
+    /// <param name="_formName">The form name.</param>
+    /// <param name="_datasourceName">The data source name.</param>
+    /// <returns>The table name.</returns>
     public static TableName getFormDatasourceTableName(str _formName, str _datasourceName)
     {
         str tableName;
@@ -85,6 +102,13 @@ public final class ARBAOTBrowserHelper
 			<Method>
 				<Name>getViewDatasourceTableName</Name>
 				<Source><![CDATA[
+    /// <summary>
+    /// Resolves the underlying table name for a named data source on a view.
+    /// Checks query-based views and metadata-based views, including extensions.
+    /// </summary>
+    /// <param name="_viewName">The view name.</param>
+    /// <param name="_datasourceName">The data source name.</param>
+    /// <returns>The table name.</returns>
     public static TableName getViewDatasourceTableName(str _viewName, str _datasourceName)
     {
         str tableName;
@@ -131,7 +155,16 @@ public final class ARBAOTBrowserHelper
 			<Method>
 				<Name>getTableNameFromDatasource</Name>
 				<Source><![CDATA[
-    public static TableName getTableNameFromDatasource(str _datasourceName, System.Collections.IEnumerable _datasources, System.Collections.IEnumerable _extensionDatasources = CLRInterop::Null())
+    /// <summary>
+    /// Recursively searches through data source collections to find a data source by name
+    /// and return its table. Handles form data sources (root, derived, referenced) and
+    /// query data sources.
+    /// </summary>
+    /// <param name="_datasourceName">The data source name to find.</param>
+    /// <param name="_datasources">The collection of data sources to search.</param>
+    /// <param name="_extensionDatasources">Optional extension data sources to search.</param>
+    /// <returns>The table name, or empty string if not found.</returns>
+    public static TableName getTableNameFromDatasource(str _datasourceName, System.Collections.IEnumerable _datasources, System.Collections.IEnumerable _extensionDatasources = null)
     {
         System.Collections.IEnumerator datasourcesEnum;
         if (!CLRInterop::isNull(_datasources))
@@ -267,6 +300,12 @@ public final class ARBAOTBrowserHelper
 			<Method>
 				<Name>getTableSqlName</Name>
 				<Source><![CDATA[
+    /// <summary>
+    /// Gets the physical SQL table name for a D365FO table.
+    /// Returns empty string for temp tables.
+    /// </summary>
+    /// <param name="_tableName">The AOT table name.</param>
+    /// <returns>The physical SQL table name.</returns>
     public static str getTableSqlName(TableName _tableName)
     {
         Common tableBuffer = DictTable::createRecord(_tableName);

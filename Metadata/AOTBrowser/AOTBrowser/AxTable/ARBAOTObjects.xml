@@ -38,6 +38,9 @@ public class ARBAOTObjects extends common
 				<AxTableFieldGroupField>
 					<DataField>Type</DataField>
 				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>ObjectId</DataField>
+				</AxTableFieldGroupField>
 			</Fields>
 		</AxTableFieldGroup>
 		<AxTableFieldGroup>

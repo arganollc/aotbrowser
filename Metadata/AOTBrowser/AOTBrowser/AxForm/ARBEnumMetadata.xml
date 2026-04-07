@@ -7,6 +7,9 @@
 				<Name>classDeclaration</Name>
 				<Source><![CDATA[
     [Form]
+    /// <summary>
+    /// Form for browsing enum metadata including enum names, values, and labels.
+    /// </summary>
     public class ARBEnumMetadata extends FormRun
     {
     }

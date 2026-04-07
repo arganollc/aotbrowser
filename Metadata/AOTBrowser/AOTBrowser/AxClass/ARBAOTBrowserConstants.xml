@@ -71,6 +71,7 @@ public class ARBAOTBrowserConstants
     public static const str Constraints = 'Constraints';
     public static const str DataField = 'DataField';
     public static const str AxWorkflowOutcome = 'AxWorkflowOutcome';
+    public static const str StringSize = 'StringSize';
 }
 ]]></Declaration>
 		<Methods />

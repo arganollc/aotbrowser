@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Dynamics.AX.Metadata.Kernel;
-using Microsoft.Dynamics.AX.Metadata.MetaModel;
-using Microsoft.Dynamics.AX.Metadata.Storage;
-using Microsoft.Dynamics.AX.Metadata.Core.MetaModel;
-using Microsoft.Dynamics.AX.Metadata.Extensions;
-using Microsoft.Dynamics.AX.Metadata;
-
-namespace Arbela.Dynamics.Ax.Xpp
+﻿namespace Arbela.Dynamics.Ax.Xpp
 {
+    using System;
+    using System.Collections.Generic;
+    using Microsoft.Dynamics.AX.Metadata.Kernel;
+    using Microsoft.Dynamics.AX.Metadata.MetaModel;
+    using Microsoft.Dynamics.AX.Metadata.Storage;
+    using Microsoft.Dynamics.AX.Metadata.Core.MetaModel;
+    using Microsoft.Dynamics.AX.Metadata.Extensions;
+    using Microsoft.Dynamics.AX.Metadata;
+
     public static class MetadataSupport
     {
         private static EdtExtensionLoader edtExtensionLoader;
@@ -303,7 +301,7 @@ namespace Arbela.Dynamics.Ax.Xpp
                     result = ((AxFormControl)axElement).GetCompleteSource(true, null);
                 }
             }
-            catch (MetadataCorruptedException ex) when (handleMetadataCorruptedException)
+            catch (MetadataCorruptedException) when (handleMetadataCorruptedException)
             {
                 //AxLogHandler.DisplayError(ex.Message);
                 return string.Empty;

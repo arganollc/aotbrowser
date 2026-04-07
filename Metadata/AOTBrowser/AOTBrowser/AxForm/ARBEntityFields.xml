@@ -7,6 +7,9 @@
 				<Name>classDeclaration</Name>
 				<Source><![CDATA[
 [Form]
+/// <summary>
+/// Form for displaying data entity field mappings with source table and field information.
+/// </summary>
 public class ARBEntityFields extends FormRun
 {
 
@@ -22,7 +25,7 @@ public class ARBEntityFields extends FormRun
 						<Name>init</Name>
 						<Source><![CDATA[
         /// <summary>
-        ///
+        /// Initializes the ARBEntityFields data source and calls the base init method.
         /// </summary>
         public void init()
         {

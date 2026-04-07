@@ -7,6 +7,7 @@
 	<DeveloperDocumentation>@DMF:StagingDeveloperDocumentation</DeveloperDocumentation>
 	<Label>@AOTBrowser:TableFieldMetadata</Label>
 	<TableGroup>Staging</TableGroup>
+	<TitleField1>FieldName</TitleField1>
 	<PrimaryIndex>StagingIdx</PrimaryIndex>
 	<ReplacementKey>StagingIdx</ReplacementKey>
 	<SaveDataPerCompany>No</SaveDataPerCompany>
@@ -108,12 +109,16 @@
 		<AxTableField xmlns=""
 			i:type="AxTableFieldString">
 			<Name>TableName</Name>
+			<AllowEdit>No</AllowEdit>
 			<ExtendedDataType>TreeNodeName</ExtendedDataType>
+			<Mandatory>Yes</Mandatory>
 		</AxTableField>
 		<AxTableField xmlns=""
 			i:type="AxTableFieldString">
 			<Name>FieldName</Name>
+			<AllowEdit>No</AllowEdit>
 			<ExtendedDataType>TreeNodeName</ExtendedDataType>
+			<Mandatory>Yes</Mandatory>
 		</AxTableField>
 		<AxTableField xmlns=""
 			i:type="AxTableFieldString">
@@ -138,10 +143,12 @@
 		<AxTableField xmlns=""
 			i:type="AxTableFieldInt">
 			<Name>StringSize</Name>
+			<ExtendedDataType>ARBMetadataStringSize</ExtendedDataType>
 		</AxTableField>
 		<AxTableField xmlns=""
 			i:type="AxTableFieldEnum">
 			<Name>IsMandatory</Name>
+			<Label>@AOTBrowser:IsMandatory</Label>
 			<EnumType>NoYes</EnumType>
 		</AxTableField>
 		<AxTableField xmlns=""

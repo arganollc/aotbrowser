@@ -7,6 +7,9 @@
 				<Name>classDeclaration</Name>
 				<Source><![CDATA[
     [Form]
+    /// <summary>
+    /// Task Double form for browsing table metadata, field metadata, and table relation metadata.
+    /// </summary>
     public class ARBTableMetadata extends FormRun
     {
     }

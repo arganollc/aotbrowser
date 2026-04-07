@@ -4,16 +4,56 @@
 	<SourceCode>
 		<Methods />
 	</SourceCode>
+	<DeveloperDocumentation>@AOTBrowser:TableFieldMetadataDevDoc</DeveloperDocumentation>
+	<FormRef>ARBTableMetadata</FormRef>
 	<Label>@AOTBrowser:TableFieldMetadata</Label>
 	<TableGroup>Group</TableGroup>
+	<TitleField1>FieldName</TitleField1>
+	<TitleField2>FieldLabel</TitleField2>
 	<AllowRowVersionChangeTracking>Yes</AllowRowVersionChangeTracking>
+	<CacheLookup>Found</CacheLookup>
+	<ReplacementKey>TableFieldIdx</ReplacementKey>
 	<PrimaryIndex>TableFieldIdx</PrimaryIndex>
 	<DeleteActions />
-	<FieldGroups />
+	<FieldGroups>
+		<AxTableFieldGroup>
+			<Name>AutoReport</Name>
+			<Fields>
+				<AxTableFieldGroupField>
+					<DataField>TableName</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>FieldName</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>FieldLabel</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>FieldDataType</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>ExtendedDataType</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>EnumTypeName</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>StringSize</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>IsMandatory</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>HelpText</DataField>
+				</AxTableFieldGroupField>
+			</Fields>
+		</AxTableFieldGroup>
+	</FieldGroups>
 	<Fields>
 		<AxTableField xmlns=""
 			i:type="AxTableFieldString">
 			<Name>TableName</Name>
+			<AllowEdit>No</AllowEdit>
 			<ExtendedDataType>TreeNodeName</ExtendedDataType>
 			<Label>@SYS8868</Label>
 			<Mandatory>Yes</Mandatory>
@@ -21,6 +61,7 @@
 		<AxTableField xmlns=""
 			i:type="AxTableFieldString">
 			<Name>FieldName</Name>
+			<AllowEdit>No</AllowEdit>
 			<ExtendedDataType>TreeNodeName</ExtendedDataType>
 			<Label>@AOTBrowser:FieldName</Label>
 			<Mandatory>Yes</Mandatory>
@@ -51,7 +92,7 @@
 		<AxTableField xmlns=""
 			i:type="AxTableFieldInt">
 			<Name>StringSize</Name>
-			<Label>@AOTBrowser:StringSize</Label>
+			<ExtendedDataType>ARBMetadataStringSize</ExtendedDataType>
 		</AxTableField>
 		<AxTableField xmlns=""
 			i:type="AxTableFieldEnum">
@@ -76,15 +117,6 @@
 				</AxTableIndexField>
 				<AxTableIndexField>
 					<DataField>FieldName</DataField>
-				</AxTableIndexField>
-			</Fields>
-		</AxTableIndex>
-		<AxTableIndex>
-			<Name>TableNameIdx</Name>
-			<AllowDuplicates>Yes</AllowDuplicates>
-			<Fields>
-				<AxTableIndexField>
-					<DataField>TableName</DataField>
 				</AxTableIndexField>
 			</Fields>
 		</AxTableIndex>

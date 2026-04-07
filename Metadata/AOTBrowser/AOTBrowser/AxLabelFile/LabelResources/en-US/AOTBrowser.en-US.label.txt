@@ -31,9 +31,11 @@ EntityName=Entity name
 EnumLabel=Enum label
 EnumMetadata=Enum metadata
  ;Table label for ARBEnumMetadata
-EnumMetadataDevDoc=Stores metadata about D365FO enum values for AI agent consumption
+EnumMetadataDevDoc=Stores metadata about D365FO enumerations for AI agent consumption via Synapse Link.
  ;Developer documentation for ARBEnumMetadata table
 EnumTypeName=Enum type name
+EntityFieldsDevDoc=Stores data entity field mappings including source table and field information
+ ;Developer documentation for ARBEntityFields table
 ExtendedDataType=Extended data type
 FieldDataType=Field data type
 FieldName=Field name
@@ -47,6 +49,7 @@ LicenseCode=License code
  ;ARB_AOTBrowser
 Macros=Macro
  ;ARB_AOTBrowser
+MaintainTableMetadataEntities=Maintain table metadata entities
 Maps=Map
  ;ARB_AOTBrowser
 MenuItemAction=Action menu item
@@ -62,6 +65,8 @@ Menus=Menu
  ;ARB_AOTBrowser
 MetadataDescription=Description
 MetadataHelpText=Help text
+MenuItemReferencesDevDoc=Stores menu item references found across D365FO metadata objects
+ ;Developer documentation for ARBMenuItemReferences table
 ModelName=Model name
 NewLabel0=Label files created on 12/04/2019 20:20:46 for label file Id AOTBrowser and language en-US
  ;Label file comment - see above label
@@ -118,16 +123,16 @@ StringSize=String size
  ;Label for StringSize field on ARBTableFieldMetadata
 TableFieldMetadata=Table field metadata
  ;Table label for ARBTableFieldMetadata
-TableFieldMetadataDevDoc=Stores metadata about D365FO table fields for AI agent consumption
+TableFieldMetadataDevDoc=Stores metadata about D365FO table fields for AI agent consumption via Synapse Link.
  ;Developer documentation for ARBTableFieldMetadata table
 TableGroup=Table group
 TableMetadata=Table metadata
  ;Table label for ARBTableMetadata
-TableMetadataDevDoc=Stores metadata about D365FO tables for AI agent consumption
+TableMetadataDevDoc=Stores metadata about D365FO application tables for AI agent consumption via Synapse Link.
  ;Developer documentation for ARBTableMetadata table
 TableRelationMetadata=Table relation metadata
  ;Table label for ARBTableRelationMetadata
-TableRelationMetadataDevDoc=Stores metadata about D365FO table relationships for AI agent consumption
+TableRelationMetadataDevDoc=Stores metadata about D365FO table relationships for AI agent consumption via Synapse Link.
  ;Developer documentation for ARBTableRelationMetadata table
 TableStatisticsDevDoc=Statistics about each table in the database
  ;ARB_AOTBrowser
@@ -140,6 +145,7 @@ ViewCode=View source code
 ViewCodeHelp=Toggles the ability to view the source code. (NOTE: Viewing metadata from 3rd parties provided by deployable package is not supported with this turned on)
 ViewExtensionsInline=Show extensions inline
  ;ARB_AOTBrowser
+ViewTableMetadataEntities=View table metadata entities
 WorkflowApproval=Workflow approval
  ;ARB_AOTBrowser
 WorkflowAutomatedTask=Workflow automated task
