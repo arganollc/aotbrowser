@@ -14,6 +14,7 @@ public class ARBEnumMetadataEntity extends common
 	<DataManagementStagingTable>ARBEnumMetadataEntityStaging</DataManagementStagingTable>
 	<EntityCategory>Reference</EntityCategory>
 	<IsPublic>Yes</IsPublic>
+	<IsReadOnly>Yes</IsReadOnly>
 	<Modules>General</Modules>
 	<PrimaryKey>EntityKey</PrimaryKey>
 	<PublicCollectionName>ARBEnumMetadata</PublicCollectionName>
@@ -147,8 +148,5 @@ public class ARBEnumMetadataEntity extends common
 				<OrderBy />
 			</AxQuerySimpleRootDataSource>
 		</DataSources>
-	<SourceCode><Methods><Method><Name>classDeclaration</Name><Source><![CDATA[[Query]
-public class ARBEnumMetadataEntityMetadata extends QueryRun
-{
-}]]></Source></Method></Methods></SourceCode></ViewMetadata>
+	</ViewMetadata>
 </AxDataEntityView>

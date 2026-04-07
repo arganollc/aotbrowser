@@ -14,6 +14,7 @@ public class ARBTableRelationMetadataEntity extends common
 	<DataManagementStagingTable>ARBTableRelationMetadataEntityStaging</DataManagementStagingTable>
 	<EntityCategory>Reference</EntityCategory>
 	<IsPublic>Yes</IsPublic>
+	<IsReadOnly>Yes</IsReadOnly>
 	<Modules>General</Modules>
 	<PrimaryKey>EntityKey</PrimaryKey>
 	<PublicCollectionName>ARBTableRelationMetadata</PublicCollectionName>
@@ -190,8 +191,5 @@ public class ARBTableRelationMetadataEntity extends common
 				<OrderBy />
 			</AxQuerySimpleRootDataSource>
 		</DataSources>
-	<SourceCode><Methods><Method><Name>classDeclaration</Name><Source><![CDATA[[Query]
-public class ARBTableRelationMetadataEntityMetadata extends QueryRun
-{
-}]]></Source></Method></Methods></SourceCode></ViewMetadata>
+	</ViewMetadata>
 </AxDataEntityView>

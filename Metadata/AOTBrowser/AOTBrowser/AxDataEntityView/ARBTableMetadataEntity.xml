@@ -14,6 +14,7 @@ public class ARBTableMetadataEntity extends common
 	<DataManagementStagingTable>ARBTableMetadataEntityStaging</DataManagementStagingTable>
 	<EntityCategory>Reference</EntityCategory>
 	<IsPublic>Yes</IsPublic>
+	<IsReadOnly>Yes</IsReadOnly>
 	<Modules>General</Modules>
 	<PrimaryKey>EntityKey</PrimaryKey>
 	<PublicCollectionName>ARBTableMetadata</PublicCollectionName>
@@ -182,8 +183,5 @@ public class ARBTableMetadataEntity extends common
 				<OrderBy />
 			</AxQuerySimpleRootDataSource>
 		</DataSources>
-	<SourceCode><Methods><Method><Name>classDeclaration</Name><Source><![CDATA[[Query]
-public class ARBTableMetadataEntityMetadata extends QueryRun
-{
-}]]></Source></Method></Methods></SourceCode></ViewMetadata>
+	</ViewMetadata>
 </AxDataEntityView>
