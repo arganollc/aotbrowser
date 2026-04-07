@@ -35,8 +35,13 @@
 			<Fields />
 			<Methods />
 		</AxSecurityDataEntityPermission>
+		<AxSecurityDataEntityPermission>
+			<Grant>
+				<Read>Allow</Read>
+			</Grant>
+			<Name>ARBTableKeyFieldMetadataEntity</Name>
+			<Fields />
+			<Methods />
+		</AxSecurityDataEntityPermission>
 	</DataEntityPermissions>
-	<DirectAccessPermissions />
-	<EntryPoints />
-	<FormControlOverrides />
 </AxSecurityPrivilege>

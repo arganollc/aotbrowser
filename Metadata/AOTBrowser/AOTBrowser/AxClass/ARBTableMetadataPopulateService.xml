@@ -15,11 +15,13 @@ class ARBTableMetadataPopulateService extends SysOperationServiceBase
     ARBTableMetadata         tableMetadata;
     ARBTableFieldMetadata    fieldMetadata;
     ARBTableRelationMetadata relationMetadata;
+    ARBTableKeyFieldMetadata keyFieldMetadata;
     ARBEnumMetadata          enumMetadata;
 
     RecordInsertList tableInsertList;
     RecordInsertList fieldInsertList;
     RecordInsertList relationInsertList;
+    RecordInsertList keyFieldInsertList;
     RecordInsertList enumInsertList;
 
     Set processedEnums;
@@ -37,6 +39,7 @@ class ARBTableMetadataPopulateService extends SysOperationServiceBase
         tableInsertList    = new RecordInsertList(tableNum(ARBTableMetadata));
         fieldInsertList    = new RecordInsertList(tableNum(ARBTableFieldMetadata));
         relationInsertList = new RecordInsertList(tableNum(ARBTableRelationMetadata));
+        keyFieldInsertList = new RecordInsertList(tableNum(ARBTableKeyFieldMetadata));
         enumInsertList     = new RecordInsertList(tableNum(ARBEnumMetadata));
         processedEnums     = new Set(Types::String);
 
@@ -45,6 +48,7 @@ class ARBTableMetadataPopulateService extends SysOperationServiceBase
         delete_from tableMetadata;
         delete_from fieldMetadata;
         delete_from relationMetadata;
+        delete_from keyFieldMetadata;
         delete_from enumMetadata;
 
         this.processTables();
@@ -53,6 +57,7 @@ class ARBTableMetadataPopulateService extends SysOperationServiceBase
         tableInsertList.insertDatabase();
         fieldInsertList.insertDatabase();
         relationInsertList.insertDatabase();
+        keyFieldInsertList.insertDatabase();
         enumInsertList.insertDatabase();
 
         ttscommit;
@@ -112,6 +117,7 @@ class ARBTableMetadataPopulateService extends SysOperationServiceBase
         // GetTable() returns merged metadata (base + extensions), so process once
         this.processFields(_tableName, tableName2Id(_tableName), _table.Fields);
         this.processRelations(_tableName, _table.Relations);
+        this.processKeys(_tableName, _table);
     }
 
 ]]></Source>
@@ -242,6 +248,79 @@ class ARBTableMetadataPopulateService extends SysOperationServiceBase
 
                     relationInsertList.add(relationMetadata);
                 }
+            }
+        }
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>processKeys</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Processes key fields (primary index and replacement key) for a table
+    /// </summary>
+    /// <param name = "_tableName">The owning table name</param>
+    /// <param name = "_table">The AxTable metadata object</param>
+    protected void processKeys(str _tableName, AxTable _table)
+    {
+        Set processedIndexNames = new Set(Types::String);
+
+        // Process primary index
+        if (_table.PrimaryIndex != '')
+        {
+            this.processKeyIndex(_tableName, _table, _table.PrimaryIndex, 'PrimaryIndex');
+            processedIndexNames.add(_table.PrimaryIndex);
+        }
+
+        // Process replacement key (if different from primary index)
+        if (_table.ReplacementKey != '' && !processedIndexNames.in(_table.ReplacementKey))
+        {
+            this.processKeyIndex(_tableName, _table, _table.ReplacementKey, 'ReplacementKey');
+        }
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>processKeyIndex</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Processes a single key index and inserts its fields into the key field metadata table
+    /// </summary>
+    /// <param name = "_tableName">The owning table name</param>
+    /// <param name = "_table">The AxTable metadata object</param>
+    /// <param name = "_indexName">The index name to process</param>
+    /// <param name = "_keyType">The key type string (PrimaryIndex or ReplacementKey)</param>
+    protected void processKeyIndex(str _tableName, AxTable _table, str _indexName, str _keyType)
+    {
+        var indexEnum = _table.Indexes.GetEnumerator();
+
+        while (indexEnum.MoveNext())
+        {
+            AxTableIndex tableIndex = indexEnum.Current;
+
+            if (tableIndex.Name == _indexName)
+            {
+                var fieldEnum = tableIndex.Fields.GetEnumerator();
+                int position = 0;
+
+                while (fieldEnum.MoveNext())
+                {
+                    AxTableIndexField indexField = fieldEnum.Current;
+                    position++;
+
+                    keyFieldMetadata.clear();
+                    keyFieldMetadata.TableName     = _tableName;
+                    keyFieldMetadata.IndexName      = _indexName;
+                    keyFieldMetadata.FieldName      = indexField.DataField;
+                    keyFieldMetadata.KeyType        = _keyType;
+                    keyFieldMetadata.FieldPosition  = position;
+
+                    keyFieldInsertList.add(keyFieldMetadata);
+                }
+
+                break;
             }
         }
     }

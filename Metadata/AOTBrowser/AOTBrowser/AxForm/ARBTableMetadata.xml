@@ -87,6 +87,20 @@
 			<DataSourceLinks />
 			<DerivedDataSources />
 		</AxFormDataSource>
+		<AxFormDataSource xmlns="">
+			<Name>ARBTableKeyFieldMetadata</Name>
+			<Table>ARBTableKeyFieldMetadata</Table>
+			<Fields />
+			<ReferencedDataSources />
+			<JoinSource>ARBTableMetadata</JoinSource>
+			<AllowCreate>No</AllowCreate>
+			<AllowDelete>No</AllowDelete>
+			<AllowEdit>No</AllowEdit>
+			<InsertAtEnd>No</InsertAtEnd>
+			<InsertIfEmpty>No</InsertIfEmpty>
+			<DataSourceLinks />
+			<DerivedDataSources />
+		</AxFormDataSource>
 	</DataSources>
 	<Design>
 		<Caption xmlns="">@AOTBrowser:TableMetadata</Caption>
@@ -450,6 +464,64 @@
 							</AxFormControl>
 						</Controls>
 						<Caption>@AOTBrowser:Relations</Caption>
+					</AxFormControl>
+					<AxFormControl xmlns=""
+						i:type="AxFormTabPageControl">
+						<Name>KeysTabPage</Name>
+						<Pattern>ToolbarList</Pattern>
+						<PatternVersion>1.2</PatternVersion>
+						<Type>TabPage</Type>
+						<FormControlExtension
+							i:nil="true" />
+						<Controls>
+							<AxFormControl xmlns=""
+								i:type="AxFormGridControl">
+								<Name>KeysGrid</Name>
+								<Type>Grid</Type>
+								<FormControlExtension
+									i:nil="true" />
+								<Controls>
+									<AxFormControl xmlns=""
+										i:type="AxFormStringControl">
+										<Name>ARBTableKeyFieldMetadata_IndexName</Name>
+										<Type>String</Type>
+										<FormControlExtension
+											i:nil="true" />
+										<DataField>IndexName</DataField>
+										<DataSource>ARBTableKeyFieldMetadata</DataSource>
+									</AxFormControl>
+									<AxFormControl xmlns=""
+										i:type="AxFormStringControl">
+										<Name>ARBTableKeyFieldMetadata_FieldName</Name>
+										<Type>String</Type>
+										<FormControlExtension
+											i:nil="true" />
+										<DataField>FieldName</DataField>
+										<DataSource>ARBTableKeyFieldMetadata</DataSource>
+									</AxFormControl>
+									<AxFormControl xmlns=""
+										i:type="AxFormStringControl">
+										<Name>ARBTableKeyFieldMetadata_KeyType</Name>
+										<Type>String</Type>
+										<FormControlExtension
+											i:nil="true" />
+										<DataField>KeyType</DataField>
+										<DataSource>ARBTableKeyFieldMetadata</DataSource>
+									</AxFormControl>
+									<AxFormControl xmlns=""
+										i:type="AxFormIntegerControl">
+										<Name>ARBTableKeyFieldMetadata_FieldPosition</Name>
+										<Type>Integer</Type>
+										<FormControlExtension
+											i:nil="true" />
+										<DataField>FieldPosition</DataField>
+										<DataSource>ARBTableKeyFieldMetadata</DataSource>
+									</AxFormControl>
+								</Controls>
+								<DataSource>ARBTableKeyFieldMetadata</DataSource>
+							</AxFormControl>
+						</Controls>
+						<Caption>@AOTBrowser:Keys</Caption>
 					</AxFormControl>
 				</Controls>
 			</AxFormControl>

@@ -56,3 +56,19 @@ powershell -ExecutionPolicy Bypass -File "Scripts\Mount.ps1"
 - `ARBAOTBrowser` expects caller context to be passed through `Args` (`parmEnumType`, `parmEnum`, `parm`, and sometimes `parmObject`). If you add a new launch point, keep that contract aligned with the browser form's `init` and `updateControls` logic.
 - The docs under `docs\` describe expected product behavior for search/filter, source viewing, table browser, inline extensions, open-from-form, open-from-entity, and jump-to-reference flows. Update those docs when a feature changes.
 - After install or metadata changes that affect discovery, the intended workflow is to run the "Populate AOT objects" action as a batch job and usually schedule it on a recurrence so the cache stays current.
+
+## Table metadata tables
+
+Four persisted tables store D365FO table/field/relation/enum metadata. The primary purpose is export via Synapse Link or Fabric Link to a data lake so that AI agents can use the metadata to understand the other D365FO tables that are also exported to the lake (field labels, data types, relationships, enum value meanings, etc.) without needing access to a development environment. They are populated by the `ARBTableMetadataPopulateService` batch job (controller: `ARBTableMetadataPopulateController`) and exposed via read-only OData data entities. All four tables have `SaveDataPerCompany = No` and `CacheLookup = Found`. See `docs/tablemetadata.md` for full documentation.
+
+- **ARBTableMetadata** — One record per table. Key: `TableName`. Fields: `TableName`, `TableNum`, `TableLabel`, `TableGroup`, `Description`, `SqlTableName`, `SaveDataPerCompany` (NoYes), `TableType`.
+- **ARBTableFieldMetadata** — One record per field on each table. Key: `TableName` + `FieldName`. Fields: `TableName`, `FieldName`, `FieldId`, `FieldLabel`, `FieldDataType`, `ExtendedDataType`, `EnumTypeName`, `StringSize`, `IsMandatory` (NoYes), `HelpText`. Has a relation to `ARBTableMetadata`.
+- **ARBTableRelationMetadata** — One record per field constraint on each table relation. Key: `TableName` + `RelationName` + `FieldName`. Fields: `TableName`, `RelationName`, `RelatedTableName`, `RelationshipType`, `FieldName`, `RelatedFieldName`, `Cardinality`, `RelatedTableCardinality`. Has a relation to `ARBTableMetadata` and a non-unique index on `RelatedTableName`.
+- **ARBEnumMetadata** — One record per value on each base enumeration. Key: `EnumName` + `ValueName`. Fields: `EnumName`, `EnumLabel`, `ValueName`, `ValueLabel`, `IntegerValue`.
+- **ARBTableKeyFieldMetadata** — One record per field in each primary index and replacement key. Key: `TableName` + `IndexName` + `FieldName`. Fields: `TableName`, `IndexName`, `FieldName`, `KeyType` (PrimaryIndex or ReplacementKey), `FieldPosition`. Has a relation to `ARBTableMetadata`.
+
+OData entities: `ARBTableMetadataEntity`, `ARBTableFieldMetadataEntity`, `ARBTableRelationMetadataEntity`, `ARBEnumMetadataEntity`, `ARBTableKeyFieldMetadataEntity`. Each has a corresponding staging table for data management.
+
+Forms: **Table metadata** (`ARBTableMetadata` — Task Double pattern with fields/relations tabs) and **Enum metadata** (`ARBEnumMetadata` — SimpleList pattern). Both are under **Common > Common**.
+
+Security: `ARBTableMetadataEntityMaintain` and `ARBTableMetadataEntityView` privileges control data entity access; populate actions are covered by `ARBAOTBrowserMaintain`.
