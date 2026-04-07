@@ -20,6 +20,7 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
     str currentObjectLabel;
     ARBAOTObjectType currentObjectType;
     int insertCount;
+    Map menuItemLabelCache = new Map(Types::String, Types::String);
 
 }
 ]]></Declaration>
@@ -117,6 +118,7 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
 			<Method>
 				<Name>processWorkflowTypes</Name>
 				<Source><![CDATA[
+
     /// <summary>
     /// Iterates over all workflow types and extracts their menu item references.
     /// </summary>
@@ -127,12 +129,17 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
         while (workflowTypesEnum.MoveNext())
         {
             AxWorkflowTemplate workflowType = Xpp.MetadataSupport::GetWorkflowTemplate(workflowTypesEnum.Current);
+            if (workflowType == null)
+            {
+                continue;
+            }
             currentObjectName = workflowType.Name;
             currentObjectLabel = this.getLabelForObject(workflowType);
 
             this.processWorkflowType(workflowType, '');
         }
     }
+
 
 ]]></Source>
 			</Method>
@@ -183,6 +190,7 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
 			<Method>
 				<Name>processKPIs</Name>
 				<Source><![CDATA[
+
     /// <summary>
     /// Iterates over all KPI definitions and extracts their menu item references.
     /// </summary>
@@ -193,12 +201,17 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
         while (kpisEnum.MoveNext())
         {
             AxKPI kpi = Xpp.MetadataSupport::GetKPI(kpisEnum.Current);
+            if (kpi == null)
+            {
+                continue;
+            }
             currentObjectName = kpi.Name;
             currentObjectLabel = this.getLabelForObject(kpi);
 
             this.processKPI(kpi, '');
         }
     }
+
 
 ]]></Source>
 			</Method>
@@ -215,7 +228,7 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
     {
         if (_kpi.MenuItemName)
         {
-            this.addMenuItemReference(_kpi.MenuItemName, _kpi.MenuItemType);
+            this.addMenuItemReference(_kpi.MenuItemName, _kpi.MenuItemType, 'MenuItemName');
         }
 
         var trendsEnums = _kpi.Trends.GetEnumerator();
@@ -234,6 +247,7 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
 			<Method>
 				<Name>processMaps</Name>
 				<Source><![CDATA[
+
     /// <summary>
     /// Iterates over all map objects and extracts their menu item references.
     /// </summary>
@@ -244,12 +258,17 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
         while (mapsEnum.MoveNext())
         {
             AxMap map = Xpp.MetadataSupport::GetMap(mapsEnum.Current);
+            if (map == null)
+            {
+                continue;
+            }
             currentObjectName = map.Name;
             currentObjectLabel = this.getLabelForObject(map);
 
             this.processMap(map, '');
         }
     }
+
 
 ]]></Source>
 			</Method>
@@ -265,7 +284,7 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
     {
         if (_map.FormRef)
         {
-            this.addMenuItemReference(_map.FormRef, MenuItemType::Display);
+            this.addMenuItemReference(_map.FormRef, MenuItemType::Display, 'FormRef');
         }
     }
 
@@ -274,6 +293,7 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
 			<Method>
 				<Name>processCompositeDataEntities</Name>
 				<Source><![CDATA[
+
     /// <summary>
     /// Iterates over all composite data entities and extracts their menu item references.
     /// </summary>
@@ -284,12 +304,17 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
         while (compositeEntitiesEnum.MoveNext())
         {
             AxCompositeDataEntityView compositeDataEntity = ArbelaXpp.MetadataSupport::GetCompositeDataEntity(compositeEntitiesEnum.Current);
+            if (compositeDataEntity == null)
+            {
+                continue;
+            }
             currentObjectName = compositeDataEntity.Name;
             currentObjectLabel = this.getLabelForObject(compositeDataEntity);
 
             this.processCompositeDataEntity(compositeDataEntity, '');
         }
     }
+
 
 ]]></Source>
 			</Method>
@@ -305,7 +330,7 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
     {
         if (_compositeDataEntity.FormRef)
         {
-            this.addMenuItemReference(_compositeDataEntity.FormRef, MenuItemType::Display);
+            this.addMenuItemReference(_compositeDataEntity.FormRef, MenuItemType::Display, 'FormRef');
         }
     }
 
@@ -314,6 +339,7 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
 			<Method>
 				<Name>processViews</Name>
 				<Source><![CDATA[
+
     /// <summary>
     /// Iterates over all views and extracts their menu item references.
     /// </summary>
@@ -324,12 +350,17 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
         while (viewsEnum.MoveNext())
         {
             AxView view = Xpp.MetadataSupport::GetView(viewsEnum.Current);
+            if (view == null)
+            {
+                continue;
+            }
             currentObjectName = view.Name;
             currentObjectLabel = this.getLabelForObject(view);
 
             this.processView(view, '');
         }
     }
+
 
 ]]></Source>
 			</Method>
@@ -345,7 +376,7 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
     {
         if (_view.FormRef)
         {
-            this.addMenuItemReference(_view.FormRef, MenuItemType::Display);
+            this.addMenuItemReference(_view.FormRef, MenuItemType::Display, 'FormRef');
         }
     }
 
@@ -354,6 +385,7 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
 			<Method>
 				<Name>processDataEntityViews</Name>
 				<Source><![CDATA[
+
     /// <summary>
     /// Iterates over all data entity views and extracts their menu item references.
     /// </summary>
@@ -364,12 +396,17 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
         while (dataEntitiesEnum.MoveNext())
         {
             AxDataEntityView dataEntity = Xpp.MetadataSupport::GetDataEntityView(dataEntitiesEnum.Current);
+            if (dataEntity == null)
+            {
+                continue;
+            }
             currentObjectName = dataEntity.Name;
             currentObjectLabel = this.getLabelForObject(dataEntity);
 
             this.processDataEntityView(dataEntity, '');
         }
     }
+
 
 ]]></Source>
 			</Method>
@@ -385,7 +422,7 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
     {
         if (_dataEntity.FormRef)
         {
-            this.addMenuItemReference(_dataEntity.FormRef, MenuItemType::Display);
+            this.addMenuItemReference(_dataEntity.FormRef, MenuItemType::Display, 'FormRef');
         }
     }
 
@@ -394,6 +431,7 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
 			<Method>
 				<Name>processTables</Name>
 				<Source><![CDATA[
+
     /// <summary>
     /// Iterates over all tables and extracts their menu item references.
     /// </summary>
@@ -404,12 +442,17 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
         while (tablesEnum.MoveNext())
         {
             AxTable table = Xpp.MetadataSupport::GetTable(tablesEnum.Current);
+            if (table == null)
+            {
+                continue;
+            }
             currentObjectName = table.Name;
             currentObjectLabel = this.getLabelForObject(table);
 
             this.processTable(table, '');
         }
     }
+
 
 ]]></Source>
 			</Method>
@@ -426,22 +469,22 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
     {
         if (_table.FormRef)
         {
-            this.addMenuItemReference(_table.FormRef, MenuItemType::Display);
+            this.addMenuItemReference(_table.FormRef, MenuItemType::Display, 'FormRef');
         }
 
         if (_table.ListPageRef)
         {
-            this.addMenuItemReference(_table.ListPageRef, MenuItemType::Display);
+            this.addMenuItemReference(_table.ListPageRef, MenuItemType::Display, 'ListPageRef');
         }
 
         if (_table.PreviewPartRef)
         {
-            this.addMenuItemReference(_table.PreviewPartRef, MenuItemType::Display);
+            this.addMenuItemReference(_table.PreviewPartRef, MenuItemType::Display, 'PreviewPartRef');
         }
 
         if (_table.ReportRef)
         {
-            this.addMenuItemReference(_table.ReportRef, MenuItemType::Display);
+            this.addMenuItemReference(_table.ReportRef, MenuItemType::Display, 'ReportRef');
         }
     }
 
@@ -450,6 +493,7 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
 			<Method>
 				<Name>processWorkflowTasks</Name>
 				<Source><![CDATA[
+
     /// <summary>
     /// Iterates over all workflow tasks and extracts their menu item references.
     /// </summary>
@@ -460,12 +504,17 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
         while (workflowTasksEnum.MoveNext())
         {
             AxWorkflowTask workflowTask = Xpp.MetadataSupport::GetWorkflowTask(workflowTasksEnum.Current);
+            if (workflowTask == null)
+            {
+                continue;
+            }
             currentObjectName = workflowTask.Name;
             currentObjectLabel = this.getLabelForObject(workflowTask);
 
             this.processWorkflowTask(workflowTask, '');
         }
     }
+
 
 ]]></Source>
 			</Method>
@@ -512,6 +561,7 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
 			<Method>
 				<Name>processSecurityPrivileges</Name>
 				<Source><![CDATA[
+
     /// <summary>
     /// Iterates over all security privileges and extracts their menu item references.
     /// </summary>
@@ -522,12 +572,17 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
         while (securityPrivilegesEnum.MoveNext())
         {
             AxSecurityPrivilege securityPrivilege = ArbelaXpp.MetadataSupport::GetSecurityPrivilege(securityPrivilegesEnum.Current);
+            if (securityPrivilege == null)
+            {
+                continue;
+            }
             currentObjectName = securityPrivilege.Name;
             currentObjectLabel = this.getLabelForObject(securityPrivilege);
 
             this.processSecurityPrivilege(securityPrivilege, '');
         }
     }
+
 
 ]]></Source>
 			</Method>
@@ -573,6 +628,7 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
 			<Method>
 				<Name>processWorkflowApprovals</Name>
 				<Source><![CDATA[
+
     /// <summary>
     /// Iterates over all workflow approvals and extracts their menu item references.
     /// </summary>
@@ -583,12 +639,17 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
         while (workflowApprovalsEnum.MoveNext())
         {
             AxWorkflowApproval workflowApproval = Xpp.MetadataSupport::GetWorkflowApproval(workflowApprovalsEnum.Current);
+            if (workflowApproval == null)
+            {
+                continue;
+            }
             currentObjectName = workflowApproval.Name;
             currentObjectLabel = this.getLabelForObject(workflowApproval);
 
             this.processWorkflowApproval(workflowApproval, '');
         }
     }
+
 
 ]]></Source>
 			</Method>
@@ -645,9 +706,11 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
 			<Method>
 				<Name>addMenuItemReference</Name>
 				<Source><![CDATA[
+
     /// <summary>
     /// Creates an <c>ARBMenuItemReferences</c> record for the specified menu item and adds it
     /// to the insert list. Flushes the list to the database every 10,000 records.
+    /// Uses a cache to avoid repeated metadata lookups for the same menu item label.
     /// </summary>
     /// <param name="_menuItemName">The name of the referenced menu item.</param>
     /// <param name="_menuItemType">The type of the referenced menu item (Display, Action, or Output).</param>
@@ -657,23 +720,36 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
         ARBMenuItemReferences menuItemReference;
         menuItemReference.MenuItemName = _menuItemName;
         menuItemReference.MenuItemType = _menuItemType;
-        AxMenuItem menuItem;
-        switch (_menuItemType)
+
+        str cacheKey = int2Str(enum2int(_menuItemType)) + ':' + _menuItemName;
+        if (menuItemLabelCache.exists(cacheKey))
         {
-            case MenuItemType::Action:
-                menuItem = Xpp.MetadataSupport::GetMenuItemAction(_menuItemName);
-                break;
-            case MenuItemType::Display:
-                menuItem = Xpp.MetadataSupport::GetMenuItemDisplay(_menuItemName);
-                break;
-            case MenuItemType::Output:
-                menuItem = Xpp.MetadataSupport::GetMenuItemOutput(_menuItemName);
-                break;
+            menuItemReference.MenuItemLabel = menuItemLabelCache.lookup(cacheKey);
         }
-        if (!CLRInterop::isNull(menuItem))
+        else
         {
-            menuItemReference.MenuItemLabel = SysLabel::labelId2String(menuItem.Label);
+            AxMenuItem menuItem;
+            switch (_menuItemType)
+            {
+                case MenuItemType::Action:
+                    menuItem = Xpp.MetadataSupport::GetMenuItemAction(_menuItemName);
+                    break;
+                case MenuItemType::Display:
+                    menuItem = Xpp.MetadataSupport::GetMenuItemDisplay(_menuItemName);
+                    break;
+                case MenuItemType::Output:
+                    menuItem = Xpp.MetadataSupport::GetMenuItemOutput(_menuItemName);
+                    break;
+            }
+            str labelText = '';
+            if (!CLRInterop::isNull(menuItem))
+            {
+                labelText = SysLabel::labelId2String(menuItem.Label);
+            }
+            menuItemLabelCache.insert(cacheKey, labelText);
+            menuItemReference.MenuItemLabel = labelText;
         }
+
         menuItemReference.RefObjectName = currentObjectName;
         menuItemReference.RefObjectLabel = currentObjectLabel;
         menuItemReference.RefObjectType = currentObjectType;
@@ -688,11 +764,13 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
         }
     }
 
+
 ]]></Source>
 			</Method>
 			<Method>
 				<Name>processTiles</Name>
 				<Source><![CDATA[
+
     /// <summary>
     /// Iterates over all tile definitions and extracts their menu item references.
     /// </summary>
@@ -703,12 +781,17 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
         while (tileNamesEnum.MoveNext())
         {
             AxTile tile = Xpp.MetadataSupport::GetTile(tileNamesEnum.Current);
+            if (tile == null)
+            {
+                continue;
+            }
             currentObjectName = tile.Name;
             currentObjectLabel = this.getLabelForObject(tile);
 
             this.processTile(tile, '');
         }
     }
+
 
 ]]></Source>
 			</Method>
@@ -733,6 +816,7 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
 			<Method>
 				<Name>processMenus</Name>
 				<Source><![CDATA[
+
     /// <summary>
     /// Iterates over all menus and extracts menu item references from their elements.
     /// </summary>
@@ -743,6 +827,10 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
         while (menuNamesEnum.MoveNext())
         {
             AxMenu menu = Xpp.MetadataSupport::GetMenu(menuNamesEnum.Current);
+            if (menu == null)
+            {
+                continue;
+            }
             currentObjectName = menu.Name;
             currentObjectLabel = this.getLabelForObject(menu);
 
@@ -755,6 +843,7 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
             }
         }
     }
+
 
 ]]></Source>
 			</Method>
@@ -815,6 +904,7 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
 			<Method>
 				<Name>processForms</Name>
 				<Source><![CDATA[
+
     /// <summary>
     /// Iterates over all forms, including their extensions, and extracts menu item
     /// references from their control trees.
@@ -827,6 +917,10 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
         {
             //AxForm form = Xpp.MetadataSupport::GetForm(formNamesEnum.Current);
             AxForm form = metadataProvider.Forms.Read(formNamesEnum.Current);
+            if (form == null || form.Design == null)
+            {
+                continue;
+            }
             currentObjectName = form.Name;
             currentObjectLabel = this.getLabelForObject(form);
             
@@ -853,6 +947,7 @@ class ARBMenuItemRefPopulateService extends SysOperationServiceBase
             }
         }
     }
+
 
 ]]></Source>
 			</Method>

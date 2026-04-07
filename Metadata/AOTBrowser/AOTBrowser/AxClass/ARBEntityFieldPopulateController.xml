@@ -59,14 +59,16 @@ class ARBEntityFieldPopulateController  extends SysOperationserviceController
 				<Name>parmDialogCaption</Name>
 				<Source><![CDATA[
     /// <summary>
-    /// The dialog caption
+    /// The dialog caption. The caption is always overridden with a fixed label
+    /// regardless of the input parameter, which is accepted only for interface compatibility.
     /// </summary>
-    /// <param name = "_dialogCaption">The new dialog caption</param>
+    /// <param name = "_dialogCaption">The new dialog caption (unused — caption is always overridden)</param>
     /// <returns>The dialog caption</returns>
     public LabelType parmDialogCaption(LabelType _dialogCaption = dialogCaption)
     {
         LabelType ret;
 
+        // Caption is always overridden to ensure a consistent batch job description
         ret = "@AOTBrowser:PopulateEntityFieldList";
 
         return ret;

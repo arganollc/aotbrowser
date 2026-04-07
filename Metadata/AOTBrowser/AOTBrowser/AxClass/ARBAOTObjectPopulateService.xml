@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
 	<Name>ARBAOTObjectPopulateService</Name>
 	<SourceCode>
@@ -19,6 +19,7 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
 			<Method>
 				<Name>populateAOTObjects</Name>
 				<Source><![CDATA[
+
     /// <summary>
     /// Generate the setup data needed for parameter comparison
     /// </summary>
@@ -101,6 +102,10 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
 
         }
 
+        // Flush accumulated records to reduce memory usage
+        aotObjectsInsertList.insertDatabase();
+        aotObjectsInsertList = new RecordInsertList(tableNum(ARBAOTObjects));
+
         var dataEntityList = Xpp.MetadataSupport::GetDataModelElements(false,false,true,false,false).GetEnumerator();
 
         while (dataEntityList.MoveNext())
@@ -153,6 +158,10 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
             }
         }
 
+        // Flush accumulated records to reduce memory usage
+        aotObjectsInsertList.insertDatabase();
+        aotObjectsInsertList = new RecordInsertList(tableNum(ARBAOTObjects));
+
         var formsList = Xpp.MetadataSupport::FormNames();
 
         while (formsList.MoveNext())
@@ -163,7 +172,10 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
             {
                 aotObjects.clear();
                 aotObjects.Name = form.Name;
-                aotObjects.Label = SysLabel::labelId2String2(form.Design.Caption);
+                if (form.Design != null)
+                {
+                    aotObjects.Label = SysLabel::labelId2String2(form.Design.Caption);
+                }
                 aotObjects.Type = ARBAOTObjectType::Form;
                 aotObjectsInsertList.add(aotObjects);
             }
@@ -254,6 +266,10 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
                 aotObjectsInsertList.add(aotObjects);
             }
         }
+
+        // Flush accumulated records to reduce memory usage
+        aotObjectsInsertList.insertDatabase();
+        aotObjectsInsertList = new RecordInsertList(tableNum(ARBAOTObjects));
 
         var menuItemDisplayList = Xpp.MetadataSupport::MenuItemDisplayNames();
 
@@ -350,6 +366,10 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
                 aotObjectsInsertList.add(aotObjects);
             }
         }
+
+        // Flush accumulated records to reduce memory usage
+        aotObjectsInsertList.insertDatabase();
+        aotObjectsInsertList = new RecordInsertList(tableNum(ARBAOTObjects));
 
         var aggregateDataEntityList = ArbelaXpp.MetadataSupport::AggregateDataEntityNames();
 
@@ -511,6 +531,10 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
             }
         }
 
+        // Flush accumulated records to reduce memory usage
+        aotObjectsInsertList.insertDatabase();
+        aotObjectsInsertList = new RecordInsertList(tableNum(ARBAOTObjects));
+
         var resourceNames = Xpp.MetadataSupport::ResourceNames();
 
         while (resourceNames.MoveNext())
@@ -643,6 +667,7 @@ class ARBAOTObjectPopulateService extends SysOperationServiceBase
         aotObjectsInsertList.insertDatabase();
         ttscommit;
     }
+
 
 ]]></Source>
 			</Method>

@@ -67,6 +67,7 @@ class ARBAOTObjectTreeForm extends ARBAOTObjectTree
 			<Method>
 				<Name>addExtensionCollection</Name>
 				<Source><![CDATA[
+
     /// <summary>
     /// Adds a collection of extensions to the tree
     /// </summary>
@@ -83,15 +84,18 @@ class ARBAOTObjectTreeForm extends ARBAOTObjectTree
                 while (modsEnum.moveNext())
                 {
                     AxFormExtensionControl controlExt = modsEnum.Current;
-                    TreeItemIdx parentIdx = controlMap.lookup(controlExt.Parent);
-                    TreeItemIdx afterIdx;
-                    if (controlExt.PositionType == CoreMetaModel.ExtensionItemPositionType::AfterItem)
+                    if (controlMap.exists(controlExt.Parent))
                     {
-                        afterIdx = SysFormTreeControl::findInsertAfterIdx(treeControl, parentIdx, controlExt.PreviousSibling);
+                        TreeItemIdx parentIdx = controlMap.lookup(controlExt.Parent);
+                        TreeItemIdx afterIdx;
+                        if (controlExt.PositionType == CoreMetaModel.ExtensionItemPositionType::AfterItem)
+                        {
+                            afterIdx = SysFormTreeControl::findInsertAfterIdx(treeControl, parentIdx, controlExt.PreviousSibling);
+                        }
+                        currentMap = controlMap;
+                        this.addExtension(controlExt.FormControl, parentIdx, _extensionName, controlExt.PositionType, afterIdx);
+                        currentMap = null;
                     }
-                    currentMap = controlMap;
-                    this.addExtension(controlExt.FormControl, parentIdx, _extensionName, controlExt.PositionType, afterIdx);
-                    currentMap = null;
                 }
                 break;
             default:
@@ -99,6 +103,7 @@ class ARBAOTObjectTreeForm extends ARBAOTObjectTree
                 break;
         }
     }
+
 
 ]]></Source>
 			</Method>

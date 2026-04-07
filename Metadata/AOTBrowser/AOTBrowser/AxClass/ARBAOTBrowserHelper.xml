@@ -163,9 +163,16 @@ public final class ARBAOTBrowserHelper
     /// <param name="_datasourceName">The data source name to find.</param>
     /// <param name="_datasources">The collection of data sources to search.</param>
     /// <param name="_extensionDatasources">Optional extension data sources to search.</param>
+    /// <param name="_depth">Current recursion depth (guards against infinite loops).</param>
     /// <returns>The table name, or empty string if not found.</returns>
-    public static TableName getTableNameFromDatasource(str _datasourceName, System.Collections.IEnumerable _datasources, System.Collections.IEnumerable _extensionDatasources = null)
+    public static TableName getTableNameFromDatasource(str _datasourceName, System.Collections.IEnumerable _datasources, System.Collections.IEnumerable _extensionDatasources = null, int _depth = 0)
     {
+        const int maxDepth = 50;
+        if (_depth >= maxDepth)
+        {
+            return '';
+        }
+
         System.Collections.IEnumerator datasourcesEnum;
         if (!CLRInterop::isNull(_datasources))
         {
@@ -181,14 +188,14 @@ public final class ARBAOTBrowserHelper
                     }
                     else
                     {
-                        TableName tableName = ARBAOTBrowserHelper::getTableNameFromDatasource(_datasourceName, formDataSourceRoot.ReferencedDataSources);
+                        TableName tableName = ARBAOTBrowserHelper::getTableNameFromDatasource(_datasourceName, formDataSourceRoot.ReferencedDataSources, null, _depth + 1);
                         if (tableName)
                         {
                             return tableName;
                         }
                         else
                         {
-                            tableName = ARBAOTBrowserHelper::getTableNameFromDatasource(_datasourceName, formDataSourceRoot.DerivedDataSources);
+                            tableName = ARBAOTBrowserHelper::getTableNameFromDatasource(_datasourceName, formDataSourceRoot.DerivedDataSources, null, _depth + 1);
                             if (tableName)
                             {
                                 return tableName;
@@ -205,14 +212,14 @@ public final class ARBAOTBrowserHelper
                     }
                     else
                     {
-                        TableName tableName = ARBAOTBrowserHelper::getTableNameFromDatasource(_datasourceName, formDataSourceDerived.ReferencedDataSources);
+                        TableName tableName = ARBAOTBrowserHelper::getTableNameFromDatasource(_datasourceName, formDataSourceDerived.ReferencedDataSources, null, _depth + 1);
                         if (tableName)
                         {
                             return tableName;
                         }
                         else
                         {
-                            tableName = ARBAOTBrowserHelper::getTableNameFromDatasource(_datasourceName, formDataSourceDerived.DerivedDataSources);
+                            tableName = ARBAOTBrowserHelper::getTableNameFromDatasource(_datasourceName, formDataSourceDerived.DerivedDataSources, null, _depth + 1);
                             if (tableName)
                             {
                                 return tableName;
@@ -229,7 +236,7 @@ public final class ARBAOTBrowserHelper
                     }
                     else
                     {
-                        TableName tableName = ARBAOTBrowserHelper::getTableNameFromDatasource(_datasourceName, formDataSourceReferenced.ReferencedDataSources);
+                        TableName tableName = ARBAOTBrowserHelper::getTableNameFromDatasource(_datasourceName, formDataSourceReferenced.ReferencedDataSources, null, _depth + 1);
                         if (tableName)
                         {
                             return tableName;
@@ -245,14 +252,14 @@ public final class ARBAOTBrowserHelper
                     }
                     else
                     {
-                        TableName tableName = ARBAOTBrowserHelper::getTableNameFromDatasource(_datasourceName, datasource.DataSources);
+                        TableName tableName = ARBAOTBrowserHelper::getTableNameFromDatasource(_datasourceName, datasource.DataSources, null, _depth + 1);
                         if (tableName)
                         {
                             return tableName;
                         }
                         else
                         {
-                            tableName = ARBAOTBrowserHelper::getTableNameFromDatasource(_datasourceName, datasource.DerivedDataSources);
+                            tableName = ARBAOTBrowserHelper::getTableNameFromDatasource(_datasourceName, datasource.DerivedDataSources, null, _depth + 1);
                             if (tableName)
                             {
                                 return tableName;
@@ -275,14 +282,14 @@ public final class ARBAOTBrowserHelper
                 }
                 else
                 {
-                    TableName tableName = ARBAOTBrowserHelper::getTableNameFromDatasource(_datasourceName, datasource.DataSources);
+                    TableName tableName = ARBAOTBrowserHelper::getTableNameFromDatasource(_datasourceName, datasource.DataSources, null, _depth + 1);
                     if (tableName)
                     {
                         return tableName;
                     }
                     else
                     {
-                        tableName = ARBAOTBrowserHelper::getTableNameFromDatasource(_datasourceName, datasource.DerivedDataSources);
+                        tableName = ARBAOTBrowserHelper::getTableNameFromDatasource(_datasourceName, datasource.DerivedDataSources, null, _depth + 1);
                         if (tableName)
                         {
                             return tableName;

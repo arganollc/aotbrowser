@@ -67,6 +67,7 @@ class ARBAOTObjectTreeDataEntity extends ARBAOTObjectTree
 			<Method>
 				<Name>addExtensionCollection</Name>
 				<Source><![CDATA[
+
     /// <summary>
     /// Adds a collection of extensions to the tree
     /// </summary>
@@ -83,7 +84,10 @@ class ARBAOTObjectTreeDataEntity extends ARBAOTObjectTree
                 while (modsEnum.MoveNext())
                 {
                     AxQueryExtensionEmbeddedDataSource ds = modsEnum.Current;
-                    this.addExtension(ds.DataSource, this.getNamedNode(dataSourceMap.lookup(ds.Parent), ARBAOTBrowserConstants::DataSources), _extensionName);
+                    if (dataSourceMap.exists(ds.Parent))
+                    {
+                        this.addExtension(ds.DataSource, this.getNamedNode(dataSourceMap.lookup(ds.Parent), ARBAOTBrowserConstants::DataSources), _extensionName);
+                    }
                 }
                 break;
             case ARBAOTBrowserConstants::FieldGroupExtensions:
@@ -94,12 +98,15 @@ class ARBAOTObjectTreeDataEntity extends ARBAOTObjectTree
                     while (fieldGroupEnum.MoveNext())
                     {
                         AxTableFieldGroupExtension fieldGroupExtension = fieldGroupEnum.Current;
-                        TreeItemIdx parentIdx = fieldGroupsMap.lookup(fieldGroupExtension.Name);
-                        parentIdx = treeControl.getChild(parentIdx); // Get the index of the Fields node
-                        var fieldsEnum = fieldGroupExtension.Fields.GetEnumerator();
-                        while (fieldsEnum.MoveNext())
+                        if (fieldGroupsMap.exists(fieldGroupExtension.Name))
                         {
-                            this.addExtension(fieldsEnum.Current, parentIdx, _extensionName);
+                            TreeItemIdx parentIdx = fieldGroupsMap.lookup(fieldGroupExtension.Name);
+                            parentIdx = treeControl.getChild(parentIdx); // Get the index of the Fields node
+                            var fieldsEnum = fieldGroupExtension.Fields.GetEnumerator();
+                            while (fieldsEnum.MoveNext())
+                            {
+                                this.addExtension(fieldsEnum.Current, parentIdx, _extensionName);
+                            }
                         }
                     }
                 }
@@ -109,6 +116,7 @@ class ARBAOTObjectTreeDataEntity extends ARBAOTObjectTree
                 break;
         }
     }
+
 
 ]]></Source>
 			</Method>

@@ -495,6 +495,7 @@ public class ARBAOTObjectTree
 			<Method>
 				<Name>addExtensionCollection</Name>
 				<Source><![CDATA[
+
     /// <summary>
     /// Adds a collection of extensions to the tree
     /// </summary>
@@ -513,8 +514,12 @@ public class ARBAOTObjectTree
                 Map valuesMap = collectionMap.lookup(modName);
                 while (modsEnum.MoveNext())
                 {
-                    FormTreeItem control = treeControl.getItem(valuesMap.lookup(this.getObjectName(modsEnum.Current)));
-                    this.addExtensionModification(control, modsEnum.Current, _extensionName);
+                    str objectName = this.getObjectName(modsEnum.Current);
+                    if (valuesMap.exists(objectName))
+                    {
+                        FormTreeItem control = treeControl.getItem(valuesMap.lookup(objectName));
+                        this.addExtensionModification(control, modsEnum.Current, _extensionName);
+                    }
                 }
             }
         }
@@ -528,8 +533,12 @@ public class ARBAOTObjectTree
                 {
                     if (modEnum.Current is AxExtensionModification)
                     {
-                        FormTreeItem control = treeControl.getItem(modMap.lookup(this.getObjectName(modEnum.Current)));
-                        this.addExtensionModification(control, modEnum.Current, _extensionName);
+                        str objectName = this.getObjectName(modEnum.Current);
+                        if (modMap.exists(objectName))
+                        {
+                            FormTreeItem control = treeControl.getItem(modMap.lookup(objectName));
+                            this.addExtensionModification(control, modEnum.Current, _extensionName);
+                        }
                     }
                     else
                     {
@@ -540,6 +549,7 @@ public class ARBAOTObjectTree
             }
         }
     }
+
 
 ]]></Source>
 			</Method>
@@ -819,15 +829,22 @@ public class ARBAOTObjectTree
 			<Method>
 				<Name>getNamedNode</Name>
 				<Source><![CDATA[
+
     /// <summary>
     /// Get the index of the node in a sibling group based on the name
     /// </summary>
     /// <param name = "_parentIdx">The parent index</param>
     /// <param name = "_nodeName">The node name</param>
-    /// <returns>The index of the node</returns>
+    /// <returns>The index of the node, or 0 if not found</returns>
     protected TreeItemIdx getNamedNode(TreeItemIdx _parentIdx, str _nodeName)
     {
         TreeItemIdx childIdx = treeControl.getChild(_parentIdx);
+
+        if (childIdx == 0)
+        {
+            return 0;
+        }
+
         FormTreeItem ret;
 
         do
@@ -837,8 +854,14 @@ public class ARBAOTObjectTree
         }
         while (ret.text() != _nodeName && childIdx > 0);
 
-        return ret.idx();
+        if (ret.text() == _nodeName)
+        {
+            return ret.idx();
+        }
+
+        return 0;
     }
+
 
 ]]></Source>
 			</Method>

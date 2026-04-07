@@ -23,6 +23,7 @@ class ARBAOTObjectTreeMenu extends ARBAOTObjectTree
 			<Method>
 				<Name>addExtensionCollection</Name>
 				<Source><![CDATA[
+
     /// <summary>
     /// Adds a collection of extensions to the tree
     /// </summary>
@@ -70,6 +71,7 @@ class ARBAOTObjectTreeMenu extends ARBAOTObjectTree
                 break;
         }
     }
+
 
 ]]></Source>
 			</Method>

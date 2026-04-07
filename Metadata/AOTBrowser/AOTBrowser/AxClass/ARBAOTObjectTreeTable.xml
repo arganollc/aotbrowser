@@ -99,6 +99,7 @@ class ARBAOTObjectTreeTable extends ARBAOTObjectTree
 			<Method>
 				<Name>addExtensionCollection</Name>
 				<Source><![CDATA[
+
     /// <summary>
     /// Adds a collection of extensions to the tree
     /// </summary>
@@ -117,12 +118,15 @@ class ARBAOTObjectTreeTable extends ARBAOTObjectTree
                     while (fieldGroupEnum.MoveNext())
                     {
                         AxTableFieldGroupExtension fieldGroupExtension = fieldGroupEnum.Current;
-                        TreeItemIdx parentIdx = fieldGroupsMap.lookup(fieldGroupExtension.Name);
-                        parentIdx = treeControl.getChild(parentIdx); // Get the index of the Fields node
-                        var fieldsEnum = fieldGroupExtension.Fields.GetEnumerator();
-                        while (fieldsEnum.MoveNext())
+                        if (fieldGroupsMap.exists(fieldGroupExtension.Name))
                         {
-                            this.addExtension(fieldsEnum.Current, parentIdx, _extensionName);
+                            TreeItemIdx parentIdx = fieldGroupsMap.lookup(fieldGroupExtension.Name);
+                            parentIdx = treeControl.getChild(parentIdx); // Get the index of the Fields node
+                            var fieldsEnum = fieldGroupExtension.Fields.GetEnumerator();
+                            while (fieldsEnum.MoveNext())
+                            {
+                                this.addExtension(fieldsEnum.Current, parentIdx, _extensionName);
+                            }
                         }
                     }
                 }
@@ -135,12 +139,15 @@ class ARBAOTObjectTreeTable extends ARBAOTObjectTree
                     while (relationEnum.MoveNext())
                     {
                         AxTableRelationExtension relationExtension = relationEnum.Current;
-                        TreeItemIdx parentIdx = relationsMap.lookup(relationExtension.Name);
-                        parentIdx = treeControl.getChild(parentIdx); // Get the index of the Constraints node
-                        var constraintsEnum = relationExtension.RelationConstraints.GetEnumerator();
-                        while (constraintsEnum.MoveNext())
+                        if (relationsMap.exists(relationExtension.Name))
                         {
-                            this.addExtension(constraintsEnum.Current, parentIdx, _extensionName);
+                            TreeItemIdx parentIdx = relationsMap.lookup(relationExtension.Name);
+                            parentIdx = treeControl.getChild(parentIdx); // Get the index of the Constraints node
+                            var constraintsEnum = relationExtension.RelationConstraints.GetEnumerator();
+                            while (constraintsEnum.MoveNext())
+                            {
+                                this.addExtension(constraintsEnum.Current, parentIdx, _extensionName);
+                            }
                         }
                     }
                 }
@@ -150,6 +157,7 @@ class ARBAOTObjectTreeTable extends ARBAOTObjectTree
                 break;
         }
     }
+
 
 ]]></Source>
 			</Method>
