@@ -127,6 +127,8 @@ TableFieldMetadataDevDoc=Stores metadata about D365FO table fields for AI agent 
  ;Developer documentation for ARBTableFieldMetadata table
 TableGroup=Table group
 TableMetadata=Table metadata
+TableType=Table type
+SaveDataPerCompany=Save data per company
  ;Table label for ARBTableMetadata
 TableMetadataDevDoc=Stores metadata about D365FO application tables for AI agent consumption via Synapse Link.
  ;Developer documentation for ARBTableMetadata table

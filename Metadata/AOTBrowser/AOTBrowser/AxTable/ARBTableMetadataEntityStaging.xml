@@ -31,6 +31,12 @@
 				<AxTableFieldGroupField>
 					<DataField>SqlTableName</DataField>
 				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>SaveDataPerCompany</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>TableType</DataField>
+				</AxTableFieldGroupField>
 			</Fields>
 		</AxTableFieldGroup>
 		<AxTableFieldGroup>
@@ -120,6 +126,17 @@
 			i:type="AxTableFieldString">
 			<Name>SqlTableName</Name>
 			<ExtendedDataType>ARBMetadataSqlTableName</ExtendedDataType>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldEnum">
+			<Name>SaveDataPerCompany</Name>
+			<Label>@AOTBrowser:SaveDataPerCompany</Label>
+			<EnumType>NoYes</EnumType>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldString">
+			<Name>TableType</Name>
+			<ExtendedDataType>ARBMetadataTableType</ExtendedDataType>
 		</AxTableField>
 	</Fields>
 	<FullTextIndexes />

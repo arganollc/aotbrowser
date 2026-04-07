@@ -40,6 +40,12 @@
 				<AxFormDataSourceField>
 					<DataField>SqlTableName</DataField>
 				</AxFormDataSourceField>
+				<AxFormDataSourceField>
+					<DataField>SaveDataPerCompany</DataField>
+				</AxFormDataSourceField>
+				<AxFormDataSourceField>
+					<DataField>TableType</DataField>
+				</AxFormDataSourceField>
 			</Fields>
 			<ReferencedDataSources />
 			<AllowCreate>No</AllowCreate>
@@ -198,6 +204,24 @@
 										<FormControlExtension
 											i:nil="true" />
 										<DataField>SqlTableName</DataField>
+										<DataSource>ARBTableMetadata</DataSource>
+									</AxFormControl>
+									<AxFormControl xmlns=""
+										i:type="AxFormCheckBoxControl">
+										<Name>ARBTableMetadata_SaveDataPerCompany</Name>
+										<Type>CheckBox</Type>
+										<FormControlExtension
+											i:nil="true" />
+										<DataField>SaveDataPerCompany</DataField>
+										<DataSource>ARBTableMetadata</DataSource>
+									</AxFormControl>
+									<AxFormControl xmlns=""
+										i:type="AxFormStringControl">
+										<Name>ARBTableMetadata_TableType</Name>
+										<Type>String</Type>
+										<FormControlExtension
+											i:nil="true" />
+										<DataField>TableType</DataField>
 										<DataSource>ARBTableMetadata</DataSource>
 									</AxFormControl>
 								</Controls>

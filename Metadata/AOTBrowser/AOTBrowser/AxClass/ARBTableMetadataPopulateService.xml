@@ -100,6 +100,8 @@ class ARBTableMetadataPopulateService extends SysOperationServiceBase
         tableMetadata.TableLabel = SysLabel::labelId2String2(_table.Label);
         tableMetadata.TableGroup = enum2Str(_table.TableGroup);
         tableMetadata.SqlTableName = ARBAOTBrowserHelper::getTableSqlName(_tableName);
+        tableMetadata.SaveDataPerCompany = _table.SaveDataPerCompany ? NoYes::Yes : NoYes::No;
+        tableMetadata.TableType  = enum2Str(_table.TableType);
 
         str devDoc = SysLabel::labelId2String2(_table.DeveloperDocumentation);
         tableMetadata.Description = devDoc != '' ? devDoc : tableMetadata.TableLabel;

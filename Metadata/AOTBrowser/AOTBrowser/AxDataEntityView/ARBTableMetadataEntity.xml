@@ -38,6 +38,12 @@ public class ARBTableMetadataEntity extends common
 				<AxTableFieldGroupField>
 					<DataField>SqlTableName</DataField>
 				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>SaveDataPerCompany</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>TableType</DataField>
+				</AxTableFieldGroupField>
 			</Fields>
 		</AxTableFieldGroup>
 		<AxTableFieldGroup>
@@ -89,6 +95,18 @@ public class ARBTableMetadataEntity extends common
 			<DataField>SqlTableName</DataField>
 			<DataSource>ARBTableMetadata</DataSource>
 		</AxDataEntityViewField>
+		<AxDataEntityViewField xmlns=""
+			i:type="AxDataEntityViewMappedField">
+			<Name>SaveDataPerCompany</Name>
+			<DataField>SaveDataPerCompany</DataField>
+			<DataSource>ARBTableMetadata</DataSource>
+		</AxDataEntityViewField>
+		<AxDataEntityViewField xmlns=""
+			i:type="AxDataEntityViewMappedField">
+			<Name>TableType</Name>
+			<DataField>TableType</DataField>
+			<DataSource>ARBTableMetadata</DataSource>
+		</AxDataEntityViewField>
 	</Fields>
 	<Keys>
 		<AxDataEntityViewKey>
@@ -135,6 +153,14 @@ public class ARBTableMetadataEntity extends common
 					<AxQuerySimpleDataSourceField>
 						<Name>SqlTableName</Name>
 						<Field>SqlTableName</Field>
+					</AxQuerySimpleDataSourceField>
+					<AxQuerySimpleDataSourceField>
+						<Name>SaveDataPerCompany</Name>
+						<Field>SaveDataPerCompany</Field>
+					</AxQuerySimpleDataSourceField>
+					<AxQuerySimpleDataSourceField>
+						<Name>TableType</Name>
+						<Field>TableType</Field>
 					</AxQuerySimpleDataSourceField>
 				</Fields>
 				<Ranges />

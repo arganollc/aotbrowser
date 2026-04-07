@@ -323,6 +323,11 @@
       <Name>ARBMetadataTableGroup</Name>
       <Link>EDT Strings\ARBMetadataTableGroup</Link>
     </Content>
+    <Content Include="AxEdt\ARBMetadataTableType">
+      <SubType>Content</SubType>
+      <Name>ARBMetadataTableType</Name>
+      <Link>EDT Strings\ARBMetadataTableType</Link>
+    </Content>
     <Content Include="AxEdt\ARBMetadataSqlTableName">
       <SubType>Content</SubType>
       <Name>ARBMetadataSqlTableName</Name>
