@@ -8,8 +8,8 @@ trigger:
 - master
 
 pool:
-# Use the windows 2022 image
-  vmImage: 'windows-2022'
+# Use the windows latest image
+  vmImage: 'windows-latest'
   demands:
     - msbuild
     - visualstudio
@@ -72,7 +72,7 @@ steps:
   displayName: 'Build solution Projects/BuildSolution/BuildSolution.sln'
   inputs:
     solution: 'Projects/BuildSolution/BuildSolution.sln'
-    vsVersion: '15.0'
+    vsVersion: 'latest'
     msbuildArgs: '/p:BuildTasksDirectory="$(NugetsPath)\$(ToolsPackage)\DevAlm" /p:MetadataDirectory="$(MetadataPath)" /p:FrameworkDirectory="$(NuGetsPath)\$(ToolsPackage)" /p:ReferenceFolder="$(NuGetsPath)\$(PlatPackage)\ref\net40;$(NuGetsPath)\$(AppPackage1)\ref\net40;$(NuGetsPath)\$(AppPackage2)\ref\net40;$(NuGetsPath)\$(AppSuitePackage)\ref\net40;$(MetadataPath);$(Build.BinariesDirectory)" /p:ReferencePath="$(NuGetsPath)\$(ToolsPackage)" /p:OutputDirectory="$(Build.BinariesDirectory)"'
     maximumCpuCount: true
 
