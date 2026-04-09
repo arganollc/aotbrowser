@@ -34,6 +34,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Action Menu Items\" />
+    <Folder Include="AxClass\" />
+    <Folder Include="AxForm\" />
+    <Folder Include="AxResource\" />
     <Folder Include="Base Enums\" />
     <Folder Include="Classes\" />
     <Folder Include="Display Menu Items\" />
@@ -51,12 +54,24 @@
     <Folder Include="Tables\" />
     <Folder Include="Tiles\" />
     <Folder Include="Data Entities\" />
-    <Content Include="AxClass\ARBClipboardHelperBuild" />
-    <Content Include="AxClass\ARBClipboardHelperControl" />
-    <Content Include="AxResource\ARBClipboardHelperHTM" />
-    <Content Include="AxResource\ARBClipboardHelperJS" />
-    <Content Include="AxClass\ARBClipboardHelper" />
-    <Content Include="AxForm\ARBClipboardHelper" />
+    <Content Include="AxClass\ARBClipboardHelperBuild">
+      <Name>ARBClipboardHelperBuild</Name>
+    </Content>
+    <Content Include="AxClass\ARBClipboardHelperControl">
+      <Name>ARBClipboardHelperControl</Name>
+    </Content>
+    <Content Include="AxResource\ARBClipboardHelperHTM">
+      <Name>ARBClipboardHelperHTM</Name>
+    </Content>
+    <Content Include="AxResource\ARBClipboardHelperJS">
+      <Name>ARBClipboardHelperJS</Name>
+    </Content>
+    <Content Include="AxClass\ARBClipboardHelper">
+      <Name>ARBClipboardHelper</Name>
+    </Content>
+    <Content Include="AxForm\ARBClipboardHelper">
+      <Name>ARBClipboardHelper</Name>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="AOTBrowser.en-US.label.txt">
@@ -69,7 +84,7 @@
       <Name>ARBAOTBrowserConstants</Name>
       <Link>Classes\ARBAOTBrowserConstants</Link>
     </Content>
-<Content Include="AxClass\ARBAOTBrowserHelper">
+    <Content Include="AxClass\ARBAOTBrowserHelper">
       <SubType>Content</SubType>
       <Name>ARBAOTBrowserHelper</Name>
       <Link>Classes\ARBAOTBrowserHelper</Link>
@@ -214,7 +229,7 @@
       <Name>ARBAOTBrowser</Name>
       <Link>Forms\ARBAOTBrowser</Link>
     </Content>
-<Content Include="AxForm\ARBEntityFields">
+    <Content Include="AxForm\ARBEntityFields">
       <SubType>Content</SubType>
       <Name>ARBEntityFields</Name>
       <Link>Forms\ARBEntityFields</Link>

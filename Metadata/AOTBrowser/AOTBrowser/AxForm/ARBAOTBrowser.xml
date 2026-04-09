@@ -1470,7 +1470,8 @@ public class ARBAOTBrowser extends FormRun
         {
             super();
 
-            str url = ARBAOTBrowserUrlHelper::buildUrl(currentObjectType, currentObjectName);
+            str treePath = ARBAOTBrowserUrlHelper::getSelectedTreePath(ObjectTree);
+            str url = ARBAOTBrowserUrlHelper::buildUrl(currentObjectType, currentObjectName, treePath);
             ARBClipboardHelper::copyToClipboard(url);
             info(strFmt("@AOTBrowser:LinkCopied"));
         }
