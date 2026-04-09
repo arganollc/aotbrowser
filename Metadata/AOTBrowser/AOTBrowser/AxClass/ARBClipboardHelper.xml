@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>ARBClipboardHelper</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// &lt;summary&gt;
+/// Helper class to copy text to the browser clipboard using an extensible control.
+/// &lt;/summary&gt;
+public class ARBClipboardHelper
+{
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>copyToClipboard</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Copies text to the browser clipboard via a transient dialog with an extensible control.
+    /// </summary>
+    /// <param name = "_text">The text to copy to the clipboard</param>
+    public static void copyToClipboard(str _text)
+    {
+        if (!_text)
+        {
+            return;
+        }
+
+        Args args = new Args();
+        args.name(formStr(ARBClipboardHelper));
+        args.parm(_text);
+
+        FormRun formRun = classFactory.formRunClass(args);
+        formRun.init();
+        formRun.run();
+        formRun.wait();
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

@@ -51,6 +51,12 @@
     <Folder Include="Tables\" />
     <Folder Include="Tiles\" />
     <Folder Include="Data Entities\" />
+    <Content Include="AxClass\ARBClipboardHelperBuild" />
+    <Content Include="AxClass\ARBClipboardHelperControl" />
+    <Content Include="AxResource\ARBClipboardHelperHTM" />
+    <Content Include="AxResource\ARBClipboardHelperJS" />
+    <Content Include="AxClass\ARBClipboardHelper" />
+    <Content Include="AxForm\ARBClipboardHelper" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="AOTBrowser.en-US.label.txt">
@@ -488,6 +494,12 @@
       <Name>ARBTableKeyFieldMetadataEntity</Name>
       <Link>Data Entities\ARBTableKeyFieldMetadataEntity</Link>
     </Content>
+    <Content Include="AxClass\ARBClipboardHelperBuild" />
+    <Content Include="AxClass\ARBClipboardHelperControl" />
+    <Content Include="AxResource\ARBClipboardHelperHTM" />
+    <Content Include="AxResource\ARBClipboardHelperJS" />
+    <Content Include="AxClass\ARBClipboardHelper" />
+    <Content Include="AxForm\ARBClipboardHelper" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Arbela.Dynamics.AX.Xpp.Support\Arbela.Dynamics.AX.Xpp.Support.csproj">
@@ -495,12 +507,24 @@
       <Project>{2f618da7-59bc-4abe-8f24-72d2d59f9ad4}</Project>
       <Private>True</Private>
     </ProjectReference>
+    <Content Include="AxClass\ARBClipboardHelperBuild" />
+    <Content Include="AxClass\ARBClipboardHelperControl" />
+    <Content Include="AxResource\ARBClipboardHelperHTM" />
+    <Content Include="AxResource\ARBClipboardHelperJS" />
+    <Content Include="AxClass\ARBClipboardHelper" />
+    <Content Include="AxForm\ARBClipboardHelper" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="PygmentSharp.Core, Version=0.3.0.0, Culture=neutral, PublicKeyToken=null">
       <Name>PygmentSharp.Core</Name>
       <HintPath>..\packages\PygmentSharp.Core.0.3.0\lib\netstandard2.0\PygmentSharp.Core.dll</HintPath>
     </Reference>
+    <Content Include="AxClass\ARBClipboardHelperBuild" />
+    <Content Include="AxClass\ARBClipboardHelperControl" />
+    <Content Include="AxResource\ARBClipboardHelperHTM" />
+    <Content Include="AxResource\ARBClipboardHelperJS" />
+    <Content Include="AxClass\ARBClipboardHelper" />
+    <Content Include="AxForm\ARBClipboardHelper" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.Common.targets" />
   <Import Project="$(BuildTasksDirectory)\Microsoft.Dynamics.Framework.Tools.BuildTasks.17.0.targets" />

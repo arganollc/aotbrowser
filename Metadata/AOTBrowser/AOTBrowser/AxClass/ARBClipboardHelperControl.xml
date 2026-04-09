@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>ARBClipboardHelperControl</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+[FormControlAttribute('ARBClipboardHelper', '/resources/html/ARBClipboardHelper', classStr(ARBClipboardHelperBuild))]
+class ARBClipboardHelperControl extends FormTemplateContainerControl
+{
+    private FormProperty copyText;
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>new</Name>
+				<Source><![CDATA[
+    public void new(FormBuildControl _build, FormRun _formRun)
+    {
+        super(_build, _formRun);
+        this.setTemplateId('ARBClipboardHelper');
+        this.setResourceBundleName('/resources/html/ARBClipboardHelper');
+        copyText = this.addProperty(methodStr(ARBClipboardHelperControl, setCopyText), Types::String);
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>applyBuild</Name>
+				<Source><![CDATA[
+    public void applyBuild()
+    {
+        super();
+        ARBClipboardHelperBuild build = this.build();
+        if (build)
+        {
+            this.setCopyTextProperty(build.parmCopyText());
+        }
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>setCopyTextProperty</Name>
+				<Source><![CDATA[
+    [FormPropertyAttribute(FormPropertyKind::Value, "SetCopyText")]
+    private str setCopyTextProperty(str _value = copyText.parmValue())
+    {
+        if (!prmIsDefault(_value))
+        {
+            copyText.setValueOrBinding(_value);
+        }
+        return copyText.parmValue();
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>setCopyText</Name>
+				<Source><![CDATA[
+    public void setCopyText(str _text)
+    {
+        this.setCopyTextProperty(_text);
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

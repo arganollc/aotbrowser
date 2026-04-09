@@ -1476,8 +1476,8 @@ public class ARBAOTBrowser extends FormRun
             super();
 
             str url = ARBAOTBrowserUrlHelper::buildUrl(currentObjectType, currentObjectName);
+            ARBClipboardHelper::copyToClipboard(url);
             info(strFmt("@AOTBrowser:LinkCopied"));
-            info(url);
         }
 
 ]]></Source>
@@ -2554,6 +2554,7 @@ public class ARBAOTBrowser extends FormRun
 				</Controls>
 				<Style>FastTabs</Style>
 			</AxFormControl>
+		
 		</Controls>
 	</Design>
 	<Parts />
