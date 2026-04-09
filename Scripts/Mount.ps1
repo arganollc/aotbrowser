@@ -84,23 +84,5 @@ foreach ($Model in $ModelsToJunction)
     }   
 }
 
-# Deploy web resources (HTML/JS) to the webroot for extensible controls
-$WebRoot = Join-Path $LocalDeploymentFolder "webroot"
-foreach ($Model in $ModelsToJunction) 
-{
-    $ResourceContent = Join-Path "$PSScriptRoot\..\Metadata" "$Model\*\AxResource\ResourceContent"
-    if (Test-Path $ResourceContent)
-    {
-        $ResourceFolders = Get-ChildItem $ResourceContent -Directory
-        foreach ($Folder in $ResourceFolders)
-        {
-            $TargetFolder = Join-Path $WebRoot "resources\$($Folder.Name)"
-            if (!(Test-Path $TargetFolder)) { New-Item -ItemType Directory -Force -Path $TargetFolder | Out-Null }
-            Copy-Item "$($Folder.FullName)\*" $TargetFolder -Force
-            Write-Host "Deployed $($Folder.Name) resources to webroot"
-        }
-    }
-}
-
 Write-Host "Starting D365FO environment"
 Start-D365Environment
