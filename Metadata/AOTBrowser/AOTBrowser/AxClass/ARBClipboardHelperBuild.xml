@@ -3,6 +3,9 @@
 	<Name>ARBClipboardHelperBuild</Name>
 	<SourceCode>
 		<Declaration><![CDATA[
+/// <summary>
+/// Build class for the clipboard helper extensible control.
+/// </summary>
 [FormDesignControl('ARBClipboardHelper')]
 public class ARBClipboardHelperBuild extends FormBuildContainerControl
 {

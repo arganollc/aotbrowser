@@ -3,6 +3,9 @@
 	<Name>ARBClipboardHelperControl</Name>
 	<SourceCode>
 		<Declaration><![CDATA[
+/// <summary>
+/// Runtime control for the clipboard helper extensible control.
+/// </summary>
 [FormControlAttribute('ARBClipboardHelper', '/resources/html/ARBClipboardHelper', classStr(ARBClipboardHelperBuild))]
 class ARBClipboardHelperControl extends FormTemplateContainerControl
 {
@@ -13,7 +16,7 @@ class ARBClipboardHelperControl extends FormTemplateContainerControl
 			<Method>
 				<Name>new</Name>
 				<Source><![CDATA[
-    public void new(FormBuildControl _build, FormRun _formRun)
+    protected void new(FormBuildControl _build, FormRun _formRun)
     {
         super(_build, _formRun);
         this.setTemplateId('ARBClipboardHelper');

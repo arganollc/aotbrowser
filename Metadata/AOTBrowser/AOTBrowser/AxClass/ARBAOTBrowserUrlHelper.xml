@@ -3,9 +3,9 @@
 	<Name>ARBAOTBrowserUrlHelper</Name>
 	<SourceCode>
 		<Declaration><![CDATA[
-/// &lt;summary&gt;
+/// <summary>
 /// Provides helper methods for building and parsing AOT Browser deep link URLs.
-/// &lt;/summary&gt;
+/// </summary>
 public final class ARBAOTBrowserUrlHelper
 {
 }

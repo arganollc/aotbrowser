@@ -3,9 +3,9 @@
 	<Name>ARBClipboardHelper</Name>
 	<SourceCode>
 		<Declaration><![CDATA[
-/// &lt;summary&gt;
+/// <summary>
 /// Helper class to copy text to the browser clipboard using an extensible control.
-/// &lt;/summary&gt;
+/// </summary>
 public class ARBClipboardHelper
 {
 }

@@ -1451,7 +1451,7 @@ public class ARBAOTBrowser extends FormRun
             str treePath = ARBAOTBrowserUrlHelper::getSelectedTreePath(ObjectTree);
             str url = ARBAOTBrowserUrlHelper::buildUrl(currentObjectType, currentObjectName, treePath);
             ARBClipboardHelper::copyToClipboard(url);
-            info(strFmt("@AOTBrowser:LinkCopied"));
+            info("@AOTBrowser:LinkCopied");
         }
 
 ]]></Source>
@@ -1502,6 +1502,7 @@ public class ARBAOTBrowser extends FormRun
         /// <summary>
         /// Triggers Find Next whenever the search text is changed.
         /// </summary>
+        /// <returns>The result from the super() call.</returns>
         public boolean modified()
         {
             boolean ret = super();
