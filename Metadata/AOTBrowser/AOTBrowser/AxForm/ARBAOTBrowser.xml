@@ -1207,27 +1207,22 @@ public class ARBAOTBrowser extends FormRun
         // Deep linking: parse URL query-string parameters when no caller context was set
         if (args.parmEnumType() != enumNum(ARBAOTObjectType) || args.parm() == null || args.parm() == '')
         {
-            System.Web.HttpContext httpContext = System.Web.HttpContext::Current;
-            if (httpContext != null && httpContext.Request != null)
+            str objectTypeName = getClientURLQueryValue('ObjectType');
+            str objectName     = getClientURLQueryValue('ObjectName');
+
+            if (objectTypeName != '' && objectName != '')
             {
-                System.Collections.Specialized.NameValueCollection queryString = httpContext.Request.QueryString;
-                str objectTypeName = queryString.Get('ObjectType');
-                str objectName = queryString.Get('ObjectName');
-
-                if (objectTypeName != '' && objectName != '')
+                ARBAOTObjectType urlObjectType = ARBAOTBrowserUrlHelper::parseObjectType(objectTypeName);
+                if (urlObjectType != ARBAOTObjectType::None)
                 {
-                    ARBAOTObjectType urlObjectType = ARBAOTBrowserUrlHelper::parseObjectType(objectTypeName);
-                    if (urlObjectType != ARBAOTObjectType::None)
-                    {
-                        args.parmEnumType(enumNum(ARBAOTObjectType));
-                        args.parmEnum(urlObjectType);
-                        args.parm(objectName);
+                    args.parmEnumType(enumNum(ARBAOTObjectType));
+                    args.parmEnum(urlObjectType);
+                    args.parm(objectName);
 
-                        str treePath = queryString.Get('TreePath');
-                        if (treePath != '')
-                        {
-                            selectedTreePath = treePath;
-                        }
+                    str treePath = getClientURLQueryValue('TreePath');
+                    if (treePath != '')
+                    {
+                        selectedTreePath = treePath;
                     }
                 }
             }
