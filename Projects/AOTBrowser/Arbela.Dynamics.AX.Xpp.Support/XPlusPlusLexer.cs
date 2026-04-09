@@ -30,6 +30,55 @@ namespace Arbela.Dynamics.AX.Xpp.Support
     [LexerFileExtension("*.xpp")]
     public class XPlusPlusLexer : RegexLexer
     {
+        // X++ intrinsic (compile-time) functions
+        private const string IntrinsicFunctions =
+            @"(classStr|tableStr|formStr|menuItemDisplayStr|menuItemActionStr|menuItemOutputStr|" +
+            @"extendedTypeStr|enumStr|queryStr|resourceStr|ssrsReportStr|" +
+            @"fieldStr|fieldPName|tableFieldGroupStr|tableMethodStr|classMethodStr|" +
+            @"staticMethodStr|tableStaticMethodStr|delegateStr|" +
+            @"tableNum|fieldNum|enumNum|configurationKeyStr|configurationKeyNum|" +
+            @"licenseCodeStr|licenseCodeNum|identifierStr|literalStr|" +
+            @"funcName|prmIsDefault|methodStr|typeOf|" +
+            @"classNum|formControlStr|webMenuItemStr|webActionItemStr|" +
+            @"maxDate|maxInt|minInt|dateNull|systemDateGet|" +
+            @"evalBuf|runBuf|curExt|curUserId|" +
+            @"classIdGet|dimOf|typeId|indexStr|indexNum)";
+
+        // X++ keywords (flow control, OOP, data access, transactions, modifiers)
+        private const string Keywords =
+            @"(abstract|as|base|break|breakpoint|case|catch|" +
+            @"const|continue|default|" +
+            @"do|else|enum|extends|false|final|finally|" +
+            @"for|foreach|goto|if|implements|in|interface|" +
+            @"internal|is|new|null|" +
+            @"out|override|private|protected|public|readonly|" +
+            @"ref|retry|return|static|" +
+            @"switch|super|this|throw|true|try|" +
+            @"virtual|while|" +
+            // X++ data access
+            @"select|where|join|exists|notexists|outer|" +
+            @"firstonly|firstonly1|firstonly10|firstfast|" +
+            @"forupdate|nofetch|forceselectorder|forceliterals|" +
+            @"forceplaceholders|forcenestedloop|" +
+            @"validtimestate|crosscompany|" +
+            @"order|by|asc|desc|like|" +
+            @"count|sum|avg|minof|maxof|group|" +
+            @"delete_from|insert_recordset|update_recordset|" +
+            // X++ transactions
+            @"ttsbegin|ttscommit|ttsabort|flush|changecompany|" +
+            // X++ modifiers
+            @"display|edit|server|client|" +
+            @"next|byref|" +
+            // X++ operators as keywords
+            @"mod|div)";
+
+        // X++ type keywords
+        private const string TypeKeywords =
+            @"(int|int64|str|real|date|utcdatetime|guid|" +
+            @"anytype|boolean|container|void|" +
+            @"tableId|fieldId|classId|identifiername|" +
+            @"string|object|var)";
+
         /// <summary>
         /// Gets the state transition rules for the lexer. Each time a regex is matched,
         /// the internal state machine can be bumped to a new state which determines what
@@ -43,6 +92,7 @@ namespace Arbela.Dynamics.AX.Xpp.Support
             var builder = new StateRuleBuilder();
 
             rules["root"] = builder.NewRuleSet()
+                // Method signatures: return type + method name + (
                 .ByGroups(@"^([ \t]*(?:" + cs_ident + @"(?:\[\])?\s+)+?)" +  // return type
                                  @"(" + cs_ident +   @")" +                  // method name
                                  @"(\s*)(\()",                               // signature start
@@ -51,50 +101,74 @@ namespace Arbela.Dynamics.AX.Xpp.Support
                     new TokenGroupProcessor(TokenTypes.Text),
                     new TokenGroupProcessor(TokenTypes.Punctuation))
 
+                // Attributes: [SysEntryPointAttribute, ...]
                 .Add(@"^\s*\[.*?\]", TokenTypes.Name.Attribute)
                 .Add(@"[^\S\n]+", TokenTypes.Text)
-                .Add(@"\\\n", TokenTypes.Text) //line continuation
+                .Add(@"\\\n", TokenTypes.Text) // line continuation
+
+                // XML doc comments (/// ...) — must come before single-line comment rule
+                .Add(@"///.*?\n", TokenTypes.String.Doc)
+                // Comments
                 .Add(@"//.*?\n", TokenTypes.Comment.Single)
                 .Add(@"/[*].*?[*]/", TokenTypes.Comment.Multiline)
+
                 .Add(@"\n", TokenTypes.Text)
-                .Add(@"[~!%^&*()+=|\[\]:;,.<>/?-]", TokenTypes.Punctuation)
-                .Add(@"[{}]", TokenTypes.Punctuation)
-                .Add(@"@""(""""|[^""])*""", TokenTypes.String)
+
+                // Operators (multi-char first, then single-char)
+                .Add(@"(==|!=|>=|<=|<<|>>|\+\+|--|&&|\|\||[+\-*/%=!<>&|^~?])", TokenTypes.Operator)
+                // Structural punctuation
+                .Add(@"[{}()\[\]:;,.]", TokenTypes.Punctuation)
+
+                // String literals
                 .Add(@"""(\\\\|\\""|[^""\n])*[""\n]", TokenTypes.String)
                 .Add(@"'(\\\\|\\'|[^'])*'", TokenTypes.String)
-                //.Add(@"'\\.'|'[^\\]'", TokenTypes.String.Char)
+
+                // Numeric literals
                 .Add(@"[0-9](\.[0-9]*)?([eE][+-][0-9]+)?" +
                                  @"[flFLdD]?|0[xX][0-9a-fA-F]+[Ll]?", TokenTypes.Number)
+
+                // Preprocessor directives
                 .Add(@"#[ \t]*(if|endif|else|elif|define|undef|" +
-                                 @"line|error|warning|region|endregion|pragma|localmacro|endmacro)\b.*?\n", TokenTypes.Comment.Preproc)
-                .ByGroups(@"'\b(extern)(\s+)(alias)\b",
-                    new TokenGroupProcessor(TokenTypes.Keyword),
-                    new TokenGroupProcessor(TokenTypes.Text),
-                    new TokenGroupProcessor(TokenTypes.Keyword))
-                .Add(@"(abstract|as|async|await|base|break|case|catch|" +
-                                @"checked|const|continue|default|delegate|" +
-                                @"do|else|enum|event|explicit|extern|false|finally|" +
-                                @"fixed|for|foreach|goto|if|implicit|in|interface|" +
-                                @"internal|is|lock|new|null|operator|" +
-                                @"out|override|params|private|protected|public|readonly|" +
-                                @"ref|return|sealed|sizeof|stackalloc|static|" +
-                                @"switch|this|throw|true|try|typeof|" +
-                                @"unchecked|unsafe|virtual|void|while|" +
-                                @"get|set|new|partial|yield|add|remove|value|alias|ascending|" +
-                                @"descending|from|group|into|orderby|select|where|" +
-                                @"join|equals|ttsbegin|ttscommit|ttsabort|extends|select|from|" + 
-                                @"where|join|exists|delete_from|insert_recordset|update_recordset)\b", TokenTypes.Keyword)
+                                 @"line|error|warning|region|endregion|pragma|localmacro|endmacro|" +
+                                 @"globaldefine|linenumber|defjob)\b.*?\n", TokenTypes.Comment.Preproc)
+                // Macro usage: #MacroName
+                .Add(@"#[a-zA-Z_]\w*", TokenTypes.Comment.Preproc)
+
+                // Label literals: @SYS12345, @Module:LabelId
+                .Add(@"@[A-Za-z][A-Za-z0-9]*:[A-Za-z][A-Za-z0-9_]*", TokenTypes.Name.Label)
+                .Add(@"@[A-Z]{2,}[0-9]+", TokenTypes.Name.Label)
+
+                // Intrinsic functions: classStr(...), tableStr(...), etc.
+                .ByGroups(IntrinsicFunctions + @"(\s*\()",
+                    new TokenGroupProcessor(TokenTypes.Name.Builtin),
+                    new TokenGroupProcessor(TokenTypes.Punctuation))
+
+                // Static method access: ClassName::
+                .ByGroups(@"([A-Z][a-zA-Z0-9_]*)(::)",
+                    new TokenGroupProcessor(TokenTypes.Name.Class),
+                    new TokenGroupProcessor(TokenTypes.Punctuation))
+
+                // global:: special case
                 .ByGroups(@"(global)(::)",
                     new TokenGroupProcessor(TokenTypes.Keyword),
                     new TokenGroupProcessor(TokenTypes.Punctuation))
-                .Add(@"(bool|byte|char|decimal|double|dynamic|float|int|long|object|" +
-                                 @"sbyte|short|string|uint|ulong|ushort|var|str|real|container)\b\??", TokenTypes.Keyword.Type)
+
+                // X++ keywords
+                .Add(Keywords + @"\b", TokenTypes.Keyword)
+
+                // X++ type keywords
+                .Add(TypeKeywords + @"\b\??", TokenTypes.Keyword.Type)
+
+                // class/struct declaration — push to 'class' state to highlight the name
                 .ByGroups(@"(class|struct)(\s+)", "class",
                     new TokenGroupProcessor(TokenTypes.Keyword),
                     new TokenGroupProcessor(TokenTypes.Text))
+                // namespace/using declaration
                 .ByGroups(@"(namespace|using)(\s+)", "namespace",
                     new TokenGroupProcessor(TokenTypes.Keyword),
                     new TokenGroupProcessor(TokenTypes.Text))
+
+                // Generic identifiers (must be last)
                 .Add(cs_ident, TokenTypes.Name)
                 .Build();
 
