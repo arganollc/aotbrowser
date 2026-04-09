@@ -33,6 +33,12 @@ public class ARBAOTBrowser extends FormRun
     anytype selectedObject;
     int maxPropertyIndex;
 
+    // Tree search state
+    List treeSearchResults;
+    int treeSearchIndex;
+    int treeSearchCount;
+    str treeSearchText;
+
     #define.CurrentVersion(2)
     #localmacro.CurrentList
         extensionsInline,
@@ -226,6 +232,132 @@ public class ARBAOTBrowser extends FormRun
 ]]></Source>
 			</Method>
 			<Method>
+				<Name>treeSearchClear</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Clears tree search state and status display.
+    /// </summary>
+    private void treeSearchClear()
+    {
+        treeSearchResults = null;
+        treeSearchIndex = 0;
+        treeSearchCount = 0;
+        
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>treeSearchCollectMatches</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Recursively walks the tree control collecting indices of nodes whose text contains the search string.
+    /// </summary>
+    /// <param name="_idx">The tree item index to start from.</param>
+    /// <param name="_searchLower">The lowercased search text.</param>
+    /// <param name="_results">The list to accumulate matching indices into.</param>
+    private void treeSearchCollectMatches(TreeItemIdx _idx, str _searchLower, List _results)
+    {
+        FormTreeItem item = ObjectTree.getItem(_idx);
+        if (item && strContains(strLwr(item.text()), _searchLower))
+        {
+            _results.addEnd(_idx);
+        }
+        TreeItemIdx childIdx = ObjectTree.getChild(_idx);
+        while (childIdx != 0)
+        {
+            this.treeSearchCollectMatches(childIdx, _searchLower, _results);
+            childIdx = ObjectTree.getNextSibling(childIdx);
+        }
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>treeSearchExecute</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Executes a tree search using the current search text.
+    /// Collects all matching nodes and navigates to the first match.
+    /// </summary>
+    public void treeSearchExecute()
+    {
+        Dialog dialog = new Dialog("@AOTBrowser:TreeSearchPlaceholder");
+        DialogField searchField = dialog.addFieldValue(extendedTypeStr(Name), treeSearchText);
+        if (!dialog.run())
+        {
+            return;
+        }
+        treeSearchText = searchField.value();
+        str searchText = treeSearchText;
+        this.treeSearchClear();
+
+        if (searchText == '')
+        {
+            return;
+        }
+
+        TreeItemIdx rootIdx = ObjectTree.getRoot();
+        if (rootIdx == 0)
+        {
+            return;
+        }
+
+        treeSearchResults = new List(Types::Integer);
+        this.treeSearchCollectMatches(rootIdx, strLwr(searchText), treeSearchResults);
+        treeSearchCount = treeSearchResults.elements();
+
+        if (treeSearchCount > 0)
+        {
+            treeSearchIndex = 1;
+            ListEnumerator enumerator = treeSearchResults.getEnumerator();
+            enumerator.moveNext();
+            ObjectTree.select(enumerator.current());
+            info(strFmt('%1 / %2 matches', treeSearchIndex, treeSearchCount));
+        }
+        else
+        {
+            info("@AOTBrowser:NoMatchesFound");
+        }
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>treeSearchNavigate</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Navigates to the next or previous match in the tree search results.
+    /// </summary>
+    /// <param name="_forward">true to move to the next match; false for the previous match.</param>
+    public void treeSearchNavigate(boolean _forward)
+    {
+        if (treeSearchResults == null || treeSearchCount == 0)
+        {
+            return;
+        }
+
+        if (_forward)
+        {
+            treeSearchIndex = (treeSearchIndex >= treeSearchCount) ? 1 : treeSearchIndex + 1;
+        }
+        else
+        {
+            treeSearchIndex = (treeSearchIndex <= 1) ? treeSearchCount : treeSearchIndex - 1;
+        }
+
+        ListEnumerator enumerator = treeSearchResults.getEnumerator();
+        for (int i = 0; i < treeSearchIndex; i++)
+        {
+            enumerator.moveNext();
+        }
+        ObjectTree.select(enumerator.current());
+        info(strFmt('%1 / %2 matches', treeSearchIndex, treeSearchCount));
+    }
+
+]]></Source>
+			</Method>
+			<Method>
 				<Name>updateControls</Name>
 				<Source><![CDATA[
     /// <summary>
@@ -238,6 +370,9 @@ public class ARBAOTBrowser extends FormRun
     {
         currentObjectType = _objectType;
         currentObjectName = _aotNodeName;
+
+        this.treeSearchClear();
+        treeSearchText = '';
 
         ResourceImageGroup.visible(false);
 
@@ -294,6 +429,7 @@ public class ARBAOTBrowser extends FormRun
         DetailsTab.caption(_aotNodeName + ' - ' + enum2Str(_objectType));
         ARBOpenTableBrowser.enabled(tableBrowserEnabled);
         ARBMenuItemReferences.enabled(menuItemRefEnabled);
+        CopyLinkButton.enabled(currentObjectName != '');
     }
 
 ]]></Source>
@@ -1068,6 +1204,35 @@ public class ARBAOTBrowser extends FormRun
             }
         }
 
+        // Deep linking: parse URL query-string parameters when no caller context was set
+        if (args.parmEnumType() != enumNum(ARBAOTObjectType) || args.parm() == null || args.parm() == '')
+        {
+            System.Web.HttpContext httpContext = System.Web.HttpContext::Current;
+            if (httpContext != null && httpContext.Request != null)
+            {
+                System.Collections.Specialized.NameValueCollection queryString = httpContext.Request.QueryString;
+                str objectTypeName = queryString.Get('ObjectType');
+                str objectName = queryString.Get('ObjectName');
+
+                if (objectTypeName != '' && objectName != '')
+                {
+                    ARBAOTObjectType urlObjectType = ARBAOTBrowserUrlHelper::parseObjectType(objectTypeName);
+                    if (urlObjectType != ARBAOTObjectType::None)
+                    {
+                        args.parmEnumType(enumNum(ARBAOTObjectType));
+                        args.parmEnum(urlObjectType);
+                        args.parm(objectName);
+
+                        str treePath = queryString.Get('TreePath');
+                        if (treePath != '')
+                        {
+                            selectedTreePath = treePath;
+                        }
+                    }
+                }
+            }
+        }
+
         if (args.parmEnumType() == enumNum(ARBAOTObjectType) && args.parm() != null)
         {
             NavigationGroup.visible(false);
@@ -1297,6 +1462,29 @@ public class ARBAOTBrowser extends FormRun
 				</Methods>
 			</Control>
 			<Control>
+				<Name>CopyLinkButton</Name>
+				<Type>Button</Type>
+				<Methods>
+					<Method>
+						<Name>clicked</Name>
+						<Source><![CDATA[
+        /// <summary>
+        /// Copies a deep link URL for the current AOT object to the browser clipboard.
+        /// </summary>
+        public void clicked()
+        {
+            super();
+
+            str url = ARBAOTBrowserUrlHelper::buildUrl(currentObjectType, currentObjectName);
+            info(strFmt("@AOTBrowser:LinkCopied"));
+            info(url);
+        }
+
+]]></Source>
+					</Method>
+				</Methods>
+			</Control>
+			<Control>
 				<Name>AOTObjectTypeFilter</Name>
 				<Type>ComboBox</Type>
 				<Methods>
@@ -1324,6 +1512,66 @@ public class ARBAOTBrowser extends FormRun
             ARBAOTObjects_ds.executeQuery();
     
             return ret;
+        }
+
+]]></Source>
+					</Method>
+				</Methods>
+			</Control>
+			<Control>
+				<Name>TreeSearchButton</Name>
+				<Type>Button</Type>
+				<Methods>
+					<Method>
+						<Name>clicked</Name>
+						<Source><![CDATA[
+        /// <summary>
+        /// Opens a search dialog and searches the tree for matching nodes.
+        /// </summary>
+        public void clicked()
+        {
+            super();
+            element.treeSearchExecute();
+        }
+
+]]></Source>
+					</Method>
+				</Methods>
+			</Control>
+			<Control>
+				<Name>TreeSearchNext</Name>
+				<Type>Button</Type>
+				<Methods>
+					<Method>
+						<Name>clicked</Name>
+						<Source><![CDATA[
+        /// <summary>
+        /// Navigates to the next matching tree node.
+        /// </summary>
+        public void clicked()
+        {
+            super();
+            element.treeSearchNavigate(true);
+        }
+
+]]></Source>
+					</Method>
+				</Methods>
+			</Control>
+			<Control>
+				<Name>TreeSearchPrev</Name>
+				<Type>Button</Type>
+				<Methods>
+					<Method>
+						<Name>clicked</Name>
+						<Source><![CDATA[
+        /// <summary>
+        /// Navigates to the previous matching tree node.
+        /// </summary>
+        public void clicked()
+        {
+            super();
+            element.treeSearchNavigate(false);
         }
 
 ]]></Source>
@@ -1940,9 +2188,53 @@ public class ARBAOTBrowser extends FormRun
 								<Text>@AOTBrowser:ViewCode</Text>
 								<ToggleButton>Check</ToggleButton>
 							</AxFormControl>
+							<AxFormControl xmlns=""
+								i:type="AxFormButtonControl">
+								<Name>CopyLinkButton</Name>
+								<AutoDeclaration>Yes</AutoDeclaration>
+								<Enabled>No</Enabled>
+								<HelpText>@AOTBrowser:CopyLinkHelp</HelpText>
+								<Type>Button</Type>
+								<FormControlExtension
+									i:nil="true" />
+								<Text>@AOTBrowser:CopyLink</Text>
+							</AxFormControl>
 						</Controls>
 						<Caption>General</Caption>
 					</AxFormControl>
+					<AxFormControl xmlns=""
+							i:type="AxFormButtonGroupControl">
+							<Name>TreeSearchButtonGroup</Name>
+							<Type>ButtonGroup</Type>
+							<FormControlExtension
+								i:nil="true" />
+							<Controls>
+								<AxFormControl xmlns=""
+									i:type="AxFormButtonControl">
+									<Name>TreeSearchButton</Name>
+									<Type>Button</Type>
+									<FormControlExtension
+										i:nil="true" />
+									<Text>@AOTBrowser:TreeSearchPlaceholder</Text>
+								</AxFormControl>
+								<AxFormControl xmlns=""
+									i:type="AxFormButtonControl">
+									<Name>TreeSearchPrev</Name>
+									<Type>Button</Type>
+									<FormControlExtension
+										i:nil="true" />
+									<Text>@AOTBrowser:TreeSearchPrev</Text>
+								</AxFormControl>
+								<AxFormControl xmlns=""
+									i:type="AxFormButtonControl">
+									<Name>TreeSearchNext</Name>
+									<Type>Button</Type>
+									<FormControlExtension
+										i:nil="true" />
+									<Text>@AOTBrowser:TreeSearchNext</Text>
+								</AxFormControl>
+							</Controls>
+						</AxFormControl>
 				</Controls>
 			</AxFormControl>
 			<AxFormControl xmlns=""
@@ -2080,8 +2372,7 @@ public class ARBAOTBrowser extends FormRun
 						i:type="AxFormTabPageControl">
 						<Name>DetailsTab</Name>
 						<AutoDeclaration>Yes</AutoDeclaration>
-						<Pattern>NestedSimpleListDetails</Pattern>
-						<PatternVersion>UX7 1.1</PatternVersion>
+						<Pattern>Custom</Pattern>
 						<Type>TabPage</Type>
 						<FormControlExtension
 							i:nil="true" />
@@ -2142,7 +2433,6 @@ public class ARBAOTBrowser extends FormRun
 												<Name>DetailsDetailsPropertiesGroup</Name>
 												<AllowEdit>No</AllowEdit>
 												<AutoDeclaration>Yes</AutoDeclaration>
-												<Pattern>Custom</Pattern>
 												<Type>Group</Type>
 												<WidthMode>SizeToAvailable</WidthMode>
 												<FormControlExtension
