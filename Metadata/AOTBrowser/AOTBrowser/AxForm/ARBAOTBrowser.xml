@@ -1483,20 +1483,7 @@ public class ARBAOTBrowser extends FormRun
 					</Method>
 				</Methods>
 			</Control>
-			<Control><Name>TreeSearchButton</Name><Type>Button</Type><Methods><Method>
-<Name>clicked</Name><Source><![CDATA[
-        /// <summary>
-        /// Toggles visibility of the inline tree search filter group.
-        /// </summary>
-        public void clicked()
-        {
-            super();
-            TreeSearchFilterGroup.visible(this.toggleValue() == 1);
-            if (this.toggleValue() == 1)
-            {
-                TreeSearchString.setFocus();
-            }
-        }]]></Source></Method></Methods></Control><Control><Name>TreeSearchNextInline</Name><Type>Button</Type><Methods><Method>
+			<Control><Name>TreeSearchNextInline</Name><Type>Button</Type><Methods><Method>
 <Name>clicked</Name><Source><![CDATA[
         /// <summary>
         /// Searches the next tree item node containing the search text.
@@ -1535,13 +1522,13 @@ public class ARBAOTBrowser extends FormRun
                 ObjectTree.select(foundIdx);
             }
         }]]></Source></Method></Methods></Control><Control><Name>TreeSearchString</Name><Type>String</Type><Methods><Method>
-<Name>enter</Name><Source><![CDATA[
+<Name>modified</Name><Source><![CDATA[
         /// <summary>
-        /// Triggers Find Next when Enter is pressed in the search text box.
+        /// Triggers Find Next whenever the search text is changed.
         /// </summary>
-        public void enter()
+        public boolean modified()
         {
-            super();
+            boolean ret = super();
             if (searchNextTreeItems != null && TreeSearchString.text() != '')
             {
                 TreeItemIdx foundIdx = element.findTreeItem(
@@ -1552,6 +1539,7 @@ public class ARBAOTBrowser extends FormRun
                     ObjectTree.select(foundIdx);
                 }
             }
+            return ret;
         }]]></Source></Method></Methods></Control>
 			<Control>
 				<Name>ObjectTree</Name>
@@ -2177,25 +2165,7 @@ public class ARBAOTBrowser extends FormRun
 						</Controls>
 						<Caption>General</Caption>
 					</AxFormControl>
-					<AxFormControl xmlns=""
-                                                                i:type="AxFormButtonGroupControl">
-                                                                <Name>TreeSearchButtonGroup</Name>
-                                                                <Type>ButtonGroup</Type>
-                                                                <FormControlExtension
-                                                                        i:nil="true" />
-                                                                <Controls>
-                                                                        <AxFormControl xmlns=""
-                                                                                i:type="AxFormButtonControl">
-                                                                                <Name>TreeSearchButton</Name>
-                                                                                <AutoDeclaration>Yes</AutoDeclaration>
-                                                                                <Type>Button</Type>
-                                                                                <FormControlExtension
-                                                                                        i:nil="true" />
-                                                                                <Text>@AOTBrowser:TreeSearchPlaceholder</Text>
-                                                                                <ToggleButton>Check</ToggleButton>
-                                                                        </AxFormControl>
-                                                                </Controls>
-                                                        </AxFormControl>
+					
 				</Controls>
 			</AxFormControl>
 			<AxFormControl xmlns=""
@@ -2360,7 +2330,6 @@ public class ARBAOTBrowser extends FormRun
                                                                 <Name>TreeSearchFilterGroup</Name>
                                                                 <AutoDeclaration>Yes</AutoDeclaration>
                                                                 <Type>Group</Type>
-                                                                <Visible>No</Visible>
                                                                 <FormControlExtension
                                                                         i:nil="true" />
                                                                 <Controls>
