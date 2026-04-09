@@ -274,40 +274,55 @@ public class ARBAOTBrowser extends FormRun
 <Name>findTreeItem</Name><Source><![CDATA[
     /// <summary>
     /// Searches the tree for the next or previous item matching the search string.
-    /// Iterates through a pre-built ordered list of tree indices starting from
-    /// a given position and returns the first matching node.
-    /// Supports wildcard patterns (* and ?) via the X++ match() function.
+    /// Iterates through a pre-built ordered list of tree indices, skipping past
+    /// the currently selected node, and returns the first matching node.
+    /// Plain text does case-insensitive substring matching. Use * and ? for wildcards.
     /// </summary>
     /// <param name="_searchTreeItems">The ordered list of tree item indices to search through.</param>
-    /// <param name="_treeItemIdx">The tree item index to start searching from.</param>
     /// <param name="_searchString">The search string (supports * and ? wildcards).</param>
     /// <returns>The index of the matching tree item, or 0 if not found.</returns>
-    private TreeItemIdx findTreeItem(List _searchTreeItems, TreeItemIdx _treeItemIdx, str _searchString)
+    public TreeItemIdx findTreeItem(List _searchTreeItems, str _searchString)
     {
         TreeItemIdx foundItemIdx;
+        TreeItemIdx currentSelection = ObjectTree.getSelection();
 
-        // If search text doesn't contain wildcards, wrap with * for substring match
-        str searchPattern = _searchString;
-        if (!strContains(searchPattern, '*') && !strContains(searchPattern, '?'))
-        {
-            searchPattern = '*' + searchPattern + '*';
-        }
+        boolean useWildcard = strContains(_searchString, '*') || strContains(_searchString, '?');
+        str searchLower = strLwr(_searchString);
 
         ListEnumerator searchEnum = _searchTreeItems.getEnumerator();
-        boolean startSearch = false;
+        boolean passedCurrent = (currentSelection == 0);
 
         while (searchEnum.moveNext())
         {
             TreeItemIdx treeItemIdx = searchEnum.current();
-            if (!startSearch && treeItemIdx != _treeItemIdx)
+
+            if (!passedCurrent)
             {
+                if (treeItemIdx == currentSelection)
+                {
+                    passedCurrent = true;
+                }
                 continue;
             }
-            startSearch = true;
-            if (match(searchPattern, ObjectTree.getItem(treeItemIdx).text()))
+
+            FormTreeItem item = ObjectTree.getItem(treeItemIdx);
+            if (item)
             {
-                foundItemIdx = treeItemIdx;
-                break;
+                boolean isMatch;
+                if (useWildcard)
+                {
+                    isMatch = match(_searchString, item.text());
+                }
+                else
+                {
+                    isMatch = strContains(strLwr(item.text()), searchLower);
+                }
+
+                if (isMatch)
+                {
+                    foundItemIdx = treeItemIdx;
+                    break;
+                }
             }
         }
 
@@ -1495,7 +1510,6 @@ public class ARBAOTBrowser extends FormRun
             }
             TreeItemIdx foundIdx = element.findTreeItem(
                 searchNextTreeItems,
-                ObjectTree.getSelection() + 1,
                 TreeSearchString.text());
             if (foundIdx)
             {
@@ -1515,7 +1529,6 @@ public class ARBAOTBrowser extends FormRun
             }
             TreeItemIdx foundIdx = element.findTreeItem(
                 searchPrevTreeItems,
-                ObjectTree.getSelection() - 1,
                 TreeSearchString.text());
             if (foundIdx)
             {
@@ -2160,7 +2173,6 @@ public class ARBAOTBrowser extends FormRun
                                                                                 <Type>Button</Type>
                                                                                 <FormControlExtension
                                                                                         i:nil="true" />
-                                                                                <ButtonDisplay>ImageOnly</ButtonDisplay>
                                                                                 <NormalImage>Search</NormalImage>
                                                                                 <Text>@AOTBrowser:TreeSearchPlaceholder</Text>
                                                                                 <ToggleButton>Check</ToggleButton>
