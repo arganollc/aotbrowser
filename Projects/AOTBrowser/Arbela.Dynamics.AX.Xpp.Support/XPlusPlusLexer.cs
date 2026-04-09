@@ -44,21 +44,23 @@
             @"classIdGet|dimOf|typeId|indexStr|indexNum)";
 
         // X++ keywords (flow control, OOP, data access, transactions, modifiers)
+        // Derived from Microsoft.Dynamics.Framework.Tools.LanguageService.Parser.Tokens enum
         private const string Keywords =
             @"(abstract|as|base|break|breakpoint|case|catch|" +
             @"const|continue|default|" +
-            @"do|else|enum|extends|false|final|finally|" +
-            @"for|foreach|goto|if|implements|in|interface|" +
+            @"do|else|enum|event|eventhandler|extends|false|final|finally|" +
+            @"for|foreach|generateonly|goto|hint|if|implements|in|index|interface|" +
             @"internal|is|new|null|" +
-            @"out|override|private|protected|public|readonly|" +
-            @"ref|retry|return|static|" +
-            @"switch|super|this|throw|true|try|" +
+            @"out|override|print|private|protected|public|readonly|" +
+            @"ref|retry|return|reverse|set|static|" +
+            @"switch|super|this|throw|true|try|unchecked|" +
             @"virtual|while|" +
             // X++ data access
-            @"select|where|join|exists|notexists|outer|" +
-            @"firstonly|firstonly1|firstonly10|firstfast|" +
+            @"select|where|from|join|exists|notexists|outer|" +
+            @"firstonly|firstonly1|firstonly10|firstonly100|firstonly1000|firstfast|" +
             @"forupdate|nofetch|forceselectorder|forceliterals|" +
             @"forceplaceholders|forcenestedloop|" +
+            @"optimisticlock|pessimisticlock|repeatableread|" +
             @"validtimestate|crosscompany|" +
             @"order|by|asc|desc|like|" +
             @"count|sum|avg|minof|maxof|group|" +
