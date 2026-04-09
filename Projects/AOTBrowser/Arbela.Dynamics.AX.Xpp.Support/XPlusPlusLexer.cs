@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using PygmentSharp.Core;
-using PygmentSharp.Core.Lexing;
-using PygmentSharp.Core.Tokens;
-
-namespace Arbela.Dynamics.AX.Xpp.Support
+﻿namespace Arbela.Dynamics.AX.Xpp.Support
 {
+    using System.Collections.Generic;
+
+    using PygmentSharp.Core;
+    using PygmentSharp.Core.Lexing;
+    using PygmentSharp.Core.Tokens;
+
     internal static class XPlusPlusLexerLevel
     {
         public static readonly string None = @"@?[_a-zA-Z]\w*";

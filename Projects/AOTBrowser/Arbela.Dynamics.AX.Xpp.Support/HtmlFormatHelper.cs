@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Net;
-
-namespace Arbela.Dynamics.AX.Xpp.Support
+﻿namespace Arbela.Dynamics.AX.Xpp.Support
 {
+    using System;
+
     public class HtmlFormatHelper
     {
         public static string Format(string _unformattedString)
