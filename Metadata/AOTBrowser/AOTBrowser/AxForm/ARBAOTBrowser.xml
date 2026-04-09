@@ -1534,6 +1534,24 @@ public class ARBAOTBrowser extends FormRun
             {
                 ObjectTree.select(foundIdx);
             }
+        }]]></Source></Method></Methods></Control><Control><Name>TreeSearchString</Name><Type>String</Type><Methods><Method>
+<Name>enter</Name><Source><![CDATA[
+        /// <summary>
+        /// Triggers Find Next when Enter is pressed in the search text box.
+        /// </summary>
+        public void enter()
+        {
+            super();
+            if (searchNextTreeItems != null && TreeSearchString.text() != '')
+            {
+                TreeItemIdx foundIdx = element.findTreeItem(
+                    searchNextTreeItems,
+                    TreeSearchString.text());
+                if (foundIdx)
+                {
+                    ObjectTree.select(foundIdx);
+                }
+            }
         }]]></Source></Method></Methods></Control>
 			<Control>
 				<Name>ObjectTree</Name>
@@ -2173,7 +2191,6 @@ public class ARBAOTBrowser extends FormRun
                                                                                 <Type>Button</Type>
                                                                                 <FormControlExtension
                                                                                         i:nil="true" />
-                                                                                <NormalImage>Search</NormalImage>
                                                                                 <Text>@AOTBrowser:TreeSearchPlaceholder</Text>
                                                                                 <ToggleButton>Check</ToggleButton>
                                                                         </AxFormControl>
