@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>ARBAOTBrowserUrlHelper</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// Provides helper methods for building and parsing AOT Browser deep link URLs.
+/// </summary>
+public final class ARBAOTBrowserUrlHelper
+{
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>buildUrl</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Builds a shareable URL that opens the AOT Browser for the specified object.
+    /// </summary>
+    /// <param name="_objectType">The AOT object type.</param>
+    /// <param name="_objectName">The AOT object name.</param>
+    /// <param name="_treePath">Optional slash-delimited path to select a specific tree node.</param>
+    /// <returns>A fully-qualified URL string.</returns>
+    public static str buildUrl(ARBAOTObjectType _objectType, TreeNodeName _objectName, str _treePath = '')
+    {
+        Microsoft.Dynamics.ApplicationPlatform.Environment.IApplicationEnvironment env =
+            Microsoft.Dynamics.ApplicationPlatform.Environment.EnvironmentFactory::GetApplicationEnvironment();
+        str baseUrl = env.Infrastructure.HostUrl;
+
+        // Trim trailing slash
+        if (strEndsWith(baseUrl, '/'))
+        {
+            baseUrl = subStr(baseUrl, 1, strLen(baseUrl) - 1);
+        }
+
+        str url = strFmt('%1/?mi=ARBAOTBrowser&ObjectType=%2&ObjectName=%3',
+            baseUrl,
+            enum2Symbol(enumNum(ARBAOTObjectType), _objectType),
+            System.Uri::EscapeDataString(_objectName));
+
+        if (_treePath != '')
+        {
+            url += strFmt('&TreePath=%1', System.Uri::EscapeDataString(_treePath));
+        }
+
+        return url;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parseObjectType</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Converts a string representation of an AOT object type to its enum value.
+    /// </summary>
+    /// <param name="_value">The string name of the type (e.g., "Table", "Form", "Class").</param>
+    /// <returns>The corresponding <c>ARBAOTObjectType</c> enum value, or <c>ARBAOTObjectType::None</c> if not found.</returns>
+    public static ARBAOTObjectType parseObjectType(str _value)
+    {
+        DictEnum dictEnum = new DictEnum(enumNum(ARBAOTObjectType));
+        int idx = dictEnum.name2Value(_value);
+        if (idx >= 0)
+        {
+            return idx;
+        }
+        return ARBAOTObjectType::None;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>getSelectedTreePath</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Builds a slash-delimited tree path from the currently selected tree node up to (but not including) the root.
+    /// </summary>
+    /// <param name="_treeControl">The form tree control.</param>
+    /// <returns>A slash-delimited path string (e.g., "Fields/AccountNum").</returns>
+    public static str getSelectedTreePath(FormTreeControl _treeControl)
+    {
+        TreeItemIdx selectedIdx = _treeControl.getSelection();
+        if (selectedIdx == 0)
+        {
+            return '';
+        }
+
+        TreeItemIdx rootIdx = _treeControl.getRoot();
+        if (selectedIdx == rootIdx)
+        {
+            return '';
+        }
+
+        List pathParts = new List(Types::String);
+        TreeItemIdx currentIdx = selectedIdx;
+
+        while (currentIdx != 0 && currentIdx != rootIdx)
+        {
+            FormTreeItem item = _treeControl.getItem(currentIdx);
+            pathParts.addStart(item.text());
+            currentIdx = _treeControl.getParent(currentIdx);
+        }
+
+        str path = '';
+        ListEnumerator enumerator = pathParts.getEnumerator();
+        while (enumerator.moveNext())
+        {
+            if (path != '')
+            {
+                path += '/';
+            }
+            path += enumerator.current();
+        }
+
+        return path;
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

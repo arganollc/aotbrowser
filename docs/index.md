@@ -46,3 +46,5 @@ It is recommended to schedule both batch jobs with recurrence so that the data s
 - [Jump to references](jumpreferences.md)
 - [Table and enum metadata](tablemetadata.md)
 - View label value instead of label id
+- [Tree Search](treesearch.md)
+- [URL Deep Linking](deeplinking.md)

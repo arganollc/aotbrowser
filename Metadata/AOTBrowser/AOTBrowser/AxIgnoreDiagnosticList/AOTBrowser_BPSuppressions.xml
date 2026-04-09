@@ -26,5 +26,21 @@
 			<Message>Method '' is considered a security risk. Verify that the data displayed in the form is fetched with proper record level security in place.</Message>
 			<Justification>Conscious design decision</Justification>
 		</Diagnostic>
+		<Diagnostic>
+			<DiagnosticType>BestPractices</DiagnosticType>
+			<Severity>Warning</Severity>
+			<Path>dynamics://Form/ARBClipboardHelper/FormDesign/FormDesign</Path>
+			<Moniker>BPWarningFormDesignOrControlsWithCustomPattern</Moniker>
+			<Message>BPWarningFormDesignOrControlsWithCustomPattern: 'FormDesign' is using the 'Custom' pattern. Please apply one of the other available patterns.</Message>
+			<Justification>By design</Justification>
+		</Diagnostic>
+		<Diagnostic>
+			<DiagnosticType>BestPractices</DiagnosticType>
+			<Severity>Warning</Severity>
+			<Path>dynamics://Form/ARBAOTBrowser/FormDesign/FormDesign/FormTabControl/DetailsTabs/FormTabPageControl/DetailsTab</Path>
+			<Moniker>BPWarningFormDesignOrControlsWithCustomPattern</Moniker>
+			<Message>BPWarningFormDesignOrControlsWithCustomPattern: 'DetailsTab' is using the 'Custom' pattern. Please apply one of the other available patterns.</Message>
+			<Justification>By design</Justification>
+		</Diagnostic>
 	</Items>
 </IgnoreDiagnostics>
