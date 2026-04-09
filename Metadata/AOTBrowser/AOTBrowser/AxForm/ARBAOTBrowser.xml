@@ -230,7 +230,8 @@ public class ARBAOTBrowser extends FormRun
 ]]></Source>
 			</Method>
 			<Method>
-<Name>buildSearchTreeItems</Name><Source><![CDATA[
+				<Name>buildSearchTreeItems</Name>
+				<Source><![CDATA[
     /// <summary>
     /// Builds the search index lists by walking the tree in depth-first order.
     /// searchNextTreeItems contains indices in ascending (DFS) order for Find Next.
@@ -247,9 +248,12 @@ public class ARBAOTBrowser extends FormRun
         {
             this.buildSearchTreeItemsRecursive(rootIdx);
         }
-    }]]></Source></Method>
-<Method>
-<Name>buildSearchTreeItemsRecursive</Name><Source><![CDATA[
+    }
+]]></Source>
+			</Method>
+			<Method>
+				<Name>buildSearchTreeItemsRecursive</Name>
+				<Source><![CDATA[
     /// <summary>
     /// Recursively walks the tree adding each node's index to the search lists.
     /// </summary>
@@ -269,9 +273,12 @@ public class ARBAOTBrowser extends FormRun
             this.buildSearchTreeItemsRecursive(childIdx);
             childIdx = ObjectTree.getNextSibling(childIdx);
         }
-    }]]></Source></Method>
-<Method>
-<Name>findTreeItem</Name><Source><![CDATA[
+    }
+]]></Source>
+			</Method>
+			<Method>
+				<Name>findTreeItem</Name>
+				<Source><![CDATA[
     /// <summary>
     /// Searches the tree for the next or previous item matching the search string.
     /// Iterates through a pre-built ordered list of tree indices, skipping past
@@ -327,7 +334,9 @@ public class ARBAOTBrowser extends FormRun
         }
 
         return foundItemIdx;
-    }]]></Source></Method>
+    }
+]]></Source>
+			</Method>
 			<Method>
 				<Name>updateControls</Name>
 				<Source><![CDATA[
@@ -1483,46 +1492,13 @@ public class ARBAOTBrowser extends FormRun
 					</Method>
 				</Methods>
 			</Control>
-			<Control><Name>TreeSearchNextInline</Name><Type>Button</Type><Methods><Method>
-<Name>clicked</Name><Source><![CDATA[
-        /// <summary>
-        /// Searches the next tree item node containing the search text.
-        /// </summary>
-        public void clicked()
-        {
-            super();
-            if (searchNextTreeItems == null || TreeSearchString.text() == '')
-            {
-                return;
-            }
-            TreeItemIdx foundIdx = element.findTreeItem(
-                searchNextTreeItems,
-                TreeSearchString.text());
-            if (foundIdx)
-            {
-                ObjectTree.select(foundIdx);
-            }
-        }]]></Source></Method></Methods></Control><Control><Name>TreeSearchPrevInline</Name><Type>Button</Type><Methods><Method>
-<Name>clicked</Name><Source><![CDATA[
-        /// <summary>
-        /// Searches the previous tree item node containing the search text.
-        /// </summary>
-        public void clicked()
-        {
-            super();
-            if (searchPrevTreeItems == null || TreeSearchString.text() == '')
-            {
-                return;
-            }
-            TreeItemIdx foundIdx = element.findTreeItem(
-                searchPrevTreeItems,
-                TreeSearchString.text());
-            if (foundIdx)
-            {
-                ObjectTree.select(foundIdx);
-            }
-        }]]></Source></Method></Methods></Control><Control><Name>TreeSearchString</Name><Type>String</Type><Methods><Method>
-<Name>modified</Name><Source><![CDATA[
+			<Control>
+				<Name>TreeSearchString</Name>
+				<Type>String</Type>
+				<Methods>
+					<Method>
+						<Name>modified</Name>
+						<Source><![CDATA[
         /// <summary>
         /// Triggers Find Next whenever the search text is changed.
         /// </summary>
@@ -1540,7 +1516,69 @@ public class ARBAOTBrowser extends FormRun
                 }
             }
             return ret;
-        }]]></Source></Method></Methods></Control>
+        }
+]]></Source>
+					</Method>
+				</Methods>
+			</Control>
+			<Control>
+				<Name>TreeSearchPrevInline</Name>
+				<Type>Button</Type>
+				<Methods>
+					<Method>
+						<Name>clicked</Name>
+						<Source><![CDATA[
+        /// <summary>
+        /// Searches the previous tree item node containing the search text.
+        /// </summary>
+        public void clicked()
+        {
+            super();
+            if (searchPrevTreeItems == null || TreeSearchString.text() == '')
+            {
+                return;
+            }
+            TreeItemIdx foundIdx = element.findTreeItem(
+                searchPrevTreeItems,
+                TreeSearchString.text());
+            if (foundIdx)
+            {
+                ObjectTree.select(foundIdx);
+            }
+        }
+]]></Source>
+					</Method>
+				</Methods>
+			</Control>
+			<Control>
+				<Name>TreeSearchNextInline</Name>
+				<Type>Button</Type>
+				<Methods>
+					<Method>
+						<Name>clicked</Name>
+						<Source><![CDATA[
+        /// <summary>
+        /// Searches the next tree item node containing the search text.
+        /// </summary>
+        public void clicked()
+        {
+            super();
+            if (searchNextTreeItems == null || TreeSearchString.text() == '')
+            {
+                return;
+            }
+            TreeItemIdx foundIdx = element.findTreeItem(
+                searchNextTreeItems,
+                TreeSearchString.text());
+            if (foundIdx)
+            {
+                ObjectTree.select(foundIdx);
+            }
+        }
+]]></Source>
+					</Method>
+				</Methods>
+			</Control>
 			<Control>
 				<Name>ObjectTree</Name>
 				<Type>Tree</Type>
@@ -2165,7 +2203,6 @@ public class ARBAOTBrowser extends FormRun
 						</Controls>
 						<Caption>General</Caption>
 					</AxFormControl>
-					
 				</Controls>
 			</AxFormControl>
 			<AxFormControl xmlns=""
@@ -2325,58 +2362,59 @@ public class ARBAOTBrowser extends FormRun
 										<Type>Group</Type>
 										<FormControlExtension
 											i:nil="true" />
-										<Controls><AxFormControl xmlns=""
-                                                                i:type="AxFormGroupControl">
-                                                                <Name>TreeSearchFilterGroup</Name>
-                                                                <AutoDeclaration>Yes</AutoDeclaration>
-                                                                <Type>Group</Type>
-                                                                <FormControlExtension
-                                                                        i:nil="true" />
-                                                                <Controls>
-                                                                        <AxFormControl xmlns=""
-                                                                                i:type="AxFormStringControl">
-                                                                                <Name>TreeSearchString</Name>
-                                                                                <AutoDeclaration>Yes</AutoDeclaration>
-                                                                                <Type>String</Type>
-                                                                                <FormControlExtension
-                                                                                        i:nil="true" />
-                                                                                <Label>@AOTBrowser:TreeSearchPlaceholder</Label>
-                                                                                <ShowLabel>No</ShowLabel>
-                                                                        </AxFormControl>
-                                                                        <AxFormControl xmlns=""
-                                                                                i:type="AxFormButtonGroupControl">
-                                                                                <Name>TreeSearchFindButtonGroup</Name>
-                                                                                <Type>ButtonGroup</Type>
-                                                                                <FormControlExtension
-                                                                                        i:nil="true" />
-                                                                                <Controls>
-                                                                                        <AxFormControl xmlns=""
-                                                                                                i:type="AxFormButtonControl">
-                                                                                                <Name>TreeSearchPrevInline</Name>
-                                                                                                <Type>Button</Type>
-                                                                                                <FormControlExtension
-                                                                                                        i:nil="true" />
-                                                                                                <ButtonDisplay>ImageOnly</ButtonDisplay>
-                                                                                                <NormalImage>ChevronUp</NormalImage>
-                                                                                                <Text>@AOTBrowser:TreeSearchPrev</Text>
-                                                                                        </AxFormControl>
-                                                                                        <AxFormControl xmlns=""
-                                                                                                i:type="AxFormButtonControl">
-                                                                                                <Name>TreeSearchNextInline</Name>
-                                                                                                <Type>Button</Type>
-                                                                                                <FormControlExtension
-                                                                                                        i:nil="true" />
-                                                                                                <ButtonDisplay>ImageOnly</ButtonDisplay>
-                                                                                                <NormalImage>ChevronDown</NormalImage>
-                                                                                                <Text>@AOTBrowser:TreeSearchNext</Text>
-                                                                                        </AxFormControl>
-                                                                                </Controls>
-                                                                                <Columns>2</Columns>
-                                                                        </AxFormControl>
-                                                                </Controls>
-                                                                <ArrangeMethod>HorizontalLeft</ArrangeMethod>
-                                                                <ViewEditMode>Edit</ViewEditMode>
-                                                        </AxFormControl>
+										<Controls>
+											<AxFormControl xmlns=""
+												i:type="AxFormGroupControl">
+												<Name>TreeSearchFilterGroup</Name>
+												<AutoDeclaration>Yes</AutoDeclaration>
+												<Type>Group</Type>
+												<FormControlExtension
+													i:nil="true" />
+												<Controls>
+													<AxFormControl xmlns=""
+														i:type="AxFormStringControl">
+														<Name>TreeSearchString</Name>
+														<AutoDeclaration>Yes</AutoDeclaration>
+														<Type>String</Type>
+														<FormControlExtension
+															i:nil="true" />
+														<Label>@AOTBrowser:TreeSearchPlaceholder</Label>
+														<LabelPosition>Above</LabelPosition>
+													</AxFormControl>
+													<AxFormControl xmlns=""
+														i:type="AxFormButtonGroupControl">
+														<Name>TreeSearchFindButtonGroup</Name>
+														<Type>ButtonGroup</Type>
+														<FormControlExtension
+															i:nil="true" />
+														<Controls>
+															<AxFormControl xmlns=""
+																i:type="AxFormButtonControl">
+																<Name>TreeSearchPrevInline</Name>
+																<Type>Button</Type>
+																<FormControlExtension
+																	i:nil="true" />
+																<ButtonDisplay>ImageOnly</ButtonDisplay>
+																<NormalImage>ChevronUp</NormalImage>
+																<Text>@AOTBrowser:TreeSearchPrev</Text>
+															</AxFormControl>
+															<AxFormControl xmlns=""
+																i:type="AxFormButtonControl">
+																<Name>TreeSearchNextInline</Name>
+																<Type>Button</Type>
+																<FormControlExtension
+																	i:nil="true" />
+																<ButtonDisplay>ImageOnly</ButtonDisplay>
+																<NormalImage>ChevronDown</NormalImage>
+																<Text>@AOTBrowser:TreeSearchNext</Text>
+															</AxFormControl>
+														</Controls>
+														<Columns>2</Columns>
+													</AxFormControl>
+												</Controls>
+												<ArrangeMethod>HorizontalLeft</ArrangeMethod>
+												<ViewEditMode>Edit</ViewEditMode>
+											</AxFormControl>
 											<AxFormControl xmlns=""
 												i:type="AxFormTreeControl">
 												<Name>ObjectTree</Name>
@@ -2536,7 +2574,6 @@ public class ARBAOTBrowser extends FormRun
 				</Controls>
 				<Style>FastTabs</Style>
 			</AxFormControl>
-		
 		</Controls>
 	</Design>
 	<Parts />
