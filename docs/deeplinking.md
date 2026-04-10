@@ -35,7 +35,9 @@ https://myenv.operations.dynamics.com/?mi=ARBAOTBrowser&ObjectType=Form&ObjectNa
 
 ## Copy Link Button
 
-The **Copy Link** button in the action pane generates a deep link URL for the currently displayed object and shows it in the infolog. You can then copy the URL from the infolog and share it with others.
+The **Copy link** button in the action pane generates a deep link URL for the currently displayed object and selected tree node, and **copies it directly to your clipboard**. An "Link copied to clipboard" info message confirms the copy. You can then paste the URL anywhere to share it.
+
+The button is enabled only when an AOT object is loaded.
 
 ## Supported Object Types
 

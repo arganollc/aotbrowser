@@ -5,10 +5,9 @@ When browsing a large AOT object such as a table with hundreds of fields or a fo
 ## How to use
 
 1. Open an AOT object in the AOT Browser.
-2. Click the **Search tree** button in the action pane.
-3. Enter a search term in the dialog and click **OK**.
-4. Matching nodes are found and the first match is selected automatically. The infolog shows your position (e.g., "1 / 12 matches").
-5. Use the **Next** and **Prev** buttons to navigate between matches.
+2. The **Search in tree** box is always visible below the tree — just start typing to search.
+3. The first matching node is selected automatically as you type.
+4. Use the **▲** (Previous) and **▼** (Next) chevron buttons to navigate between matches.
 
 ## Details
 

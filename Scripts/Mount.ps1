@@ -4,7 +4,7 @@
 .DESCRIPTION
     It creates a symbolic link into Metadata folder of Dynamics 365 for Operations.
 .COMPANY
-    Arbela Technologies Corp.
+    Argano LLC
 #>
 
 
