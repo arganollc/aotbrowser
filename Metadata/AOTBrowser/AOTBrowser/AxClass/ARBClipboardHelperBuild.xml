@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>ARBClipboardHelperBuild</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// Build class for the clipboard helper extensible control.
+/// </summary>
+[FormDesignControl('ARBClipboardHelper')]
+public class ARBClipboardHelperBuild extends FormBuildContainerControl
+{
+    private str copyText;
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>parmCopyText</Name>
+				<Source><![CDATA[
+    [FormDesignProperty("Copy text")]
+    public str parmCopyText(str _copyText = copyText)
+    {
+        copyText = _copyText;
+        return copyText;
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

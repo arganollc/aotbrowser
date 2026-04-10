@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -34,6 +34,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Action Menu Items\" />
+    <Folder Include="AxClass\" />
+    <Folder Include="AxForm\" />
+    <Folder Include="AxResource\" />
     <Folder Include="Base Enums\" />
     <Folder Include="Classes\" />
     <Folder Include="Display Menu Items\" />
@@ -51,6 +54,24 @@
     <Folder Include="Tables\" />
     <Folder Include="Tiles\" />
     <Folder Include="Data Entities\" />
+    <Content Include="AxClass\ARBClipboardHelperBuild">
+      <Name>ARBClipboardHelperBuild</Name>
+    </Content>
+    <Content Include="AxClass\ARBClipboardHelperControl">
+      <Name>ARBClipboardHelperControl</Name>
+    </Content>
+    <Content Include="AxResource\ARBClipboardHelperHTM">
+      <Name>ARBClipboardHelperHTM</Name>
+    </Content>
+    <Content Include="AxResource\ARBClipboardHelperJS">
+      <Name>ARBClipboardHelperJS</Name>
+    </Content>
+    <Content Include="AxClass\ARBClipboardHelper">
+      <Name>ARBClipboardHelper</Name>
+    </Content>
+    <Content Include="AxForm\ARBClipboardHelper">
+      <Name>ARBClipboardHelper</Name>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="AOTBrowser.en-US.label.txt">
@@ -67,6 +88,11 @@
       <SubType>Content</SubType>
       <Name>ARBAOTBrowserHelper</Name>
       <Link>Classes\ARBAOTBrowserHelper</Link>
+    </Content>
+    <Content Include="AxClass\ARBAOTBrowserUrlHelper">
+      <SubType>Content</SubType>
+      <Name>ARBAOTBrowserUrlHelper</Name>
+      <Link>Classes\ARBAOTBrowserUrlHelper</Link>
     </Content>
     <Content Include="AxClass\ARBAOTObjectPopulateController">
       <SubType>Content</SubType>
@@ -483,6 +509,12 @@
       <Name>ARBTableKeyFieldMetadataEntity</Name>
       <Link>Data Entities\ARBTableKeyFieldMetadataEntity</Link>
     </Content>
+    <Content Include="AxClass\ARBClipboardHelperBuild" />
+    <Content Include="AxClass\ARBClipboardHelperControl" />
+    <Content Include="AxResource\ARBClipboardHelperHTM" />
+    <Content Include="AxResource\ARBClipboardHelperJS" />
+    <Content Include="AxClass\ARBClipboardHelper" />
+    <Content Include="AxForm\ARBClipboardHelper" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Arbela.Dynamics.AX.Xpp.Support\Arbela.Dynamics.AX.Xpp.Support.csproj">
@@ -490,12 +522,24 @@
       <Project>{2f618da7-59bc-4abe-8f24-72d2d59f9ad4}</Project>
       <Private>True</Private>
     </ProjectReference>
+    <Content Include="AxClass\ARBClipboardHelperBuild" />
+    <Content Include="AxClass\ARBClipboardHelperControl" />
+    <Content Include="AxResource\ARBClipboardHelperHTM" />
+    <Content Include="AxResource\ARBClipboardHelperJS" />
+    <Content Include="AxClass\ARBClipboardHelper" />
+    <Content Include="AxForm\ARBClipboardHelper" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="PygmentSharp.Core, Version=0.3.0.0, Culture=neutral, PublicKeyToken=null">
       <Name>PygmentSharp.Core</Name>
       <HintPath>..\packages\PygmentSharp.Core.0.3.0\lib\netstandard2.0\PygmentSharp.Core.dll</HintPath>
     </Reference>
+    <Content Include="AxClass\ARBClipboardHelperBuild" />
+    <Content Include="AxClass\ARBClipboardHelperControl" />
+    <Content Include="AxResource\ARBClipboardHelperHTM" />
+    <Content Include="AxResource\ARBClipboardHelperJS" />
+    <Content Include="AxClass\ARBClipboardHelper" />
+    <Content Include="AxForm\ARBClipboardHelper" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.Common.targets" />
   <Import Project="$(BuildTasksDirectory)\Microsoft.Dynamics.Framework.Tools.BuildTasks.17.0.targets" />

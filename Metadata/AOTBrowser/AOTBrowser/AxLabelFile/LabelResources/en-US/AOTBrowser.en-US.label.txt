@@ -23,9 +23,15 @@ ConfigKey=Configuration key
  ;ARB_AOTBrowser
 ConfigKeyGroup=Configuration key group
  ;ARB_AOTBrowser
+CopyLink=Copy link
+ ;Copy deep link URL button label
+CopyLinkHelp=Copy a shareable link to this AOT object to the clipboard
+ ;Help text for the Copy Link button
 EntityFieldLabel=Entity field label
 EntityFieldList=Entity field list
 EntityFieldName=Entity field name
+EntityFieldsDevDoc=Stores data entity field mappings including source table and field information
+ ;Developer documentation for ARBEntityFields table
 EntityLabel=Entity label
 EntityName=Entity name
 EnumLabel=Enum label
@@ -34,8 +40,6 @@ EnumMetadata=Enum metadata
 EnumMetadataDevDoc=Stores metadata about D365FO enumerations for AI agent consumption via Synapse Link.
  ;Developer documentation for ARBEnumMetadata table
 EnumTypeName=Enum type name
-EntityFieldsDevDoc=Stores data entity field mappings including source table and field information
- ;Developer documentation for ARBEntityFields table
 ExtendedDataType=Extended data type
 FieldDataType=Field data type
 FieldId=Field id
@@ -43,15 +47,17 @@ FieldName=Field name
 FieldPosition=Field position
  ;Label for FieldName field on metadata tables
 Fields=Fields
+IndexName=Index name
 IntegerValue=Integer value
 IsMandatory=Is mandatory
  ;Label for IsMandatory field on ARBTableFieldMetadata
-IndexName=Index name
-KeyType=Key type
 Keys=Keys
+KeyType=Key type
 KPI=KPI
 LicenseCode=License code
  ;ARB_AOTBrowser
+LinkCopied=Link copied to clipboard
+ ;Info message shown after link is copied
 Macros=Macro
  ;ARB_AOTBrowser
 MaintainTableMetadataEntities=Maintain table metadata entities
@@ -65,16 +71,18 @@ MenuItemLabel=Menu item label
 MenuItemOutput=Output menu item
  ;ARB_AOTBrowser
 MenuItemReferences=Menu item references
+MenuItemReferencesDevDoc=Stores menu item references found across D365FO metadata objects
+ ;Developer documentation for ARBMenuItemReferences table
 MenuItemType=Menu item type
 Menus=Menu
  ;ARB_AOTBrowser
 MetadataDescription=Description
 MetadataHelpText=Help text
-MenuItemReferencesDevDoc=Stores menu item references found across D365FO metadata objects
- ;Developer documentation for ARBMenuItemReferences table
 ModelName=Model name
 NewLabel0=Label files created on 12/04/2019 20:20:46 for label file Id AOTBrowser and language en-US
  ;Label file comment - see above label
+NoMatchesFound=No matches found
+ ;Status text when tree search finds no results
 Object=Object
  ;ARB_AOTBrowser
 ObjectId=Object id
@@ -111,6 +119,8 @@ Report=Report
 Resource=Resource
  ;ARB_AOTBrowser
 S=New Text
+SaveDataPerCompany=Save data per company
+ ;Table label for ARBTableMetadata
 SecurityDuty=Security duty
  ;ARB_AOTBrowser
 SecurityPrivilege=Security privilege
@@ -137,9 +147,6 @@ TableKeyFieldMetadata=Table key field metadata
 TableKeyFieldMetadataDevDoc=Stores primary index and replacement key field metadata for D365FO tables for AI agent consumption via Synapse Link.
  ;Developer documentation for ARBTableKeyFieldMetadata table
 TableMetadata=Table metadata
-TableType=Table type
-SaveDataPerCompany=Save data per company
- ;Table label for ARBTableMetadata
 TableMetadataDevDoc=Stores metadata about D365FO application tables for AI agent consumption via Synapse Link.
  ;Developer documentation for ARBTableMetadata table
 TableRelationMetadata=Table relation metadata
@@ -148,8 +155,15 @@ TableRelationMetadataDevDoc=Stores metadata about D365FO table relationships for
  ;Developer documentation for ARBTableRelationMetadata table
 TableStatisticsDevDoc=Statistics about each table in the database
  ;ARB_AOTBrowser
+TableType=Table type
 Tiles=Tile
  ;ARB_AOTBrowser
+TreeSearchNext=Next
+ ;Next match button for tree search
+TreeSearchPlaceholder=Search in tree
+ ;Placeholder text for the tree search input control
+TreeSearchPrev=Previous
+ ;Previous match button for tree search
 ValueLabel=Value label
 ValueName=Value name
 ViewCode=View source code

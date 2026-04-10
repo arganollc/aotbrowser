@@ -23,6 +23,6 @@ In the D365FO web interface navigate to Common > Common > AOT browser
 
 ## [Documentation on GitHub Pages](https://arganollc.github.io/aotbrowser/)
 
-## [Arbela AOT Browser on AppSource](https://appsource.microsoft.com/en-us/product/dynamics-365-for-finance-and-operations/arbela-technologies.arbelaaotbrowser)
+## [Argano AOT Browser FactSheet](https://argano.com/insights/resources/aot-browser.html)
 
-Reach out to us at info@arbelatech.com if you have any questions or feedback!
+Reach out to us at info@argano.com if you have any questions or feedback!
