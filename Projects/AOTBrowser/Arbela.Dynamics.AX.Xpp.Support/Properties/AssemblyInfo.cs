@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Argano LLC")]
 [assembly: AssemblyProduct("Arbela.Dynamics.AX.Xpp.Support")]
-[assembly: AssemblyCopyright("Copyright © 2019 Argano LLC")]
+[assembly: AssemblyCopyright("Copyright © 2026 Argano LLC")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
