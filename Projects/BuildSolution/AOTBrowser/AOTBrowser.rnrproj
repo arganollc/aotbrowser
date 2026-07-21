@@ -40,9 +40,9 @@
     <Folder Include="AxReference\" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="PygmentSharp.Core, Version=0.3.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="PygmentSharp.Core, Version=0.3.1.0, Culture=neutral, PublicKeyToken=null">
       <Name>PygmentSharp.Core</Name>
-      <HintPath>..\packages\PygmentSharp.Core.0.3.0\lib\netstandard2.0\PygmentSharp.Core.dll</HintPath>
+      <HintPath>..\packages\PygmentSharp.Core.0.3.1\lib\netstandard2.0\PygmentSharp.Core.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.Common.targets" />
